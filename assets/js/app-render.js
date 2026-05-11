@@ -1,33 +1,37 @@
 /**
- * Single render authority: all full UI passes go through appRenderAll (engine-commit, init, etc.).
+ * Single Render Authority: כל רינדור UI (DOM / charts / dashboard) עובר דרך appRenderAll בלבד.
  */
 const CalnexAppRender = (() => {
   const chartHooks = new Map();
-  let engineCommitRenderDepth = 0;
+  /** מפתחות רינדור פעילים — מונע re-entrancy / כפילות לאותו source+מצב */
+  const activeRender = new Set();
 
   const registerCharts = (pageKey, fn) => {
     if (!pageKey || typeof fn !== "function") return;
     chartHooks.set(pageKey, fn);
   };
 
+  const renderKey = (source, outputsOnly) => `${source || "anonymous"}::${outputsOnly ? "outputs" : "full"}`;
+
   const appRenderAll = (source = "", opts) => {
     const options = opts && typeof opts === "object" ? opts : {};
-    if (options.outputsOnly) {
-      if (typeof window.UiRenderer !== "undefined" && typeof UiRenderer.renderOutputs === "function") {
-        UiRenderer.renderOutputs();
-      }
+    const outputsOnly = !!options.outputsOnly;
+    const key = renderKey(source, outputsOnly);
+
+    if (activeRender.has(key)) {
+      console.warn("[RENDER SKIP DUPLICATE]", source, outputsOnly ? { outputsOnly: true } : {});
       return;
     }
-
-    if (source === "engine-commit") {
-      if (engineCommitRenderDepth > 0) {
-        console.warn("[RENDER] skipped nested engine-commit (single pass already active)");
-        return;
-      }
-      engineCommitRenderDepth += 1;
-    }
+    activeRender.add(key);
 
     try {
+      if (outputsOnly) {
+        if (typeof window.UiRenderer !== "undefined" && typeof UiRenderer.renderOutputs === "function") {
+          UiRenderer.renderOutputs();
+        }
+        return;
+      }
+
       const page = document.body?.dataset?.page || "";
       const hook = chartHooks.get(page);
       console.log("[RENDER] charts", { page, source, hasHook: !!hook });
@@ -42,11 +46,31 @@ const CalnexAppRender = (() => {
         UiRenderer.renderAll();
       }
     } finally {
-      if (source === "engine-commit") {
-        engineCommitRenderDepth -= 1;
-      }
+      activeRender.delete(key);
     }
   };
+
+  let appStateRenderBridgeAttached = false;
+  /**
+   * מאזין יחיד ל-appStateChanged — לא ב-UiRenderer.
+   * engine-commit לא נשלח מ-SharedState; אם מישהו שולח עם engine-commit — NO-OP מוחלט.
+   */
+  const attachAppStateRenderBridge = () => {
+    if (appStateRenderBridgeAttached) return;
+    appStateRenderBridgeAttached = true;
+    window.addEventListener("appStateChanged", (event) => {
+      if (event.detail?.source === "engine-commit") {
+        return;
+      }
+      if (typeof window.AppEngine !== "undefined" && AppEngine.isInputPhase() && !event.detail?.bypassInputGuard) {
+        console.log("[ENGINE] render skipped (input phase, no bypass)");
+        return;
+      }
+      appRenderAll(event.detail?.source || "app-state-changed");
+    });
+  };
+
+  attachAppStateRenderBridge();
 
   return { registerCharts, appRenderAll };
 })();

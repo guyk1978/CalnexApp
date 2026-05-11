@@ -12,9 +12,6 @@ const ScenarioUi = (() => {
   const getShared = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
   const setDerivedState = (patch) => {
     window.AppDerivedState = Object.assign({}, window.AppDerivedState || {}, patch);
-    if (typeof window.CalnexAppRender?.appRenderAll === "function") {
-      CalnexAppRender.appRenderAll("scenario-ui", { outputsOnly: true });
-    }
   };
 
   const formatDate = (value) => {
@@ -33,6 +30,9 @@ const ScenarioUi = (() => {
         dashboard_scenario_indicator_name: "Baseline",
         dashboard_scenario_share_text: "Share URL updates automatically when a scenario is active."
       });
+      if (typeof window.CalnexAppRender?.appRenderAll === "function") {
+        CalnexAppRender.appRenderAll("scenario-ui", { outputsOnly: true });
+      }
       return;
     }
     const active = engine.getScenarios().find((item) => item.id === shared.scenario);
@@ -42,6 +42,9 @@ const ScenarioUi = (() => {
       dashboard_scenario_indicator_name: name,
       dashboard_scenario_share_text: `Share scenario URL: ${window.location.href}`
     });
+    if (typeof window.CalnexAppRender?.appRenderAll === "function") {
+      CalnexAppRender.appRenderAll("scenario-ui", { outputsOnly: true });
+    }
   };
 
   const renderSavedScenarios = () => {

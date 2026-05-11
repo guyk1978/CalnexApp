@@ -299,15 +299,21 @@ const SharedState = (() => {
     console.log("[STATE] updated", { keys: Object.keys(next), source: opts.engineCommit ? "commit" : opts.system ? "system" : "external" });
     const engineSource = opts.engineCommit ? "commit" : opts.system ? "system" : "external";
     document.dispatchEvent(new CustomEvent("sharedstate:updated", { detail: { ...state, __engineSource: engineSource } }));
-    window.dispatchEvent(
-      new CustomEvent("appStateChanged", {
-        detail: {
-          source: opts.engineCommit ? "engine-commit" : "shared-state",
-          state: { ...state },
-          bypassInputGuard: !!(opts.engineCommit || opts.system || opts.skipPhaseGuard)
-        }
-      })
-    );
+    /**
+     * Single Render Authority: אין appStateChanged ב-engine-commit — הרינדור היחיד אחרי commit הוא
+     * CalnexAppRender.appRenderAll("engine-commit") מתוך AppEngine.runPipeline בלבד.
+     */
+    if (!opts.engineCommit) {
+      window.dispatchEvent(
+        new CustomEvent("appStateChanged", {
+          detail: {
+            source: "shared-state",
+            state: { ...state },
+            bypassInputGuard: !!(opts.system || opts.skipPhaseGuard)
+          }
+        })
+      );
+    }
     return { ...state };
   };
 

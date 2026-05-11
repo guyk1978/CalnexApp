@@ -127,24 +127,13 @@ const UiRenderer = (() => {
     console.log("[RENDER] applied");
   };
 
-  let appStateListenerAttached = false;
   const init = () => {
-    renderAll();
-    console.log("[Renderer] full declarative coverage active");
-    console.log("[Renderer] 100% declarative mode active");
-    if (appStateListenerAttached) return;
-    appStateListenerAttached = true;
-    window.addEventListener("appStateChanged", (event) => {
-      /* Single Render Authority: engine-commit is rendered only via CalnexAppRender.appRenderAll("engine-commit"). */
-      if (event.detail?.source === "engine-commit") {
-        return;
-      }
-      if (typeof window.AppEngine !== "undefined" && AppEngine.isInputPhase() && !event.detail?.bypassInputGuard) {
-        console.log("[ENGINE] render phase skipped (input — no bypass)");
-        return;
-      }
+    if (typeof window.CalnexAppRender?.appRenderAll === "function") {
+      CalnexAppRender.appRenderAll("init");
+    } else {
       renderAll();
-    });
+    }
+    console.log("[Renderer] pure DOM binding active (no appStateChanged listener here)");
   };
 
   return {
