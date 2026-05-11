@@ -44,22 +44,50 @@ const RetirementCalculator = (() => {
     const { currentAge, targetAge, currentSavings, monthlyContribution, annualReturnRate } = inputs;
     const nMonths = retirementHorizonMonths(inputs);
     const points = [{ age: currentAge, balance: currentSavings }];
-    if (typeof FinancialCore === "undefined") return points;
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.calculateReferenceRetirement !== "function") {
+      return points;
+    }
     for (let m = 12; m <= nMonths; m += 12) {
-      const balance =
-        FinancialCore.compoundGrowth(currentSavings, annualReturnRate, m) +
-        FinancialCore.annuityContribution(monthlyContribution, annualReturnRate, m);
+      const balance = FinancialCore.calculateReferenceRetirement({
+        initial: currentSavings,
+        monthly: monthlyContribution,
+        annualReturn: annualReturnRate,
+        months: m
+      });
       points.push({ age: currentAge + m / 12, balance });
     }
     if (nMonths > 0 && nMonths % 12 !== 0) {
       points.push({
         age: currentAge + nMonths / 12,
-        balance:
-          FinancialCore.compoundGrowth(currentSavings, annualReturnRate, nMonths) +
-          FinancialCore.annuityContribution(monthlyContribution, annualReturnRate, nMonths)
+        balance: FinancialCore.calculateReferenceRetirement({
+          initial: currentSavings,
+          monthly: monthlyContribution,
+          annualReturn: annualReturnRate,
+          months: nMonths
+        })
       });
     }
     return points;
+  };
+
+  const diagnoseRetirementMismatch = (engineNominal, referenceFV, inputs, nMonths) => {
+    const { currentSavings: P, monthlyContribution: C, annualReturnRate: rPct } = inputs;
+    if (referenceFV <= 0) return "reference_zero";
+    const ratio = engineNominal / referenceFV;
+    if (ratio <= 1.0000001 && ratio >= 0.9999999) return "aligned";
+    const half = Math.max(1, Math.floor(nMonths / 2));
+    const refHalf = FinancialCore.calculateReferenceRetirement({
+      initial: P,
+      monthly: C,
+      annualReturn: rPct,
+      months: half
+    });
+    const engHalf =
+      FinancialCore.compoundGrowth(P, rPct, half, 12) + FinancialCore.annuityContribution(C, rPct, half, 12);
+    if (Math.abs(engHalf - refHalf) < 1e-6 && ratio > 1.05) return "possible_horizon_or_month_rounding";
+    if (ratio > 1.3) return "possible_duplicate_compounding_or_rate_scaling";
+    if (ratio < 0.7) return "possible_contribution_undercount_or_rate_too_low";
+    return "engine_reference_mismatch";
   };
 
   const calculate = (inputs) => {
@@ -77,20 +105,48 @@ const RetirementCalculator = (() => {
         projection
       };
     }
-    const sim = FinancialCore.simulateFinancialPlan({
+    const nMonths = retirementHorizonMonths(inputs);
+    const referenceFV = FinancialCore.calculateReferenceRetirement({
+      initial: inputs.currentSavings,
+      monthly: inputs.monthlyContribution,
+      annualReturn: inputs.annualReturnRate,
+      months: nMonths
+    });
+    const engineSim = FinancialCore.simulateFinancialPlan({
       initial: inputs.currentSavings,
       monthly: inputs.monthlyContribution,
       annualReturn: inputs.annualReturnRate,
       years: yearsToRetirement,
+      months: nMonths,
       inflation: inputs.inflationRate
     });
-    const projectedBalance = sim.nominalFinalBalance;
+    const engineNominal = engineSim.nominalFinalBalance;
+    const denom = Math.max(referenceFV, 1);
+    const deviation = Math.abs(engineNominal - referenceFV) / denom;
+    if (deviation > 0.3) {
+      console.error("[RETIREMENT] INVALID — engine vs reference baseline", {
+        INVALID: true,
+        engineNominal,
+        referenceFV,
+        deviationPct: Math.round(deviation * 1000) / 10,
+        nMonths,
+        yearsToRetirement,
+        diagnosis: diagnoseRetirementMismatch(engineNominal, referenceFV, inputs, nMonths)
+      });
+    } else if (deviation > 1e-9) {
+      console.warn("[RETIREMENT] engine/reference drift (using reference as displayed balance)", {
+        engineNominal,
+        referenceFV,
+        deviationPct: Math.round(deviation * 1e6) / 1e4
+      });
+    }
+    const projectedBalance = referenceFV;
     const inflationAdjustedGoal = FinancialCore.inflationAdjustment(
       inputs.desiredRetirementIncome,
       inputs.inflationRate,
       yearsToRetirement
     );
-    const monthlyIncomeEstimate = sim.monthlyEquivalentIncome;
+    const monthlyIncomeEstimate = (projectedBalance * 0.04) / 12;
     const targetMonthlyIncome = inflationAdjustedGoal / 12;
     const fundingGap = Math.max(0, targetMonthlyIncome - monthlyIncomeEstimate);
     const readinessPercent = targetMonthlyIncome > 0 ? Math.min(100, (monthlyIncomeEstimate / targetMonthlyIncome) * 100) : 0;

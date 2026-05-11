@@ -127,13 +127,31 @@ const FinancialCore = (() => {
   };
 
   /**
+   * Truth baseline: end-of-month FV with monthly compounding (single expression).
+   * r = (annualAprPercent / 100) / 12, n = whole months.
+   * FV = P*(1+r)^n + PMT*(((1+r)^n - 1)/r)
+   */
+  const calculateReferenceRetirement = ({ initial, monthly, annualReturn, months }) => {
+    const P = clampNonNeg(initial);
+    const PMT = clampNonNeg(monthly);
+    const annual = clampNonNeg(annualReturn);
+    const n = Math.max(0, Math.round(Number(months) || 0));
+    if (n === 0) return P;
+    const r = annual / 100 / 12;
+    if (r <= 0) return P + PMT * n;
+    const f = (1 + r) ** n;
+    return P * f + PMT * ((f - 1) / r);
+  };
+
+  /**
    * Master retirement-style simulation: monthly compounding, level monthly contributions,
    * optional inflation for real (today-dollar) terminal balance.
    * @param {object} opts
    * @param {number} opts.initial starting balance
    * @param {number} opts.monthly contribution per month
    * @param {number} opts.annualReturn nominal annual return % (APR, monthly compounded)
-   * @param {number} opts.years horizon in years (fractional allowed; months = round(years*12))
+   * @param {number} [opts.years] horizon in years (used if opts.months omitted)
+   * @param {number} [opts.months] explicit month count (preferred; must match retirement UI horizon)
    * @param {number} [opts.inflation] annual inflation % for real balance discount
    */
   const simulateFinancialPlan = (opts = {}) => {
@@ -142,7 +160,10 @@ const FinancialCore = (() => {
     const annualReturn = clampNonNeg(opts.annualReturn);
     const years = Math.max(0, Number(opts.years) || 0);
     const inflation = clampNonNeg(opts.inflation);
-    const nMonths = Math.max(0, Math.round(years * 12));
+    const nMonths =
+      opts.months != null && opts.months !== ""
+        ? Math.max(0, Math.round(Number(opts.months) || 0))
+        : Math.max(0, Math.round(years * 12));
 
     const nominalFinalBalance =
       compoundGrowth(initial, annualReturn, nMonths, 12) + annuityContribution(monthly, annualReturn, nMonths, 12);
@@ -166,7 +187,8 @@ const FinancialCore = (() => {
     annuityContribution,
     loanAmortization,
     inflationAdjustment,
-    simulateFinancialPlan
+    simulateFinancialPlan,
+    calculateReferenceRetirement
   };
 })();
 

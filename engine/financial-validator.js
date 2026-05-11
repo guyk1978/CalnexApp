@@ -78,13 +78,13 @@ const FinancialValidator = (() => {
       const c = n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution);
       const r = n(inputs.retirement_return_rate ?? outputs.retirement_return_rate);
       const years = Math.max(0, n(inputs.retirement_target_age, 67) - n(inputs.retirement_current_age, 30));
-      out.projectedBalance = FinancialCore.simulateFinancialPlan({
+      const nMo = Math.max(0, Math.round(years * 12));
+      out.projectedBalance = FinancialCore.calculateReferenceRetirement({
         initial: pv,
         monthly: c,
         annualReturn: r,
-        years,
-        inflation: 0
-      }).nominalFinalBalance;
+        months: nMo
+      });
       out.years = years;
     } else if (type === "interest") {
       const principal = n(inputs.interest_principal ?? outputs.interest_principal ?? inputs.loan_amount);
@@ -219,16 +219,27 @@ const FinancialValidator = (() => {
     if (typeof FinancialCore === "undefined") return;
     if (type === "retirement") {
       const yrs = Math.max(0, n(inputs.retirement_target_age) - n(inputs.retirement_current_age));
-      const coreBal = FinancialCore.simulateFinancialPlan({
+      const nMo = Math.max(0, Math.round(yrs * 12));
+      const refBal = FinancialCore.calculateReferenceRetirement({
+        initial: n(inputs.retirement_current_savings ?? outputs.retirement_current_savings),
+        monthly: n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution),
+        annualReturn: n(inputs.retirement_return_rate ?? outputs.retirement_return_rate),
+        months: nMo
+      });
+      const engineBal = FinancialCore.simulateFinancialPlan({
         initial: n(inputs.retirement_current_savings ?? outputs.retirement_current_savings),
         monthly: n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution),
         annualReturn: n(inputs.retirement_return_rate ?? outputs.retirement_return_rate),
         years: yrs,
+        months: nMo,
         inflation: 0
       }).nominalFinalBalance;
+      if (refBal > 100 && Math.abs(engineBal - refBal) / refBal > 0.005) {
+        pushWarn(warnings, scoreRef, "simulateFinancialPlan diverges from reference retirement FV (core path check).", 18);
+      }
       const outBal = n(outputs.retirement_projected_balance);
-      if (coreBal > 100 && outBal > coreBal * 1.01) {
-        pushWarn(warnings, scoreRef, "Retirement balance exceeds GSFM core replay (possible duplicate compounding).", 22);
+      if (refBal > 100 && Math.abs(outBal - refBal) / refBal > 0.02) {
+        pushWarn(warnings, scoreRef, "Displayed balance diverges from reference retirement baseline.", 20);
       }
     }
     if (type === "loan" || type === "car") {
