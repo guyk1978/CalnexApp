@@ -133,7 +133,7 @@
           <dl class="result-grid">
             <div>
               <dt>Years to Retirement</dt>
-              <dd>—</dd>
+              <dd data-bind="referenceFinancialResult.yearsToRetirement" data-format="number">0</dd>
             </div>
             <div>
               <dt>Projected Balance</dt>
@@ -141,19 +141,19 @@
             </div>
             <div>
               <dt>Inflation-Adjusted Goal (Annual)</dt>
-              <dd>—</dd>
+              <dd data-bind="referenceFinancialResult.inflationAdjustedGoal" data-format="currency">0.00</dd>
             </div>
             <div>
               <dt>Estimated Monthly Income (4% Rule)</dt>
-              <dd>—</dd>
+              <dd data-bind="referenceFinancialResult.estimatedMonthlyIncome" data-format="currency">0.00</dd>
             </div>
             <div>
               <dt>Funding Gap (Monthly)</dt>
-              <dd>—</dd>
+              <dd data-bind="referenceFinancialResult.fundingGap" data-format="currency">0.00</dd>
             </div>
             <div>
               <dt>Readiness</dt>
-              <dd>—</dd>
+              <dd data-bind="referenceFinancialResult.readiness" data-format="percent">0%</dd>
             </div>
           </dl>
           <div class="share-actions">

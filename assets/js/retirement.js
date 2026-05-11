@@ -89,6 +89,65 @@ const RetirementCalculator = (() => {
   const retirementHorizonMonths = ({ currentAge, targetAge }) =>
     Math.max(0, Math.round((Math.max(0, targetAge - currentAge) || 0) * 12));
 
+  const REFERENCE_FINANCIAL_RESULT_KEYS = [
+    "projectedBalance",
+    "yearsToRetirement",
+    "inflationAdjustedGoal",
+    "estimatedMonthlyIncome",
+    "fundingGap",
+    "readinessScore"
+  ];
+
+  const buildReferenceFinancialResult = (inputs, projectedBalance, yearsToRetirement) => {
+    const pb = Number(projectedBalance);
+    const safePb = Number.isFinite(pb) ? Math.max(0, pb) : 0;
+    const ytr = Math.max(0, Number(yearsToRetirement) || 0);
+
+    let inflationAdjustedGoal = 0;
+    if (typeof FinancialCore !== "undefined" && typeof FinancialCore.inflationAdjustment === "function") {
+      inflationAdjustedGoal = FinancialCore.inflationAdjustment(
+        inputs.desiredRetirementIncome,
+        inputs.inflationRate,
+        ytr
+      );
+    } else {
+      const di = Number(inputs.desiredRetirementIncome);
+      inflationAdjustedGoal = Number.isFinite(di) ? Math.max(0, di) : 0;
+    }
+    if (!Number.isFinite(inflationAdjustedGoal)) inflationAdjustedGoal = 0;
+
+    const estimatedMonthlyIncome = (safePb * 0.04) / 12;
+    const targetMonthlyIncome = inflationAdjustedGoal / 12;
+    const fundingGap = Math.max(0, targetMonthlyIncome - estimatedMonthlyIncome);
+    const readinessScore =
+      targetMonthlyIncome > 0 ? Math.min(100, (estimatedMonthlyIncome / targetMonthlyIncome) * 100) : 0;
+
+    const raw = {
+      projectedBalance: safePb,
+      yearsToRetirement: ytr,
+      inflationAdjustedGoal,
+      estimatedMonthlyIncome,
+      fundingGap,
+      readinessScore
+    };
+
+    const missingFields = REFERENCE_FINANCIAL_RESULT_KEYS.filter(
+      (k) => raw[k] === undefined || (typeof raw[k] === "number" && !Number.isFinite(raw[k]))
+    );
+
+    const result = {};
+    REFERENCE_FINANCIAL_RESULT_KEYS.forEach((k) => {
+      let v = raw[k];
+      if (v === undefined || (typeof v === "number" && !Number.isFinite(v))) v = 0;
+      result[k] = v;
+    });
+    result.readiness = result.readinessScore;
+
+    console.log("[RETIREMENT HYDRATION]", { missingFields });
+
+    return result;
+  };
+
   const diagnoseRetirementMismatch = (engineNominal, referenceFV, inputs, nMonths) => {
     const { currentSavings: P, monthlyContribution: C, annualReturnRate: rPct } = inputs;
     if (referenceFV <= 0) return "reference_zero";
@@ -116,7 +175,7 @@ const RetirementCalculator = (() => {
     if (typeof FinancialCore === "undefined") {
       const projectedBalance = inputs.currentSavings;
       const projection = buildReferenceRetirementChartSeries(inputs, nMonths, projectedBalance);
-      const referenceFinancialResult = { projectedBalance };
+      const referenceFinancialResult = buildReferenceFinancialResult(inputs, projectedBalance, yearsToRetirement);
       window.referenceFinancialResult = referenceFinancialResult;
       return { referenceFinancialResult, projection };
     }
@@ -128,6 +187,8 @@ const RetirementCalculator = (() => {
       months: nMonths
     });
     const projection = buildReferenceRetirementChartSeries(inputs, nMonths, referenceFV);
+
+    const referenceFinancialResult = buildReferenceFinancialResult(inputs, referenceFV, yearsToRetirement);
 
     const engineSim = FinancialCore.simulateFinancialPlan({
       initial: inputs.currentSavings,
@@ -157,7 +218,6 @@ const RetirementCalculator = (() => {
         deviationPct: Math.round(deviation * 1e6) / 1e4
       });
     }
-    const referenceFinancialResult = { projectedBalance: referenceFV };
     window.referenceFinancialResult = referenceFinancialResult;
     return {
       referenceFinancialResult,
@@ -208,7 +268,18 @@ const RetirementCalculator = (() => {
     retirement_return_rate: inputs.annualReturnRate,
     retirement_inflation_rate: inputs.inflationRate,
     retirement_desired_income: inputs.desiredRetirementIncome,
-    referenceFinancialResult: outputs.referenceFinancialResult,
+    referenceFinancialResult: {
+      projectedBalance: 0,
+      yearsToRetirement: 0,
+      inflationAdjustedGoal: 0,
+      estimatedMonthlyIncome: 0,
+      fundingGap: 0,
+      readinessScore: 0,
+      readiness: 0,
+      ...(outputs.referenceFinancialResult && typeof outputs.referenceFinancialResult === "object"
+        ? outputs.referenceFinancialResult
+        : {})
+    },
     retirement_years_to_retirement: null,
     retirement_projected_balance: null,
     retirement_inflation_adjusted_goal: null,

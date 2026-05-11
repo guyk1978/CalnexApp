@@ -281,7 +281,10 @@ const SharedState = (() => {
     objectFields.forEach((field) => {
       if (!(field in partial)) return;
       if (!partial[field] || typeof partial[field] !== "object") delete state[field];
-      else state[field] = { ...partial[field] };
+      else {
+        const prev = state[field] && typeof state[field] === "object" ? state[field] : {};
+        state[field] = { ...prev, ...partial[field] };
+      }
     });
     Object.assign(state, next);
     fields.forEach((key) => {
