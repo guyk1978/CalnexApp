@@ -29,7 +29,23 @@ const UiRenderer = (() => {
     }
     if (formatType === "years") return `${Number(asNumber.toFixed(2))} years`;
     if (formatType === "number") return Number(asNumber.toFixed(2)).toLocaleString("en-US");
-    return inferFormattedValue(key, value);
+    const leafKey = key.includes(".") ? key.slice(key.lastIndexOf(".") + 1) : key;
+    return inferFormattedValue(leafKey, value);
+  };
+
+  const getBindingValue = (state, derived, key) => {
+    if (!key) return undefined;
+    if (key.includes(".")) {
+      const parts = key.split(".");
+      let cur = state;
+      for (let i = 0; i < parts.length; i += 1) {
+        if (cur == null || typeof cur !== "object") return undefined;
+        cur = cur[parts[i]];
+      }
+      return cur;
+    }
+    if (key in state) return state[key];
+    return derived[key];
   };
 
   const renderCurrency = () => {
@@ -78,7 +94,7 @@ const UiRenderer = (() => {
       const key = node.getAttribute("data-bind");
       if (!key) return;
       const formatType = node.getAttribute("data-format") || "";
-      const value = key in state ? state[key] : derived[key];
+      const value = getBindingValue(state, derived, key);
       node.textContent = formatByType(key, value, formatType);
       boundCount += 1;
     });

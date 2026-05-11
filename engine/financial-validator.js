@@ -171,8 +171,11 @@ const FinancialValidator = (() => {
     return true;
   };
 
+  const retirementProjectedBalance = (outputs) =>
+    n(outputs.referenceFinancialResult?.projectedBalance ?? outputs.retirement_projected_balance);
+
   const validateRetirement = (inputs, outputs, warnings, scoreRef, bench) => {
-    const projected = n(outputs.retirement_projected_balance);
+    const projected = retirementProjectedBalance(outputs);
     const b = n(bench.projectedBalance);
     if (projected < 0) {
       pushWarn(warnings, scoreRef, "Projected balance is negative.", 35);
@@ -237,7 +240,7 @@ const FinancialValidator = (() => {
       if (refBal > 100 && Math.abs(engineBal - refBal) / refBal > 0.005) {
         pushWarn(warnings, scoreRef, "simulateFinancialPlan diverges from reference retirement FV (core path check).", 18);
       }
-      const outBal = n(outputs.retirement_projected_balance);
+      const outBal = retirementProjectedBalance(outputs);
       if (refBal > 100 && Math.abs(outBal - refBal) / refBal > 0.02) {
         pushWarn(warnings, scoreRef, "Displayed balance diverges from reference retirement baseline.", 20);
       }

@@ -97,9 +97,14 @@ const FinancialDashboard = (() => {
       const yearlyContribution = (state.income || 0) * 0.1;
       const yearlyRate = Math.max(0.01, (state.interest_rate || 5) / 100);
       const projection = yearlyContribution * (((1 + yearlyRate) ** 10 - 1) / yearlyRate);
-      if ((state.retirement_projected_balance || 0) > 0) {
-        derivedPatch.dashboard_growth_projection = state.retirement_projected_balance || 0;
-        derivedPatch.dashboard_growth_summary = `Retirement projection with ${state.retirement_years_to_retirement || 0} years to target age.`;
+      const refRetirementBal = state.referenceFinancialResult?.projectedBalance ?? state.retirement_projected_balance;
+      if ((refRetirementBal || 0) > 0) {
+        derivedPatch.dashboard_growth_projection = refRetirementBal || 0;
+        const yrs =
+          (state.retirement_target_age != null && state.retirement_current_age != null
+            ? Math.max(0, state.retirement_target_age - state.retirement_current_age)
+            : state.retirement_years_to_retirement) || 0;
+        derivedPatch.dashboard_growth_summary = `Retirement projection (reference) with ${yrs} years to target age.`;
       } else {
         derivedPatch.dashboard_growth_projection = projection;
         derivedPatch.dashboard_growth_summary = `10-year projection using ${setPercent(

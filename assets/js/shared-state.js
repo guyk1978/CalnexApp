@@ -143,7 +143,7 @@ const SharedState = (() => {
     "financial_validation_warnings_text",
     "financial_validation_badge"
   ]);
-  const objectFields = new Set(["geo_defaults"]);
+  const objectFields = new Set(["geo_defaults", "referenceFinancialResult"]);
   const state = {};
 
   const URL_NUMERIC_KEYS = ["loan_amount", "interest_rate", "loan_term", "extra_payment", "down_payment", "income"];

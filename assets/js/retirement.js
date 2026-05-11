@@ -95,15 +95,9 @@ const RetirementCalculator = (() => {
     const projection = buildProjectionSeries(inputs);
     if (typeof FinancialCore === "undefined") {
       const projectedBalance = projection.length ? projection[projection.length - 1].balance : inputs.currentSavings;
-      return {
-        yearsToRetirement,
-        projectedBalance,
-        inflationAdjustedGoal: inputs.desiredRetirementIncome,
-        monthlyIncomeEstimate: (projectedBalance * 0.04) / 12,
-        fundingGap: 0,
-        readinessPercent: 0,
-        projection
-      };
+      const referenceFinancialResult = { projectedBalance };
+      window.referenceFinancialResult = referenceFinancialResult;
+      return { referenceFinancialResult, projection };
     }
     const nMonths = retirementHorizonMonths(inputs);
     const referenceFV = FinancialCore.calculateReferenceRetirement({
@@ -134,29 +128,16 @@ const RetirementCalculator = (() => {
         diagnosis: diagnoseRetirementMismatch(engineNominal, referenceFV, inputs, nMonths)
       });
     } else if (deviation > 1e-9) {
-      console.warn("[RETIREMENT] engine/reference drift (using reference as displayed balance)", {
+      console.warn("[RETIREMENT] engine/reference drift (UI uses reference only)", {
         engineNominal,
         referenceFV,
         deviationPct: Math.round(deviation * 1e6) / 1e4
       });
     }
-    const projectedBalance = referenceFV;
-    const inflationAdjustedGoal = FinancialCore.inflationAdjustment(
-      inputs.desiredRetirementIncome,
-      inputs.inflationRate,
-      yearsToRetirement
-    );
-    const monthlyIncomeEstimate = (projectedBalance * 0.04) / 12;
-    const targetMonthlyIncome = inflationAdjustedGoal / 12;
-    const fundingGap = Math.max(0, targetMonthlyIncome - monthlyIncomeEstimate);
-    const readinessPercent = targetMonthlyIncome > 0 ? Math.min(100, (monthlyIncomeEstimate / targetMonthlyIncome) * 100) : 0;
+    const referenceFinancialResult = { projectedBalance: referenceFV };
+    window.referenceFinancialResult = referenceFinancialResult;
     return {
-      yearsToRetirement,
-      projectedBalance,
-      inflationAdjustedGoal,
-      monthlyIncomeEstimate,
-      fundingGap,
-      readinessPercent,
+      referenceFinancialResult,
       projection
     };
   };
@@ -190,13 +171,14 @@ const RetirementCalculator = (() => {
     retirement_return_rate: inputs.annualReturnRate,
     retirement_inflation_rate: inputs.inflationRate,
     retirement_desired_income: inputs.desiredRetirementIncome,
-    retirement_years_to_retirement: outputs.yearsToRetirement,
-    retirement_projected_balance: outputs.projectedBalance,
-    retirement_inflation_adjusted_goal: outputs.inflationAdjustedGoal,
-    retirement_monthly_income: outputs.monthlyIncomeEstimate,
-    retirement_gap: outputs.fundingGap,
-    retirement_funding_gap: outputs.fundingGap,
-    retirement_readiness: outputs.readinessPercent
+    referenceFinancialResult: outputs.referenceFinancialResult,
+    retirement_years_to_retirement: null,
+    retirement_projected_balance: null,
+    retirement_inflation_adjusted_goal: null,
+    retirement_monthly_income: null,
+    retirement_gap: null,
+    retirement_funding_gap: null,
+    retirement_readiness: null
   });
 
   const paintRetirementCharts = () => {
