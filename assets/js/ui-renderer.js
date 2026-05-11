@@ -122,8 +122,8 @@ const UiRenderer = (() => {
     renderCurrency();
     renderLabels();
     renderInputs();
-    renderOutputs();
     renderDashboard();
+    renderOutputs();
     console.log("[RENDER] applied");
   };
 
@@ -135,6 +135,7 @@ const UiRenderer = (() => {
     if (appStateListenerAttached) return;
     appStateListenerAttached = true;
     window.addEventListener("appStateChanged", (event) => {
+      /* Single Render Authority: engine-commit is rendered only via CalnexAppRender.appRenderAll("engine-commit"). */
       if (event.detail?.source === "engine-commit") {
         return;
       }

@@ -57,15 +57,8 @@ const FinancialDashboard = (() => {
   const getShared = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
   const getScenarioEngine = () => (typeof ScenarioEngine !== "undefined" ? ScenarioEngine : null);
   const getGeo = () => (typeof GeoFinance !== "undefined" ? GeoFinance : null);
-  let syncingDerived = false;
   const setDerivedState = (patch) => {
     window.AppDerivedState = Object.assign({}, window.AppDerivedState || {}, patch);
-    if (syncingDerived) return;
-    if (typeof UiRenderer !== "undefined" && typeof UiRenderer.renderOutputs === "function") {
-      syncingDerived = true;
-      UiRenderer.renderOutputs();
-      syncingDerived = false;
-    }
   };
 
   const renderCards = (state) => {
@@ -260,6 +253,9 @@ const FinancialDashboard = (() => {
       scenario_delta_affordability: formatDelta(comparison.delta.affordabilityRatio * 100, "%")
     });
     renderScenarioCharts(comparison);
+    if (typeof window.CalnexAppRender?.appRenderAll === "function") {
+      CalnexAppRender.appRenderAll("dashboard-scenario", { outputsOnly: true });
+    }
   };
 
   const applyPreset = (presetKey) => {

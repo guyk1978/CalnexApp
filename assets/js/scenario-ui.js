@@ -12,8 +12,8 @@ const ScenarioUi = (() => {
   const getShared = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
   const setDerivedState = (patch) => {
     window.AppDerivedState = Object.assign({}, window.AppDerivedState || {}, patch);
-    if (typeof UiRenderer !== "undefined" && typeof UiRenderer.renderOutputs === "function") {
-      UiRenderer.renderOutputs();
+    if (typeof window.CalnexAppRender?.appRenderAll === "function") {
+      CalnexAppRender.appRenderAll("scenario-ui", { outputsOnly: true });
     }
   };
 
