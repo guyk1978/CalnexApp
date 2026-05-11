@@ -166,6 +166,23 @@ a {
   margin-bottom: 1rem;
 }
 
+.advanced-payments {
+  margin-top: 0.4rem;
+}
+
+.advanced-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.advanced-panel.is-open {
+  max-height: 460px;
+  opacity: 1;
+  margin-top: 0.8rem;
+}
+
 label {
   font-size: 0.92rem;
   font-weight: 600;
@@ -249,6 +266,30 @@ input[type="range"] {
   margin: 0.7rem 0 0;
   color: var(--success);
   font-size: 0.88rem;
+}
+
+.comparison-grid {
+  margin-top: 1.1rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.comparison-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  background: #f8fbff;
+}
+
+.comparison-card p {
+  margin: 0.25rem 0;
+}
+
+.savings-banner {
+  margin-top: 1.2rem;
+  border-color: #c9e5d3;
+  background: #f0faf4;
+  color: #1f5e37;
 }
 
 .amortization-card {
@@ -385,6 +426,14 @@ input[type="range"] {
   background: #e8f8ef;
 }
 
+.schedule-table tbody tr.extra-row td:first-child::after {
+  content: "  Extra";
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-left: 0.35rem;
+}
+
 .blog-grid,
 .tool-grid,
 .related-tools-grid {
@@ -447,5 +496,9 @@ input[type="range"] {
 
   .amortization-summary {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .comparison-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

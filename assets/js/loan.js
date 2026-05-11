@@ -7,12 +7,26 @@ const LoanCalculator = (() => {
     loanTerm: document.getElementById("loanTerm"),
     loanTermSlider: document.getElementById("loanTermSlider"),
     termUnit: document.getElementById("termUnit"),
+    extraMonthlyPayment: document.getElementById("extraMonthlyPayment"),
+    lumpSumPayment: document.getElementById("lumpSumPayment"),
+    paymentStartMonth: document.getElementById("paymentStartMonth"),
+    toggleAdvanced: document.getElementById("toggleAdvanced"),
+    advancedPanel: document.getElementById("advancedPanel"),
     monthlyPayment: document.getElementById("monthlyPayment"),
     totalInterest: document.getElementById("totalInterest"),
     totalRepayment: document.getElementById("totalRepayment"),
     summaryTotalPayments: document.getElementById("summaryTotalPayments"),
     summaryTotalInterest: document.getElementById("summaryTotalInterest"),
     summaryPayoffDate: document.getElementById("summaryPayoffDate"),
+    beforePayoffDate: document.getElementById("beforePayoffDate"),
+    beforeTotalPaid: document.getElementById("beforeTotalPaid"),
+    beforeTotalInterest: document.getElementById("beforeTotalInterest"),
+    afterPayoffDate: document.getElementById("afterPayoffDate"),
+    afterTotalPaid: document.getElementById("afterTotalPaid"),
+    interestSaved: document.getElementById("interestSaved"),
+    monthsSaved: document.getElementById("monthsSaved"),
+    bannerMonthsSaved: document.getElementById("bannerMonthsSaved"),
+    bannerInterestSaved: document.getElementById("bannerInterestSaved"),
     scheduleBody: document.getElementById("scheduleBody"),
     schedulePanel: document.getElementById("schedulePanel"),
     principalInterestChart: document.getElementById("principalInterestChart"),
@@ -23,7 +37,10 @@ const LoanCalculator = (() => {
     copyFeedback: document.getElementById("copyFeedback"),
     shareButtons: document.querySelectorAll("[data-share]")
   };
-  let latestSchedule = [];
+
+  let displayedSchedule = [];
+  let baselineSchedule = [];
+  let acceleratedSchedule = [];
   let principalInterestChartInstance;
   let balanceChartInstance;
 
@@ -32,7 +49,7 @@ const LoanCalculator = (() => {
       style: "currency",
       currency: "USD",
       maximumFractionDigits: 2
-    }).format(value);
+    }).format(value || 0);
 
   const parseValue = (node) => Number(node?.value) || 0;
 
@@ -41,48 +58,47 @@ const LoanCalculator = (() => {
     return selectors.termUnit.value === "years" ? term * 12 : term;
   };
 
-  const calculateLoan = () => {
-    const principal = parseValue(selectors.loanAmount);
-    const annualRate = parseValue(selectors.interestRate);
-    const totalMonths = getTermInMonths();
-
-    if (!principal || !totalMonths) {
-      return { monthly: 0, totalInterest: 0, totalRepayment: 0 };
-    }
-
+  const getMonthlyPayment = (principal, annualRate, totalMonths) => {
+    if (!principal || !totalMonths) return 0;
     const monthlyRate = annualRate / 100 / 12;
-    let monthly;
-
-    if (monthlyRate === 0) {
-      monthly = principal / totalMonths;
-    } else {
-      const factor = (1 + monthlyRate) ** totalMonths;
-      monthly = (principal * monthlyRate * factor) / (factor - 1);
-    }
-
-    const totalRepayment = monthly * totalMonths;
-    const totalInterest = totalRepayment - principal;
-    return { monthly, totalInterest, totalRepayment };
+    if (monthlyRate === 0) return principal / totalMonths;
+    const factor = (1 + monthlyRate) ** totalMonths;
+    return (principal * monthlyRate * factor) / (factor - 1);
   };
 
-  const buildAmortizationSchedule = () => {
-    const principal = parseValue(selectors.loanAmount);
-    const annualRate = parseValue(selectors.interestRate);
-    const totalMonths = getTermInMonths();
-    if (!principal || !totalMonths) return [];
+  const getExtraConfig = () => {
+    const term = getTermInMonths();
+    const startMonth = Math.max(1, Math.min(term || 1, parseValue(selectors.paymentStartMonth) || 1));
+    selectors.paymentStartMonth.value = String(startMonth);
+    return {
+      extraMonthly: Math.max(0, parseValue(selectors.extraMonthlyPayment)),
+      lumpSum: Math.max(0, parseValue(selectors.lumpSumPayment)),
+      startMonth
+    };
+  };
 
+  const buildSchedule = ({ principal, annualRate, totalMonths, monthlyPayment, includeExtra, extraConfig }) => {
     const monthlyRate = annualRate / 100 / 12;
-    const loan = calculateLoan();
-    let balance = principal;
     const schedule = [];
+    let balance = principal;
+    let month = 1;
+    const maxIterations = Math.max(1200, totalMonths + 240);
 
-    for (let month = 1; month <= totalMonths; month += 1) {
-      const rawInterest = monthlyRate === 0 ? 0 : balance * monthlyRate;
-      const interest = Math.max(0, rawInterest);
-      let principalPaid = loan.monthly - interest;
-      if (month === totalMonths || principalPaid > balance) {
-        principalPaid = balance;
+    while (balance > 0 && month <= maxIterations) {
+      const interest = monthlyRate === 0 ? 0 : balance * monthlyRate;
+      const basePrincipalPaid = Math.max(0, monthlyPayment - interest);
+
+      let extraMonthlyApplied = 0;
+      let lumpApplied = 0;
+      if (includeExtra && month >= extraConfig.startMonth) {
+        extraMonthlyApplied = extraConfig.extraMonthly;
+        if (month === extraConfig.startMonth) {
+          lumpApplied = extraConfig.lumpSum;
+        }
       }
+
+      const plannedPrincipalPaid = basePrincipalPaid + extraMonthlyApplied + lumpApplied;
+      const principalPaid = Math.min(balance, plannedPrincipalPaid);
       const payment = principalPaid + interest;
       balance = Math.max(0, balance - principalPaid);
 
@@ -91,11 +107,24 @@ const LoanCalculator = (() => {
         payment,
         principal: principalPaid,
         interest,
-        balance
+        balance,
+        hadExtraPayment: extraMonthlyApplied + lumpApplied > 0
       });
+
+      month += 1;
     }
 
     return schedule;
+  };
+
+  const summarizeSchedule = (schedule) => {
+    const totalPaid = schedule.reduce((sum, row) => sum + row.payment, 0);
+    const totalInterest = schedule.reduce((sum, row) => sum + row.interest, 0);
+    return {
+      totalPaid,
+      totalInterest,
+      months: schedule.length
+    };
   };
 
   const getPayoffDate = (monthsAhead) => {
@@ -108,12 +137,13 @@ const LoanCalculator = (() => {
   };
 
   const renderScheduleTable = (schedule) => {
-    if (!selectors.scheduleBody) return;
     selectors.scheduleBody.innerHTML = schedule
       .map((row, index) => {
-        const payoffClass = index === schedule.length - 1 ? "payoff-row" : "";
+        const rowClasses = [];
+        if (index === schedule.length - 1) rowClasses.push("payoff-row");
+        if (row.hadExtraPayment) rowClasses.push("extra-row");
         return `
-          <tr class="${payoffClass}">
+          <tr class="${rowClasses.join(" ")}">
             <td>${row.month}</td>
             <td>${setCurrency(row.payment)}</td>
             <td>${setCurrency(row.principal)}</td>
@@ -125,15 +155,27 @@ const LoanCalculator = (() => {
       .join("");
   };
 
-  const renderScheduleSummary = (schedule) => {
-    const totalPayments = schedule.reduce((sum, row) => sum + row.payment, 0);
-    const totalInterest = schedule.reduce((sum, row) => sum + row.interest, 0);
-    selectors.summaryTotalPayments.textContent = setCurrency(totalPayments);
-    selectors.summaryTotalInterest.textContent = setCurrency(totalInterest);
-    selectors.summaryPayoffDate.textContent = schedule.length ? getPayoffDate(schedule.length) : "-";
+  const renderScheduleSummary = (summary) => {
+    selectors.summaryTotalPayments.textContent = setCurrency(summary.totalPaid);
+    selectors.summaryTotalInterest.textContent = setCurrency(summary.totalInterest);
+    selectors.summaryPayoffDate.textContent = summary.months ? getPayoffDate(summary.months) : "-";
   };
 
-  const getChartOptions = () => ({
+  const renderComparison = (base, accelerated) => {
+    const monthsSaved = Math.max(0, base.months - accelerated.months);
+    const interestSaved = Math.max(0, base.totalInterest - accelerated.totalInterest);
+    selectors.beforePayoffDate.textContent = getPayoffDate(base.months);
+    selectors.beforeTotalPaid.textContent = setCurrency(base.totalPaid);
+    selectors.beforeTotalInterest.textContent = setCurrency(base.totalInterest);
+    selectors.afterPayoffDate.textContent = getPayoffDate(accelerated.months);
+    selectors.afterTotalPaid.textContent = setCurrency(accelerated.totalPaid);
+    selectors.interestSaved.textContent = setCurrency(interestSaved);
+    selectors.monthsSaved.textContent = String(monthsSaved);
+    selectors.bannerMonthsSaved.textContent = `${monthsSaved} months`;
+    selectors.bannerInterestSaved.textContent = setCurrency(interestSaved);
+  };
+
+  const getChartOptions = (yLabel) => ({
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
@@ -149,7 +191,7 @@ const LoanCalculator = (() => {
       }
     },
     animation: {
-      duration: 450
+      duration: 420
     },
     scales: {
       x: {
@@ -161,7 +203,7 @@ const LoanCalculator = (() => {
       y: {
         title: {
           display: true,
-          text: "Amount (USD)"
+          text: yLabel
         },
         ticks: {
           callback: (value) => `$${Number(value).toLocaleString("en-US")}`
@@ -170,22 +212,20 @@ const LoanCalculator = (() => {
     }
   });
 
-  const renderCharts = (schedule) => {
-    if (!window.Chart || !selectors.principalInterestChart || !selectors.balanceChart) {
-      return;
-    }
+  const buildSeries = (schedule, key, length, padWithZero = false) =>
+    Array.from({ length }, (_, i) => {
+      const row = schedule[i];
+      if (!row) return padWithZero ? 0 : null;
+      return Number(row[key].toFixed(2));
+    });
 
-    const labels = schedule.map((row) => row.month);
-    const principalSeries = schedule.map((row) => Number(row.principal.toFixed(2)));
-    const interestSeries = schedule.map((row) => Number(row.interest.toFixed(2)));
-    const balanceSeries = schedule.map((row) => Number(row.balance.toFixed(2)));
+  const renderCharts = () => {
+    if (!window.Chart) return;
+    const maxMonths = Math.max(baselineSchedule.length, acceleratedSchedule.length, 1);
+    const labels = Array.from({ length: maxMonths }, (_, i) => i + 1);
 
-    if (principalInterestChartInstance) {
-      principalInterestChartInstance.destroy();
-    }
-    if (balanceChartInstance) {
-      balanceChartInstance.destroy();
-    }
+    if (principalInterestChartInstance) principalInterestChartInstance.destroy();
+    if (balanceChartInstance) balanceChartInstance.destroy();
 
     principalInterestChartInstance = new window.Chart(selectors.principalInterestChart, {
       type: "line",
@@ -193,25 +233,47 @@ const LoanCalculator = (() => {
         labels,
         datasets: [
           {
-            label: "Principal Paid",
-            data: principalSeries,
-            borderColor: "#1b63f0",
-            backgroundColor: "rgba(27, 99, 240, 0.15)",
-            tension: 0.25,
+            label: "Principal (Original)",
+            data: buildSeries(baselineSchedule, "principal", maxMonths),
+            borderColor: "#8da8de",
+            borderDash: [6, 6],
+            tension: 0.24,
             pointRadius: 0
           },
           {
-            label: "Interest Paid",
-            data: interestSeries,
+            label: "Interest (Original)",
+            data: buildSeries(baselineSchedule, "interest", maxMonths),
+            borderColor: "#b0bac8",
+            borderDash: [6, 6],
+            tension: 0.24,
+            pointRadius: 0
+          },
+          {
+            label: "Principal (With Extra)",
+            data: buildSeries(acceleratedSchedule, "principal", maxMonths),
+            borderColor: "#1b63f0",
+            backgroundColor: "rgba(27, 99, 240, 0.1)",
+            tension: 0.24,
+            pointRadius: 0
+          },
+          {
+            label: "Interest (With Extra)",
+            data: buildSeries(acceleratedSchedule, "interest", maxMonths),
             borderColor: "#5f6b7a",
-            backgroundColor: "rgba(95, 107, 122, 0.15)",
-            tension: 0.25,
+            backgroundColor: "rgba(95, 107, 122, 0.1)",
+            tension: 0.24,
             pointRadius: 0
           }
         ]
       },
-      options: getChartOptions()
+      options: getChartOptions("Amount (USD)")
     });
+
+    const originalBalance = buildSeries(baselineSchedule, "balance", maxMonths, true);
+    const acceleratedBalance = buildSeries(acceleratedSchedule, "balance", maxMonths, true);
+    const reductionDiff = originalBalance.map((value, i) =>
+      Number((Math.max(0, value - acceleratedBalance[i])).toFixed(2))
+    );
 
     balanceChartInstance = new window.Chart(selectors.balanceChart, {
       type: "line",
@@ -219,35 +281,51 @@ const LoanCalculator = (() => {
         labels,
         datasets: [
           {
-            label: "Remaining Balance",
-            data: balanceSeries,
+            label: "Remaining Balance (Original)",
+            data: originalBalance,
+            borderColor: "#8da8de",
+            borderDash: [6, 6],
+            tension: 0.24,
+            pointRadius: 0
+          },
+          {
+            label: "Remaining Balance (With Extra)",
+            data: acceleratedBalance,
             borderColor: "#144fc1",
-            backgroundColor: "rgba(20, 79, 193, 0.14)",
-            tension: 0.25,
+            backgroundColor: "rgba(20, 79, 193, 0.12)",
+            tension: 0.24,
+            pointRadius: 0
+          },
+          {
+            label: "Balance Reduction Difference",
+            data: reductionDiff,
+            borderColor: "#1f8b4d",
+            backgroundColor: "rgba(31, 139, 77, 0.15)",
+            tension: 0.22,
             pointRadius: 0
           }
         ]
       },
-      options: getChartOptions()
+      options: getChartOptions("Remaining Balance (USD)")
     });
   };
 
   const toCsv = (schedule) => {
-    const header = ["Month", "Payment", "Principal", "Interest", "Remaining Balance"];
+    const header = ["Month", "Payment", "Principal", "Interest", "Remaining Balance", "Extra Payment"];
     const lines = schedule.map((row) => [
       row.month,
       row.payment.toFixed(2),
       row.principal.toFixed(2),
       row.interest.toFixed(2),
-      row.balance.toFixed(2)
+      row.balance.toFixed(2),
+      row.hadExtraPayment ? "Yes" : "No"
     ]);
     return [header, ...lines].map((line) => line.join(",")).join("\n");
   };
 
   const downloadScheduleCsv = () => {
-    if (!latestSchedule.length) return;
-    const csv = toCsv(latestSchedule);
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    if (!displayedSchedule.length) return;
+    const blob = new Blob([toCsv(displayedSchedule)], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -259,8 +337,8 @@ const LoanCalculator = (() => {
   };
 
   const printSchedule = () => {
-    if (!latestSchedule.length) return;
-    const rows = latestSchedule
+    if (!displayedSchedule.length) return;
+    const rows = displayedSchedule
       .map(
         (row) => `<tr>
           <td>${row.month}</td>
@@ -274,37 +352,23 @@ const LoanCalculator = (() => {
     const win = window.open("", "_blank", "width=1024,height=768");
     if (!win) return;
     win.document.write(`
-      <html>
-        <head>
-          <title>Loan Amortization Schedule</title>
-          <style>
-            body { font-family: Arial, sans-serif; padding: 20px; }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { border: 1px solid #dce4f0; padding: 8px; text-align: right; }
-            th:first-child, td:first-child { text-align: left; }
-            thead th { background: #f2f6fd; }
-          </style>
-        </head>
-        <body>
-          <h1>CalnexApp Loan Amortization Schedule</h1>
-          <table>
-            <thead>
-              <tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Remaining Balance</th></tr>
-            </thead>
-            <tbody>${rows}</tbody>
-          </table>
-        </body>
-      </html>
+      <html><head><title>Loan Amortization Schedule</title>
+      <style>body{font-family:Arial,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}
+      th,td{border:1px solid #dce4f0;padding:8px;text-align:right}th:first-child,td:first-child{text-align:left}
+      thead th{background:#f2f6fd}</style></head><body>
+      <h1>CalnexApp Loan Amortization Schedule</h1>
+      <table><thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Remaining Balance</th></tr></thead>
+      <tbody>${rows}</tbody></table></body></html>
     `);
     win.document.close();
     win.focus();
     win.print();
   };
 
-  const toggleSchedule = () => {
-    const isOpen = selectors.schedulePanel.classList.toggle("is-open");
-    selectors.schedulePanel.setAttribute("aria-hidden", String(!isOpen));
-    selectors.toggleSchedule.textContent = isOpen ? "Hide full schedule" : "Show full schedule";
+  const togglePanel = (panel, button, closedText, openText) => {
+    const isOpen = panel.classList.toggle("is-open");
+    panel.setAttribute("aria-hidden", String(!isOpen));
+    button.textContent = isOpen ? openText : closedText;
   };
 
   const buildCalculationQuery = () => {
@@ -317,11 +381,10 @@ const LoanCalculator = (() => {
   };
 
   const updateSeoAndUrl = () => {
-    const query = buildCalculationQuery();
-    const nextUrl = `${window.location.pathname}?${query}`;
+    const nextUrl = `${window.location.pathname}?${buildCalculationQuery()}`;
     window.history.replaceState({}, "", nextUrl);
-    if (window.SeoModule) {
-      window.SeoModule.setLoanMeta({
+    if (typeof SeoModule !== "undefined") {
+      SeoModule.setLoanMeta({
         amountText: setCurrency(parseValue(selectors.loanAmount)),
         term: parseValue(selectors.loanTerm),
         unit: selectors.termUnit.value,
@@ -334,41 +397,60 @@ const LoanCalculator = (() => {
     const url = window.location.href;
     const text = encodeURIComponent(document.title);
     const encodedUrl = encodeURIComponent(url);
-    document.querySelector('[data-share="whatsapp"]').href =
-      `https://wa.me/?text=${text}%20${encodedUrl}`;
+    document.querySelector('[data-share="whatsapp"]').href = `https://wa.me/?text=${text}%20${encodedUrl}`;
     document.querySelector('[data-share="facebook"]').href =
       `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-    document.querySelector('[data-share="twitter"]').href =
-      `https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`;
+    document.querySelector('[data-share="twitter"]').href = `https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`;
   };
 
   const updateResultUI = () => {
-    const result = calculateLoan();
-    selectors.monthlyPayment.textContent = setCurrency(result.monthly);
-    selectors.totalInterest.textContent = setCurrency(result.totalInterest);
-    selectors.totalRepayment.textContent = setCurrency(result.totalRepayment);
-    latestSchedule = buildAmortizationSchedule();
-    renderScheduleSummary(latestSchedule);
-    renderScheduleTable(latestSchedule);
-    renderCharts(latestSchedule);
+    const principal = parseValue(selectors.loanAmount);
+    const annualRate = parseValue(selectors.interestRate);
+    const totalMonths = getTermInMonths();
+    const monthlyPayment = getMonthlyPayment(principal, annualRate, totalMonths);
+    const extraConfig = getExtraConfig();
+
+    baselineSchedule = buildSchedule({
+      principal,
+      annualRate,
+      totalMonths,
+      monthlyPayment,
+      includeExtra: false,
+      extraConfig
+    });
+    acceleratedSchedule = buildSchedule({
+      principal,
+      annualRate,
+      totalMonths,
+      monthlyPayment,
+      includeExtra: true,
+      extraConfig
+    });
+    displayedSchedule = acceleratedSchedule;
+
+    const baseSummary = summarizeSchedule(baselineSchedule);
+    const acceleratedSummary = summarizeSchedule(acceleratedSchedule);
+
+    selectors.monthlyPayment.textContent = setCurrency(monthlyPayment);
+    selectors.totalInterest.textContent = setCurrency(acceleratedSummary.totalInterest);
+    selectors.totalRepayment.textContent = setCurrency(acceleratedSummary.totalPaid);
+    renderScheduleSummary(acceleratedSummary);
+    renderComparison(baseSummary, acceleratedSummary);
+    renderScheduleTable(displayedSchedule);
+    renderCharts();
     updateSeoAndUrl();
     updateShareLinks();
   };
 
   const syncRangeAndInput = (inputNode, sliderNode, options = {}) => {
     const clamp = (value) => {
-      if (typeof options.max !== "number" || typeof options.min !== "number") {
-        return value;
-      }
+      if (typeof options.max !== "number" || typeof options.min !== "number") return value;
       return Math.min(options.max, Math.max(options.min, value));
     };
-
     inputNode.addEventListener("input", () => {
-      const value = clamp(Number(inputNode.value) || 0);
-      sliderNode.value = value;
+      sliderNode.value = clamp(Number(inputNode.value) || 0);
       updateResultUI();
     });
-
     sliderNode.addEventListener("input", () => {
       inputNode.value = sliderNode.value;
       updateResultUI();
@@ -392,7 +474,6 @@ const LoanCalculator = (() => {
     const rate = params.get("rate");
     const term = params.get("term");
     const unit = params.get("unit");
-
     if (amount) {
       selectors.loanAmount.value = amount;
       selectors.loanAmountSlider.value = amount;
@@ -419,7 +500,15 @@ const LoanCalculator = (() => {
       updateTermSliderRange();
       updateResultUI();
     });
-    selectors.toggleSchedule.addEventListener("click", toggleSchedule);
+    [selectors.extraMonthlyPayment, selectors.lumpSumPayment, selectors.paymentStartMonth].forEach((node) => {
+      node.addEventListener("input", updateResultUI);
+    });
+    selectors.toggleAdvanced.addEventListener("click", () => {
+      togglePanel(selectors.advancedPanel, selectors.toggleAdvanced, "Advanced: Extra Payments", "Hide Advanced: Extra Payments");
+    });
+    selectors.toggleSchedule.addEventListener("click", () => {
+      togglePanel(selectors.schedulePanel, selectors.toggleSchedule, "Show full schedule", "Hide full schedule");
+    });
     selectors.downloadCsv.addEventListener("click", downloadScheduleCsv);
     selectors.printSchedule.addEventListener("click", printSchedule);
 

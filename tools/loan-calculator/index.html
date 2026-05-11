@@ -69,6 +69,37 @@
             </div>
             <input id="loanTermSlider" type="range" min="1" max="30" step="1" value="5" />
           </div>
+
+          <div class="advanced-payments">
+            <button id="toggleAdvanced" type="button" class="btn btn-ghost">Advanced: Extra Payments</button>
+            <div id="advancedPanel" class="advanced-panel" aria-hidden="true">
+              <div class="field">
+                <label for="extraMonthlyPayment">Extra Monthly Payment</label>
+                <div class="input-with-prefix">
+                  <span>$</span>
+                  <input
+                    id="extraMonthlyPayment"
+                    name="extraMonthlyPayment"
+                    type="number"
+                    min="0"
+                    step="10"
+                    value="0"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label for="lumpSumPayment">One-Time Lump Sum Payment</label>
+                <div class="input-with-prefix">
+                  <span>$</span>
+                  <input id="lumpSumPayment" name="lumpSumPayment" type="number" min="0" step="100" value="0" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="paymentStartMonth">Payment Start Month</label>
+                <input id="paymentStartMonth" name="paymentStartMonth" type="number" min="1" step="1" value="1" />
+              </div>
+            </div>
+          </div>
         </form>
 
         <aside class="card output-card" aria-live="polite">
@@ -88,6 +119,22 @@
             </div>
           </dl>
 
+          <div class="comparison-grid">
+            <article class="comparison-card">
+              <p class="eyebrow">Before Extra Payments</p>
+              <p class="muted">Payoff: <strong id="beforePayoffDate">-</strong></p>
+              <p class="muted">Total Paid: <strong id="beforeTotalPaid">$0.00</strong></p>
+              <p class="muted">Total Interest: <strong id="beforeTotalInterest">$0.00</strong></p>
+            </article>
+            <article class="comparison-card">
+              <p class="eyebrow">After Extra Payments</p>
+              <p class="muted">Payoff: <strong id="afterPayoffDate">-</strong></p>
+              <p class="muted">Total Paid: <strong id="afterTotalPaid">$0.00</strong></p>
+              <p class="muted">Interest Saved: <strong id="interestSaved">$0.00</strong></p>
+              <p class="muted">Months Saved: <strong id="monthsSaved">0</strong></p>
+            </article>
+          </div>
+
           <div class="share-tools">
             <h3>Share this calculation</h3>
             <div class="share-actions">
@@ -99,6 +146,11 @@
             <p id="copyFeedback" class="copy-feedback" role="status" aria-live="polite"></p>
           </div>
         </aside>
+      </section>
+
+      <section class="card savings-banner" id="savingsBanner" aria-live="polite">
+        You save <strong id="bannerMonthsSaved">0 months</strong> and <strong id="bannerInterestSaved">$0.00</strong> in
+        interest.
       </section>
 
       <section class="card charts-section">
