@@ -1,17 +1,45 @@
 const MortgageCalculator = (() => {
   const selectors = {
+    homePrice: document.getElementById("homePrice"),
+    downPaymentType: document.getElementById("downPaymentType"),
+    downPaymentPercent: document.getElementById("downPaymentPercent"),
+    downPaymentAmount: document.getElementById("downPaymentAmount"),
+    interestRate: document.getElementById("mortgageInterestRate"),
+    loanTerm: document.getElementById("mortgageLoanTerm"),
+    propertyTaxAnnual: document.getElementById("propertyTaxAnnual"),
+    homeInsuranceAnnual: document.getElementById("homeInsuranceAnnual"),
+    extraMonthlyPayment: document.getElementById("mortgageExtraMonthlyPayment"),
+    lumpSumPayment: document.getElementById("mortgageLumpSumPayment"),
+    paymentStartMonth: document.getElementById("mortgagePaymentStartMonth"),
+    annualIncome: document.getElementById("annualIncome"),
+    computedLoanAmount: document.getElementById("computedLoanAmount"),
+    monthlyMortgagePayment: document.getElementById("monthlyMortgagePayment"),
+    totalInterestPaid: document.getElementById("totalInterestPaid"),
+    totalHomeCost: document.getElementById("totalHomeCost"),
+    principalInterestMonthly: document.getElementById("principalInterestMonthly"),
+    taxInsuranceMonthly: document.getElementById("taxInsuranceMonthly"),
+    payoffDate: document.getElementById("payoffDate"),
+    summaryTotalPayments: document.getElementById("mortgageSummaryTotalPayments"),
+    summaryTotalInterest: document.getElementById("mortgageSummaryTotalInterest"),
+    summaryPayoffDate: document.getElementById("mortgageSummaryPayoffDate"),
+    affordabilityRecommended: document.getElementById("recommendedPayment"),
+    affordabilityActual: document.getElementById("actualPayment"),
+    affordabilityWarning: document.getElementById("affordabilityWarning"),
+    compare15Monthly: document.getElementById("compare15Monthly"),
+    compare15Interest: document.getElementById("compare15Interest"),
+    compare30Monthly: document.getElementById("compare30Monthly"),
+    compare30Interest: document.getElementById("compare30Interest"),
+    compareDifference: document.getElementById("compareInterestDifference"),
+    comparisonBars: document.getElementById("comparisonBars"),
+    scheduleBody: document.getElementById("mortgageScheduleBody"),
+    principalInterestChart: document.getElementById("mortgagePrincipalInterestChart"),
+    balanceChart: document.getElementById("mortgageBalanceChart"),
     downPaymentPercentField: document.getElementById("downPaymentPercent")?.closest(".field") || null,
     downPaymentAmountField: document.getElementById("downPaymentAmount")?.closest(".field") || null,
     toggleAdvanced: document.getElementById("toggleMortgageAdvanced"),
     advancedPanel: document.getElementById("mortgageAdvancedPanel"),
     toggleSchedule: document.getElementById("toggleMortgageSchedule"),
-    schedulePanel: document.getElementById("mortgageSchedulePanel"),
-    scheduleBody: document.getElementById("mortgageScheduleBody"),
-    principalInterestChart: document.getElementById("mortgagePrincipalInterestChart"),
-    balanceChart: document.getElementById("mortgageBalanceChart"),
-    affordabilityWarning: document.getElementById("affordabilityWarning"),
-    comparisonBars: document.getElementById("comparisonBars"),
-    mortgageInputs: Array.from(document.querySelectorAll("[data-input-bind]"))
+    schedulePanel: document.getElementById("mortgageSchedulePanel")
   };
 
   let displayedSchedule = [];
@@ -19,18 +47,14 @@ const MortgageCalculator = (() => {
   let acceleratedSchedule = [];
   let principalInterestChartInstance;
   let balanceChartInstance;
-  let computeRaf = null;
+  let syncTimer = null;
+  let computeQueued = false;
 
-  const getState = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
-
+  const parseValue = (node) => Number(node?.value) || 0;
   const setCurrency = (value) =>
     (typeof CurrencyLayer !== "undefined"
       ? CurrencyLayer.formatCurrency(value)
-      : new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-          maximumFractionDigits: 2
-        }).format(Number(value) || 0));
+      : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(Number(value) || 0));
 
   const getMonthlyPayment = (principal, annualRate, totalMonths) => {
     if (!principal || !totalMonths) return 0;
@@ -59,14 +83,7 @@ const MortgageCalculator = (() => {
       const principalPaid = Math.min(balance, plannedPrincipalPaid);
       const payment = principalPaid + interest;
       balance = Math.max(0, balance - principalPaid);
-      schedule.push({
-        month,
-        payment,
-        principal: principalPaid,
-        interest,
-        balance,
-        hadExtraPayment: extraMonthlyApplied + lumpApplied > 0
-      });
+      schedule.push({ month, payment, principal: principalPaid, interest, balance, hadExtraPayment: extraMonthlyApplied + lumpApplied > 0 });
       month += 1;
     }
     return schedule;
@@ -84,160 +101,6 @@ const MortgageCalculator = (() => {
     return payoff.toLocaleDateString("en-US", { month: "long", year: "numeric" });
   };
 
-  const setStateIfChanged = (patch) => {
-    if (typeof SharedState === "undefined") return;
-    const current = SharedState.getState();
-    const next = {};
-    Object.entries(patch).forEach(([key, value]) => {
-      if (current[key] === value) return;
-      next[key] = value;
-    });
-    if (!Object.keys(next).length) return;
-    SharedState.setState(next);
-    console.log("[Mortgage] state updated", Object.keys(next));
-  };
-
-  const buildComparisonBars = (summary15, summary30) => {
-    const maxInterest = Math.max(summary15.totalInterest, summary30.totalInterest, 1);
-    const width15 = Math.max(4, Math.round((summary15.totalInterest / maxInterest) * 100));
-    const width30 = Math.max(4, Math.round((summary30.totalInterest / maxInterest) * 100));
-    return `
-      <div class="interest-bar-row">
-        <span>15-year interest</span>
-        <div class="interest-bar-track"><div class="interest-bar-fill" style="width:${width15}%"></div></div>
-      </div>
-      <div class="interest-bar-row">
-        <span>30-year interest</span>
-        <div class="interest-bar-track"><div class="interest-bar-fill danger" style="width:${width30}%"></div></div>
-      </div>
-    `;
-  };
-
-  const computeMortgage = (state) => {
-    const homePrice = Math.max(0, Number(state.loan_amount) || 0);
-    const downType = String(state.mortgage_down_payment_type || "percent");
-    const downPercent = Math.max(0, Number(state.mortgage_down_payment_percent) || 20);
-    const downAmountRaw = Math.max(0, Number(state.down_payment) || 0);
-    const downPayment = downType === "percent" ? (homePrice * downPercent) / 100 : downAmountRaw;
-    const loanAmount = Math.max(0, homePrice - downPayment);
-
-    const annualRate = Math.max(0, Number(state.interest_rate) || 0);
-    const loanTermYears = Math.max(1, Number(state.loan_term) || 30);
-    const totalMonths = loanTermYears * 12;
-    const extraMonthly = Math.max(0, Number(state.extra_payment) || 0);
-    const lumpSum = Math.max(0, Number(state.mortgage_lump_sum_payment) || 0);
-    const paymentStartMonth = Math.max(1, Math.min(totalMonths, Number(state.mortgage_payment_start_month) || 1));
-
-    const monthlyPrincipalInterest = getMonthlyPayment(loanAmount, annualRate, totalMonths);
-    const taxMonthly = Math.max(0, Number(state.property_tax_annual) || 0) / 12;
-    const insuranceMonthly = Math.max(0, Number(state.home_insurance_annual) || 0) / 12;
-    const monthlyEscrow = taxMonthly + insuranceMonthly;
-    const extraConfig = { extraMonthly, lumpSum, startMonth: paymentStartMonth };
-
-    baselineSchedule = buildSchedule({
-      principal: loanAmount,
-      annualRate,
-      totalMonths,
-      monthlyPayment: monthlyPrincipalInterest,
-      includeExtra: false,
-      extraConfig
-    });
-    acceleratedSchedule = buildSchedule({
-      principal: loanAmount,
-      annualRate,
-      totalMonths,
-      monthlyPayment: monthlyPrincipalInterest,
-      includeExtra: true,
-      extraConfig
-    });
-    displayedSchedule = acceleratedSchedule;
-
-    const summary = summarizeSchedule(displayedSchedule);
-    const monthlyMortgagePayment = monthlyPrincipalInterest + monthlyEscrow;
-    const totalHomeCost = homePrice - (homePrice - loanAmount) + summary.totalPaid + monthlyEscrow * summary.months;
-    const payoffDate = getPayoffDate(summary.months);
-
-    const monthlyIncome = Math.max(0, Number(state.income) || 0) / 12;
-    const recommendedMonthly = monthlyIncome > 0 ? (monthlyIncome * 0.28) : 0;
-    const warningMessage =
-      recommendedMonthly === 0
-        ? "Enter annual income to get an affordability signal."
-        : monthlyMortgagePayment > recommendedMonthly
-          ? "Warning: Estimated housing payment is above the 28% affordability guideline."
-          : "Good fit: Estimated housing payment is within the 28% guideline.";
-
-    const monthly15 = getMonthlyPayment(loanAmount, annualRate, 180);
-    const monthly30 = getMonthlyPayment(loanAmount, annualRate, 360);
-    const summary15 = summarizeSchedule(
-      buildSchedule({
-        principal: loanAmount,
-        annualRate,
-        totalMonths: 180,
-        monthlyPayment: monthly15,
-        includeExtra: false,
-        extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 }
-      })
-    );
-    const summary30 = summarizeSchedule(
-      buildSchedule({
-        principal: loanAmount,
-        annualRate,
-        totalMonths: 360,
-        monthlyPayment: monthly30,
-        includeExtra: false,
-        extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 }
-      })
-    );
-
-    return {
-      schedule: displayedSchedule,
-      comparisonBarsHtml: buildComparisonBars(summary15, summary30),
-      warningClassOn: recommendedMonthly > 0 && monthlyMortgagePayment > recommendedMonthly,
-      statePatch: {
-        loan_amount: loanAmount,
-        down_payment: downPayment,
-        mortgage_computed_loan_amount: loanAmount,
-        mortgage_monthly_payment: monthlyMortgagePayment,
-        mortgage_total_interest: summary.totalInterest,
-        mortgage_total_cost: totalHomeCost,
-        mortgage_principal_interest_monthly: monthlyPrincipalInterest,
-        mortgage_tax_insurance_monthly: monthlyEscrow,
-        mortgage_summary_total_payments: summary.totalPaid + monthlyEscrow * summary.months,
-        mortgage_summary_total_interest: summary.totalInterest,
-        mortgage_payoff_date: payoffDate,
-        mortgage_summary_payoff_date: payoffDate,
-        mortgage_recommended_payment: recommendedMonthly,
-        mortgage_actual_payment: monthlyMortgagePayment,
-        mortgage_compare_15_monthly: monthly15,
-        mortgage_compare_15_interest: summary15.totalInterest,
-        mortgage_compare_30_monthly: monthly30,
-        mortgage_compare_30_interest: summary30.totalInterest,
-        mortgage_compare_interest_diff: Math.max(0, summary30.totalInterest - summary15.totalInterest),
-        mortgage_affordability_warning: warningMessage
-      }
-    };
-  };
-
-  const renderScheduleTable = (schedule) => {
-    if (!selectors.scheduleBody) return;
-    selectors.scheduleBody.innerHTML = schedule
-      .map((row, index) => {
-        const classes = [];
-        if (index === schedule.length - 1) classes.push("payoff-row");
-        if (row.hadExtraPayment) classes.push("extra-row");
-        return `
-          <tr class="${classes.join(" ")}">
-            <td>${row.month}</td>
-            <td>${setCurrency(row.payment)}</td>
-            <td>${setCurrency(row.principal)}</td>
-            <td>${setCurrency(row.interest)}</td>
-            <td>${setCurrency(row.balance)}</td>
-          </tr>
-        `;
-      })
-      .join("");
-  };
-
   const buildSeries = (schedule, key, length, padWithZero = false) =>
     Array.from({ length }, (_, i) => {
       const row = schedule[i];
@@ -252,15 +115,23 @@ const MortgageCalculator = (() => {
     plugins: { legend: { position: "top" } },
     scales: {
       x: { title: { display: true, text: "Month" } },
-      y: {
-        title: { display: true, text: yLabel },
-        ticks: { callback: (value) => setCurrency(Number(value) || 0) }
-      }
+      y: { title: { display: true, text: yLabel }, ticks: { callback: (value) => setCurrency(Number(value) || 0) } }
     }
   });
 
+  const renderScheduleTable = () => {
+    selectors.scheduleBody.innerHTML = displayedSchedule
+      .map((row, index) => {
+        const classes = [];
+        if (index === displayedSchedule.length - 1) classes.push("payoff-row");
+        if (row.hadExtraPayment) classes.push("extra-row");
+        return `<tr class="${classes.join(" ")}"><td>${row.month}</td><td>${setCurrency(row.payment)}</td><td>${setCurrency(row.principal)}</td><td>${setCurrency(row.interest)}</td><td>${setCurrency(row.balance)}</td></tr>`;
+      })
+      .join("");
+  };
+
   const renderCharts = () => {
-    if (!window.Chart || !selectors.principalInterestChart || !selectors.balanceChart) return;
+    if (!window.Chart) return;
     const maxMonths = Math.max(baselineSchedule.length, acceleratedSchedule.length, 1);
     const labels = Array.from({ length: maxMonths }, (_, i) => i + 1);
     if (principalInterestChartInstance) principalInterestChartInstance.destroy();
@@ -291,30 +162,140 @@ const MortgageCalculator = (() => {
     });
   };
 
-  const syncUiFromState = (state) => {
-    const downType = String(state.mortgage_down_payment_type || "percent");
-    if (selectors.downPaymentPercentField) selectors.downPaymentPercentField.style.display = downType === "percent" ? "" : "none";
-    if (selectors.downPaymentAmountField) selectors.downPaymentAmountField.style.display = downType === "percent" ? "none" : "";
-    if (selectors.affordabilityWarning) selectors.affordabilityWarning.classList.toggle("warning", !!state.mortgage_affordability_warning?.startsWith("Warning:"));
+  const syncSummaryStateAsync = (patch) => {
+    if (typeof SharedState === "undefined") return;
+    if (syncTimer) clearTimeout(syncTimer);
+    syncTimer = setTimeout(() => {
+      const current = SharedState.getState();
+      const next = {};
+      Object.entries(patch).forEach(([key, value]) => {
+        if (current[key] !== value) next[key] = value;
+      });
+      if (Object.keys(next).length) SharedState.setState(next);
+    }, 0);
   };
 
-  const scheduleRecompute = () => {
-    if (computeRaf) cancelAnimationFrame(computeRaf);
-    computeRaf = requestAnimationFrame(() => {
-      computeRaf = null;
-      const state = getState();
-      console.log("[Mortgage] compute triggered");
-      const computed = computeMortgage(state);
-      renderScheduleTable(computed.schedule);
-      renderCharts();
-      if (selectors.comparisonBars) selectors.comparisonBars.innerHTML = computed.comparisonBarsHtml;
-      if (selectors.affordabilityWarning) selectors.affordabilityWarning.classList.toggle("warning", computed.warningClassOn);
-      syncUiFromState(state);
-      setStateIfChanged(computed.statePatch);
+  const computeMortgage = () => {
+    const homePrice = Math.max(0, parseValue(selectors.homePrice));
+    const downType = selectors.downPaymentType.value === "fixed" ? "fixed" : "percent";
+    const downPercent = Math.max(0, parseValue(selectors.downPaymentPercent));
+    const downFixed = Math.max(0, parseValue(selectors.downPaymentAmount));
+    const downPayment = downType === "percent" ? (homePrice * downPercent) / 100 : downFixed;
+    const loanAmount = Math.max(0, homePrice - downPayment);
+    const annualRate = Math.max(0, parseValue(selectors.interestRate));
+    const loanTermYears = Math.max(1, parseValue(selectors.loanTerm));
+    const totalMonths = loanTermYears * 12;
+    const extraMonthly = Math.max(0, parseValue(selectors.extraMonthlyPayment));
+    const lumpSum = Math.max(0, parseValue(selectors.lumpSumPayment));
+    const paymentStartMonth = Math.max(1, Math.min(totalMonths, parseValue(selectors.paymentStartMonth) || 1));
+    const monthlyPrincipalInterest = getMonthlyPayment(loanAmount, annualRate, totalMonths);
+    const taxMonthly = Math.max(0, parseValue(selectors.propertyTaxAnnual)) / 12;
+    const insuranceMonthly = Math.max(0, parseValue(selectors.homeInsuranceAnnual)) / 12;
+    const monthlyEscrow = taxMonthly + insuranceMonthly;
+    const extraConfig = { extraMonthly, lumpSum, startMonth: paymentStartMonth };
+    baselineSchedule = buildSchedule({ principal: loanAmount, annualRate, totalMonths, monthlyPayment: monthlyPrincipalInterest, includeExtra: false, extraConfig });
+    acceleratedSchedule = buildSchedule({ principal: loanAmount, annualRate, totalMonths, monthlyPayment: monthlyPrincipalInterest, includeExtra: true, extraConfig });
+    displayedSchedule = acceleratedSchedule;
+    const summary = summarizeSchedule(displayedSchedule);
+    const monthlyMortgagePayment = monthlyPrincipalInterest + monthlyEscrow;
+    const totalHomeCost = homePrice - (homePrice - loanAmount) + summary.totalPaid + monthlyEscrow * summary.months;
+    const payoffDate = getPayoffDate(summary.months);
+
+    const monthlyIncome = Math.max(0, parseValue(selectors.annualIncome)) / 12;
+    const recommendedMonthly = monthlyIncome > 0 ? monthlyIncome * 0.28 : 0;
+    const warning =
+      recommendedMonthly === 0
+        ? "Enter annual income to get an affordability signal."
+        : monthlyMortgagePayment > recommendedMonthly
+          ? "Warning: Estimated housing payment is above the 28% affordability guideline."
+          : "Good fit: Estimated housing payment is within the 28% guideline.";
+    selectors.affordabilityWarning.classList.toggle("warning", warning.startsWith("Warning:"));
+
+    const monthly15 = getMonthlyPayment(loanAmount, annualRate, 180);
+    const monthly30 = getMonthlyPayment(loanAmount, annualRate, 360);
+    const summary15 = summarizeSchedule(buildSchedule({ principal: loanAmount, annualRate, totalMonths: 180, monthlyPayment: monthly15, includeExtra: false, extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 } }));
+    const summary30 = summarizeSchedule(buildSchedule({ principal: loanAmount, annualRate, totalMonths: 360, monthlyPayment: monthly30, includeExtra: false, extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 } }));
+    const maxInterest = Math.max(summary15.totalInterest, summary30.totalInterest, 1);
+    const width15 = Math.max(4, Math.round((summary15.totalInterest / maxInterest) * 100));
+    const width30 = Math.max(4, Math.round((summary30.totalInterest / maxInterest) * 100));
+
+    selectors.computedLoanAmount.textContent = setCurrency(loanAmount);
+    selectors.monthlyMortgagePayment.textContent = setCurrency(monthlyMortgagePayment);
+    selectors.totalInterestPaid.textContent = setCurrency(summary.totalInterest);
+    selectors.totalHomeCost.textContent = setCurrency(totalHomeCost);
+    selectors.principalInterestMonthly.textContent = setCurrency(monthlyPrincipalInterest);
+    selectors.taxInsuranceMonthly.textContent = setCurrency(monthlyEscrow);
+    selectors.payoffDate.textContent = payoffDate;
+    selectors.summaryTotalPayments.textContent = setCurrency(summary.totalPaid + monthlyEscrow * summary.months);
+    selectors.summaryTotalInterest.textContent = setCurrency(summary.totalInterest);
+    selectors.summaryPayoffDate.textContent = payoffDate;
+    selectors.affordabilityRecommended.textContent = setCurrency(recommendedMonthly);
+    selectors.affordabilityActual.textContent = setCurrency(monthlyMortgagePayment);
+    selectors.affordabilityWarning.textContent = warning;
+    selectors.compare15Monthly.textContent = setCurrency(monthly15);
+    selectors.compare15Interest.textContent = setCurrency(summary15.totalInterest);
+    selectors.compare30Monthly.textContent = setCurrency(monthly30);
+    selectors.compare30Interest.textContent = setCurrency(summary30.totalInterest);
+    selectors.compareDifference.textContent = setCurrency(Math.max(0, summary30.totalInterest - summary15.totalInterest));
+    selectors.comparisonBars.innerHTML = `
+      <div class="interest-bar-row"><span>15-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill" style="width:${width15}%"></div></div></div>
+      <div class="interest-bar-row"><span>30-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill danger" style="width:${width30}%"></div></div></div>
+    `;
+    renderScheduleTable();
+    renderCharts();
+    syncSummaryStateAsync({
+      mortgage_computed_loan_amount: loanAmount,
+      mortgage_monthly_payment: monthlyMortgagePayment,
+      mortgage_total_interest: summary.totalInterest,
+      mortgage_total_cost: totalHomeCost,
+      mortgage_principal_interest_monthly: monthlyPrincipalInterest,
+      mortgage_tax_insurance_monthly: monthlyEscrow,
+      mortgage_summary_total_payments: summary.totalPaid + monthlyEscrow * summary.months,
+      mortgage_summary_total_interest: summary.totalInterest,
+      mortgage_payoff_date: payoffDate,
+      mortgage_summary_payoff_date: payoffDate,
+      mortgage_recommended_payment: recommendedMonthly,
+      mortgage_actual_payment: monthlyMortgagePayment,
+      mortgage_compare_15_monthly: monthly15,
+      mortgage_compare_15_interest: summary15.totalInterest,
+      mortgage_compare_30_monthly: monthly30,
+      mortgage_compare_30_interest: summary30.totalInterest,
+      mortgage_compare_interest_diff: Math.max(0, summary30.totalInterest - summary15.totalInterest),
+      mortgage_affordability_warning: warning
     });
   };
 
-  const bindUiOnlyEvents = () => {
+  const queueCompute = () => {
+    if (computeQueued) return;
+    computeQueued = true;
+    requestAnimationFrame(() => {
+      computeQueued = false;
+      computeMortgage();
+    });
+  };
+
+  const bindDirectInputEvents = () => {
+    [
+      selectors.homePrice,
+      selectors.downPaymentType,
+      selectors.downPaymentPercent,
+      selectors.downPaymentAmount,
+      selectors.interestRate,
+      selectors.loanTerm,
+      selectors.propertyTaxAnnual,
+      selectors.homeInsuranceAnnual,
+      selectors.extraMonthlyPayment,
+      selectors.lumpSumPayment,
+      selectors.paymentStartMonth,
+      selectors.annualIncome
+    ].forEach((node) => {
+      if (!node) return;
+      node.addEventListener("input", queueCompute);
+      node.addEventListener("change", queueCompute);
+    });
+  };
+
+  const bindUiEvents = () => {
     if (selectors.toggleAdvanced && selectors.advancedPanel) {
       selectors.toggleAdvanced.addEventListener("click", () => {
         const isOpen = selectors.advancedPanel.classList.toggle("is-open");
@@ -331,28 +312,28 @@ const MortgageCalculator = (() => {
     }
   };
 
+  const applyGeoDefaults = () => {
+    if (typeof GeoFinance === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("term") || params.has("loan_term")) return;
+    const geo = GeoFinance.getCountryData();
+    selectors.loanTerm.value = String(Math.max(1, Number(geo.loan_norm_years) || 5));
+  };
+
+  const syncDownPaymentUi = () => {
+    const isPercent = selectors.downPaymentType.value === "percent";
+    selectors.downPaymentPercentField.style.display = isPercent ? "" : "none";
+    selectors.downPaymentAmountField.style.display = isPercent ? "none" : "";
+  };
+
   const init = () => {
     if (document.body.dataset.page !== "mortgage-calculator") return;
-    bindUiOnlyEvents();
-    if (typeof GeoFinance !== "undefined" && typeof SharedState !== "undefined") {
-      const state = getState();
-      if (state.loan_term === undefined) {
-        const geo = GeoFinance.getCountryData();
-        setStateIfChanged({ loan_term: Math.max(1, Number(geo.loan_norm_years) || 5) });
-      }
-      if (!state.mortgage_down_payment_type) {
-        setStateIfChanged({ mortgage_down_payment_type: "percent", mortgage_down_payment_percent: 20 });
-      }
-    }
-    if (window.getEventListeners) {
-      selectors.mortgageInputs.forEach((node) => {
-        const listeners = window.getEventListeners(node);
-        const count = Object.values(listeners || {}).reduce((sum, list) => sum + list.length, 0);
-        console.log("[Mortgage] input listener count", node.id || node.name || "unnamed", count);
-      });
-    }
-    scheduleRecompute();
-    window.addEventListener("appStateChanged", scheduleRecompute);
+    applyGeoDefaults();
+    syncDownPaymentUi();
+    bindUiEvents();
+    bindDirectInputEvents();
+    selectors.downPaymentType.addEventListener("change", syncDownPaymentUi);
+    queueCompute();
   };
 
   return { init, computeMortgage };

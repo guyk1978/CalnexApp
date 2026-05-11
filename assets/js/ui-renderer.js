@@ -48,6 +48,7 @@ const UiRenderer = (() => {
   };
 
   const renderInputs = () => {
+    if (document.body.dataset.page === "mortgage-calculator") return;
     const state = getState();
     document.querySelectorAll("[data-input-bind]").forEach((node) => {
       const key = node.getAttribute("data-input-bind");
@@ -68,6 +69,7 @@ const UiRenderer = (() => {
   };
 
   const renderOutputs = () => {
+    if (document.body.dataset.page === "mortgage-calculator") return;
     const state = getState();
     const derived = getDerivedState();
     let boundCount = 0;

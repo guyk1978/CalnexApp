@@ -51,6 +51,7 @@ const InputSyncLayer = (() => {
   };
 
   const bindAll = () => {
+    if (document.body.dataset.page === "mortgage-calculator") return;
     document.querySelectorAll("[data-input-bind]").forEach(bindInput);
   };
 
