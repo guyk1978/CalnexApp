@@ -66,6 +66,7 @@ const CurrencyLayer = (() => {
       SharedState.setState({ currency: nextCurrency });
     }
     document.dispatchEvent(new CustomEvent("currency:changed", { detail: { currency: nextCurrency } }));
+    window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "currency", currency: nextCurrency } }));
     return nextCurrency;
   };
 

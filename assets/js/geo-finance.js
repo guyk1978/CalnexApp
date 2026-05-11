@@ -75,6 +75,7 @@ const GeoFinance = (() => {
       });
     }
     document.dispatchEvent(new CustomEvent("geo:changed", { detail: { country: nextCountry, defaults } }));
+    window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "geo", country: nextCountry } }));
     return nextCountry;
   };
 

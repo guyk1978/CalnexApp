@@ -75,7 +75,6 @@ const MortgageCalculator = (() => {
     const fixed = Math.max(0, parseValue(selectors.downPaymentAmount));
     const downPayment = isPercent ? (homePrice * percent) / 100 : fixed;
     const loanAmount = Math.max(0, homePrice - downPayment);
-    selectors.computedLoanAmount.textContent = setCurrency(loanAmount);
     return { loanAmount, downPayment, homePrice };
   };
 
@@ -249,22 +248,24 @@ const MortgageCalculator = (() => {
   const updateAffordability = (monthlyHousingPayment) => {
     const annualIncome = parseValue(selectors.annualIncome);
     const recommendedMonthly = annualIncome > 0 ? (annualIncome * 0.28) / 12 : 0;
-    selectors.affordabilityRecommended.textContent = setCurrency(recommendedMonthly);
-    selectors.affordabilityActual.textContent = setCurrency(monthlyHousingPayment);
-
+    let warningMessage = "Enter annual income to get an affordability signal.";
     if (recommendedMonthly === 0) {
-      selectors.affordabilityWarning.textContent = "Enter annual income to get an affordability signal.";
       selectors.affordabilityWarning.classList.remove("warning");
+      if (typeof SharedState !== "undefined") {
+        SharedState.setState({ mortgage_affordability_warning: warningMessage });
+      }
       return;
     }
 
     if (monthlyHousingPayment > recommendedMonthly) {
-      selectors.affordabilityWarning.textContent =
-        "Warning: Estimated housing payment is above the 28% affordability guideline.";
+      warningMessage = "Warning: Estimated housing payment is above the 28% affordability guideline.";
       selectors.affordabilityWarning.classList.add("warning");
     } else {
-      selectors.affordabilityWarning.textContent = "Good fit: Estimated housing payment is within the 28% guideline.";
+      warningMessage = "Good fit: Estimated housing payment is within the 28% guideline.";
       selectors.affordabilityWarning.classList.remove("warning");
+    }
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({ mortgage_affordability_warning: warningMessage });
     }
   };
 
@@ -290,12 +291,6 @@ const MortgageCalculator = (() => {
     const summary15 = summarizeSchedule(schedule15);
     const summary30 = summarizeSchedule(schedule30);
     const diff = Math.max(0, summary30.totalInterest - summary15.totalInterest);
-
-    selectors.compare15Monthly.textContent = setCurrency(monthly15);
-    selectors.compare15Interest.textContent = setCurrency(summary15.totalInterest);
-    selectors.compare30Monthly.textContent = setCurrency(monthly30);
-    selectors.compare30Interest.textContent = setCurrency(summary30.totalInterest);
-    selectors.compareDifference.textContent = setCurrency(diff);
 
     const maxInterest = Math.max(summary15.totalInterest, summary30.totalInterest, 1);
     const width15 = Math.max(4, Math.round((summary15.totalInterest / maxInterest) * 100));
@@ -344,15 +339,6 @@ const MortgageCalculator = (() => {
     const monthlyMortgagePayment = monthlyPrincipalInterest + monthlyEscrow;
     const totalHomeCost = homePrice - (homePrice - loanAmount) + summary.totalPaid + monthlyEscrow * summary.months;
 
-    selectors.monthlyMortgagePayment.textContent = setCurrency(monthlyMortgagePayment);
-    selectors.totalInterestPaid.textContent = setCurrency(summary.totalInterest);
-    selectors.totalHomeCost.textContent = setCurrency(totalHomeCost);
-    selectors.principalInterestMonthly.textContent = setCurrency(monthlyPrincipalInterest);
-    selectors.taxInsuranceMonthly.textContent = setCurrency(monthlyEscrow);
-    selectors.payoffDate.textContent = getPayoffDate(summary.months);
-    selectors.summaryTotalPayments.textContent = setCurrency(summary.totalPaid + monthlyEscrow * summary.months);
-    selectors.summaryTotalInterest.textContent = setCurrency(summary.totalInterest);
-    selectors.summaryPayoffDate.textContent = getPayoffDate(summary.months);
     renderScheduleTable(displayedSchedule);
     renderCharts();
     updateAffordability(monthlyMortgagePayment);
@@ -365,9 +351,49 @@ const MortgageCalculator = (() => {
         extra_payment: parseValue(selectors.extraMonthlyPayment),
         down_payment: Math.max(0, homePrice - loanAmount),
         income: parseValue(selectors.annualIncome),
+        mortgage_computed_loan_amount: loanAmount,
         mortgage_monthly_payment: monthlyMortgagePayment,
         mortgage_total_interest: summary.totalInterest,
-        mortgage_total_cost: totalHomeCost
+        mortgage_total_cost: totalHomeCost,
+        mortgage_principal_interest_monthly: monthlyPrincipalInterest,
+        mortgage_tax_insurance_monthly: monthlyEscrow,
+        mortgage_summary_total_payments: summary.totalPaid + monthlyEscrow * summary.months,
+        mortgage_summary_total_interest: summary.totalInterest,
+        mortgage_payoff_date: getPayoffDate(summary.months),
+        mortgage_summary_payoff_date: getPayoffDate(summary.months)
+      });
+    }
+    const annualIncome = parseValue(selectors.annualIncome);
+    const recommendedMonthly = annualIncome > 0 ? (annualIncome * 0.28) / 12 : 0;
+    const monthly15 = getMonthlyPayment(loanAmount, annualRate, 180);
+    const monthly30 = getMonthlyPayment(loanAmount, annualRate, 360);
+    const schedule15 = buildSchedule({
+      principal: loanAmount,
+      annualRate,
+      totalMonths: 180,
+      monthlyPayment: monthly15,
+      includeExtra: false,
+      extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 }
+    });
+    const schedule30 = buildSchedule({
+      principal: loanAmount,
+      annualRate,
+      totalMonths: 360,
+      monthlyPayment: monthly30,
+      includeExtra: false,
+      extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 }
+    });
+    const summary15 = summarizeSchedule(schedule15);
+    const summary30 = summarizeSchedule(schedule30);
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        mortgage_recommended_payment: recommendedMonthly,
+        mortgage_actual_payment: monthlyMortgagePayment,
+        mortgage_compare_15_monthly: monthly15,
+        mortgage_compare_15_interest: summary15.totalInterest,
+        mortgage_compare_30_monthly: monthly30,
+        mortgage_compare_30_interest: summary30.totalInterest,
+        mortgage_compare_interest_diff: Math.max(0, summary30.totalInterest - summary15.totalInterest)
       });
     }
   };

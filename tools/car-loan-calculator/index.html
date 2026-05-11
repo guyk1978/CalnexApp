@@ -35,6 +35,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -43,7 +44,7 @@
   "name": "Car Loan Calculator",
   "description": "Car Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/car-loan-calculator/",
-  "dateModified": "2026-05-11T10:21:17.645Z",
+  "dateModified": "2026-05-11T10:29:44.348Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -123,10 +124,10 @@
       <section class="calculator-layout">
         <form class="card input-card" aria-label="Car loan form">
           <div class="field">
-            <label for="carPrice">Car Price</label>
+            <label for="carPrice" data-currency-label="car_price">Car Price</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="carPrice" type="number" min="1000" step="500" value="35000" />
+              <input id="carPrice" data-input-bind="loan_amount" type="number" min="1000" step="500" value="35000" />
             </div>
           </div>
 
@@ -169,13 +170,13 @@
 
           <div class="field">
             <label for="carInterestRate">Interest Rate (%)</label>
-            <input id="carInterestRate" type="number" min="0" max="30" step="0.01" value="6.9" />
+            <input id="carInterestRate" data-input-bind="interest_rate" type="number" min="0" max="30" step="0.01" value="6.9" />
           </div>
 
           <div class="field">
             <label for="carLoanTerm">Loan Term</label>
             <div class="term-group">
-              <input id="carLoanTerm" type="number" min="12" step="1" value="60" />
+              <input id="carLoanTerm" data-input-bind="loan_term" type="number" min="12" step="1" value="60" />
               <select id="carTermUnit">
                 <option value="months" selected>Months</option>
                 <option value="years">Years</option>
@@ -185,7 +186,7 @@
 
           <div class="field">
             <label>Financed Amount (Auto)</label>
-            <p id="carComputedLoanAmount" class="btn-ghost" style="padding: 0.6rem 0.7rem; border-radius: 10px">0.00</p>
+            <p id="carComputedLoanAmount" data-bind="car_computed_loan_amount" data-format="currency" class="btn-ghost" style="padding: 0.6rem 0.7rem; border-radius: 10px">0.00</p>
           </div>
         </form>
 
@@ -194,15 +195,15 @@
           <dl class="result-grid">
             <div>
               <dt>Monthly Car Loan Payment</dt>
-              <dd id="carMonthlyPayment">0.00</dd>
+              <dd id="carMonthlyPayment" data-bind="car_monthly_payment">0.00</dd>
             </div>
             <div>
               <dt>Total Interest Paid</dt>
-              <dd id="carTotalInterestPaid">0.00</dd>
+              <dd id="carTotalInterestPaid" data-bind="car_total_interest">0.00</dd>
             </div>
             <div>
               <dt>Total Cost of Vehicle</dt>
-              <dd id="carTotalVehicleCost">0.00</dd>
+              <dd id="carTotalVehicleCost" data-bind="car_total_cost">0.00</dd>
             </div>
           </dl>
         </aside>
@@ -217,9 +218,9 @@
             <input id="carAnnualIncome" type="number" min="0" step="1000" value="72000" />
           </div>
         </div>
-        <p class="muted">Safe monthly range: <strong id="carSafeMin">0.00</strong> to <strong id="carSafeMax">0.00</strong></p>
-        <p class="muted">Your estimated payment: <strong id="carCurrentPayment">0.00</strong></p>
-        <p id="carAffordabilityStatus" class="muted">Add income to evaluate affordability range.</p>
+        <p class="muted">Safe monthly range: <strong id="carSafeMin" data-bind="car_safe_min" data-format="currency">0.00</strong> to <strong id="carSafeMax" data-bind="car_safe_max" data-format="currency">0.00</strong></p>
+        <p class="muted">Your estimated payment: <strong id="carCurrentPayment" data-bind="car_current_payment" data-format="currency">0.00</strong></p>
+        <p id="carAffordabilityStatus" class="muted" data-bind="car_affordability_status" data-format="text">Add income to evaluate affordability range.</p>
       </section>
 
       <section class="card">
@@ -246,17 +247,17 @@
           </article>
           <article class="comparison-card">
             <p class="eyebrow">Monthly Cost Comparison</p>
-            <p class="muted">Car A Monthly: <strong id="compareMonthlyA">0.00</strong></p>
-            <p class="muted">Car B Monthly: <strong id="compareMonthlyB">0.00</strong></p>
-            <p class="muted">Difference: <strong id="compareDifference">0.00</strong></p>
+            <p class="muted">Car A Monthly: <strong id="compareMonthlyA" data-bind="car_compare_monthly_a">0.00</strong></p>
+            <p class="muted">Car B Monthly: <strong id="compareMonthlyB" data-bind="car_compare_monthly_b">0.00</strong></p>
+            <p class="muted">Difference: <strong id="compareDifference" data-bind="car_compare_difference" data-format="currency">0.00</strong></p>
           </article>
         </div>
       </section>
 
       <section class="card">
         <h2>Financing Insights</h2>
-        <p class="muted" id="insight72vs48">You will pay more with longer terms due to compounding interest.</p>
-        <p class="muted" id="insightInterestDiff">Interest difference over time appears after first calculation.</p>
+        <p class="muted" id="insight72vs48" data-bind="car_insight_72_vs_48" data-format="text">You will pay more with longer terms due to compounding interest.</p>
+        <p class="muted" id="insightInterestDiff" data-bind="car_insight_interest_diff" data-format="text">Interest difference over time appears after first calculation.</p>
       </section>
 
       <section class="card charts-section">
@@ -330,6 +331,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -345,6 +347,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -353,6 +356,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
@@ -380,11 +384,12 @@
         </nav>
       </div>
     </footer>
-    <script src="/assets/js/currency.js" defer></script>
-    <script src="/assets/js/app.js" defer></script>
-    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/car-loan.js" defer></script>
   </body>

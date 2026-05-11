@@ -186,8 +186,10 @@ const InterestCalculator = (() => {
       interest_years: years,
       interest_monthly_contribution: monthlyContribution,
       interest_compounding: compounding,
+      interest_simple_total: calculateSimple({ principal, annualRate, years }),
       interest_compound_total: compoundAmount,
-      interest_total_interest: totalInterest
+      interest_total_interest: totalInterest,
+      interest_final_amount: compoundAmount
     });
   };
 
@@ -199,10 +201,6 @@ const InterestCalculator = (() => {
     const totalInterest = compoundAmount - baseContributed;
     const rows = buildYearlyBreakdown(inputs);
 
-    selectors.finalAmount.textContent = setCurrency(compoundAmount);
-    selectors.totalInterest.textContent = setCurrency(totalInterest);
-    selectors.simpleAmount.textContent = setCurrency(simpleAmount);
-    selectors.compoundAmount.textContent = setCurrency(compoundAmount);
     renderYearlyTable(rows);
     renderCharts(rows);
     syncSharedState({ ...inputs, compoundAmount, totalInterest });

@@ -168,23 +168,20 @@ const LoanCalculator = (() => {
   };
 
   const renderScheduleSummary = (summary) => {
-    selectors.summaryTotalPayments.textContent = setCurrency(summary.totalPaid);
-    selectors.summaryTotalInterest.textContent = setCurrency(summary.totalInterest);
-    selectors.summaryPayoffDate.textContent = summary.months ? getPayoffDate(summary.months) : "-";
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        loan_summary_payoff_date: summary.months ? getPayoffDate(summary.months) : "-"
+      });
+    }
   };
 
   const renderComparison = (base, accelerated) => {
-    const monthsSaved = Math.max(0, base.months - accelerated.months);
-    const interestSaved = Math.max(0, base.totalInterest - accelerated.totalInterest);
-    selectors.beforePayoffDate.textContent = getPayoffDate(base.months);
-    selectors.beforeTotalPaid.textContent = setCurrency(base.totalPaid);
-    selectors.beforeTotalInterest.textContent = setCurrency(base.totalInterest);
-    selectors.afterPayoffDate.textContent = getPayoffDate(accelerated.months);
-    selectors.afterTotalPaid.textContent = setCurrency(accelerated.totalPaid);
-    selectors.interestSaved.textContent = setCurrency(interestSaved);
-    selectors.monthsSaved.textContent = String(monthsSaved);
-    selectors.bannerMonthsSaved.textContent = `${monthsSaved} months`;
-    selectors.bannerInterestSaved.textContent = setCurrency(interestSaved);
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        loan_before_payoff_date: getPayoffDate(base.months),
+        loan_after_payoff_date: getPayoffDate(accelerated.months)
+      });
+    }
   };
 
   const getChartOptions = (yLabel) => ({
@@ -517,7 +514,9 @@ const LoanCalculator = (() => {
 
   const showToast = (message = "Link copied") => {
     if (!selectors.shareToast) return;
-    selectors.shareToast.textContent = message;
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({ loan_share_toast_message: message });
+    }
     selectors.shareToast.classList.add("is-visible");
     if (toastTimer) clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
@@ -637,13 +636,27 @@ const LoanCalculator = (() => {
     const baseSummary = summarizeSchedule(baselineSchedule);
     const acceleratedSummary = summarizeSchedule(acceleratedSchedule);
 
-    selectors.monthlyPayment.textContent = setCurrency(monthlyPayment);
-    selectors.totalInterest.textContent = setCurrency(acceleratedSummary.totalInterest);
-    selectors.totalRepayment.textContent = setCurrency(acceleratedSummary.totalPaid);
     renderScheduleSummary(acceleratedSummary);
     renderComparison(baseSummary, acceleratedSummary);
     renderScheduleTable(displayedSchedule);
     renderCharts();
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        loan_monthly_payment: monthlyPayment,
+        loan_total_interest: acceleratedSummary.totalInterest,
+        loan_total_repayment: acceleratedSummary.totalPaid,
+        loan_summary_total_payments: acceleratedSummary.totalPaid,
+        loan_summary_total_interest: acceleratedSummary.totalInterest,
+        loan_base_total_paid: baseSummary.totalPaid,
+        loan_base_total_interest: baseSummary.totalInterest,
+        loan_after_total_paid: acceleratedSummary.totalPaid,
+        loan_interest_saved: Math.max(0, baseSummary.totalInterest - acceleratedSummary.totalInterest),
+        loan_months_saved: Math.max(0, baseSummary.months - acceleratedSummary.months),
+        loan_summary_payoff_date: acceleratedSummary.months ? getPayoffDate(acceleratedSummary.months) : "-",
+        loan_before_payoff_date: getPayoffDate(baseSummary.months),
+        loan_after_payoff_date: getPayoffDate(acceleratedSummary.months)
+      });
+    }
     updateSeoAndUrl();
     updateShareLinks();
   };
@@ -749,10 +762,14 @@ const LoanCalculator = (() => {
       node.addEventListener("click", async () => {
         try {
           await copyTextToClipboard(getShareUrl());
-          selectors.copyFeedback.textContent = "Link copied to clipboard.";
+          if (typeof SharedState !== "undefined") {
+            SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." });
+          }
           showToast("Link copied");
         } catch (_error) {
-          selectors.copyFeedback.textContent = "Copy failed. Please copy from the address bar.";
+          if (typeof SharedState !== "undefined") {
+            SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." });
+          }
         }
       });
     });
@@ -760,10 +777,14 @@ const LoanCalculator = (() => {
     selectors.shareResultsBtn.addEventListener("click", async () => {
       try {
         await copyTextToClipboard(getShareUrl());
-        selectors.copyFeedback.textContent = "Link copied to clipboard.";
+        if (typeof SharedState !== "undefined") {
+          SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." });
+        }
         showToast("Link copied");
       } catch (_error) {
-        selectors.copyFeedback.textContent = "Copy failed. Please copy from the address bar.";
+        if (typeof SharedState !== "undefined") {
+          SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." });
+        }
       }
     });
 

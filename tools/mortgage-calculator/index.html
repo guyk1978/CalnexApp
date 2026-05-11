@@ -38,6 +38,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -46,7 +47,7 @@
   "name": "Mortgage Calculator",
   "description": "Mortgage Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/mortgage-calculator/",
-  "dateModified": "2026-05-11T10:21:17.645Z",
+  "dateModified": "2026-05-11T10:29:44.348Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -110,10 +111,10 @@
       <section class="calculator-layout">
         <form class="card input-card" aria-label="Mortgage calculator form">
           <div class="field">
-            <label for="homePrice">Home Price</label>
+            <label for="homePrice" data-currency-label="home_price">Home Price</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="homePrice" type="number" min="50000" step="1000" value="450000" />
+              <input id="homePrice" data-input-bind="loan_amount" type="number" min="50000" step="1000" value="450000" />
             </div>
           </div>
 
@@ -140,17 +141,17 @@
 
           <div class="field">
             <label>Loan Amount (Auto)</label>
-            <p id="computedLoanAmount" class="btn-ghost" style="padding:0.6rem 0.7rem; border-radius:10px;">0.00</p>
+            <p id="computedLoanAmount" data-bind="mortgage_computed_loan_amount" data-format="currency" class="btn-ghost" style="padding:0.6rem 0.7rem; border-radius:10px;">0.00</p>
           </div>
 
           <div class="field">
             <label for="mortgageInterestRate">Interest Rate (%)</label>
-            <input id="mortgageInterestRate" type="number" min="0" max="25" step="0.01" value="6.25" />
+            <input id="mortgageInterestRate" data-input-bind="interest_rate" type="number" min="0" max="25" step="0.01" value="6.25" />
           </div>
 
           <div class="field">
             <label for="mortgageLoanTerm">Loan Term</label>
-            <select id="mortgageLoanTerm">
+            <select id="mortgageLoanTerm" data-input-bind="loan_term">
               <option value="15">15 years</option>
               <option value="20">20 years</option>
               <option value="30" selected>30 years</option>
@@ -203,24 +204,24 @@
           <dl class="result-grid">
             <div>
               <dt>Monthly Mortgage Payment</dt>
-              <dd id="monthlyMortgagePayment">0.00</dd>
+              <dd id="monthlyMortgagePayment" data-bind="mortgage_monthly_payment">0.00</dd>
             </div>
             <div>
               <dt>Total Interest Paid</dt>
-              <dd id="totalInterestPaid">0.00</dd>
+              <dd id="totalInterestPaid" data-bind="mortgage_total_interest">0.00</dd>
             </div>
             <div>
               <dt>Total Cost of Home</dt>
-              <dd id="totalHomeCost">0.00</dd>
+              <dd id="totalHomeCost" data-bind="mortgage_total_cost">0.00</dd>
             </div>
           </dl>
 
           <div class="comparison-grid">
             <article class="comparison-card">
               <p class="eyebrow">Loan Breakdown</p>
-              <p class="muted">Principal + Interest: <strong id="principalInterestMonthly">0.00</strong></p>
-              <p class="muted">Tax + Insurance: <strong id="taxInsuranceMonthly">0.00</strong></p>
-              <p class="muted">Payoff Date: <strong id="payoffDate">-</strong></p>
+              <p class="muted">Principal + Interest: <strong id="principalInterestMonthly" data-bind="mortgage_principal_interest_monthly">0.00</strong></p>
+              <p class="muted">Tax + Insurance: <strong id="taxInsuranceMonthly" data-bind="mortgage_tax_insurance_monthly">0.00</strong></p>
+              <p class="muted">Payoff Date: <strong id="payoffDate" data-bind="mortgage_payoff_date" data-format="text">-</strong></p>
             </article>
             <article class="comparison-card">
               <p class="eyebrow">Cross-Tool Planning</p>
@@ -240,9 +241,9 @@
             <input id="annualIncome" type="number" min="0" step="1000" value="120000" />
           </div>
         </div>
-        <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment">0.00</strong></p>
-        <p class="muted">Your estimated monthly payment: <strong id="actualPayment">0.00</strong></p>
-        <p id="affordabilityWarning" class="muted">Enter annual income to get an affordability signal.</p>
+        <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment" data-bind="mortgage_recommended_payment">0.00</strong></p>
+        <p class="muted">Your estimated monthly payment: <strong id="actualPayment" data-bind="mortgage_actual_payment">0.00</strong></p>
+        <p id="affordabilityWarning" class="muted" data-bind="mortgage_affordability_warning" data-format="text">Enter annual income to get an affordability signal.</p>
       </section>
 
       <section class="card">
@@ -250,16 +251,16 @@
         <div class="comparison-grid">
           <article class="comparison-card">
             <p class="eyebrow">15-Year</p>
-            <p class="muted">Monthly: <strong id="compare15Monthly">0.00</strong></p>
-            <p class="muted">Total Interest: <strong id="compare15Interest">0.00</strong></p>
+            <p class="muted">Monthly: <strong id="compare15Monthly" data-bind="mortgage_compare_15_monthly">0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare15Interest" data-bind="mortgage_compare_15_interest">0.00</strong></p>
           </article>
           <article class="comparison-card">
             <p class="eyebrow">30-Year</p>
-            <p class="muted">Monthly: <strong id="compare30Monthly">0.00</strong></p>
-            <p class="muted">Total Interest: <strong id="compare30Interest">0.00</strong></p>
+            <p class="muted">Monthly: <strong id="compare30Monthly" data-bind="mortgage_compare_30_monthly">0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare30Interest" data-bind="mortgage_compare_30_interest">0.00</strong></p>
           </article>
         </div>
-        <p class="muted">Interest difference: <strong id="compareInterestDifference">0.00</strong></p>
+        <p class="muted">Interest difference: <strong id="compareInterestDifference" data-bind="mortgage_compare_interest_diff">0.00</strong></p>
         <div id="comparisonBars"></div>
       </section>
 
@@ -293,15 +294,15 @@
           <div class="amortization-summary">
             <div class="summary-item">
               <span>Total Payments</span>
-              <strong id="mortgageSummaryTotalPayments">0.00</strong>
+              <strong id="mortgageSummaryTotalPayments" data-bind="mortgage_summary_total_payments">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Total Interest</span>
-              <strong id="mortgageSummaryTotalInterest">0.00</strong>
+              <strong id="mortgageSummaryTotalInterest" data-bind="mortgage_summary_total_interest">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Payoff Date</span>
-              <strong id="mortgageSummaryPayoffDate">-</strong>
+              <strong id="mortgageSummaryPayoffDate" data-bind="mortgage_summary_payoff_date" data-format="text">-</strong>
             </div>
           </div>
           <div class="schedule-table-wrap">
@@ -367,6 +368,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -385,6 +387,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -393,6 +396,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
@@ -423,11 +427,12 @@
         </nav>
       </div>
     </footer>
-    <script src="/assets/js/currency.js" defer></script>
-    <script src="/assets/js/app.js" defer></script>
-    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/mortgage.js" defer></script>
   </body>

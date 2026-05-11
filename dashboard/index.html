@@ -51,9 +51,9 @@
 
       <section class="card">
         <h2>Geo Financial Context</h2>
-        <p class="muted">Selected country: <strong id="dashCountryCode">US</strong> (<span id="dashCountryLabel">United States</span>)</p>
-        <p class="muted" id="dashGeoSummary">Local financial context will appear here.</p>
-        <p class="muted" id="dashGeoComparison">Comparison to global averages will appear here.</p>
+        <p class="muted">Selected country: <strong id="dashCountryCode" data-bind="dashboard_country_code" data-format="text">US</strong> (<span id="dashCountryLabel" data-bind="dashboard_country_label" data-format="text">United States</span>)</p>
+        <p class="muted" id="dashGeoSummary" data-bind="dashboard_geo_summary" data-format="text">Local financial context will appear here.</p>
+        <p class="muted" id="dashGeoComparison" data-bind="dashboard_geo_comparison" data-format="text">Comparison to global averages will appear here.</p>
       </section>
 
       <section class="card">
@@ -93,9 +93,9 @@
             <select id="scenarioCompareB"></select>
           </label>
         </div>
-        <p class="muted" id="scenarioActiveLabel">Active scenario: Baseline</p>
-        <p class="muted"><strong id="scenarioIndicatorName">Baseline</strong></p>
-        <p class="muted" id="scenarioShareLink">Share URL updates automatically when a scenario is active.</p>
+        <p class="muted" id="scenarioActiveLabel" data-bind="dashboard_active_scenario_label" data-format="text">Active scenario: Baseline</p>
+        <p class="muted"><strong id="scenarioIndicatorName" data-bind="dashboard_scenario_indicator_name" data-format="text">Baseline</strong></p>
+        <p class="muted" id="scenarioShareLink" data-bind="dashboard_scenario_share_text" data-format="text">Share URL updates automatically when a scenario is active.</p>
       </section>
 
       <section class="card scenario-saved-panel">
@@ -109,32 +109,32 @@
       <section class="tool-grid">
         <article class="card">
           <h2>Loan Summary</h2>
-          <p class="muted">Total loans tracked: <strong id="dashLoanCount">0</strong></p>
-          <p class="muted">Monthly payments: <strong id="dashLoanMonthly">0.00</strong></p>
-          <p class="muted">Total interest: <strong id="dashLoanInterest">0.00</strong></p>
+          <p class="muted">Total loans tracked: <strong id="dashLoanCount" data-bind="dashboard_loan_count" data-format="number">0</strong></p>
+          <p class="muted">Monthly payments: <strong id="dashLoanMonthly" data-bind="loan_monthly_payment" data-format="currency">0.00</strong></p>
+          <p class="muted">Total interest: <strong id="dashLoanInterest" data-bind="loan_total_interest" data-format="currency">0.00</strong></p>
         </article>
         <article class="card">
           <h2>Mortgage Summary</h2>
-          <p class="muted">Monthly payment: <strong id="dashMortgageMonthly">0.00</strong></p>
-          <p class="muted">Total cost: <strong id="dashMortgageCost">0.00</strong></p>
-          <p class="muted">Affordability vs income: <strong id="dashMortgageAffordability">N/A</strong></p>
+          <p class="muted">Monthly payment: <strong id="dashMortgageMonthly" data-bind="mortgage_monthly_payment" data-format="currency">0.00</strong></p>
+          <p class="muted">Total cost: <strong id="dashMortgageCost" data-bind="mortgage_total_cost" data-format="currency">0.00</strong></p>
+          <p class="muted">Affordability vs income: <strong id="dashMortgageAffordability" data-bind="dashboard_mortgage_affordability" data-format="text">N/A</strong></p>
         </article>
         <article class="card">
           <h2>Car Loan Summary</h2>
-          <p class="muted">Monthly payment: <strong id="dashCarMonthly">0.00</strong></p>
-          <p class="muted">Total ownership cost: <strong id="dashCarCost">0.00</strong></p>
+          <p class="muted">Monthly payment: <strong id="dashCarMonthly" data-bind="car_monthly_payment" data-format="currency">0.00</strong></p>
+          <p class="muted">Total ownership cost: <strong id="dashCarCost" data-bind="car_total_cost" data-format="currency">0.00</strong></p>
         </article>
         <article class="card">
           <h2>Interest Growth</h2>
-          <p class="muted">Projected savings growth: <strong id="dashGrowthProjection">0.00</strong></p>
-          <p class="muted" id="dashGrowthSummary">Waiting for state input from calculators.</p>
+          <p class="muted">Projected savings growth: <strong id="dashGrowthProjection" data-bind="dashboard_growth_projection" data-format="currency">0.00</strong></p>
+          <p class="muted" id="dashGrowthSummary" data-bind="dashboard_growth_summary" data-format="text">Waiting for state input from calculators.</p>
         </article>
       </section>
 
       <section class="card">
         <h2>Affordability Engine</h2>
-        <p class="muted">Obligation ratio: <strong id="dashAffordabilityScore">N/A</strong></p>
-        <p class="muted">Status: <strong id="dashAffordabilityBadge" class="status-green">Safe</strong></p>
+        <p class="muted">Obligation ratio: <strong id="dashAffordabilityScore" data-bind="dashboard_affordability_score" data-format="text">N/A</strong></p>
+        <p class="muted">Status: <strong id="dashAffordabilityBadge" class="status-green" data-bind="dashboard_affordability_badge" data-format="text">Safe</strong></p>
       </section>
 
       <section class="card charts-section">
@@ -166,19 +166,19 @@
         <div class="tool-grid">
           <article class="card">
             <h3>Monthly Payment Difference</h3>
-            <p class="muted"><strong id="scenarioDeltaMonthly">0.00</strong></p>
+            <p class="muted"><strong id="scenarioDeltaMonthly" data-bind="scenario_delta_monthly" data-format="text">0.00</strong></p>
           </article>
           <article class="card">
             <h3>Total Interest Difference</h3>
-            <p class="muted"><strong id="scenarioDeltaInterest">0.00</strong></p>
+            <p class="muted"><strong id="scenarioDeltaInterest" data-bind="scenario_delta_interest" data-format="text">0.00</strong></p>
           </article>
           <article class="card">
             <h3>Payoff Time Difference</h3>
-            <p class="muted"><strong id="scenarioDeltaPayoff">0 mo</strong></p>
+            <p class="muted"><strong id="scenarioDeltaPayoff" data-bind="scenario_delta_payoff" data-format="text">0 mo</strong></p>
           </article>
           <article class="card">
             <h3>Affordability Score Change</h3>
-            <p class="muted"><strong id="scenarioDeltaAffordability">0%</strong></p>
+            <p class="muted"><strong id="scenarioDeltaAffordability" data-bind="scenario_delta_affordability" data-format="text">0%</strong></p>
           </article>
         </div>
         <div class="chart-grid">
@@ -224,11 +224,12 @@
       </div>
     </footer>
 
-    <script src="/assets/js/currency.js" defer></script>
-    <script src="/assets/js/app.js" defer></script>
-    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/scenario-ui.js" defer></script>
     <script src="/assets/js/email-capture.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>

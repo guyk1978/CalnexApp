@@ -57,6 +57,16 @@ const FinancialDashboard = (() => {
   const getShared = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
   const getScenarioEngine = () => (typeof ScenarioEngine !== "undefined" ? ScenarioEngine : null);
   const getGeo = () => (typeof GeoFinance !== "undefined" ? GeoFinance : null);
+  let syncingDerived = false;
+  const setDerivedState = (patch) => {
+    window.AppDerivedState = Object.assign({}, window.AppDerivedState || {}, patch);
+    if (syncingDerived) return;
+    if (typeof UiRenderer !== "undefined" && typeof UiRenderer.renderOutputs === "function") {
+      syncingDerived = true;
+      UiRenderer.renderOutputs();
+      syncingDerived = false;
+    }
+  };
 
   const getTotalMonthlyObligations = (state) =>
     (state.loan_monthly_payment || 0) + (state.mortgage_monthly_payment || 0) + (state.car_monthly_payment || 0);
@@ -70,33 +80,27 @@ const FinancialDashboard = (() => {
     const obligations = getTotalMonthlyObligations(state);
     const obligationRatio = monthlyIncome > 0 ? obligations / monthlyIncome : 0;
 
-    selectors.loanTotalLoans.textContent = String(
-      [loanMonthly, mortgageMonthly, carMonthly].filter((value) => value > 0).length
-    );
-    selectors.loanMonthly.textContent = setCurrency(loanMonthly);
-    selectors.loanInterest.textContent = setCurrency(state.loan_total_interest || 0);
-
-    selectors.mortgageMonthly.textContent = setCurrency(mortgageMonthly);
-    selectors.mortgageCost.textContent = setCurrency(state.mortgage_total_cost || 0);
-    selectors.mortgageAffordability.textContent =
-      monthlyIncome > 0 ? `${setPercent(mortgageMonthly / monthlyIncome)} of monthly income` : "Set income in tools";
-
-    selectors.carMonthly.textContent = setCurrency(carMonthly);
-    selectors.carCost.textContent = setCurrency(state.car_total_cost || 0);
+    const derivedPatch = {
+      dashboard_loan_count: [loanMonthly, mortgageMonthly, carMonthly].filter((value) => value > 0).length,
+      dashboard_mortgage_affordability:
+        monthlyIncome > 0 ? `${setPercent(mortgageMonthly / monthlyIncome)} of monthly income` : "Set income in tools"
+    };
 
     const hasInterestProjection = (state.interest_compound_total || 0) > 0;
     if (hasInterestProjection) {
       const years = state.interest_years || Math.max(1, Math.round((state.loan_term || 120) / 12));
-      selectors.growthProjection.textContent = setCurrency(state.interest_compound_total || 0);
-      selectors.growthSummary.textContent = `${years}-year projection from Interest Calculator (${String(
+      derivedPatch.dashboard_growth_projection = state.interest_compound_total || 0;
+      derivedPatch.dashboard_growth_summary = `${years}-year projection from Interest Calculator (${String(
         state.interest_compounding || "monthly"
       )} compounding).`;
     } else {
       const yearlyContribution = (state.income || 0) * 0.1;
       const yearlyRate = Math.max(0.01, (state.interest_rate || 5) / 100);
       const projection = yearlyContribution * (((1 + yearlyRate) ** 10 - 1) / yearlyRate);
-      selectors.growthProjection.textContent = setCurrency(projection);
-      selectors.growthSummary.textContent = `10-year projection using ${setPercent(yearlyRate)} annual compound rate on 10% income contribution.`;
+      derivedPatch.dashboard_growth_projection = projection;
+      derivedPatch.dashboard_growth_summary = `10-year projection using ${setPercent(
+        yearlyRate
+      )} annual compound rate on 10% income contribution.`;
     }
 
     let scoreLabel = "Safe";
@@ -108,8 +112,8 @@ const FinancialDashboard = (() => {
       scoreLabel = "Caution";
       scoreClass = "status-yellow";
     }
-    selectors.affordabilityScore.textContent = monthlyIncome > 0 ? setPercent(obligationRatio) : "N/A";
-    selectors.affordabilityBadge.textContent = scoreLabel;
+    derivedPatch.dashboard_affordability_score = monthlyIncome > 0 ? setPercent(obligationRatio) : "N/A";
+    derivedPatch.dashboard_affordability_badge = scoreLabel;
     selectors.affordabilityBadge.classList.remove("status-green", "status-yellow", "status-red");
     selectors.affordabilityBadge.classList.add(scoreClass);
 
@@ -118,17 +122,18 @@ const FinancialDashboard = (() => {
       const code = state.selected_country || geo.getSelectedCountry();
       const local = geo.getCountryData(code);
       const globalAvg = geo.getGlobalAverage();
-      selectors.countryCode.textContent = code;
-      selectors.countryLabel.textContent = local.label || code;
-      selectors.geoSummary.textContent = `Avg rate ${setPercent(local.average_interest_rate / 100)}, inflation ${setPercent(
+      derivedPatch.dashboard_country_code = code;
+      derivedPatch.dashboard_country_label = local.label || code;
+      derivedPatch.dashboard_geo_summary = `Avg rate ${setPercent(local.average_interest_rate / 100)}, inflation ${setPercent(
         local.inflation_rate / 100
       )}, avg income ${setCurrency(local.average_income)}, norm term ${local.loan_norm_years} years.`;
       const rateDiff = local.average_interest_rate - globalAvg.average_interest_rate;
       const incomeDiff = local.average_income - globalAvg.average_income;
-      selectors.geoComparison.textContent = `Vs global average: rate ${rateDiff >= 0 ? "+" : ""}${rateDiff.toFixed(
+      derivedPatch.dashboard_geo_comparison = `Vs global average: rate ${rateDiff >= 0 ? "+" : ""}${rateDiff.toFixed(
         2
       )} pts, income ${incomeDiff >= 0 ? "+" : "-"}${setCurrency(Math.abs(incomeDiff))}.`;
     }
+    setDerivedState(derivedPatch);
 
     return { monthlyIncome, obligations, totalInterest, loanMonthly, mortgageMonthly, carMonthly };
   };
@@ -279,10 +284,16 @@ const FinancialDashboard = (() => {
     const scenarioB = selectors.scenarioCompareB.value;
     const comparison = engine.compareScenarios(scenarioA, scenarioB);
     if (!comparison) return;
-    selectors.scenarioDeltaMonthly.textContent = `${comparison.delta.monthlyPayment >= 0 ? "+" : "-"}${setCurrency(Math.abs(comparison.delta.monthlyPayment))}`;
-    selectors.scenarioDeltaInterest.textContent = `${comparison.delta.totalInterest >= 0 ? "+" : "-"}${setCurrency(Math.abs(comparison.delta.totalInterest))}`;
-    selectors.scenarioDeltaPayoff.textContent = formatDelta(comparison.delta.payoffMonths, " mo");
-    selectors.scenarioDeltaAffordability.textContent = formatDelta(comparison.delta.affordabilityRatio * 100, "%");
+    setDerivedState({
+      scenario_delta_monthly: `${comparison.delta.monthlyPayment >= 0 ? "+" : "-"}${setCurrency(
+        Math.abs(comparison.delta.monthlyPayment)
+      )}`,
+      scenario_delta_interest: `${comparison.delta.totalInterest >= 0 ? "+" : "-"}${setCurrency(
+        Math.abs(comparison.delta.totalInterest)
+      )}`,
+      scenario_delta_payoff: formatDelta(comparison.delta.payoffMonths, " mo"),
+      scenario_delta_affordability: formatDelta(comparison.delta.affordabilityRatio * 100, "%")
+    });
     renderScenarioCharts(comparison);
   };
 
@@ -295,8 +306,6 @@ const FinancialDashboard = (() => {
     engine.applyScenario(scenario.id);
     refreshScenarioSelectors();
     renderComparison();
-    selectors.scenarioActiveLabel.textContent = `Active scenario: ${scenario.name}`;
-    selectors.scenarioShareLink.textContent = `Share this scenario: ${window.location.href}`;
   };
 
   const bindScenarioUi = () => {
@@ -306,8 +315,6 @@ const FinancialDashboard = (() => {
     selectors.scenarioModeToggle.addEventListener("change", () => {
       if (!selectors.scenarioModeToggle.checked) {
         engine.resetToBaseline();
-        selectors.scenarioActiveLabel.textContent = "Active scenario: Baseline";
-        selectors.scenarioShareLink.textContent = "Share URL updates automatically when a scenario is active.";
       } else {
         engine.captureBaseline();
       }
@@ -335,15 +342,11 @@ const FinancialDashboard = (() => {
       engine.applyScenario(scenario.id);
       refreshScenarioSelectors();
       renderComparison();
-      selectors.scenarioActiveLabel.textContent = `Active scenario: ${scenario.name}`;
-      selectors.scenarioShareLink.textContent = `Share this scenario: ${window.location.href}`;
     });
 
     selectors.resetScenarioBtn.addEventListener("click", () => {
       engine.resetToBaseline();
       selectors.scenarioModeToggle.checked = false;
-      selectors.scenarioActiveLabel.textContent = "Active scenario: Baseline";
-      selectors.scenarioShareLink.textContent = "Share URL updates automatically when a scenario is active.";
     });
 
     selectors.presetExtra10Btn.addEventListener("click", () => applyPreset("extra_10_percent"));
@@ -367,18 +370,16 @@ const FinancialDashboard = (() => {
     const activeScenario = getShared().scenario;
     if (activeScenario) {
       selectors.scenarioModeToggle.checked = true;
-      const engine = getScenarioEngine();
-      const match = engine ? engine.getScenarios().find((item) => item.id === activeScenario) : null;
-      selectors.scenarioActiveLabel.textContent = `Active scenario: ${match ? match.name : activeScenario}`;
-      selectors.scenarioShareLink.textContent = `Share this scenario: ${window.location.href}`;
     }
-    document.addEventListener("sharedstate:updated", renderAll);
-    document.addEventListener("geo:changed", renderAll);
-    document.addEventListener("currency:changed", renderAll);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
   };
 
-  return { init };
+  const renderFromState = () => {
+    if (document.body.dataset.page !== "dashboard") return;
+    renderAll();
+  };
+
+  return { init, renderFromState };
 })();
 
 window.addEventListener("DOMContentLoaded", FinancialDashboard.init);

@@ -170,6 +170,7 @@ const ScenarioEngine = (() => {
     next.loan_total_repayment = summary.monthlyPayment * summary.payoffMonths;
     setShared(next);
     document.dispatchEvent(new CustomEvent("scenarioengine:applied", { detail: { id: scenario.id, name: scenario.name } }));
+    window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "scenario", scenario: scenario.id } }));
     return { id: scenario.id, name: scenario.name, state: next };
   };
 
@@ -178,6 +179,7 @@ const ScenarioEngine = (() => {
     base.scenario = null;
     setShared(base);
     document.dispatchEvent(new CustomEvent("scenarioengine:applied", { detail: { id: null, name: "Baseline" } }));
+    window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "scenario", scenario: null } }));
     return base;
   };
 

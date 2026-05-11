@@ -44,6 +44,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -52,7 +53,7 @@
   "name": "Loan Calculator",
   "description": "Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/loan-calculator/",
-  "dateModified": "2026-05-11T10:21:17.645Z",
+  "dateModified": "2026-05-11T10:29:44.348Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -116,17 +117,17 @@
       <section class="calculator-layout">
         <form class="card input-card" id="loan-form" aria-label="Loan calculator form">
           <div class="field">
-            <label for="loanAmount">Loan Amount</label>
+            <label for="loanAmount" data-currency-label="loan_amount">Loan Amount</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="loanAmount" name="loanAmount" type="number" min="100" step="100" value="10000" required />
+              <input id="loanAmount" name="loanAmount" data-input-bind="loan_amount" type="number" min="100" step="100" value="10000" required />
             </div>
             <input id="loanAmountSlider" type="range" min="1000" max="500000" step="500" value="10000" />
           </div>
 
           <div class="field">
             <label for="interestRate">Interest Rate (%)</label>
-            <input id="interestRate" name="interestRate" type="number" min="0" max="100" step="0.1" value="5" required />
+            <input id="interestRate" name="interestRate" data-input-bind="interest_rate" type="number" min="0" max="100" step="0.1" value="5" required />
             <input id="interestRateSlider" type="range" min="0" max="25" step="0.1" value="5" />
           </div>
 
@@ -146,11 +147,12 @@
             <button id="toggleAdvanced" type="button" class="btn btn-ghost">Advanced: Extra Payments</button>
             <div id="advancedPanel" class="advanced-panel" aria-hidden="true">
               <div class="field">
-                <label for="extraMonthlyPayment">Extra Monthly Payment</label>
+                <label for="extraMonthlyPayment" data-currency-label="extra_monthly_payment">Extra Monthly Payment</label>
                 <div class="input-with-prefix">
                   <span data-currency-symbol>¤</span>
                   <input
                     id="extraMonthlyPayment"
+                    data-input-bind="extra_payment"
                     name="extraMonthlyPayment"
                     type="number"
                     min="0"
@@ -179,31 +181,31 @@
           <dl class="result-grid">
             <div>
               <dt>Monthly Payment</dt>
-              <dd id="monthlyPayment">0.00</dd>
+              <dd id="monthlyPayment" data-bind="loan_monthly_payment">0.00</dd>
             </div>
             <div>
               <dt>Total Interest</dt>
-              <dd id="totalInterest">0.00</dd>
+              <dd id="totalInterest" data-bind="loan_total_interest">0.00</dd>
             </div>
             <div>
               <dt>Total Repayment</dt>
-              <dd id="totalRepayment">0.00</dd>
+              <dd id="totalRepayment" data-bind="loan_total_repayment">0.00</dd>
             </div>
           </dl>
 
           <div class="comparison-grid">
             <article class="comparison-card">
               <p class="eyebrow">Before Extra Payments</p>
-              <p class="muted">Payoff: <strong id="beforePayoffDate">-</strong></p>
-              <p class="muted">Total Paid: <strong id="beforeTotalPaid">0.00</strong></p>
-              <p class="muted">Total Interest: <strong id="beforeTotalInterest">0.00</strong></p>
+              <p class="muted">Payoff: <strong id="beforePayoffDate" data-bind="loan_before_payoff_date" data-format="text">-</strong></p>
+              <p class="muted">Total Paid: <strong id="beforeTotalPaid" data-bind="loan_base_total_paid">0.00</strong></p>
+              <p class="muted">Total Interest: <strong id="beforeTotalInterest" data-bind="loan_base_total_interest">0.00</strong></p>
             </article>
             <article class="comparison-card">
               <p class="eyebrow">After Extra Payments</p>
-              <p class="muted">Payoff: <strong id="afterPayoffDate">-</strong></p>
-              <p class="muted">Total Paid: <strong id="afterTotalPaid">0.00</strong></p>
-              <p class="muted">Interest Saved: <strong id="interestSaved">0.00</strong></p>
-              <p class="muted">Months Saved: <strong id="monthsSaved">0</strong></p>
+              <p class="muted">Payoff: <strong id="afterPayoffDate" data-bind="loan_after_payoff_date" data-format="text">-</strong></p>
+              <p class="muted">Total Paid: <strong id="afterTotalPaid" data-bind="loan_after_total_paid">0.00</strong></p>
+              <p class="muted">Interest Saved: <strong id="interestSaved" data-bind="loan_interest_saved">0.00</strong></p>
+              <p class="muted">Months Saved: <strong id="monthsSaved" data-bind="loan_months_saved" data-format="number">0</strong></p>
             </article>
           </div>
 
@@ -217,12 +219,12 @@
               <a class="btn btn-ghost share-btn" data-share="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
               <a class="btn btn-ghost share-btn" data-share="twitter" href="#" target="_blank" rel="noopener">Twitter/X</a>
             </div>
-            <p id="copyFeedback" class="copy-feedback" role="status" aria-live="polite"></p>
+            <p id="copyFeedback" class="copy-feedback" role="status" aria-live="polite" data-bind="loan_copy_feedback" data-format="text"></p>
           </div>
         </aside>
       </section>
 
-      <div id="shareToast" class="share-toast" role="status" aria-live="polite">Link copied</div>
+      <div id="shareToast" class="share-toast" role="status" aria-live="polite" data-bind="loan_share_toast_message" data-format="text">Link copied</div>
       <div id="shareModal" class="share-modal" aria-hidden="true">
         <div class="share-modal-card card" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
           <h3 id="shareModalTitle">Shareable Results Link</h3>
@@ -235,7 +237,7 @@
       </div>
 
       <section class="card savings-banner" id="savingsBanner" aria-live="polite">
-        You save <strong id="bannerMonthsSaved">0 months</strong> and <strong id="bannerInterestSaved">0.00</strong> in
+        You save <strong id="bannerMonthsSaved" data-bind="loan_months_saved" data-format="number">0</strong> months and <strong id="bannerInterestSaved" data-bind="loan_interest_saved">0.00</strong> in
         interest.
       </section>
 
@@ -269,15 +271,15 @@
           <div class="amortization-summary">
             <div class="summary-item">
               <span>Total Payments</span>
-              <strong id="summaryTotalPayments">0.00</strong>
+              <strong id="summaryTotalPayments" data-bind="loan_summary_total_payments">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Total Interest</span>
-              <strong id="summaryTotalInterest">0.00</strong>
+              <strong id="summaryTotalInterest" data-bind="loan_summary_total_interest">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Payoff Date</span>
-              <strong id="summaryPayoffDate">-</strong>
+              <strong id="summaryPayoffDate" data-bind="loan_summary_payoff_date" data-format="text">-</strong>
             </div>
           </div>
           <div class="schedule-actions">
@@ -339,6 +341,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -360,6 +363,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -368,6 +372,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
@@ -402,11 +407,12 @@
       </div>
     </footer>
 
-    <script src="/assets/js/currency.js" defer></script>
-    <script src="/assets/js/app.js" defer></script>
-    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/seo.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>

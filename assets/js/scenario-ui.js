@@ -10,6 +10,12 @@ const ScenarioUi = (() => {
 
   const getEngine = () => (typeof ScenarioEngine !== "undefined" ? ScenarioEngine : null);
   const getShared = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
+  const setDerivedState = (patch) => {
+    window.AppDerivedState = Object.assign({}, window.AppDerivedState || {}, patch);
+    if (typeof UiRenderer !== "undefined" && typeof UiRenderer.renderOutputs === "function") {
+      UiRenderer.renderOutputs();
+    }
+  };
 
   const formatDate = (value) => {
     const date = new Date(value);
@@ -22,16 +28,20 @@ const ScenarioUi = (() => {
     if (!engine) return;
     const shared = getShared();
     if (!shared.scenario) {
-      selectors.scenarioActiveLabel.textContent = "Active scenario: Baseline";
-      selectors.scenarioIndicatorName.textContent = "Baseline";
-      selectors.scenarioShareLink.textContent = "Share URL updates automatically when a scenario is active.";
+      setDerivedState({
+        dashboard_active_scenario_label: "Active scenario: Baseline",
+        dashboard_scenario_indicator_name: "Baseline",
+        dashboard_scenario_share_text: "Share URL updates automatically when a scenario is active."
+      });
       return;
     }
     const active = engine.getScenarios().find((item) => item.id === shared.scenario);
     const name = active ? active.name : shared.scenario;
-    selectors.scenarioActiveLabel.textContent = `Active scenario: ${name}`;
-    selectors.scenarioIndicatorName.textContent = name;
-    selectors.scenarioShareLink.textContent = `Share scenario URL: ${window.location.href}`;
+    setDerivedState({
+      dashboard_active_scenario_label: `Active scenario: ${name}`,
+      dashboard_scenario_indicator_name: name,
+      dashboard_scenario_share_text: `Share scenario URL: ${window.location.href}`
+    });
   };
 
   const renderSavedScenarios = () => {

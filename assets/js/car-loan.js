@@ -156,24 +156,36 @@ const CarLoanCalculator = (() => {
     const range = getAffordabilityRange();
     const safeMin = monthlyIncome * range.min;
     const safeMax = monthlyIncome * range.max;
-    selectors.safeMin.textContent = setCurrency(safeMin);
-    selectors.safeMax.textContent = setCurrency(safeMax);
-    selectors.currentPayment.textContent = setCurrency(monthlyPayment);
-
+    let affordabilityStatus = "Add income to evaluate affordability range.";
     selectors.affordabilityStatus.classList.remove("status-green", "status-yellow", "status-red");
     if (monthlyIncome <= 0) {
-      selectors.affordabilityStatus.textContent = "Add income to evaluate affordability range.";
+      if (typeof SharedState !== "undefined") {
+        SharedState.setState({
+          car_safe_min: safeMin,
+          car_safe_max: safeMax,
+          car_current_payment: monthlyPayment,
+          car_affordability_status: affordabilityStatus
+        });
+      }
       return;
     }
     if (monthlyPayment <= safeMax) {
-      selectors.affordabilityStatus.textContent = "Affordable (green): payment is within safe range.";
+      affordabilityStatus = "Affordable (green): payment is within safe range.";
       selectors.affordabilityStatus.classList.add("status-green");
     } else if (monthlyPayment <= safeMax * 1.2) {
-      selectors.affordabilityStatus.textContent = "Stretching (yellow): payment is above safe range.";
+      affordabilityStatus = "Stretching (yellow): payment is above safe range.";
       selectors.affordabilityStatus.classList.add("status-yellow");
     } else {
-      selectors.affordabilityStatus.textContent = "Not affordable (red): payment is significantly above safe range.";
+      affordabilityStatus = "Not affordable (red): payment is significantly above safe range.";
       selectors.affordabilityStatus.classList.add("status-red");
+    }
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        car_safe_min: safeMin,
+        car_safe_max: safeMax,
+        car_current_payment: monthlyPayment,
+        car_affordability_status: affordabilityStatus
+      });
     }
   };
 
@@ -185,9 +197,13 @@ const CarLoanCalculator = (() => {
     const financedB = Math.max(0, priceB - downB);
     const monthlyB = getMonthlyPayment(financedB, rateB, termB);
     const diff = monthlyB - currentMonthly;
-    selectors.compareMonthlyA.textContent = setCurrency(currentMonthly);
-    selectors.compareMonthlyB.textContent = setCurrency(monthlyB);
-    selectors.compareDifference.textContent = `${diff >= 0 ? "+" : "-"}${setCurrency(Math.abs(diff))}`;
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        car_compare_monthly_a: currentMonthly,
+        car_compare_monthly_b: monthlyB,
+        car_compare_difference: diff
+      });
+    }
   };
 
   const updateInsights = (financed, annualRate) => {
@@ -199,8 +215,18 @@ const CarLoanCalculator = (() => {
     const summary72 = summarizeSchedule(schedule72);
     const monthlyDiff = Math.max(0, monthly48 - monthly72);
     const interestDiff = Math.max(0, summary72.totalInterest - summary48.totalInterest);
-    selectors.insight72vs48.textContent = `You pay ${setCurrency(interestDiff)} more in total interest with 72 months vs 48 months, while reducing monthly payment by about ${setCurrency(monthlyDiff)}.`;
-    selectors.insightInterestDiff.textContent = `Interest difference over time: ${setCurrency(interestDiff)} in additional borrowing cost.`;
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        car_insight_72_vs_48: `You pay ${setCurrency(
+          interestDiff
+        )} more in total interest with 72 months vs 48 months, while reducing monthly payment by about ${setCurrency(
+          monthlyDiff
+        )}.`,
+        car_insight_interest_diff: `Interest difference over time: ${setCurrency(
+          interestDiff
+        )} in additional borrowing cost.`
+      });
+    }
   };
 
   const updateSharedState = (financed, annualRate) => {
@@ -218,6 +244,7 @@ const CarLoanCalculator = (() => {
       extra_payment: 0,
       down_payment: downPayment,
       income: parseValue(selectors.annualIncome),
+      car_computed_loan_amount: financed,
       car_monthly_payment: monthlyPayment,
       car_total_interest: summary.totalInterest,
       car_total_cost: carPrice - tradeInValue - downPayment + fees + summary.totalPaid
@@ -232,10 +259,6 @@ const CarLoanCalculator = (() => {
     const schedule = buildSchedule({ principal: financed, annualRate, totalMonths, monthlyPayment });
     const summary = summarizeSchedule(schedule);
 
-    selectors.computedLoanAmount.textContent = setCurrency(financed);
-    selectors.monthlyPayment.textContent = setCurrency(monthlyPayment);
-    selectors.totalInterest.textContent = setCurrency(summary.totalInterest);
-    selectors.totalCost.textContent = setCurrency(carPrice - tradeInValue - downPayment + fees + summary.totalPaid);
     renderSchedule(schedule);
     renderCharts(schedule);
     updateAffordability(monthlyPayment);

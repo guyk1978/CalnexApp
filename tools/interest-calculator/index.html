@@ -38,6 +38,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -46,7 +47,7 @@
   "name": "Interest Calculator",
   "description": "Interest Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/interest-calculator/",
-  "dateModified": "2026-05-11T10:21:17.645Z",
+  "dateModified": "2026-05-11T10:29:44.348Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -100,19 +101,19 @@
         <article class="card">
           <h2>Inputs</h2>
           <div class="field">
-            <label for="interestPrincipal">Principal Amount</label>
+            <label for="interestPrincipal" data-currency-label="principal_amount">Principal Amount</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="interestPrincipal" type="number" min="0" step="100" value="10000" />
+              <input id="interestPrincipal" data-input-bind="interest_principal" type="number" min="0" step="100" value="10000" />
             </div>
           </div>
           <div class="field">
             <label for="interestRate">Interest Rate (%)</label>
-            <input id="interestRate" type="number" min="0" step="0.01" value="5" />
+            <input id="interestRate" data-input-bind="interest_rate" type="number" min="0" step="0.01" value="5" />
           </div>
           <div class="field">
             <label for="interestYears">Time Period (Years)</label>
-            <input id="interestYears" type="number" min="1" step="1" value="10" />
+            <input id="interestYears" data-input-bind="interest_years" type="number" min="1" step="1" value="10" />
           </div>
           <div class="field">
             <label for="interestCompounding">Compounding Frequency</label>
@@ -136,19 +137,19 @@
           <dl class="result-grid">
             <div>
               <dt>Final Amount (Compound)</dt>
-              <dd id="interestFinalAmount">0.00</dd>
+              <dd id="interestFinalAmount" data-bind="interest_final_amount">0.00</dd>
             </div>
             <div>
               <dt>Total Interest Earned</dt>
-              <dd id="interestTotalInterest">0.00</dd>
+              <dd id="interestTotalInterest" data-bind="interest_total_interest">0.00</dd>
             </div>
             <div>
               <dt>Simple Interest Total</dt>
-              <dd id="interestSimpleAmount">0.00</dd>
+              <dd id="interestSimpleAmount" data-bind="interest_simple_total">0.00</dd>
             </div>
             <div>
               <dt>Compound Interest Total</dt>
-              <dd id="interestCompoundAmount">0.00</dd>
+              <dd id="interestCompoundAmount" data-bind="interest_compound_total">0.00</dd>
             </div>
           </dl>
         </article>
@@ -217,6 +218,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -238,6 +240,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -246,6 +249,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
@@ -279,10 +283,11 @@
         </nav>
       </div>
     </footer>
-    <script src="/assets/js/currency.js" defer></script>
-    <script src="/assets/js/app.js" defer></script>
-    <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/interest.js" defer></script>
   </body>
