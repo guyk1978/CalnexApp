@@ -139,6 +139,8 @@
             <h3>Share this calculation</h3>
             <div class="share-actions">
               <button type="button" class="btn btn-ghost share-btn" data-share="copy">Copy Link</button>
+              <button type="button" class="btn btn-primary" id="shareResultsBtn">Share Results</button>
+              <button type="button" class="btn btn-ghost" id="openShareModalBtn">Open Share Link</button>
               <a class="btn btn-ghost share-btn" data-share="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
               <a class="btn btn-ghost share-btn" data-share="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
               <a class="btn btn-ghost share-btn" data-share="twitter" href="#" target="_blank" rel="noopener">Twitter/X</a>
@@ -147,6 +149,18 @@
           </div>
         </aside>
       </section>
+
+      <div id="shareToast" class="share-toast" role="status" aria-live="polite">Link copied</div>
+      <div id="shareModal" class="share-modal" aria-hidden="true">
+        <div class="share-modal-card card" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+          <h3 id="shareModalTitle">Shareable Results Link</h3>
+          <input id="shareModalInput" type="text" readonly />
+          <div class="share-actions">
+            <button id="copyShareModalBtn" type="button" class="btn btn-primary">Copy Link</button>
+            <button id="closeShareModalBtn" type="button" class="btn btn-ghost">Close</button>
+          </div>
+        </div>
+      </div>
 
       <section class="card savings-banner" id="savingsBanner" aria-live="polite">
         You save <strong id="bannerMonthsSaved">0 months</strong> and <strong id="bannerInterestSaved">$0.00</strong> in

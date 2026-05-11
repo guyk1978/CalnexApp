@@ -292,6 +292,62 @@ input[type="range"] {
   color: #1f5e37;
 }
 
+.share-toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 20;
+  padding: 0.7rem 0.95rem;
+  background: #0f5132;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.share-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.share-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 33, 58, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 25;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.share-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.share-modal-card {
+  width: min(560px, 100%);
+}
+
+.share-modal-card h3 {
+  margin-top: 0;
+}
+
+.share-modal-card input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.65rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.85rem;
+}
+
 .amortization-card {
   margin-top: 1.2rem;
 }

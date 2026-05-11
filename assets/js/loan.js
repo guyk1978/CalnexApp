@@ -12,6 +12,13 @@ const LoanCalculator = (() => {
     paymentStartMonth: document.getElementById("paymentStartMonth"),
     toggleAdvanced: document.getElementById("toggleAdvanced"),
     advancedPanel: document.getElementById("advancedPanel"),
+    shareResultsBtn: document.getElementById("shareResultsBtn"),
+    openShareModalBtn: document.getElementById("openShareModalBtn"),
+    shareModal: document.getElementById("shareModal"),
+    shareModalInput: document.getElementById("shareModalInput"),
+    copyShareModalBtn: document.getElementById("copyShareModalBtn"),
+    closeShareModalBtn: document.getElementById("closeShareModalBtn"),
+    shareToast: document.getElementById("shareToast"),
     monthlyPayment: document.getElementById("monthlyPayment"),
     totalInterest: document.getElementById("totalInterest"),
     totalRepayment: document.getElementById("totalRepayment"),
@@ -43,6 +50,7 @@ const LoanCalculator = (() => {
   let acceleratedSchedule = [];
   let principalInterestChartInstance;
   let balanceChartInstance;
+  let toastTimer;
 
   const setCurrency = (value) =>
     new Intl.NumberFormat("en-US", {
@@ -371,13 +379,48 @@ const LoanCalculator = (() => {
     button.textContent = isOpen ? openText : closedText;
   };
 
-  const buildCalculationQuery = () => {
+  const showToast = (message = "Link copied") => {
+    if (!selectors.shareToast) return;
+    selectors.shareToast.textContent = message;
+    selectors.shareToast.classList.add("is-visible");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      selectors.shareToast.classList.remove("is-visible");
+    }, 1800);
+  };
+
+  const serializeInputsToQuery = () => {
     const params = new URLSearchParams();
-    params.set("amount", parseValue(selectors.loanAmount).toFixed(0));
+    params.set("loan", parseValue(selectors.loanAmount).toFixed(0));
     params.set("rate", parseValue(selectors.interestRate).toFixed(2));
     params.set("term", parseValue(selectors.loanTerm).toFixed(0));
     params.set("unit", selectors.termUnit.value);
+    params.set("extra", parseValue(selectors.extraMonthlyPayment).toFixed(0));
+    params.set("lump", parseValue(selectors.lumpSumPayment).toFixed(0));
+    params.set("start", parseValue(selectors.paymentStartMonth).toFixed(0));
     return params.toString();
+  };
+
+  const getShareUrl = () => `${window.location.origin}${window.location.pathname}?${serializeInputsToQuery()}`;
+
+  const copyTextToClipboard = async (text) => {
+    await navigator.clipboard.writeText(text);
+  };
+
+  const openShareModal = () => {
+    const shareUrl = getShareUrl();
+    selectors.shareModalInput.value = shareUrl;
+    selectors.shareModal.classList.add("is-open");
+    selectors.shareModal.setAttribute("aria-hidden", "false");
+  };
+
+  const closeShareModal = () => {
+    selectors.shareModal.classList.remove("is-open");
+    selectors.shareModal.setAttribute("aria-hidden", "true");
+  };
+
+  const buildCalculationQuery = () => {
+    return serializeInputsToQuery();
   };
 
   const updateSeoAndUrl = () => {
@@ -394,7 +437,7 @@ const LoanCalculator = (() => {
   };
 
   const updateShareLinks = () => {
-    const url = window.location.href;
+    const url = getShareUrl();
     const text = encodeURIComponent(document.title);
     const encodedUrl = encodeURIComponent(url);
     document.querySelector('[data-share="whatsapp"]').href = `https://wa.me/?text=${text}%20${encodedUrl}`;
@@ -470,10 +513,13 @@ const LoanCalculator = (() => {
 
   const applyQueryState = () => {
     const params = new URLSearchParams(window.location.search);
-    const amount = params.get("amount");
+    const amount = params.get("loan") || params.get("amount");
     const rate = params.get("rate");
     const term = params.get("term");
     const unit = params.get("unit");
+    const extra = params.get("extra");
+    const lump = params.get("lump");
+    const start = params.get("start");
     if (amount) {
       selectors.loanAmount.value = amount;
       selectors.loanAmountSlider.value = amount;
@@ -489,6 +535,15 @@ const LoanCalculator = (() => {
     if (unit === "years" || unit === "months") {
       selectors.termUnit.value = unit;
       updateTermSliderRange();
+    }
+    if (extra) {
+      selectors.extraMonthlyPayment.value = extra;
+    }
+    if (lump) {
+      selectors.lumpSumPayment.value = lump;
+    }
+    if (start) {
+      selectors.paymentStartMonth.value = start;
     }
   };
 
@@ -516,12 +571,39 @@ const LoanCalculator = (() => {
       if (node.dataset.share !== "copy") return;
       node.addEventListener("click", async () => {
         try {
-          await navigator.clipboard.writeText(window.location.href);
+          await copyTextToClipboard(getShareUrl());
           selectors.copyFeedback.textContent = "Link copied to clipboard.";
+          showToast("Link copied");
         } catch (_error) {
           selectors.copyFeedback.textContent = "Copy failed. Please copy from the address bar.";
         }
       });
+    });
+
+    selectors.shareResultsBtn.addEventListener("click", async () => {
+      try {
+        await copyTextToClipboard(getShareUrl());
+        selectors.copyFeedback.textContent = "Link copied to clipboard.";
+        showToast("Link copied");
+      } catch (_error) {
+        selectors.copyFeedback.textContent = "Copy failed. Please copy from the address bar.";
+      }
+    });
+
+    selectors.openShareModalBtn.addEventListener("click", openShareModal);
+    selectors.copyShareModalBtn.addEventListener("click", async () => {
+      try {
+        await copyTextToClipboard(selectors.shareModalInput.value || getShareUrl());
+        showToast("Link copied");
+      } catch (_error) {
+        showToast("Copy failed");
+      }
+    });
+    selectors.closeShareModalBtn.addEventListener("click", closeShareModal);
+    selectors.shareModal.addEventListener("click", (event) => {
+      if (event.target === selectors.shareModal) {
+        closeShareModal();
+      }
     });
   };
 
