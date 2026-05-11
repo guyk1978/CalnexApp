@@ -180,6 +180,7 @@ const generateSitemap = (entries) => {
   const knownEntries = [...entries];
   const staticPages = [
     { url: "/", type: "static" },
+    { url: "/dashboard/", type: "static" },
     { url: "/tools/", type: "static" },
     { url: "/tools/latest/", type: "static" },
     { url: "/blog/latest/", type: "static" },

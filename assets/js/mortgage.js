@@ -355,6 +355,19 @@ const MortgageCalculator = (() => {
     renderCharts();
     updateAffordability(monthlyMortgagePayment);
     updateComparison(loanAmount, annualRate);
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        loan_amount: loanAmount,
+        interest_rate: annualRate,
+        loan_term: parseValue(selectors.loanTerm),
+        extra_payment: parseValue(selectors.extraMonthlyPayment),
+        down_payment: Math.max(0, homePrice - loanAmount),
+        income: parseValue(selectors.annualIncome),
+        mortgage_monthly_payment: monthlyMortgagePayment,
+        mortgage_total_interest: summary.totalInterest,
+        mortgage_total_cost: totalHomeCost
+      });
+    }
   };
 
   const togglePanel = (panel, button, closedText, openText) => {
@@ -403,11 +416,35 @@ const MortgageCalculator = (() => {
     });
   };
 
+  const applySharedStateInputs = () => {
+    if (typeof SharedState === "undefined") return;
+    const shared = SharedState.getState();
+    if (shared.loan_amount !== undefined && shared.down_payment !== undefined) {
+      selectors.downPaymentType.value = "fixed";
+      selectors.downPaymentAmount.value = String(shared.down_payment);
+      selectors.homePrice.value = String(shared.loan_amount + shared.down_payment);
+    } else if (shared.loan_amount !== undefined) {
+      selectors.homePrice.value = String(shared.loan_amount);
+    }
+    if (shared.interest_rate !== undefined) selectors.interestRate.value = String(shared.interest_rate);
+    if (shared.loan_term !== undefined) selectors.loanTerm.value = String(shared.loan_term);
+    if (shared.extra_payment !== undefined) selectors.extraMonthlyPayment.value = String(shared.extra_payment);
+    if (shared.income !== undefined) selectors.annualIncome.value = String(shared.income);
+    SharedState.refreshToolLinks();
+  };
+
   const init = () => {
     if (document.body.dataset.page !== "mortgage-calculator") return;
-    selectors.downPaymentAmount.closest(".field").style.display = "none";
+    applySharedStateInputs();
+    const isPercent = selectors.downPaymentType.value === "percent";
+    selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
+    selectors.downPaymentAmount.closest(".field").style.display = isPercent ? "none" : "";
     bindEvents();
     updateResultUI();
+    document.addEventListener("sharedstate:updated", () => {
+      applySharedStateInputs();
+      updateResultUI();
+    });
   };
 
   return { init };

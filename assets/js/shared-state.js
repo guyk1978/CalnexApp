@@ -1,0 +1,133 @@
+const SharedState = (() => {
+  const fields = [
+    "loan_amount",
+    "interest_rate",
+    "loan_term",
+    "extra_payment",
+    "down_payment",
+    "income",
+    "loan_monthly_payment",
+    "loan_total_interest",
+    "loan_total_repayment",
+    "mortgage_monthly_payment",
+    "mortgage_total_interest",
+    "mortgage_total_cost",
+    "car_monthly_payment",
+    "car_total_interest",
+    "car_total_cost",
+    "scenario"
+  ];
+  const state = {};
+
+  const toNumber = (value) => {
+    if (value === null || value === undefined || value === "") return undefined;
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  };
+
+  const normalizeState = (raw = {}) => {
+    const normalized = {};
+    fields.forEach((key) => {
+      if (key === "scenario") {
+        const value = raw[key];
+        if (value !== undefined && value !== null && value !== "") {
+          normalized[key] = String(value);
+        }
+        return;
+      }
+      const numeric = toNumber(raw[key]);
+      if (numeric !== undefined) normalized[key] = numeric;
+    });
+    return normalized;
+  };
+
+  const parseFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    const seed = {
+      loan_amount: params.get("loan_amount") || params.get("loan") || params.get("amount"),
+      interest_rate: params.get("interest_rate") || params.get("rate"),
+      loan_term: params.get("loan_term") || params.get("term"),
+      extra_payment: params.get("extra_payment") || params.get("extra"),
+      down_payment: params.get("down_payment"),
+      income: params.get("income"),
+      scenario: params.get("scenario")
+    };
+    fields.forEach((field) => {
+      if (!(field in seed)) {
+        seed[field] = params.get(field);
+      }
+    });
+    return normalizeState(seed);
+  };
+
+  const toQuery = (snapshot = state) => {
+    const params = new URLSearchParams();
+    fields.forEach((key) => {
+      if (key === "scenario") {
+        if (snapshot.scenario) params.set("scenario", String(snapshot.scenario));
+        return;
+      }
+      const value = toNumber(snapshot[key]);
+      if (value !== undefined && value >= 0) {
+        params.set(key, String(value));
+      }
+    });
+    return params.toString();
+  };
+
+  const replaceUrl = () => {
+    const query = toQuery(state);
+    const nextUrl = query ? `${window.location.pathname}?${query}${window.location.hash}` : `${window.location.pathname}${window.location.hash}`;
+    window.history.replaceState({}, "", nextUrl);
+  };
+
+  const refreshToolLinks = () => {
+    const query = toQuery(state);
+    document.querySelectorAll("[data-shared-link]").forEach((node) => {
+      const target = node.getAttribute("data-target-path");
+      if (!target) return;
+      const href = query ? `${target}?${query}` : target;
+      node.setAttribute("href", href);
+    });
+  };
+
+  const setState = (partial = {}, options = { syncUrl: true }) => {
+    const next = normalizeState(partial);
+    if ("scenario" in partial) {
+      if (partial.scenario === null || partial.scenario === "") {
+        delete state.scenario;
+      } else {
+        state.scenario = String(partial.scenario);
+      }
+    }
+    Object.assign(state, next);
+    fields.forEach((key) => {
+      if (!(key in next) && partial[key] === null) delete state[key];
+    });
+    if (options.syncUrl !== false) replaceUrl();
+    refreshToolLinks();
+    document.dispatchEvent(new CustomEvent("sharedstate:updated", { detail: { ...state } }));
+    return { ...state };
+  };
+
+  const getState = () => ({ ...state });
+
+  const getCurrentUrl = () => {
+    const query = toQuery(state);
+    return `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ""}`;
+  };
+
+  Object.assign(state, parseFromUrl());
+
+  window.addEventListener("DOMContentLoaded", () => {
+    refreshToolLinks();
+  });
+
+  return {
+    fields,
+    getState,
+    setState,
+    refreshToolLinks,
+    getCurrentUrl
+  };
+})();

@@ -524,6 +524,18 @@ const LoanCalculator = (() => {
   };
 
   const serializeInputsToQuery = () => {
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState(
+        {
+          loan_amount: parseValue(selectors.loanAmount),
+          interest_rate: parseValue(selectors.interestRate),
+          loan_term: parseValue(selectors.loanTerm),
+          extra_payment: parseValue(selectors.extraMonthlyPayment)
+        },
+        { syncUrl: false }
+      );
+      return new URL(SharedState.getCurrentUrl()).search.slice(1);
+    }
     const params = new URLSearchParams();
     params.set("loan", parseValue(selectors.loanAmount).toFixed(0));
     params.set("rate", parseValue(selectors.interestRate).toFixed(2));
@@ -535,7 +547,10 @@ const LoanCalculator = (() => {
     return params.toString();
   };
 
-  const getShareUrl = () => `${window.location.origin}${window.location.pathname}?${serializeInputsToQuery()}`;
+  const getShareUrl = () =>
+    typeof SharedState !== "undefined"
+      ? SharedState.getCurrentUrl()
+      : `${window.location.origin}${window.location.pathname}?${serializeInputsToQuery()}`;
 
   const copyTextToClipboard = async (text) => {
     await navigator.clipboard.writeText(text);
@@ -558,8 +573,20 @@ const LoanCalculator = (() => {
   };
 
   const updateSeoAndUrl = () => {
-    const nextUrl = `${window.location.pathname}?${buildCalculationQuery()}`;
-    window.history.replaceState({}, "", nextUrl);
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState({
+        loan_amount: parseValue(selectors.loanAmount),
+        interest_rate: parseValue(selectors.interestRate),
+        loan_term: parseValue(selectors.loanTerm),
+        extra_payment: parseValue(selectors.extraMonthlyPayment),
+        loan_monthly_payment: monthlyPayment,
+        loan_total_interest: acceleratedSummary.totalInterest,
+        loan_total_repayment: acceleratedSummary.totalPaid
+      });
+    } else {
+      const nextUrl = `${window.location.pathname}?${buildCalculationQuery()}`;
+      window.history.replaceState({}, "", nextUrl);
+    }
     if (typeof SeoModule !== "undefined") {
       SeoModule.setLoanMeta({
         amountText: setCurrency(parseValue(selectors.loanAmount)),
@@ -646,12 +673,13 @@ const LoanCalculator = (() => {
   };
 
   const applyQueryState = () => {
+    const shared = typeof SharedState !== "undefined" ? SharedState.getState() : {};
     const params = new URLSearchParams(window.location.search);
-    const amount = params.get("loan") || params.get("amount");
-    const rate = params.get("rate");
-    const term = params.get("term");
+    const amount = shared.loan_amount || params.get("loan") || params.get("amount");
+    const rate = shared.interest_rate || params.get("rate");
+    const term = shared.loan_term || params.get("term");
     const unit = params.get("unit");
-    const extra = params.get("extra");
+    const extra = shared.extra_payment || params.get("extra");
     const lump = params.get("lump");
     const start = params.get("start");
     if (amount) {
@@ -746,8 +774,13 @@ const LoanCalculator = (() => {
   const init = () => {
     if (!document.body.dataset.page || document.body.dataset.page !== "loan-calculator") return;
     applyQueryState();
+    if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     bindEvents();
     updateResultUI();
+    document.addEventListener("sharedstate:updated", () => {
+      applyQueryState();
+      updateResultUI();
+    });
   };
 
   return { init };

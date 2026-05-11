@@ -3,31 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Car Loan Calculator - CalnexApp</title>
+    <title>Car Loan Calculator & Affordability Assistant | CalnexApp</title>
     <meta
       name="description"
-      content="Car loan calculator coming soon on CalnexApp. Compare monthly payment and financing cost options."
+      content="Evaluate car financing with monthly payment, total interest, affordability range, and side-by-side scenario comparison."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Car Loan Calculator - CalnexApp" />
+    <meta property="og:title" content="Car Loan Calculator & Affordability Assistant | CalnexApp" />
+    <meta
+      property="og:description"
+      content="Compare car financing scenarios, understand interest over time, and decide confidently before purchase."
+    />
     <meta property="og:url" content="https://calnexapp.com/tools/car-loan-calculator/" />
+    <meta property="og:site_name" content="CalnexApp" />
     <link rel="canonical" href="https://calnexapp.com/tools/car-loan-calculator/" />
     <link rel="stylesheet" href="/assets/css/style.css" />
-      <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-MMLPFGBR27');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
+    </script>
   
-    
-    
-    
-    
-    
-    
     
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
@@ -37,7 +38,7 @@
   "name": "Car Loan Calculator",
   "description": "Car Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/car-loan-calculator/",
-  "dateModified": "2026-05-11T09:27:18.084Z",
+  "dateModified": "2026-05-11T09:43:38.738Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -66,7 +67,7 @@
     </script>
     <!-- SEO_ENGINE_SCHEMA_END -->
   </head>
-  <body>
+  <body data-page="car-loan-calculator">
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
@@ -84,22 +85,240 @@
       <section class="page-title">
         <p class="eyebrow">Tool</p>
         <h1>Car Loan Calculator</h1>
-        <p>Feature in progress. Launching soon.</p>
+        <p>Financial decision assistant for monthly affordability, term trade-offs, and smarter car financing.</p>
       </section>
+
       <section class="card">
-        <p>
-          This calculator will support down payment, trade-in value, and loan term comparisons for vehicle
-          financing decisions.
-        </p>
+        <h2>Cross-Tool Navigation</h2>
+        <div class="share-actions">
+          <a class="btn btn-ghost" data-shared-link data-target-path="/dashboard/" href="/dashboard/">Open Dashboard</a>
+          <a
+            class="btn btn-ghost"
+            data-shared-link
+            data-target-path="/tools/mortgage-calculator/"
+            href="/tools/mortgage-calculator/"
+            >Switch to Mortgage Calculator</a
+          >
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/"
+            >Compare Loan Scenarios</a
+          >
+          <a
+            class="btn btn-ghost"
+            data-shared-link
+            data-target-path="/tools/mortgage-calculator/"
+            href="/tools/mortgage-calculator/"
+            >Check Affordability</a
+          >
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/"
+            >Optimize Payments</a
+          >
+        </div>
       </section>
+
+      <section class="calculator-layout">
+        <form class="card input-card" aria-label="Car loan form">
+          <div class="field">
+            <label for="carPrice">Car Price</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="carPrice" type="number" min="1000" step="500" value="35000" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="carDownPaymentType">Down Payment Type</label>
+            <select id="carDownPaymentType">
+              <option value="percent" selected>Percentage</option>
+              <option value="fixed">Fixed Amount</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="carDownPaymentPercent">Down Payment (%)</label>
+            <input id="carDownPaymentPercent" type="number" min="0" max="100" step="0.1" value="10" />
+          </div>
+
+          <div class="field">
+            <label for="carDownPaymentAmount">Down Payment ($)</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="carDownPaymentAmount" type="number" min="0" step="250" value="3500" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="tradeInValue">Trade-in Value (optional)</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="tradeInValue" type="number" min="0" step="250" value="0" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="carFees">Fees (optional)</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="carFees" type="number" min="0" step="100" value="500" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="carInterestRate">Interest Rate (%)</label>
+            <input id="carInterestRate" type="number" min="0" max="30" step="0.01" value="6.9" />
+          </div>
+
+          <div class="field">
+            <label for="carLoanTerm">Loan Term</label>
+            <div class="term-group">
+              <input id="carLoanTerm" type="number" min="12" step="1" value="60" />
+              <select id="carTermUnit">
+                <option value="months" selected>Months</option>
+                <option value="years">Years</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Financed Amount (Auto)</label>
+            <p id="carComputedLoanAmount" class="btn-ghost" style="padding: 0.6rem 0.7rem; border-radius: 10px">$0.00</p>
+          </div>
+        </form>
+
+        <aside class="card output-card">
+          <h2>Car Loan Results</h2>
+          <dl class="result-grid">
+            <div>
+              <dt>Monthly Car Loan Payment</dt>
+              <dd id="carMonthlyPayment">$0.00</dd>
+            </div>
+            <div>
+              <dt>Total Interest Paid</dt>
+              <dd id="carTotalInterestPaid">$0.00</dd>
+            </div>
+            <div>
+              <dt>Total Cost of Vehicle</dt>
+              <dd id="carTotalVehicleCost">$0.00</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="card">
+        <h2>Affordability System (15% - 20% Rule)</h2>
+        <div class="field">
+          <label for="carAnnualIncome">Annual Income</label>
+          <div class="input-with-prefix">
+            <span>$</span>
+            <input id="carAnnualIncome" type="number" min="0" step="1000" value="72000" />
+          </div>
+        </div>
+        <p class="muted">Safe monthly range: <strong id="carSafeMin">$0.00</strong> to <strong id="carSafeMax">$0.00</strong></p>
+        <p class="muted">Your estimated payment: <strong id="carCurrentPayment">$0.00</strong></p>
+        <p id="carAffordabilityStatus" class="muted">Add income to evaluate affordability range.</p>
+      </section>
+
+      <section class="card">
+        <h2>Compare 2 Car Scenarios</h2>
+        <div class="comparison-grid">
+          <article class="comparison-card">
+            <p class="eyebrow">Scenario B Inputs</p>
+            <div class="field">
+              <label for="compareCarPriceB">Car B Price</label>
+              <input id="compareCarPriceB" type="number" min="0" step="500" value="42000" />
+            </div>
+            <div class="field">
+              <label for="compareDownB">Car B Down Payment</label>
+              <input id="compareDownB" type="number" min="0" step="250" value="4000" />
+            </div>
+            <div class="field">
+              <label for="compareRateB">Car B Interest Rate (%)</label>
+              <input id="compareRateB" type="number" min="0" step="0.01" value="7.3" />
+            </div>
+            <div class="field">
+              <label for="compareTermB">Car B Term (months)</label>
+              <input id="compareTermB" type="number" min="12" step="1" value="72" />
+            </div>
+          </article>
+          <article class="comparison-card">
+            <p class="eyebrow">Monthly Cost Comparison</p>
+            <p class="muted">Car A Monthly: <strong id="compareMonthlyA">$0.00</strong></p>
+            <p class="muted">Car B Monthly: <strong id="compareMonthlyB">$0.00</strong></p>
+            <p class="muted">Difference: <strong id="compareDifference">$0.00</strong></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Financing Insights</h2>
+        <p class="muted" id="insight72vs48">You will pay more with longer terms due to compounding interest.</p>
+        <p class="muted" id="insightInterestDiff">Interest difference over time appears after first calculation.</p>
+      </section>
+
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Insights</p>
+          <h2>Car Loan Visual Breakdown</h2>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Principal vs Interest</h3>
+            <div class="chart-wrap">
+              <canvas id="carPrincipalInterestChart"></canvas>
+            </div>
+          </article>
+          <article class="card chart-card">
+            <h3>Remaining Balance</h3>
+            <div class="chart-wrap">
+              <canvas id="carBalanceChart"></canvas>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card amortization-card">
+        <div class="amortization-header">
+          <h2>Amortization Schedule</h2>
+          <button id="toggleCarSchedule" type="button" class="btn btn-ghost">Show amortization schedule</button>
+        </div>
+        <div id="carSchedulePanel" class="schedule-panel" aria-hidden="true">
+          <div class="schedule-table-wrap">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Payment</th>
+                  <th>Principal</th>
+                  <th>Interest</th>
+                  <th>Remaining Balance</th>
+                </tr>
+              </thead>
+              <tbody id="carScheduleBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Car Financing FAQ</h2>
+        <details>
+          <summary>How do trade-in and down payment affect monthly cost?</summary>
+          <p>Both reduce the financed balance, which lowers monthly payment and total interest.</p>
+        </details>
+        <details>
+          <summary>Is a 72-month term always better because payment is lower?</summary>
+          <p>Not always. Longer terms usually increase total interest, even if monthly payment is lower.</p>
+        </details>
+        <details>
+          <summary>Can I compare this with other borrowing options?</summary>
+          <p>
+            Yes, use both <a href="/tools/loan-calculator/">Loan Calculator</a> and
+            <a href="/tools/mortgage-calculator/">Mortgage Calculator</a> for broader planning.
+          </p>
+        </details>
+      </section>
+
       <section class="card" data-related-tools data-current-tool="car-loan-calculator"></section>
     
-      
-      
-      
-      
-      
-      
       
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
@@ -111,8 +330,6 @@
       <!-- SEO_ENGINE_RELATED_END -->
 
       
-      
-      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -121,8 +338,6 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
-      
-      
       
       <!-- RANK_TOOL_COMPARISON_START -->
       <section class="card">
@@ -146,5 +361,9 @@
       </div>
     </footer>
     <script src="/assets/js/app.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
+    <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="/assets/js/car-loan.js" defer></script>
   </body>
 </html>

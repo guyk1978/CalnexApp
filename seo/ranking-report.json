@@ -1,25 +1,12 @@
 {
-  "generated_at": "2026-05-11T09:30:29.524Z",
+  "generated_at": "2026-05-11T09:44:17.405Z",
   "summary": {
     "total_pages": 59,
-    "pages_need_improvement": 1,
-    "pages_high_potential": 54,
+    "pages_need_improvement": 0,
+    "pages_high_potential": 55,
     "top_performing_pages": 4
   },
-  "pages_need_improvement": [
-    {
-      "url": "/tools/car-loan-calculator/",
-      "type": "tool",
-      "title": "Car Loan Calculator",
-      "metrics": {
-        "keyword_coverage": 75,
-        "internal_links_count": 15,
-        "content_depth_words": 109,
-        "intent_match_score": 65
-      },
-      "ranking_score": 64
-    }
-  ],
+  "pages_need_improvement": [],
   "pages_high_potential": [
     {
       "url": "/tools/loan-calculator/",
@@ -27,11 +14,11 @@
       "title": "Loan Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 16,
-        "content_depth_words": 245,
+        "internal_links_count": 25,
+        "content_depth_words": 271,
         "intent_match_score": 100
       },
-      "ranking_score": 82
+      "ranking_score": 83
     },
     {
       "url": "/tools/mortgage-calculator/",
@@ -39,11 +26,23 @@
       "title": "Mortgage Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 20,
-        "content_depth_words": 347,
+        "internal_links_count": 29,
+        "content_depth_words": 373,
         "intent_match_score": 65
       },
       "ranking_score": 78
+    },
+    {
+      "url": "/tools/car-loan-calculator/",
+      "type": "tool",
+      "title": "Car Loan Calculator",
+      "metrics": {
+        "keyword_coverage": 75,
+        "internal_links_count": 22,
+        "content_depth_words": 339,
+        "intent_match_score": 65
+      },
+      "ranking_score": 70
     },
     {
       "url": "/tools/interest-calculator/",
@@ -51,11 +50,11 @@
       "title": "Interest Calculator",
       "metrics": {
         "keyword_coverage": 75,
-        "internal_links_count": 12,
-        "content_depth_words": 95,
+        "internal_links_count": 16,
+        "content_depth_words": 108,
         "intent_match_score": 100
       },
-      "ranking_score": 69
+      "ranking_score": 71
     },
     {
       "url": "/blog/how-extra-payments-save-money/",
@@ -368,18 +367,6 @@
         "intent_match_score": 100
       },
       "ranking_score": 65
-    },
-    {
-      "url": "/tools/loan-calculator/200000-loan-at-4-5-percent-for-30-years/",
-      "type": "seo",
-      "title": "$200,000 loan at 4.5% for 30 years",
-      "metrics": {
-        "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
-        "intent_match_score": 100
-      },
-      "ranking_score": 65
     }
   ],
   "top_performing_pages": [
@@ -487,11 +474,11 @@
       "title": "Loan Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 16,
-        "content_depth_words": 245,
+        "internal_links_count": 25,
+        "content_depth_words": 271,
         "intent_match_score": 100
       },
-      "ranking_score": 82
+      "ranking_score": 83
     },
     {
       "url": "/tools/mortgage-calculator/",
@@ -499,8 +486,8 @@
       "title": "Mortgage Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 20,
-        "content_depth_words": 347,
+        "internal_links_count": 29,
+        "content_depth_words": 373,
         "intent_match_score": 65
       },
       "ranking_score": 78
@@ -523,11 +510,23 @@
       "title": "Interest Calculator",
       "metrics": {
         "keyword_coverage": 75,
-        "internal_links_count": 12,
-        "content_depth_words": 95,
+        "internal_links_count": 16,
+        "content_depth_words": 108,
         "intent_match_score": 100
       },
-      "ranking_score": 69
+      "ranking_score": 71
+    },
+    {
+      "url": "/tools/car-loan-calculator/",
+      "type": "tool",
+      "title": "Car Loan Calculator",
+      "metrics": {
+        "keyword_coverage": 75,
+        "internal_links_count": 22,
+        "content_depth_words": 339,
+        "intent_match_score": 65
+      },
+      "ranking_score": 70
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/",
@@ -1128,18 +1127,6 @@
         "intent_match_score": 100
       },
       "ranking_score": 65
-    },
-    {
-      "url": "/tools/car-loan-calculator/",
-      "type": "tool",
-      "title": "Car Loan Calculator",
-      "metrics": {
-        "keyword_coverage": 75,
-        "internal_links_count": 15,
-        "content_depth_words": 109,
-        "intent_match_score": 65
-      },
-      "ranking_score": 64
     }
   ],
   "missing_keyword_opportunities": [

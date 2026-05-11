@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Dashboard | CalnexApp</title>
+    <meta
+      name="description"
+      content="Unified financial dashboard for loan, mortgage, and car financing snapshots with affordability scoring and visual insights."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Financial Dashboard | CalnexApp" />
+    <meta
+      property="og:description"
+      content="Track monthly obligations, affordability, and interest burden across all CalnexApp calculators in one place."
+    />
+    <meta property="og:url" content="https://calnexapp.com/dashboard/" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <link rel="canonical" href="https://calnexapp.com/dashboard/" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
+    </script>
+  </head>
+  <body data-page="dashboard">
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/dashboard/" data-nav-link>Dashboard</a>
+          <a href="/tools/loan-calculator/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section-space">
+      <section class="page-title">
+        <p class="eyebrow">Control Center</p>
+        <h1>Unified Financial Dashboard</h1>
+        <p>Aggregate all calculator outputs into one connected snapshot for smarter decisions.</p>
+      </section>
+
+      <section class="card">
+        <h2>Navigate with Prefilled State</h2>
+        <div class="share-actions">
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Open Loan Calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Open Mortgage Calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/car-loan-calculator/" href="/tools/car-loan-calculator/">Open Car Loan Calculator</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="page-title">
+          <p class="eyebrow">Scenario Mode</p>
+          <h2>What-If Simulation</h2>
+          <p>Create, apply, and compare scenarios across all calculators and this dashboard.</p>
+        </div>
+        <div class="share-actions">
+          <label class="muted" for="scenarioModeToggle">
+            <input type="checkbox" id="scenarioModeToggle" />
+            Enable Scenario Mode
+          </label>
+          <button class="btn btn-primary" id="createScenarioBtn" type="button">Create Scenario</button>
+          <button class="btn btn-primary" id="saveScenarioBtn" type="button">Save Scenario</button>
+          <button class="btn btn-ghost" id="resetScenarioBtn" type="button">Reset Baseline</button>
+        </div>
+        <div class="share-actions">
+          <button class="btn btn-ghost" id="presetExtra10Btn" type="button">Pay extra 10%</button>
+          <button class="btn btn-ghost" id="presetReduceTermBtn" type="button">Reduce loan term</button>
+          <button class="btn btn-ghost" id="presetRefinanceBtn" type="button">Refinance lower rate</button>
+        </div>
+        <div class="tool-grid">
+          <label class="muted" for="scenarioCompareA">Compare A
+            <select id="scenarioCompareA"></select>
+          </label>
+          <label class="muted" for="scenarioCompareB">Compare B
+            <select id="scenarioCompareB"></select>
+          </label>
+        </div>
+        <p class="muted" id="scenarioActiveLabel">Active scenario: Baseline</p>
+        <p class="muted"><strong id="scenarioIndicatorName">Baseline</strong></p>
+        <p class="muted" id="scenarioShareLink">Share URL updates automatically when a scenario is active.</p>
+      </section>
+
+      <section class="card scenario-saved-panel">
+        <div class="page-title">
+          <p class="eyebrow">Saved Scenarios</p>
+          <h2>Manage and Reuse</h2>
+        </div>
+        <div id="savedScenariosList" class="scenario-list"></div>
+      </section>
+
+      <section class="tool-grid">
+        <article class="card">
+          <h2>Loan Summary</h2>
+          <p class="muted">Total loans tracked: <strong id="dashLoanCount">0</strong></p>
+          <p class="muted">Monthly payments: <strong id="dashLoanMonthly">$0.00</strong></p>
+          <p class="muted">Total interest: <strong id="dashLoanInterest">$0.00</strong></p>
+        </article>
+        <article class="card">
+          <h2>Mortgage Summary</h2>
+          <p class="muted">Monthly payment: <strong id="dashMortgageMonthly">$0.00</strong></p>
+          <p class="muted">Total cost: <strong id="dashMortgageCost">$0.00</strong></p>
+          <p class="muted">Affordability vs income: <strong id="dashMortgageAffordability">N/A</strong></p>
+        </article>
+        <article class="card">
+          <h2>Car Loan Summary</h2>
+          <p class="muted">Monthly payment: <strong id="dashCarMonthly">$0.00</strong></p>
+          <p class="muted">Total ownership cost: <strong id="dashCarCost">$0.00</strong></p>
+        </article>
+        <article class="card">
+          <h2>Interest Growth</h2>
+          <p class="muted">Projected savings growth: <strong id="dashGrowthProjection">$0.00</strong></p>
+          <p class="muted" id="dashGrowthSummary">Waiting for state input from calculators.</p>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2>Affordability Engine</h2>
+        <p class="muted">Obligation ratio: <strong id="dashAffordabilityScore">N/A</strong></p>
+        <p class="muted">Status: <strong id="dashAffordabilityBadge" class="status-green">Safe</strong></p>
+      </section>
+
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Visualization</p>
+          <h2>Financial Snapshot Charts</h2>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Total Debt vs Income</h3>
+            <div class="chart-wrap"><canvas id="dashDebtIncomeChart"></canvas></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Monthly Obligations Breakdown</h3>
+            <div class="chart-wrap"><canvas id="dashObligationsChart"></canvas></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Interest Burden Visualization</h3>
+            <div class="chart-wrap"><canvas id="dashInterestBurdenChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Scenario Comparison</p>
+          <h2>Delta and Timeline View</h2>
+        </div>
+        <div class="tool-grid">
+          <article class="card">
+            <h3>Monthly Payment Difference</h3>
+            <p class="muted"><strong id="scenarioDeltaMonthly">$0.00</strong></p>
+          </article>
+          <article class="card">
+            <h3>Total Interest Difference</h3>
+            <p class="muted"><strong id="scenarioDeltaInterest">$0.00</strong></p>
+          </article>
+          <article class="card">
+            <h3>Payoff Time Difference</h3>
+            <p class="muted"><strong id="scenarioDeltaPayoff">0 mo</strong></p>
+          </article>
+          <article class="card">
+            <h3>Affordability Score Change</h3>
+            <p class="muted"><strong id="scenarioDeltaAffordability">0%</strong></p>
+          </article>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Side-by-Side Comparison</h3>
+            <div class="chart-wrap"><canvas id="scenarioComparisonChart"></canvas></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Timeline Impact</h3>
+            <div class="chart-wrap"><canvas id="scenarioTimelineChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="/tools/loan-calculator/">Loan</a>
+          <a href="/tools/mortgage-calculator/">Mortgage</a>
+          <a href="/tools/car-loan-calculator/">Car Loan</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="/assets/js/app.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
+    <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="/assets/js/scenario-ui.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="/assets/js/dashboard.js" defer></script>
+  </body>
+</html>
