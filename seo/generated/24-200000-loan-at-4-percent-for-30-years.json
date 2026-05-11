@@ -1,0 +1,5 @@
+{
+  "loan_amount": 200000,
+  "interest_rate": 4,
+  "loan_term": 30
+}
