@@ -15,6 +15,8 @@ const LoanCalculator = (() => {
     summaryPayoffDate: document.getElementById("summaryPayoffDate"),
     scheduleBody: document.getElementById("scheduleBody"),
     schedulePanel: document.getElementById("schedulePanel"),
+    principalInterestChart: document.getElementById("principalInterestChart"),
+    balanceChart: document.getElementById("balanceChart"),
     toggleSchedule: document.getElementById("toggleSchedule"),
     downloadCsv: document.getElementById("downloadCsv"),
     printSchedule: document.getElementById("printSchedule"),
@@ -22,6 +24,8 @@ const LoanCalculator = (() => {
     shareButtons: document.querySelectorAll("[data-share]")
   };
   let latestSchedule = [];
+  let principalInterestChartInstance;
+  let balanceChartInstance;
 
   const setCurrency = (value) =>
     new Intl.NumberFormat("en-US", {
@@ -127,6 +131,105 @@ const LoanCalculator = (() => {
     selectors.summaryTotalPayments.textContent = setCurrency(totalPayments);
     selectors.summaryTotalInterest.textContent = setCurrency(totalInterest);
     selectors.summaryPayoffDate.textContent = schedule.length ? getPayoffDate(schedule.length) : "-";
+  };
+
+  const getChartOptions = () => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: "index",
+      intersect: false
+    },
+    plugins: {
+      legend: {
+        position: "top"
+      },
+      tooltip: {
+        enabled: true
+      }
+    },
+    animation: {
+      duration: 450
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Month"
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Amount (USD)"
+        },
+        ticks: {
+          callback: (value) => `$${Number(value).toLocaleString("en-US")}`
+        }
+      }
+    }
+  });
+
+  const renderCharts = (schedule) => {
+    if (!window.Chart || !selectors.principalInterestChart || !selectors.balanceChart) {
+      return;
+    }
+
+    const labels = schedule.map((row) => row.month);
+    const principalSeries = schedule.map((row) => Number(row.principal.toFixed(2)));
+    const interestSeries = schedule.map((row) => Number(row.interest.toFixed(2)));
+    const balanceSeries = schedule.map((row) => Number(row.balance.toFixed(2)));
+
+    if (principalInterestChartInstance) {
+      principalInterestChartInstance.destroy();
+    }
+    if (balanceChartInstance) {
+      balanceChartInstance.destroy();
+    }
+
+    principalInterestChartInstance = new window.Chart(selectors.principalInterestChart, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Principal Paid",
+            data: principalSeries,
+            borderColor: "#1b63f0",
+            backgroundColor: "rgba(27, 99, 240, 0.15)",
+            tension: 0.25,
+            pointRadius: 0
+          },
+          {
+            label: "Interest Paid",
+            data: interestSeries,
+            borderColor: "#5f6b7a",
+            backgroundColor: "rgba(95, 107, 122, 0.15)",
+            tension: 0.25,
+            pointRadius: 0
+          }
+        ]
+      },
+      options: getChartOptions()
+    });
+
+    balanceChartInstance = new window.Chart(selectors.balanceChart, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Remaining Balance",
+            data: balanceSeries,
+            borderColor: "#144fc1",
+            backgroundColor: "rgba(20, 79, 193, 0.14)",
+            tension: 0.25,
+            pointRadius: 0
+          }
+        ]
+      },
+      options: getChartOptions()
+    });
   };
 
   const toCsv = (schedule) => {
@@ -247,6 +350,7 @@ const LoanCalculator = (() => {
     latestSchedule = buildAmortizationSchedule();
     renderScheduleSummary(latestSchedule);
     renderScheduleTable(latestSchedule);
+    renderCharts(latestSchedule);
     updateSeoAndUrl();
     updateShareLinks();
   };

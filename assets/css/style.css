@@ -255,6 +255,39 @@ input[type="range"] {
   margin-top: 1.2rem;
 }
 
+.charts-section {
+  margin-top: 1.2rem;
+}
+
+.charts-section .page-title {
+  margin-bottom: 0.8rem;
+}
+
+.charts-section .page-title h2 {
+  margin: 0.2rem 0 0;
+}
+
+.chart-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.chart-card h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1.02rem;
+}
+
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 260px;
+}
+
+.chart-wrap canvas {
+  width: 100% !important;
+  height: 260px !important;
+}
+
 .amortization-header {
   display: flex;
   align-items: center;
@@ -405,6 +438,10 @@ input[type="range"] {
   .tool-grid,
   .related-tools-grid,
   .placeholder-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chart-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

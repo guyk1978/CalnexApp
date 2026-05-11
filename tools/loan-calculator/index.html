@@ -101,6 +101,27 @@
         </aside>
       </section>
 
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Insights</p>
+          <h2>Loan Visual Breakdown</h2>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Principal vs Interest</h3>
+            <div class="chart-wrap">
+              <canvas id="principalInterestChart"></canvas>
+            </div>
+          </article>
+          <article class="card chart-card">
+            <h3>Remaining Balance</h3>
+            <div class="chart-wrap">
+              <canvas id="balanceChart"></canvas>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section class="card amortization-card">
         <div class="amortization-header">
           <h2>Amortization Schedule</h2>
@@ -158,6 +179,7 @@
 
     <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/seo.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/loan.js" defer></script>
   </body>
 </html>
