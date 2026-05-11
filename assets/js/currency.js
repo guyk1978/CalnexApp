@@ -41,22 +41,15 @@ const CurrencyLayer = (() => {
     return SYMBOLS[code] || "$";
   };
 
-  const convertFromUsd = (value, currency = getSelectedCurrency()) => {
-    const nextCurrency = normalizeCurrency(currency);
-    const rate = RATES_FROM_USD[nextCurrency] || 1;
-    return (Number(value) || 0) * rate;
-  };
-
   const formatCurrency = (value, currency = getSelectedCurrency()) => {
     const nextCurrency = normalizeCurrency(currency);
     const locale = LOCALES[nextCurrency] || "en-US";
-    const converted = convertFromUsd(value, nextCurrency);
     return new Intl.NumberFormat(locale, {
       style: "currency",
       currency: nextCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(converted);
+    }).format(Number(value) || 0);
   };
 
   const setCurrency = (currency) => {
@@ -147,7 +140,6 @@ const CurrencyLayer = (() => {
     getCurrentCurrency,
     getCurrencySymbol,
     setCurrency,
-    convertFromUsd,
     formatCurrency,
     normalizeCurrency,
     init
