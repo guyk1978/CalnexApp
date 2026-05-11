@@ -32,10 +32,24 @@
     <main class="container section-space">
       <section class="page-title">
         <p class="eyebrow">Blog</p>
-        <h1>Financial Education</h1>
-        <p>Insights to help users choose better loan and repayment options.</p>
+        <h1>CalnexApp Content Hub</h1>
+        <p>In-depth loan strategy guides, calculators, and decision frameworks for smarter borrowing.</p>
       </section>
-      <section id="blogList" class="blog-grid" aria-live="polite"></section>
+
+      <section class="blog-toolbar card">
+        <input id="blogSearchInput" type="search" placeholder="Search guides..." aria-label="Search blog articles" />
+        <div id="blogCategoryFilters" class="filter-chips" aria-label="Blog categories"></div>
+      </section>
+
+      <section>
+        <h2>Featured Articles</h2>
+        <div id="featuredBlogList" class="blog-grid featured-grid" aria-live="polite"></div>
+      </section>
+
+      <section>
+        <h2>All Articles</h2>
+        <div id="blogList" class="blog-grid" aria-live="polite"></div>
+      </section>
     </main>
 
     <footer class="site-footer">

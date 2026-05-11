@@ -57,23 +57,70 @@
 
   const renderBlogIndex = async () => {
     const blogList = document.getElementById("blogList");
-    if (!blogList) return;
+    const featuredBlogList = document.getElementById("featuredBlogList");
+    const filtersHolder = document.getElementById("blogCategoryFilters");
+    const searchInput = document.getElementById("blogSearchInput");
+    if (!blogList || !featuredBlogList || !filtersHolder || !searchInput) return;
     try {
       const posts = await fetchJson("/data/blog.json");
-      blogList.innerHTML = posts
-        .map(
-          (post) => `
-          <article class="card blog-card">
-            <p class="blog-meta">${post.date} • ${post.readTime}</p>
-            <h2>${post.title}</h2>
-            <p>${post.excerpt}</p>
-            <a class="btn btn-ghost" href="/contact/">Request Full Article</a>
-          </article>
-        `
-        )
-        .join("");
+      const categories = ["All", ...new Set(posts.map((post) => post.category))];
+      let activeCategory = "All";
+      let activeQuery = "";
+
+      const card = (post) => `
+        <article class="card blog-card">
+          <p class="blog-meta">${post.updatedDate} • ${post.readTime} • ${post.category}</p>
+          <h3>${post.title}</h3>
+          <p>${post.excerpt}</p>
+          <a class="btn btn-ghost" href="/blog/${post.slug}/">Read Article</a>
+        </article>
+      `;
+
+      const renderFilters = () => {
+        filtersHolder.innerHTML = categories
+          .map(
+            (category) =>
+              `<button class="filter-chip ${category === activeCategory ? "is-active" : ""}" data-category="${category}" type="button">${category}</button>`
+          )
+          .join("");
+      };
+
+      const renderCards = () => {
+        const filtered = posts.filter((post) => {
+          const categoryMatch = activeCategory === "All" || post.category === activeCategory;
+          const queryText = `${post.title} ${post.excerpt} ${post.category}`.toLowerCase();
+          const queryMatch = !activeQuery || queryText.includes(activeQuery);
+          return categoryMatch && queryMatch;
+        });
+        const featured = filtered.filter((post) => post.featured);
+        const nonFeatured = filtered.filter((post) => !post.featured);
+
+        featuredBlogList.innerHTML = featured.length
+          ? featured.map(card).join("")
+          : "<p class='muted'>No featured articles match the current filter.</p>";
+        blogList.innerHTML = nonFeatured.length
+          ? nonFeatured.map(card).join("")
+          : "<p class='muted'>No articles match your search.</p>";
+      };
+
+      renderFilters();
+      renderCards();
+
+      filtersHolder.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-category]");
+        if (!button) return;
+        activeCategory = button.dataset.category;
+        renderFilters();
+        renderCards();
+      });
+
+      searchInput.addEventListener("input", () => {
+        activeQuery = searchInput.value.trim().toLowerCase();
+        renderCards();
+      });
     } catch (_error) {
       blogList.innerHTML = "<p class='muted'>Unable to load blog posts at this time.</p>";
+      featuredBlogList.innerHTML = "";
     }
   };
 

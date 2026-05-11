@@ -1,16 +1,47 @@
 [
   {
-    "slug": "how-loan-interest-works",
-    "title": "How Loan Interest Works in Simple Terms",
-    "excerpt": "Understand how interest affects your total repayment and monthly planning.",
-    "date": "2026-05-11",
-    "readTime": "4 min read"
+    "slug": "how-to-calculate-loan-interest",
+    "title": "How to Calculate Loan Interest: A Practical Guide",
+    "excerpt": "Learn the exact formulas behind monthly repayments, total interest, and amortization schedules.",
+    "category": "Loan Basics",
+    "updatedDate": "2026-05-11",
+    "readTime": "12 min read",
+    "featured": true
   },
   {
-    "slug": "choosing-loan-term-years-vs-months",
-    "title": "Choosing a Loan Term: Years vs Months",
-    "excerpt": "Learn how shorter and longer terms change monthly costs and total interest.",
-    "date": "2026-05-11",
-    "readTime": "3 min read"
+    "slug": "fixed-vs-variable-interest-rate",
+    "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+    "excerpt": "Compare stability, risk, and long-term costs before locking in your next loan.",
+    "category": "Interest Rates",
+    "updatedDate": "2026-05-11",
+    "readTime": "13 min read",
+    "featured": true
+  },
+  {
+    "slug": "how-extra-payments-save-money",
+    "title": "How Extra Payments Save Money on Your Loan",
+    "excerpt": "See how strategic extra payments can shorten payoff time and reduce total interest.",
+    "category": "Repayment Strategy",
+    "updatedDate": "2026-05-11",
+    "readTime": "12 min read",
+    "featured": true
+  },
+  {
+    "slug": "loan-vs-mortgage",
+    "title": "Loan vs Mortgage: Key Differences Explained",
+    "excerpt": "Understand how personal loans and mortgages differ in structure, risk, and affordability.",
+    "category": "Loan Basics",
+    "updatedDate": "2026-05-11",
+    "readTime": "11 min read",
+    "featured": false
+  },
+  {
+    "slug": "best-loan-term-15-vs-30-years",
+    "title": "Best Loan Term: 15 vs 30 Years",
+    "excerpt": "Evaluate monthly budget impact and total borrowing cost when choosing loan duration.",
+    "category": "Term Planning",
+    "updatedDate": "2026-05-11",
+    "readTime": "12 min read",
+    "featured": false
   }
 ]

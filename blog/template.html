@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}} | CalnexApp Blog</title>
+    <meta name="description" content="{{description}}" />
+    <link rel="canonical" href="{{canonical_url}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{title}} | CalnexApp Blog" />
+    <meta property="og:description" content="{{description}}" />
+    <meta property="og:url" content="{{canonical_url}}" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script type="application/ld+json">
+      {{article_schema_json}}
+    </script>
+    <script type="application/ld+json">
+      {{breadcrumb_schema_json}}
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/tools/loan-calculator/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section-space article-layout">
+      <section class="page-title">
+        <p class="eyebrow">CalnexApp Blog</p>
+        <h1>{{title}}</h1>
+        <div class="article-meta">
+          <span>By {{author}}</span>
+          <span>Updated {{updated_date}}</span>
+          <span>{{reading_time}}</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Table of Contents</h2>
+        <ol class="toc-list">
+          {{table_of_contents}}
+        </ol>
+      </section>
+
+      <article class="card article-body">
+        {{article_body}}
+      </article>
+
+      <section class="card">
+        <h2>Use the Loan Calculator</h2>
+        <p class="muted">Test your own numbers with extra payments, full schedules, and charted payoff paths.</p>
+        <a class="btn btn-primary" href="/tools/loan-calculator/">Open Loan Calculator</a>
+      </section>
+
+      <section class="card">
+        <h2>Related Articles</h2>
+        <ul class="toc-list">
+          {{related_articles}}
+        </ul>
+      </section>
+
+      <section class="card faq-list">
+        <h2>Frequently Asked Questions</h2>
+        {{faq_content}}
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/blog/">Blog</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="/assets/js/app.js" defer></script>
+  </body>
+</html>
