@@ -41,6 +41,8 @@ const LoanCalculator = (() => {
     toggleSchedule: document.getElementById("toggleSchedule"),
     downloadCsv: document.getElementById("downloadCsv"),
     printSchedule: document.getElementById("printSchedule"),
+    downloadPdfReport: document.getElementById("downloadPdfReport"),
+    printReport: document.getElementById("printReport"),
     copyFeedback: document.getElementById("copyFeedback"),
     shareButtons: document.querySelectorAll("[data-share]")
   };
@@ -373,6 +375,138 @@ const LoanCalculator = (() => {
     win.print();
   };
 
+  const generatePdfReport = () => {
+    if (!window.jspdf || !displayedSchedule.length) {
+      showToast("PDF library unavailable");
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF("p", "pt", "a4");
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 40;
+    let y = margin;
+
+    const drawHeader = () => {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text("CalnexApp Loan Report", margin, y);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(`Report date: ${new Date().toLocaleDateString("en-US")}`, pageWidth - margin, y, { align: "right" });
+      y += 22;
+      doc.setDrawColor(180);
+      doc.line(margin, y, pageWidth - margin, y);
+      y += 16;
+    };
+
+    const drawFooter = () => {
+      doc.setFontSize(9);
+      doc.setTextColor(90);
+      doc.text("CalnexApp - Professional Loan Planning", margin, pageHeight - 20);
+      doc.text(`Page ${doc.getNumberOfPages()}`, pageWidth - margin, pageHeight - 20, { align: "right" });
+      doc.setTextColor(0);
+    };
+
+    const sectionTitle = (title) => {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.text(title, margin, y);
+      y += 14;
+    };
+
+    const lineText = (label, value) => {
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(`${label}: ${value}`, margin, y);
+      y += 13;
+    };
+
+    const ensureSpace = (needed) => {
+      if (y + needed > pageHeight - 40) {
+        drawFooter();
+        doc.addPage();
+        y = margin;
+        drawHeader();
+      }
+    };
+
+    drawHeader();
+    sectionTitle("Loan Inputs");
+    lineText("Loan amount", setCurrency(parseValue(selectors.loanAmount)));
+    lineText("Interest rate", `${parseValue(selectors.interestRate)}%`);
+    lineText("Loan term", `${parseValue(selectors.loanTerm)} ${selectors.termUnit.value}`);
+    lineText("Extra monthly payment", setCurrency(parseValue(selectors.extraMonthlyPayment)));
+    lineText("Lump sum payment", setCurrency(parseValue(selectors.lumpSumPayment)));
+    lineText("Payment start month", String(parseValue(selectors.paymentStartMonth) || 1));
+
+    ensureSpace(120);
+    sectionTitle("Calculated Outputs");
+    lineText("Monthly payment", selectors.monthlyPayment.textContent);
+    lineText("Total payment", selectors.totalRepayment.textContent);
+    lineText("Total interest", selectors.totalInterest.textContent);
+    lineText("Payoff date", selectors.afterPayoffDate.textContent);
+    lineText("Months saved", selectors.monthsSaved.textContent);
+    lineText("Interest saved", selectors.interestSaved.textContent);
+
+    ensureSpace(48);
+    doc.setFillColor(242, 249, 244);
+    doc.rect(margin, y - 12, pageWidth - margin * 2, 28, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text(
+      `You save ${selectors.monthsSaved.textContent} months and ${selectors.interestSaved.textContent} in interest`,
+      margin + 8,
+      y + 6
+    );
+    y += 30;
+
+    ensureSpace(210);
+    sectionTitle("Charts");
+    const chartWidth = pageWidth - margin * 2;
+    const chartHeight = 140;
+    try {
+      const principalChartImg = selectors.principalInterestChart.toDataURL("image/png", 1.0);
+      doc.addImage(principalChartImg, "PNG", margin, y, chartWidth, chartHeight);
+      y += chartHeight + 10;
+      const balanceChartImg = selectors.balanceChart.toDataURL("image/png", 1.0);
+      doc.addImage(balanceChartImg, "PNG", margin, y, chartWidth, chartHeight);
+      y += chartHeight + 14;
+    } catch (_error) {
+      lineText("Chart export", "Unavailable");
+    }
+
+    ensureSpace(220);
+    sectionTitle("Amortization Summary (First 12 Rows)");
+    const header = ["Month", "Payment", "Principal", "Interest", "Balance"];
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text(header.join("    "), margin, y);
+    y += 12;
+    doc.setFont("helvetica", "normal");
+    displayedSchedule.slice(0, 12).forEach((row) => {
+      ensureSpace(12);
+      doc.text(
+        `${row.month}    ${setCurrency(row.payment)}    ${setCurrency(row.principal)}    ${setCurrency(row.interest)}    ${setCurrency(row.balance)}`,
+        margin,
+        y
+      );
+      y += 12;
+    });
+    y += 6;
+    doc.setFont("helvetica", "italic");
+    doc.text("Note: full schedule available on website.", margin, y);
+
+    drawFooter();
+    doc.save("calnexapp-loan-report.pdf");
+    showToast("PDF downloaded");
+  };
+
+  const printReport = () => {
+    window.print();
+  };
+
   const togglePanel = (panel, button, closedText, openText) => {
     const isOpen = panel.classList.toggle("is-open");
     panel.setAttribute("aria-hidden", String(!isOpen));
@@ -566,6 +700,8 @@ const LoanCalculator = (() => {
     });
     selectors.downloadCsv.addEventListener("click", downloadScheduleCsv);
     selectors.printSchedule.addEventListener("click", printSchedule);
+    selectors.downloadPdfReport.addEventListener("click", generatePdfReport);
+    selectors.printReport.addEventListener("click", printReport);
 
     selectors.shareButtons.forEach((node) => {
       if (node.dataset.share !== "copy") return;

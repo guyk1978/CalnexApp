@@ -528,6 +528,40 @@ input[type="range"] {
   gap: 0.9rem;
 }
 
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .site-header,
+  .site-footer,
+  .share-tools,
+  .share-toast,
+  .share-modal,
+  .advanced-payments,
+  .schedule-actions,
+  .btn {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none;
+    border-color: #bbb;
+    break-inside: avoid;
+  }
+
+  .schedule-panel {
+    max-height: none !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+  }
+
+  .schedule-table-wrap {
+    overflow: visible;
+  }
+}
+
 @media (min-width: 768px) {
   .hero-grid {
     grid-template-columns: 1.25fr 0.9fr;
