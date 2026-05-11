@@ -28,9 +28,12 @@ const InputSyncLayer = (() => {
 
   const updateSharedState = (node) => {
     if (!node) return;
+    if (node.dataset.programmaticUpdate === "true") return;
     const key = node.getAttribute("data-input-bind");
     if (!key || typeof SharedState === "undefined") return;
     const normalized = normalizeValue(node, key);
+    const current = SharedState.getState();
+    if (current[key] === normalized) return;
     const patch = {};
     patch[key] = normalized;
     SharedState.setState(patch);

@@ -52,9 +52,18 @@ const UiRenderer = (() => {
     document.querySelectorAll("[data-input-bind]").forEach((node) => {
       const key = node.getAttribute("data-input-bind");
       if (!key || !(key in state)) return;
-      if (document.activeElement === node) return;
+      if (document.activeElement === node) {
+        console.log("[Renderer] render skipped focused input", key);
+        return;
+      }
       const next = String(state[key]);
-      if (node.value !== next) node.value = next;
+      if (node.value !== next) {
+        node.dataset.programmaticUpdate = "true";
+        node.value = next;
+        queueMicrotask(() => {
+          delete node.dataset.programmaticUpdate;
+        });
+      }
     });
   };
 

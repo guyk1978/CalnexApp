@@ -18,6 +18,44 @@
     });
   };
 
+  const initMobileMenu = () => {
+    const nav = document.querySelector(".site-header .nav");
+    const menu = nav?.querySelector(".menu");
+    if (!nav || !menu || nav.querySelector(".mobile-menu-toggle")) return;
+    if (!menu.id) menu.id = "siteMenu";
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "mobile-menu-toggle";
+    toggle.setAttribute("aria-controls", menu.id);
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Toggle navigation menu");
+    toggle.innerHTML = "<span></span><span></span><span></span>";
+    nav.insertBefore(toggle, menu);
+
+    const closeMenu = () => {
+      nav.classList.remove("is-mobile-open");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+    const openMenu = () => {
+      nav.classList.add("is-mobile-open");
+      toggle.setAttribute("aria-expanded", "true");
+    };
+
+    toggle.addEventListener("click", () => {
+      if (nav.classList.contains("is-mobile-open")) closeMenu();
+      else openMenu();
+    });
+
+    menu.addEventListener("click", (event) => {
+      const link = event.target.closest("a");
+      if (link) closeMenu();
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 768) closeMenu();
+    });
+  };
+
   const fetchJson = async (url) => {
     const response = await fetch(url);
     if (!response.ok) {
@@ -186,6 +224,7 @@
   };
 
   markActiveNav();
+  initMobileMenu();
   renderRelatedTools();
   renderBlogIndex();
   injectLegalDisclaimer();

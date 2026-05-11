@@ -45,6 +45,9 @@ const MortgageCalculator = (() => {
   let acceleratedSchedule = [];
   let principalInterestChartInstance;
   let balanceChartInstance;
+  let computeRaf = null;
+  let computeDebounce = null;
+  let isApplyingSharedInputs = false;
 
   const setCurrency = (value) =>
     (typeof CurrencyLayer !== "undefined"
@@ -56,6 +59,26 @@ const MortgageCalculator = (() => {
         }).format(Number(value) || 0));
 
   const parseValue = (node) => Number(node?.value) || 0;
+
+  const setInputValue = (node, value) => {
+    if (!node) return;
+    if (document.activeElement === node) return;
+    const next = String(value);
+    if (node.value !== next) node.value = next;
+  };
+
+  const setStateIfChanged = (patch) => {
+    if (typeof SharedState === "undefined") return;
+    const current = SharedState.getState();
+    const next = {};
+    Object.entries(patch).forEach(([key, value]) => {
+      if (current[key] === value) return;
+      next[key] = value;
+    });
+    if (!Object.keys(next).length) return;
+    SharedState.setState(next);
+    console.log("[Mortgage] state updated", Object.keys(next));
+  };
 
   const getExtraConfig = () => {
     const totalMonths = parseValue(selectors.loanTerm) * 12;
@@ -251,10 +274,7 @@ const MortgageCalculator = (() => {
     let warningMessage = "Enter annual income to get an affordability signal.";
     if (recommendedMonthly === 0) {
       selectors.affordabilityWarning.classList.remove("warning");
-      if (typeof SharedState !== "undefined") {
-        SharedState.setState({ mortgage_affordability_warning: warningMessage });
-      }
-      return;
+      return { warningMessage, recommendedMonthly };
     }
 
     if (monthlyHousingPayment > recommendedMonthly) {
@@ -264,9 +284,7 @@ const MortgageCalculator = (() => {
       warningMessage = "Good fit: Estimated housing payment is within the 28% guideline.";
       selectors.affordabilityWarning.classList.remove("warning");
     }
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({ mortgage_affordability_warning: warningMessage });
-    }
+    return { warningMessage, recommendedMonthly };
   };
 
   const updateComparison = (principal, annualRate) => {
@@ -307,7 +325,7 @@ const MortgageCalculator = (() => {
     `;
   };
 
-  const updateResultUI = () => {
+  const computeMortgage = () => {
     const { loanAmount, homePrice } = syncDownPayment();
     const annualRate = parseValue(selectors.interestRate);
     const totalMonths = parseValue(selectors.loanTerm) * 12;
@@ -338,33 +356,8 @@ const MortgageCalculator = (() => {
     const summary = summarizeSchedule(displayedSchedule);
     const monthlyMortgagePayment = monthlyPrincipalInterest + monthlyEscrow;
     const totalHomeCost = homePrice - (homePrice - loanAmount) + summary.totalPaid + monthlyEscrow * summary.months;
+    const payoffDate = getPayoffDate(summary.months);
 
-    renderScheduleTable(displayedSchedule);
-    renderCharts();
-    updateAffordability(monthlyMortgagePayment);
-    updateComparison(loanAmount, annualRate);
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        loan_amount: loanAmount,
-        interest_rate: annualRate,
-        loan_term: parseValue(selectors.loanTerm),
-        extra_payment: parseValue(selectors.extraMonthlyPayment),
-        down_payment: Math.max(0, homePrice - loanAmount),
-        income: parseValue(selectors.annualIncome),
-        mortgage_computed_loan_amount: loanAmount,
-        mortgage_monthly_payment: monthlyMortgagePayment,
-        mortgage_total_interest: summary.totalInterest,
-        mortgage_total_cost: totalHomeCost,
-        mortgage_principal_interest_monthly: monthlyPrincipalInterest,
-        mortgage_tax_insurance_monthly: monthlyEscrow,
-        mortgage_summary_total_payments: summary.totalPaid + monthlyEscrow * summary.months,
-        mortgage_summary_total_interest: summary.totalInterest,
-        mortgage_payoff_date: getPayoffDate(summary.months),
-        mortgage_summary_payoff_date: getPayoffDate(summary.months)
-      });
-    }
-    const annualIncome = parseValue(selectors.annualIncome);
-    const recommendedMonthly = annualIncome > 0 ? (annualIncome * 0.28) / 12 : 0;
     const monthly15 = getMonthlyPayment(loanAmount, annualRate, 180);
     const monthly30 = getMonthlyPayment(loanAmount, annualRate, 360);
     const schedule15 = buildSchedule({
@@ -385,17 +378,69 @@ const MortgageCalculator = (() => {
     });
     const summary15 = summarizeSchedule(schedule15);
     const summary30 = summarizeSchedule(schedule30);
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        mortgage_recommended_payment: recommendedMonthly,
-        mortgage_actual_payment: monthlyMortgagePayment,
-        mortgage_compare_15_monthly: monthly15,
-        mortgage_compare_15_interest: summary15.totalInterest,
-        mortgage_compare_30_monthly: monthly30,
-        mortgage_compare_30_interest: summary30.totalInterest,
-        mortgage_compare_interest_diff: Math.max(0, summary30.totalInterest - summary15.totalInterest)
+    const affordability = updateAffordability(monthlyMortgagePayment);
+
+    return {
+      loanAmount,
+      homePrice,
+      annualRate,
+      monthlyPrincipalInterest,
+      monthlyEscrow,
+      summary,
+      monthlyMortgagePayment,
+      totalHomeCost,
+      payoffDate,
+      monthly15,
+      monthly30,
+      summary15,
+      summary30,
+      affordability
+    };
+  };
+
+  const updateResultUI = () => {
+    console.log("[Mortgage] compute triggered");
+    const computed = computeMortgage();
+    renderScheduleTable(displayedSchedule);
+    renderCharts();
+    updateComparison(computed.loanAmount, computed.annualRate);
+    setStateIfChanged({
+      loan_amount: computed.loanAmount,
+      interest_rate: computed.annualRate,
+      loan_term: parseValue(selectors.loanTerm),
+      extra_payment: parseValue(selectors.extraMonthlyPayment),
+      down_payment: Math.max(0, computed.homePrice - computed.loanAmount),
+      income: parseValue(selectors.annualIncome),
+      mortgage_computed_loan_amount: computed.loanAmount,
+      mortgage_monthly_payment: computed.monthlyMortgagePayment,
+      mortgage_total_interest: computed.summary.totalInterest,
+      mortgage_total_cost: computed.totalHomeCost,
+      mortgage_principal_interest_monthly: computed.monthlyPrincipalInterest,
+      mortgage_tax_insurance_monthly: computed.monthlyEscrow,
+      mortgage_summary_total_payments: computed.summary.totalPaid + computed.monthlyEscrow * computed.summary.months,
+      mortgage_summary_total_interest: computed.summary.totalInterest,
+      mortgage_payoff_date: computed.payoffDate,
+      mortgage_summary_payoff_date: computed.payoffDate,
+      mortgage_recommended_payment: computed.affordability.recommendedMonthly,
+      mortgage_actual_payment: computed.monthlyMortgagePayment,
+      mortgage_compare_15_monthly: computed.monthly15,
+      mortgage_compare_15_interest: computed.summary15.totalInterest,
+      mortgage_compare_30_monthly: computed.monthly30,
+      mortgage_compare_30_interest: computed.summary30.totalInterest,
+      mortgage_compare_interest_diff: Math.max(0, computed.summary30.totalInterest - computed.summary15.totalInterest),
+      mortgage_affordability_warning: computed.affordability.warningMessage
+    });
+  };
+
+  const scheduleRecompute = () => {
+    if (computeDebounce) clearTimeout(computeDebounce);
+    computeDebounce = setTimeout(() => {
+      if (computeRaf) cancelAnimationFrame(computeRaf);
+      computeRaf = requestAnimationFrame(() => {
+        computeRaf = null;
+        updateResultUI();
       });
-    }
+    }, 50);
   };
 
   const togglePanel = (panel, button, closedText, openText) => {
@@ -417,13 +462,13 @@ const MortgageCalculator = (() => {
       selectors.lumpSumPayment,
       selectors.paymentStartMonth,
       selectors.annualIncome
-    ].forEach((node) => node.addEventListener("input", updateResultUI));
+    ].forEach((node) => node.addEventListener("input", scheduleRecompute));
 
     selectors.downPaymentType.addEventListener("change", () => {
       const isPercent = selectors.downPaymentType.value === "percent";
       selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
       selectors.downPaymentAmount.closest(".field").style.display = isPercent ? "none" : "";
-      updateResultUI();
+      scheduleRecompute();
     });
 
     selectors.toggleAdvanced.addEventListener("click", () => {
@@ -449,15 +494,15 @@ const MortgageCalculator = (() => {
     const shared = SharedState.getState();
     if (shared.loan_amount !== undefined && shared.down_payment !== undefined) {
       selectors.downPaymentType.value = "fixed";
-      selectors.downPaymentAmount.value = String(shared.down_payment);
-      selectors.homePrice.value = String(shared.loan_amount + shared.down_payment);
+      setInputValue(selectors.downPaymentAmount, shared.down_payment);
+      setInputValue(selectors.homePrice, shared.loan_amount + shared.down_payment);
     } else if (shared.loan_amount !== undefined) {
-      selectors.homePrice.value = String(shared.loan_amount);
+      setInputValue(selectors.homePrice, shared.loan_amount);
     }
-    if (shared.interest_rate !== undefined) selectors.interestRate.value = String(shared.interest_rate);
-    if (shared.loan_term !== undefined) selectors.loanTerm.value = String(shared.loan_term);
-    if (shared.extra_payment !== undefined) selectors.extraMonthlyPayment.value = String(shared.extra_payment);
-    if (shared.income !== undefined) selectors.annualIncome.value = String(shared.income);
+    if (shared.interest_rate !== undefined) setInputValue(selectors.interestRate, shared.interest_rate);
+    if (shared.loan_term !== undefined) setInputValue(selectors.loanTerm, shared.loan_term);
+    if (shared.extra_payment !== undefined) setInputValue(selectors.extraMonthlyPayment, shared.extra_payment);
+    if (shared.income !== undefined) setInputValue(selectors.annualIncome, shared.income);
     SharedState.refreshToolLinks();
   };
 
@@ -479,20 +524,23 @@ const MortgageCalculator = (() => {
     selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
     selectors.downPaymentAmount.closest(".field").style.display = isPercent ? "none" : "";
     bindEvents();
-    updateResultUI();
+    scheduleRecompute();
     document.addEventListener("sharedstate:updated", () => {
+      if (isApplyingSharedInputs) return;
+      isApplyingSharedInputs = true;
       applySharedStateInputs();
-      updateResultUI();
+      isApplyingSharedInputs = false;
+      scheduleRecompute();
     });
     document.addEventListener("geo:changed", () => {
       applyGeoDefaults(true);
-      updateResultUI();
+      scheduleRecompute();
     });
     document.addEventListener("currency:changed", () => {
-      updateResultUI();
+      scheduleRecompute();
     });
     document.addEventListener("inputsync:updated", () => {
-      updateResultUI();
+      scheduleRecompute();
     });
   };
 
