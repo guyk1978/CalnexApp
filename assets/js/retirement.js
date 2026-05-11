@@ -17,6 +17,55 @@ const RetirementCalculator = (() => {
   let isApplyingShared = false;
   let lastRetirementProjection = [];
 
+  /** Single retirement FV primitive — same path as `referenceFinancialResult.projectedBalance`. */
+  const referenceBalanceAtMonths = (inputs, months) => {
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.calculateReferenceRetirement !== "function") {
+      return null;
+    }
+    const m = Math.max(0, Math.round(Number(months) || 0));
+    return FinancialCore.calculateReferenceRetirement({
+      initial: inputs.currentSavings,
+      monthly: inputs.monthlyContribution,
+      annualReturn: inputs.annualReturnRate,
+      months: m
+    });
+  };
+
+  /**
+   * Chart series: only `calculateReferenceRetirement` by month (no parallel compounding loops).
+   * Terminal row uses `terminalProjectedBalance` (must equal UI `referenceFinancialResult.projectedBalance`).
+   */
+  const buildReferenceRetirementChartSeries = (inputs, nMonths, terminalProjectedBalance) => {
+    const { currentAge, currentSavings } = inputs;
+    const points = [{ age: currentAge, balance: currentSavings }];
+    if (nMonths <= 0) return points;
+
+    const refAt = (m) => referenceBalanceAtMonths(inputs, m);
+    if (refAt(12) === null) {
+      points.push({ age: currentAge + nMonths / 12, balance: terminalProjectedBalance });
+      return points;
+    }
+
+    for (let m = 12; m <= nMonths; m += 12) {
+      points.push({ age: currentAge + m / 12, balance: refAt(m) });
+    }
+    if (nMonths % 12 !== 0) {
+      points.push({
+        age: currentAge + nMonths / 12,
+        balance: terminalProjectedBalance
+      });
+    }
+
+    const last = points[points.length - 1];
+    if (last && Number.isFinite(terminalProjectedBalance)) {
+      const tol = Math.max(1e-9 * Math.max(1, Math.abs(terminalProjectedBalance)), 0.01);
+      if (Math.abs(last.balance - terminalProjectedBalance) > tol) {
+        last.balance = terminalProjectedBalance;
+      }
+    }
+    return points;
+  };
+
   const num = (key, el, fb = 0) =>
     typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
   const getState = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
@@ -40,36 +89,6 @@ const RetirementCalculator = (() => {
   const retirementHorizonMonths = ({ currentAge, targetAge }) =>
     Math.max(0, Math.round((Math.max(0, targetAge - currentAge) || 0) * 12));
 
-  const buildProjectionSeries = (inputs) => {
-    const { currentAge, targetAge, currentSavings, monthlyContribution, annualReturnRate } = inputs;
-    const nMonths = retirementHorizonMonths(inputs);
-    const points = [{ age: currentAge, balance: currentSavings }];
-    if (typeof FinancialCore === "undefined" || typeof FinancialCore.calculateReferenceRetirement !== "function") {
-      return points;
-    }
-    for (let m = 12; m <= nMonths; m += 12) {
-      const balance = FinancialCore.calculateReferenceRetirement({
-        initial: currentSavings,
-        monthly: monthlyContribution,
-        annualReturn: annualReturnRate,
-        months: m
-      });
-      points.push({ age: currentAge + m / 12, balance });
-    }
-    if (nMonths > 0 && nMonths % 12 !== 0) {
-      points.push({
-        age: currentAge + nMonths / 12,
-        balance: FinancialCore.calculateReferenceRetirement({
-          initial: currentSavings,
-          monthly: monthlyContribution,
-          annualReturn: annualReturnRate,
-          months: nMonths
-        })
-      });
-    }
-    return points;
-  };
-
   const diagnoseRetirementMismatch = (engineNominal, referenceFV, inputs, nMonths) => {
     const { currentSavings: P, monthlyContribution: C, annualReturnRate: rPct } = inputs;
     if (referenceFV <= 0) return "reference_zero";
@@ -92,20 +111,24 @@ const RetirementCalculator = (() => {
 
   const calculate = (inputs) => {
     const yearsToRetirement = Math.max(0, inputs.targetAge - inputs.currentAge);
-    const projection = buildProjectionSeries(inputs);
+    const nMonths = retirementHorizonMonths(inputs);
+
     if (typeof FinancialCore === "undefined") {
-      const projectedBalance = projection.length ? projection[projection.length - 1].balance : inputs.currentSavings;
+      const projectedBalance = inputs.currentSavings;
+      const projection = buildReferenceRetirementChartSeries(inputs, nMonths, projectedBalance);
       const referenceFinancialResult = { projectedBalance };
       window.referenceFinancialResult = referenceFinancialResult;
       return { referenceFinancialResult, projection };
     }
-    const nMonths = retirementHorizonMonths(inputs);
+
     const referenceFV = FinancialCore.calculateReferenceRetirement({
       initial: inputs.currentSavings,
       monthly: inputs.monthlyContribution,
       annualReturn: inputs.annualReturnRate,
       months: nMonths
     });
+    const projection = buildReferenceRetirementChartSeries(inputs, nMonths, referenceFV);
+
     const engineSim = FinancialCore.simulateFinancialPlan({
       initial: inputs.currentSavings,
       monthly: inputs.monthlyContribution,
@@ -140,6 +163,20 @@ const RetirementCalculator = (() => {
       referenceFinancialResult,
       projection
     };
+  };
+
+  const alignChartSeriesToUiProjectedBalance = (series, uiProjectedBalance) => {
+    if (!series.length || uiProjectedBalance == null || !Number.isFinite(uiProjectedBalance)) return series;
+    const last = series[series.length - 1];
+    const tol = Math.max(1e-9 * Math.max(1, Math.abs(uiProjectedBalance)), 0.01);
+    if (Math.abs(last.balance - uiProjectedBalance) <= tol) return series;
+    console.error("[CHART_MISMATCH_DETECTED]", {
+      chartTerminal: last.balance,
+      uiProjectedBalance
+    });
+    const denom = Math.abs(last.balance) > tol ? last.balance : 1;
+    const scale = uiProjectedBalance / denom;
+    return series.map((p, i) => (i === 0 ? p : { ...p, balance: p.balance * scale }));
   };
 
   const renderChart = (projection) => {
@@ -182,7 +219,17 @@ const RetirementCalculator = (() => {
   });
 
   const paintRetirementCharts = () => {
-    if (lastRetirementProjection.length) renderChart(lastRetirementProjection);
+    if (!lastRetirementProjection.length) return;
+    const state = getState();
+    const uiBal = state.referenceFinancialResult?.projectedBalance;
+    let series = lastRetirementProjection.map((p) => ({ ...p }));
+    series = alignChartSeriesToUiProjectedBalance(series, uiBal);
+    console.log("[CHART TRACE] source = referenceFinancialResult", {
+      points: series.length,
+      chartTerminal: series[series.length - 1]?.balance,
+      uiProjectedBalance: uiBal
+    });
+    renderChart(series);
   };
 
   const runRetirementPipeline = () => {
