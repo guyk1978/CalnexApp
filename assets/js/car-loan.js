@@ -151,7 +151,7 @@ const CarLoanCalculator = (() => {
     });
   };
 
-  const updateAffordability = (monthlyPayment) => {
+  const buildAffordabilityPatch = (monthlyPayment) => {
     const monthlyIncome = parseValue(selectors.annualIncome) / 12;
     const range = getAffordabilityRange();
     const safeMin = monthlyIncome * range.min;
@@ -159,15 +159,12 @@ const CarLoanCalculator = (() => {
     let affordabilityStatus = "Add income to evaluate affordability range.";
     selectors.affordabilityStatus.classList.remove("status-green", "status-yellow", "status-red");
     if (monthlyIncome <= 0) {
-      if (typeof SharedState !== "undefined") {
-        SharedState.setState({
-          car_safe_min: safeMin,
-          car_safe_max: safeMax,
-          car_current_payment: monthlyPayment,
-          car_affordability_status: affordabilityStatus
-        });
-      }
-      return;
+      return {
+        car_safe_min: safeMin,
+        car_safe_max: safeMax,
+        car_current_payment: monthlyPayment,
+        car_affordability_status: affordabilityStatus
+      };
     }
     if (monthlyPayment <= safeMax) {
       affordabilityStatus = "Affordable (green): payment is within safe range.";
@@ -179,17 +176,15 @@ const CarLoanCalculator = (() => {
       affordabilityStatus = "Not affordable (red): payment is significantly above safe range.";
       selectors.affordabilityStatus.classList.add("status-red");
     }
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        car_safe_min: safeMin,
-        car_safe_max: safeMax,
-        car_current_payment: monthlyPayment,
-        car_affordability_status: affordabilityStatus
-      });
-    }
+    return {
+      car_safe_min: safeMin,
+      car_safe_max: safeMax,
+      car_current_payment: monthlyPayment,
+      car_affordability_status: affordabilityStatus
+    };
   };
 
-  const updateComparison = (currentMonthly) => {
+  const buildComparisonPatch = (currentMonthly) => {
     const priceB = Math.max(0, parseValue(selectors.comparePriceB));
     const downB = Math.max(0, parseValue(selectors.compareDownB));
     const rateB = Math.max(0, parseValue(selectors.compareRateB));
@@ -197,16 +192,14 @@ const CarLoanCalculator = (() => {
     const financedB = Math.max(0, priceB - downB);
     const monthlyB = getMonthlyPayment(financedB, rateB, termB);
     const diff = monthlyB - currentMonthly;
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        car_compare_monthly_a: currentMonthly,
-        car_compare_monthly_b: monthlyB,
-        car_compare_difference: diff
-      });
-    }
+    return {
+      car_compare_monthly_a: currentMonthly,
+      car_compare_monthly_b: monthlyB,
+      car_compare_difference: diff
+    };
   };
 
-  const updateInsights = (financed, annualRate) => {
+  const buildInsightsPatch = (financed, annualRate) => {
     const monthly48 = getMonthlyPayment(financed, annualRate, 48);
     const monthly72 = getMonthlyPayment(financed, annualRate, 72);
     const schedule48 = buildSchedule({ principal: financed, annualRate, totalMonths: 48, monthlyPayment: monthly48 });
@@ -215,29 +208,26 @@ const CarLoanCalculator = (() => {
     const summary72 = summarizeSchedule(schedule72);
     const monthlyDiff = Math.max(0, monthly48 - monthly72);
     const interestDiff = Math.max(0, summary72.totalInterest - summary48.totalInterest);
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        car_insight_72_vs_48: `You pay ${setCurrency(
-          interestDiff
-        )} more in total interest with 72 months vs 48 months, while reducing monthly payment by about ${setCurrency(
-          monthlyDiff
-        )}.`,
-        car_insight_interest_diff: `Interest difference over time: ${setCurrency(
-          interestDiff
-        )} in additional borrowing cost.`
-      });
-    }
+    return {
+      car_insight_72_vs_48: `You pay ${setCurrency(
+        interestDiff
+      )} more in total interest with 72 months vs 48 months, while reducing monthly payment by about ${setCurrency(monthlyDiff)}.`,
+      car_insight_interest_diff: `Interest difference over time: ${setCurrency(interestDiff)} in additional borrowing cost.`
+    };
   };
 
-  const updateSharedState = (financed, annualRate) => {
-    if (typeof SharedState === "undefined") return;
-    const { downPayment } = computeLoanBase();
+  const runCarPipeline = () => {
+    const { carPrice, financed, tradeInValue, downPayment, fees } = computeLoanBase();
+    const annualRate = Math.max(0, parseValue(selectors.interestRate));
     const totalMonths = Math.max(1, getTermInMonths());
     const monthlyPayment = getMonthlyPayment(financed, annualRate, totalMonths);
     const schedule = buildSchedule({ principal: financed, annualRate, totalMonths, monthlyPayment });
     const summary = summarizeSchedule(schedule);
-    const { carPrice, tradeInValue, fees } = computeLoanBase();
-    SharedState.setState({
+
+    renderSchedule(schedule);
+    renderCharts(schedule);
+
+    const core = {
       loan_amount: financed,
       interest_rate: annualRate,
       loan_term: totalMonths,
@@ -248,23 +238,12 @@ const CarLoanCalculator = (() => {
       car_monthly_payment: monthlyPayment,
       car_total_interest: summary.totalInterest,
       car_total_cost: carPrice - tradeInValue - downPayment + fees + summary.totalPaid
-    });
-  };
-
-  const updateResultUI = () => {
-    const { carPrice, financed, tradeInValue, downPayment, fees } = computeLoanBase();
-    const annualRate = Math.max(0, parseValue(selectors.interestRate));
-    const totalMonths = Math.max(1, getTermInMonths());
-    const monthlyPayment = getMonthlyPayment(financed, annualRate, totalMonths);
-    const schedule = buildSchedule({ principal: financed, annualRate, totalMonths, monthlyPayment });
-    const summary = summarizeSchedule(schedule);
-
-    renderSchedule(schedule);
-    renderCharts(schedule);
-    updateAffordability(monthlyPayment);
-    updateComparison(monthlyPayment);
-    updateInsights(financed, annualRate);
-    updateSharedState(financed, annualRate);
+    };
+    const aff = buildAffordabilityPatch(monthlyPayment);
+    const comp = buildComparisonPatch(monthlyPayment);
+    const ins = buildInsightsPatch(financed, annualRate);
+    if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
+    return { ...core, ...aff, ...comp, ...ins };
   };
 
   const togglePanel = () => {
@@ -288,13 +267,17 @@ const CarLoanCalculator = (() => {
       selectors.compareDownB,
       selectors.compareRateB,
       selectors.compareTermB
-    ].forEach((node) => node.addEventListener("input", updateResultUI));
+    ].forEach((node) =>
+      node.addEventListener("input", () => {
+        if (window.AppEngine) AppEngine.notifyToolInput();
+      })
+    );
 
     selectors.downPaymentType.addEventListener("change", () => {
       const isPercent = selectors.downPaymentType.value === "percent";
       selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
       selectors.downPaymentAmount.closest(".field").style.display = isPercent ? "none" : "";
-      updateResultUI();
+      if (window.AppEngine) AppEngine.notifyToolInput();
     });
 
     selectors.toggleSchedule.addEventListener("click", togglePanel);
@@ -324,24 +307,29 @@ const CarLoanCalculator = (() => {
 
   const init = () => {
     if (document.body.dataset.page !== "car-loan-calculator") return;
+    if (window.AppEngine) AppEngine.registerToolPipeline("car-loan-calculator", runCarPipeline);
     applySharedState();
     const isPercent = selectors.downPaymentType.value === "percent";
     selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
     selectors.downPaymentAmount.closest(".field").style.display = isPercent ? "none" : "";
     bindEvents();
-    updateResultUI();
-    document.addEventListener("sharedstate:updated", () => {
+    if (window.AppEngine) {
+      AppEngine.runImmediate();
+    } else if (typeof SharedState !== "undefined") {
+      SharedState.setState(runCarPipeline(), { engineCommit: true });
+    } else {
+      runCarPipeline();
+    }
+    document.addEventListener("sharedstate:updated", (event) => {
+      if (event.detail?.__engineSource === "commit") return;
       applySharedState();
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("geo:changed", () => {
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("currency:changed", () => {
-      updateResultUI();
-    });
-    document.addEventListener("inputsync:updated", () => {
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
   };
 

@@ -45,7 +45,6 @@ const SharedState = (() => {
     "mortgage_payoff_date",
     "mortgage_summary_payoff_date",
     "mortgage_affordability_warning",
-    "mortgage_down_payment_type",
     "car_monthly_payment",
     "car_total_interest",
     "car_total_cost",
@@ -115,6 +114,7 @@ const SharedState = (() => {
     "mortgage_payoff_date",
     "mortgage_summary_payoff_date",
     "mortgage_affordability_warning",
+    "mortgage_down_payment_type",
     "car_affordability_status",
     "car_insight_72_vs_48",
     "car_insight_interest_diff",
@@ -222,6 +222,11 @@ const SharedState = (() => {
   };
 
   const setState = (partial = {}, options = { syncUrl: true }) => {
+    const opts = typeof options === "object" && options !== null ? options : { syncUrl: true };
+    if (typeof window.AppEngine !== "undefined" && AppEngine.shouldDeferSetState(opts)) {
+      AppEngine.deferSetState(partial);
+      return { ...state };
+    }
     const next = normalizeState(partial);
     stringFields.forEach((field) => {
       if (!(field in partial)) return;
@@ -237,10 +242,19 @@ const SharedState = (() => {
     fields.forEach((key) => {
       if (!(key in next) && partial[key] === null) delete state[key];
     });
-    if (options.syncUrl !== false) replaceUrl();
+    if (opts.syncUrl !== false) replaceUrl();
     refreshToolLinks();
-    document.dispatchEvent(new CustomEvent("sharedstate:updated", { detail: { ...state } }));
-    window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "shared-state", state: { ...state } } }));
+    const engineSource = opts.engineCommit ? "commit" : opts.system ? "system" : "external";
+    document.dispatchEvent(new CustomEvent("sharedstate:updated", { detail: { ...state, __engineSource: engineSource } }));
+    window.dispatchEvent(
+      new CustomEvent("appStateChanged", {
+        detail: {
+          source: opts.engineCommit ? "engine-commit" : "shared-state",
+          state: { ...state },
+          bypassInputGuard: !!(opts.engineCommit || opts.system || opts.skipPhaseGuard)
+        }
+      })
+    );
     return { ...state };
   };
 

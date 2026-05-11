@@ -30,15 +30,18 @@ const InputSyncLayer = (() => {
     if (!node) return;
     if (node.dataset.programmaticUpdate === "true") return;
     const key = node.getAttribute("data-input-bind");
-    if (!key || typeof SharedState === "undefined") return;
+    if (!key) return;
+    if (typeof window.AppEngine !== "undefined") {
+      AppEngine.beginInput();
+      AppEngine.schedulePipeline();
+      console.log(`[input-sync] input phase (deferred commit): ${key}`);
+      return;
+    }
+    if (typeof SharedState === "undefined") return;
     const normalized = normalizeValue(node, key);
     const current = SharedState.getState();
     if (current[key] === normalized) return;
-    const patch = {};
-    patch[key] = normalized;
-    SharedState.setState(patch);
-    window.dispatchEvent(new CustomEvent("appStateChanged"));
-    document.dispatchEvent(new CustomEvent("inputsync:updated", { detail: { key, value: normalized } }));
+    SharedState.setState({ [key]: normalized }, { skipPhaseGuard: true });
     console.log(`[input-sync] field updated: ${key}=${normalized === null ? "null" : normalized}`);
   };
 
@@ -51,7 +54,6 @@ const InputSyncLayer = (() => {
   };
 
   const bindAll = () => {
-    if (document.body.dataset.page === "mortgage-calculator") return;
     document.querySelectorAll("[data-input-bind]").forEach(bindInput);
   };
 

@@ -69,10 +69,13 @@ const GeoFinance = (() => {
     const defaults = getCountryData(nextCountry);
     window.localStorage.setItem(STORAGE_KEY, nextCountry);
     if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        selected_country: nextCountry,
-        geo_defaults: defaults
-      });
+      SharedState.setState(
+        {
+          selected_country: nextCountry,
+          geo_defaults: defaults
+        },
+        { system: true }
+      );
     }
     document.dispatchEvent(new CustomEvent("geo:changed", { detail: { country: nextCountry, defaults } }));
     window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "geo", country: nextCountry } }));
@@ -137,9 +140,9 @@ const GeoFinance = (() => {
     if (typeof SharedState !== "undefined") {
       const state = SharedState.getState();
       if (state.selected_country !== selected) {
-        SharedState.setState({ selected_country: selected, geo_defaults: defaults });
+        SharedState.setState({ selected_country: selected, geo_defaults: defaults }, { system: true });
       } else if (!state.geo_defaults) {
-        SharedState.setState({ geo_defaults: defaults });
+        SharedState.setState({ geo_defaults: defaults }, { system: true });
       }
     }
     document.addEventListener("sharedstate:updated", renderIndicator);

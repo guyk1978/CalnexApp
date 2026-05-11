@@ -175,27 +175,24 @@ const InterestCalculator = (() => {
     if (state.interest_compounding) selectors.compounding.value = String(state.interest_compounding);
   };
 
-  const syncSharedState = ({ principal, annualRate, years, monthlyContribution, compounding, compoundAmount, totalInterest }) => {
-    if (typeof SharedState === "undefined" || isApplyingSharedState) return;
-    SharedState.setState({
-      loan_amount: principal,
-      interest_rate: annualRate,
-      loan_term: years * 12,
-      extra_payment: monthlyContribution,
-      interest_principal: principal,
-      interest_years: years,
-      interest_monthly_contribution: monthlyContribution,
-      interest_compounding: compounding,
-      interest_simple_total: calculateSimple({ principal, annualRate, years }),
-      interest_compound_total: compoundAmount,
-      interest_total_interest: totalInterest,
-      interest_final_amount: compoundAmount
-    });
-  };
+  const buildInterestPatch = ({ principal, annualRate, years, monthlyContribution, compounding }, compoundAmount, totalInterest) => ({
+    loan_amount: principal,
+    interest_rate: annualRate,
+    loan_term: years * 12,
+    extra_payment: monthlyContribution,
+    interest_principal: principal,
+    interest_years: years,
+    interest_monthly_contribution: monthlyContribution,
+    interest_compounding: compounding,
+    interest_simple_total: calculateSimple({ principal, annualRate, years }),
+    interest_compound_total: compoundAmount,
+    interest_total_interest: totalInterest,
+    interest_final_amount: compoundAmount
+  });
 
-  const updateResultUI = () => {
+  const runInterestPipeline = () => {
+    if (isApplyingSharedState) return {};
     const inputs = getInputs();
-    const simpleAmount = calculateSimple(inputs);
     const compoundAmount = calculateCompoundFinal(inputs);
     const baseContributed = inputs.principal + inputs.monthlyContribution * 12 * inputs.years;
     const totalInterest = compoundAmount - baseContributed;
@@ -203,36 +200,43 @@ const InterestCalculator = (() => {
 
     renderYearlyTable(rows);
     renderCharts(rows);
-    syncSharedState({ ...inputs, compoundAmount, totalInterest });
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
+    return buildInterestPatch(inputs, compoundAmount, totalInterest);
   };
 
   const bindEvents = () => {
     [selectors.principal, selectors.rate, selectors.years, selectors.compounding, selectors.monthlyContribution].forEach(
       (node) => {
-        node.addEventListener("input", updateResultUI);
+        node.addEventListener("input", () => {
+          if (window.AppEngine) AppEngine.notifyToolInput();
+        });
       }
     );
   };
 
   const init = () => {
     if (document.body.dataset.page !== "interest-calculator") return;
+    if (window.AppEngine) AppEngine.registerToolPipeline("interest-calculator", runInterestPipeline);
     isApplyingSharedState = true;
     applySharedState();
     isApplyingSharedState = false;
     bindEvents();
-    updateResultUI();
-    document.addEventListener("sharedstate:updated", () => {
+    if (window.AppEngine) {
+      AppEngine.runImmediate();
+    } else if (typeof SharedState !== "undefined") {
+      SharedState.setState(runInterestPipeline(), { engineCommit: true });
+    } else {
+      runInterestPipeline();
+    }
+    document.addEventListener("sharedstate:updated", (event) => {
+      if (event.detail?.__engineSource === "commit") return;
       isApplyingSharedState = true;
       applySharedState();
-      updateResultUI();
       isApplyingSharedState = false;
+      if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("currency:changed", () => {
-      updateResultUI();
-    });
-    document.addEventListener("inputsync:updated", () => {
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
   };
 

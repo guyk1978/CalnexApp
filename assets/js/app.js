@@ -200,6 +200,7 @@
     try {
       await ensureScriptLoaded("/assets/js/geo-finance.js");
       await ensureScriptLoaded("/assets/js/currency.js");
+      await ensureScriptLoaded("/assets/js/app-engine.js");
       await ensureScriptLoaded("/assets/js/ui-renderer.js");
       await ensureScriptLoaded("/assets/js/input-sync.js");
       if (window.GeoFinance?.init) {

@@ -167,23 +167,6 @@ const LoanCalculator = (() => {
       .join("");
   };
 
-  const renderScheduleSummary = (summary) => {
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        loan_summary_payoff_date: summary.months ? getPayoffDate(summary.months) : "-"
-      });
-    }
-  };
-
-  const renderComparison = (base, accelerated) => {
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        loan_before_payoff_date: getPayoffDate(base.months),
-        loan_after_payoff_date: getPayoffDate(accelerated.months)
-      });
-    }
-  };
-
   const getChartOptions = (yLabel) => ({
     responsive: true,
     maintainAspectRatio: false,
@@ -515,7 +498,7 @@ const LoanCalculator = (() => {
   const showToast = (message = "Link copied") => {
     if (!selectors.shareToast) return;
     if (typeof SharedState !== "undefined") {
-      SharedState.setState({ loan_share_toast_message: message });
+      SharedState.setState({ loan_share_toast_message: message }, { system: true });
     }
     selectors.shareToast.classList.add("is-visible");
     if (toastTimer) clearTimeout(toastTimer);
@@ -525,18 +508,6 @@ const LoanCalculator = (() => {
   };
 
   const serializeInputsToQuery = () => {
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState(
-        {
-          loan_amount: parseValue(selectors.loanAmount),
-          interest_rate: parseValue(selectors.interestRate),
-          loan_term: parseValue(selectors.loanTerm),
-          extra_payment: parseValue(selectors.extraMonthlyPayment)
-        },
-        { syncUrl: false }
-      );
-      return new URL(SharedState.getCurrentUrl()).search.slice(1);
-    }
     const params = new URLSearchParams();
     params.set("loan", parseValue(selectors.loanAmount).toFixed(0));
     params.set("rate", parseValue(selectors.interestRate).toFixed(2));
@@ -573,21 +544,7 @@ const LoanCalculator = (() => {
     return serializeInputsToQuery();
   };
 
-  const updateSeoAndUrl = () => {
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        loan_amount: parseValue(selectors.loanAmount),
-        interest_rate: parseValue(selectors.interestRate),
-        loan_term: parseValue(selectors.loanTerm),
-        extra_payment: parseValue(selectors.extraMonthlyPayment),
-        loan_monthly_payment: monthlyPayment,
-        loan_total_interest: acceleratedSummary.totalInterest,
-        loan_total_repayment: acceleratedSummary.totalPaid
-      });
-    } else {
-      const nextUrl = `${window.location.pathname}?${buildCalculationQuery()}`;
-      window.history.replaceState({}, "", nextUrl);
-    }
+  const updateSeoMeta = () => {
     if (typeof SeoModule !== "undefined") {
       SeoModule.setLoanMeta({
         amountText: setCurrency(parseValue(selectors.loanAmount)),
@@ -608,7 +565,7 @@ const LoanCalculator = (() => {
     document.querySelector('[data-share="twitter"]').href = `https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`;
   };
 
-  const updateResultUI = () => {
+  const runLoanPipeline = () => {
     const principal = parseValue(selectors.loanAmount);
     const annualRate = parseValue(selectors.interestRate);
     const totalMonths = getTermInMonths();
@@ -636,29 +593,33 @@ const LoanCalculator = (() => {
     const baseSummary = summarizeSchedule(baselineSchedule);
     const acceleratedSummary = summarizeSchedule(acceleratedSchedule);
 
-    renderScheduleSummary(acceleratedSummary);
-    renderComparison(baseSummary, acceleratedSummary);
     renderScheduleTable(displayedSchedule);
     renderCharts();
-    if (typeof SharedState !== "undefined") {
-      SharedState.setState({
-        loan_monthly_payment: monthlyPayment,
-        loan_total_interest: acceleratedSummary.totalInterest,
-        loan_total_repayment: acceleratedSummary.totalPaid,
-        loan_summary_total_payments: acceleratedSummary.totalPaid,
-        loan_summary_total_interest: acceleratedSummary.totalInterest,
-        loan_base_total_paid: baseSummary.totalPaid,
-        loan_base_total_interest: baseSummary.totalInterest,
-        loan_after_total_paid: acceleratedSummary.totalPaid,
-        loan_interest_saved: Math.max(0, baseSummary.totalInterest - acceleratedSummary.totalInterest),
-        loan_months_saved: Math.max(0, baseSummary.months - acceleratedSummary.months),
-        loan_summary_payoff_date: acceleratedSummary.months ? getPayoffDate(acceleratedSummary.months) : "-",
-        loan_before_payoff_date: getPayoffDate(baseSummary.months),
-        loan_after_payoff_date: getPayoffDate(acceleratedSummary.months)
-      });
-    }
-    updateSeoAndUrl();
+
+    const snapshot = {
+      loan_amount: principal,
+      interest_rate: annualRate,
+      loan_term: parseValue(selectors.loanTerm),
+      extra_payment: extraConfig.extraMonthly,
+      loan_monthly_payment: monthlyPayment,
+      loan_total_interest: acceleratedSummary.totalInterest,
+      loan_total_repayment: acceleratedSummary.totalPaid,
+      loan_summary_total_payments: acceleratedSummary.totalPaid,
+      loan_summary_total_interest: acceleratedSummary.totalInterest,
+      loan_base_total_paid: baseSummary.totalPaid,
+      loan_base_total_interest: baseSummary.totalInterest,
+      loan_after_total_paid: acceleratedSummary.totalPaid,
+      loan_interest_saved: Math.max(0, baseSummary.totalInterest - acceleratedSummary.totalInterest),
+      loan_months_saved: Math.max(0, baseSummary.months - acceleratedSummary.months),
+      loan_summary_payoff_date: acceleratedSummary.months ? getPayoffDate(acceleratedSummary.months) : "-",
+      loan_before_payoff_date: getPayoffDate(baseSummary.months),
+      loan_after_payoff_date: getPayoffDate(acceleratedSummary.months)
+    };
+
+    updateSeoMeta();
     updateShareLinks();
+    if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
+    return snapshot;
   };
 
   const syncRangeAndInput = (inputNode, sliderNode, options = {}) => {
@@ -668,11 +629,11 @@ const LoanCalculator = (() => {
     };
     inputNode.addEventListener("input", () => {
       sliderNode.value = clamp(Number(inputNode.value) || 0);
-      updateResultUI();
+      if (window.AppEngine) AppEngine.notifyToolInput();
     });
     sliderNode.addEventListener("input", () => {
       inputNode.value = sliderNode.value;
-      updateResultUI();
+      if (window.AppEngine) AppEngine.notifyToolInput();
     });
   };
 
@@ -741,10 +702,12 @@ const LoanCalculator = (() => {
     syncRangeAndInput(selectors.loanTerm, selectors.loanTermSlider, { min: 1, max: 360 });
     selectors.termUnit.addEventListener("change", () => {
       updateTermSliderRange();
-      updateResultUI();
+      if (window.AppEngine) AppEngine.notifyToolInput();
     });
     [selectors.extraMonthlyPayment, selectors.lumpSumPayment, selectors.paymentStartMonth].forEach((node) => {
-      node.addEventListener("input", updateResultUI);
+      node.addEventListener("input", () => {
+        if (window.AppEngine) AppEngine.notifyToolInput();
+      });
     });
     selectors.toggleAdvanced.addEventListener("click", () => {
       togglePanel(selectors.advancedPanel, selectors.toggleAdvanced, "Advanced: Extra Payments", "Hide Advanced: Extra Payments");
@@ -763,12 +726,12 @@ const LoanCalculator = (() => {
         try {
           await copyTextToClipboard(getShareUrl());
           if (typeof SharedState !== "undefined") {
-            SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." });
+            SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." }, { system: true });
           }
           showToast("Link copied");
         } catch (_error) {
           if (typeof SharedState !== "undefined") {
-            SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." });
+            SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." }, { system: true });
           }
         }
       });
@@ -778,12 +741,12 @@ const LoanCalculator = (() => {
       try {
         await copyTextToClipboard(getShareUrl());
         if (typeof SharedState !== "undefined") {
-          SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." });
+          SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." }, { system: true });
         }
         showToast("Link copied");
       } catch (_error) {
         if (typeof SharedState !== "undefined") {
-          SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." });
+          SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." }, { system: true });
         }
       }
     });
@@ -807,24 +770,31 @@ const LoanCalculator = (() => {
 
   const init = () => {
     if (!document.body.dataset.page || document.body.dataset.page !== "loan-calculator") return;
+    if (window.AppEngine) {
+      AppEngine.registerToolPipeline("loan-calculator", runLoanPipeline);
+    }
     applyQueryState();
     applyGeoDefaults(false);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     bindEvents();
-    updateResultUI();
-    document.addEventListener("sharedstate:updated", () => {
+    if (window.AppEngine) {
+      AppEngine.runImmediate();
+    } else if (typeof SharedState !== "undefined") {
+      SharedState.setState(runLoanPipeline(), { engineCommit: true });
+    } else {
+      runLoanPipeline();
+    }
+    document.addEventListener("sharedstate:updated", (event) => {
+      if (event.detail?.__engineSource === "commit") return;
       applyQueryState();
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("geo:changed", () => {
       applyGeoDefaults(true);
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("currency:changed", () => {
-      updateResultUI();
-    });
-    document.addEventListener("inputsync:updated", () => {
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
   };
 

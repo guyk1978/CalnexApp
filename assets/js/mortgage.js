@@ -47,9 +47,6 @@ const MortgageCalculator = (() => {
   let acceleratedSchedule = [];
   let principalInterestChartInstance;
   let balanceChartInstance;
-  let syncTimer = null;
-  let computeQueued = false;
-
   const parseValue = (node) => Number(node?.value) || 0;
   const setCurrency = (value) =>
     (typeof CurrencyLayer !== "undefined"
@@ -162,19 +159,6 @@ const MortgageCalculator = (() => {
     });
   };
 
-  const syncSummaryStateAsync = (patch) => {
-    if (typeof SharedState === "undefined") return;
-    if (syncTimer) clearTimeout(syncTimer);
-    syncTimer = setTimeout(() => {
-      const current = SharedState.getState();
-      const next = {};
-      Object.entries(patch).forEach(([key, value]) => {
-        if (current[key] !== value) next[key] = value;
-      });
-      if (Object.keys(next).length) SharedState.setState(next);
-    }, 0);
-  };
-
   const computeMortgage = () => {
     const homePrice = Math.max(0, parseValue(selectors.homePrice));
     const downType = selectors.downPaymentType.value === "fixed" ? "fixed" : "percent";
@@ -243,7 +227,22 @@ const MortgageCalculator = (() => {
     `;
     renderScheduleTable();
     renderCharts();
-    syncSummaryStateAsync({
+
+    if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
+
+    return {
+      loan_amount: homePrice,
+      interest_rate: annualRate,
+      loan_term: loanTermYears,
+      down_payment: downPayment,
+      income: parseValue(selectors.annualIncome),
+      extra_payment: extraMonthly,
+      mortgage_down_payment_type: selectors.downPaymentType.value,
+      mortgage_down_payment_percent: downPercent,
+      property_tax_annual: parseValue(selectors.propertyTaxAnnual),
+      home_insurance_annual: parseValue(selectors.homeInsuranceAnnual),
+      mortgage_lump_sum_payment: lumpSum,
+      mortgage_payment_start_month: paymentStartMonth,
       mortgage_computed_loan_amount: loanAmount,
       mortgage_monthly_payment: monthlyMortgagePayment,
       mortgage_total_interest: summary.totalInterest,
@@ -262,22 +261,12 @@ const MortgageCalculator = (() => {
       mortgage_compare_30_interest: summary30.totalInterest,
       mortgage_compare_interest_diff: Math.max(0, summary30.totalInterest - summary15.totalInterest),
       mortgage_affordability_warning: warning
-    });
-  };
-
-  const queueCompute = () => {
-    if (computeQueued) return;
-    computeQueued = true;
-    requestAnimationFrame(() => {
-      computeQueued = false;
-      computeMortgage();
-    });
+    };
   };
 
   const bindDirectInputEvents = () => {
     [
       selectors.homePrice,
-      selectors.downPaymentType,
       selectors.downPaymentPercent,
       selectors.downPaymentAmount,
       selectors.interestRate,
@@ -290,8 +279,11 @@ const MortgageCalculator = (() => {
       selectors.annualIncome
     ].forEach((node) => {
       if (!node) return;
-      node.addEventListener("input", queueCompute);
-      node.addEventListener("change", queueCompute);
+      const onChange = () => {
+        if (window.AppEngine) AppEngine.notifyToolInput();
+      };
+      node.addEventListener("input", onChange);
+      node.addEventListener("change", onChange);
     });
   };
 
@@ -328,12 +320,22 @@ const MortgageCalculator = (() => {
 
   const init = () => {
     if (document.body.dataset.page !== "mortgage-calculator") return;
+    if (window.AppEngine) AppEngine.registerToolPipeline("mortgage-calculator", computeMortgage);
     applyGeoDefaults();
     syncDownPaymentUi();
     bindUiEvents();
     bindDirectInputEvents();
-    selectors.downPaymentType.addEventListener("change", syncDownPaymentUi);
-    queueCompute();
+    selectors.downPaymentType.addEventListener("change", () => {
+      syncDownPaymentUi();
+      if (window.AppEngine) AppEngine.notifyToolInput();
+    });
+    if (window.AppEngine) {
+      AppEngine.runImmediate();
+    } else if (typeof SharedState !== "undefined") {
+      SharedState.setState(computeMortgage(), { engineCommit: true });
+    } else {
+      computeMortgage();
+    }
   };
 
   return { init, computeMortgage };

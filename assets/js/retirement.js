@@ -93,32 +93,30 @@ const RetirementCalculator = (() => {
     });
   };
 
-  const syncSharedState = (inputs, outputs) => {
-    if (typeof SharedState === "undefined" || isApplyingShared) return;
-    SharedState.setState({
-      retirement_current_age: inputs.currentAge,
-      retirement_target_age: inputs.targetAge,
-      retirement_current_savings: inputs.currentSavings,
-      retirement_monthly_contribution: inputs.monthlyContribution,
-      retirement_return_rate: inputs.annualReturnRate,
-      retirement_inflation_rate: inputs.inflationRate,
-      retirement_desired_income: inputs.desiredRetirementIncome,
-      retirement_years_to_retirement: outputs.yearsToRetirement,
-      retirement_projected_balance: outputs.projectedBalance,
-      retirement_inflation_adjusted_goal: outputs.inflationAdjustedGoal,
-      retirement_monthly_income: outputs.monthlyIncomeEstimate,
-      retirement_gap: outputs.fundingGap,
-      retirement_funding_gap: outputs.fundingGap,
-      retirement_readiness: outputs.readinessPercent
-    });
-  };
+  const buildRetirementPatch = (inputs, outputs) => ({
+    retirement_current_age: inputs.currentAge,
+    retirement_target_age: inputs.targetAge,
+    retirement_current_savings: inputs.currentSavings,
+    retirement_monthly_contribution: inputs.monthlyContribution,
+    retirement_return_rate: inputs.annualReturnRate,
+    retirement_inflation_rate: inputs.inflationRate,
+    retirement_desired_income: inputs.desiredRetirementIncome,
+    retirement_years_to_retirement: outputs.yearsToRetirement,
+    retirement_projected_balance: outputs.projectedBalance,
+    retirement_inflation_adjusted_goal: outputs.inflationAdjustedGoal,
+    retirement_monthly_income: outputs.monthlyIncomeEstimate,
+    retirement_gap: outputs.fundingGap,
+    retirement_funding_gap: outputs.fundingGap,
+    retirement_readiness: outputs.readinessPercent
+  });
 
-  const updateResultUI = () => {
+  const runRetirementPipeline = () => {
+    if (isApplyingShared) return {};
     const inputs = getInputs();
     const outputs = calculate(inputs);
     renderChart(outputs.projection);
-    syncSharedState(inputs, outputs);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
+    return buildRetirementPatch(inputs, outputs);
   };
 
   const applyGeoDefaults = () => {
@@ -126,10 +124,13 @@ const RetirementCalculator = (() => {
     if (state.retirement_return_rate !== undefined || state.retirement_inflation_rate !== undefined) return;
     const geo = getGeo();
     if (!geo || typeof SharedState === "undefined") return;
-    SharedState.setState({
-      retirement_return_rate: Number(geo.average_interest_rate) || 6,
-      retirement_inflation_rate: Number(geo.inflation_rate) || 2.5
-    });
+    SharedState.setState(
+      {
+        retirement_return_rate: Number(geo.average_interest_rate) || 6,
+        retirement_inflation_rate: Number(geo.inflation_rate) || 2.5
+      },
+      { system: true }
+    );
   };
 
   const applySharedState = () => {
@@ -196,32 +197,41 @@ const RetirementCalculator = (() => {
       selectors.desiredIncome
     ].forEach((node) => {
       if (!node) return;
-      node.addEventListener("input", updateResultUI);
+      node.addEventListener("input", () => {
+        if (window.AppEngine) AppEngine.notifyToolInput();
+      });
     });
     bindScenarios();
   };
 
   const init = () => {
     if (document.body.dataset.page !== "retirement-calculator") return;
+    if (window.AppEngine) AppEngine.registerToolPipeline("retirement-calculator", runRetirementPipeline);
     applyGeoDefaults();
     isApplyingShared = true;
     applySharedState();
     isApplyingShared = false;
     bindEvents();
-    updateResultUI();
-    document.addEventListener("sharedstate:updated", () => {
+    if (window.AppEngine) {
+      AppEngine.runImmediate();
+    } else if (typeof SharedState !== "undefined") {
+      SharedState.setState(runRetirementPipeline(), { engineCommit: true });
+    } else {
+      runRetirementPipeline();
+    }
+    document.addEventListener("sharedstate:updated", (event) => {
+      if (event.detail?.__engineSource === "commit") return;
       isApplyingShared = true;
       applySharedState();
       isApplyingShared = false;
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
-    document.addEventListener("currency:changed", updateResultUI);
+    document.addEventListener("currency:changed", () => {
+      if (window.AppEngine) AppEngine.runImmediate();
+    });
     document.addEventListener("geo:changed", () => {
       applyGeoDefaults();
-      updateResultUI();
-    });
-    document.addEventListener("inputsync:updated", () => {
-      updateResultUI();
+      if (window.AppEngine) AppEngine.runImmediate();
     });
   };
 

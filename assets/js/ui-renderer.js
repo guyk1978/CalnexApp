@@ -48,7 +48,6 @@ const UiRenderer = (() => {
   };
 
   const renderInputs = () => {
-    if (document.body.dataset.page === "mortgage-calculator") return;
     const state = getState();
     document.querySelectorAll("[data-input-bind]").forEach((node) => {
       const key = node.getAttribute("data-input-bind");
@@ -69,7 +68,6 @@ const UiRenderer = (() => {
   };
 
   const renderOutputs = () => {
-    if (document.body.dataset.page === "mortgage-calculator") return;
     const state = getState();
     const derived = getDerivedState();
     let boundCount = 0;
@@ -104,11 +102,20 @@ const UiRenderer = (() => {
     renderDashboard();
   };
 
+  let appStateListenerAttached = false;
   const init = () => {
     renderAll();
     console.log("[Renderer] full declarative coverage active");
     console.log("[Renderer] 100% declarative mode active");
-    window.addEventListener("appStateChanged", renderAll);
+    if (appStateListenerAttached) return;
+    appStateListenerAttached = true;
+    window.addEventListener("appStateChanged", (event) => {
+      if (typeof window.AppEngine !== "undefined" && AppEngine.isInputPhase() && !event.detail?.bypassInputGuard) {
+        console.log("[ENGINE] render phase skipped (input — no bypass)");
+        return;
+      }
+      renderAll();
+    });
   };
 
   return {

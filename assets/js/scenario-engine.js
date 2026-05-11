@@ -8,7 +8,7 @@ const ScenarioEngine = (() => {
   const nowIso = () => new Date().toISOString();
   const getShared = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
   const setShared = (next) => {
-    if (typeof SharedState !== "undefined") SharedState.setState(next);
+    if (typeof SharedState !== "undefined") SharedState.setState(next, { system: true });
   };
 
   const load = () => {
