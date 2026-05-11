@@ -168,7 +168,7 @@ const MortgageCalculator = (() => {
       x: { title: { display: true, text: "Month" } },
       y: {
         title: { display: true, text: yLabel },
-        ticks: { callback: (value) => `$${Number(value).toLocaleString("en-US")}` }
+        ticks: { callback: (value) => setCurrency(Number(value) || 0) }
       }
     }
   });

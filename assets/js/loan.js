@@ -218,7 +218,7 @@ const LoanCalculator = (() => {
           text: yLabel
         },
         ticks: {
-          callback: (value) => `$${Number(value).toLocaleString("en-US")}`
+          callback: (value) => setCurrency(Number(value) || 0)
         }
       }
     }

@@ -35,6 +35,12 @@ const CurrencyLayer = (() => {
     return normalizeCurrency(local);
   };
 
+  const getCurrentCurrency = () => getSelectedCurrency();
+  const getCurrencySymbol = (currency = getSelectedCurrency()) => {
+    const code = normalizeCurrency(currency);
+    return SYMBOLS[code] || "$";
+  };
+
   const convertFromUsd = (value, currency = getSelectedCurrency()) => {
     const nextCurrency = normalizeCurrency(currency);
     const rate = RATES_FROM_USD[nextCurrency] || 1;
@@ -110,6 +116,13 @@ const CurrencyLayer = (() => {
     });
   };
 
+  const syncCurrencySymbols = () => {
+    const symbol = getCurrencySymbol();
+    document.querySelectorAll("[data-currency-symbol]").forEach((node) => {
+      node.textContent = symbol;
+    });
+  };
+
   const init = () => {
     renderHeaderSelector();
     renderDashboardSelector();
@@ -118,8 +131,11 @@ const CurrencyLayer = (() => {
     if (typeof SharedState !== "undefined" && SharedState.getState().currency !== selected) {
       SharedState.setState({ currency: selected });
     }
-    console.log("[CalnexApp] Selected currency", selected);
+    syncCurrencySymbols();
+    console.log("[CalnexApp] Selected currency", selected, "sample:", formatCurrency(1234.56, selected));
     document.addEventListener("sharedstate:updated", syncSelectors);
+    document.addEventListener("sharedstate:updated", syncCurrencySymbols);
+    document.addEventListener("currency:changed", syncCurrencySymbols);
   };
 
   return {
@@ -127,6 +143,8 @@ const CurrencyLayer = (() => {
     RATES_FROM_USD,
     SYMBOLS,
     getSelectedCurrency,
+    getCurrentCurrency,
+    getCurrencySymbol,
     setCurrency,
     convertFromUsd,
     formatCurrency,
@@ -136,6 +154,8 @@ const CurrencyLayer = (() => {
 })();
 
 window.formatCurrency = (value, currency) => CurrencyLayer.formatCurrency(value, currency);
+window.getCurrencySymbol = (currency) => CurrencyLayer.getCurrencySymbol(currency);
+window.getCurrentCurrency = () => CurrencyLayer.getCurrentCurrency();
 if (document.readyState === "loading") {
   window.addEventListener("DOMContentLoaded", CurrencyLayer.init);
 } else {

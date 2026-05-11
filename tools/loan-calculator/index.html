@@ -43,6 +43,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -51,7 +52,7 @@
   "name": "Loan Calculator",
   "description": "Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/loan-calculator/",
-  "dateModified": "2026-05-11T10:17:15.333Z",
+  "dateModified": "2026-05-11T10:21:17.645Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -117,7 +118,7 @@
           <div class="field">
             <label for="loanAmount">Loan Amount</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="loanAmount" name="loanAmount" type="number" min="100" step="100" value="10000" required />
             </div>
             <input id="loanAmountSlider" type="range" min="1000" max="500000" step="500" value="10000" />
@@ -147,7 +148,7 @@
               <div class="field">
                 <label for="extraMonthlyPayment">Extra Monthly Payment</label>
                 <div class="input-with-prefix">
-                  <span>$</span>
+                  <span data-currency-symbol>¤</span>
                   <input
                     id="extraMonthlyPayment"
                     name="extraMonthlyPayment"
@@ -161,7 +162,7 @@
               <div class="field">
                 <label for="lumpSumPayment">One-Time Lump Sum Payment</label>
                 <div class="input-with-prefix">
-                  <span>$</span>
+                  <span data-currency-symbol>¤</span>
                   <input id="lumpSumPayment" name="lumpSumPayment" type="number" min="0" step="100" value="0" />
                 </div>
               </div>
@@ -178,15 +179,15 @@
           <dl class="result-grid">
             <div>
               <dt>Monthly Payment</dt>
-              <dd id="monthlyPayment">$0.00</dd>
+              <dd id="monthlyPayment">0.00</dd>
             </div>
             <div>
               <dt>Total Interest</dt>
-              <dd id="totalInterest">$0.00</dd>
+              <dd id="totalInterest">0.00</dd>
             </div>
             <div>
               <dt>Total Repayment</dt>
-              <dd id="totalRepayment">$0.00</dd>
+              <dd id="totalRepayment">0.00</dd>
             </div>
           </dl>
 
@@ -194,14 +195,14 @@
             <article class="comparison-card">
               <p class="eyebrow">Before Extra Payments</p>
               <p class="muted">Payoff: <strong id="beforePayoffDate">-</strong></p>
-              <p class="muted">Total Paid: <strong id="beforeTotalPaid">$0.00</strong></p>
-              <p class="muted">Total Interest: <strong id="beforeTotalInterest">$0.00</strong></p>
+              <p class="muted">Total Paid: <strong id="beforeTotalPaid">0.00</strong></p>
+              <p class="muted">Total Interest: <strong id="beforeTotalInterest">0.00</strong></p>
             </article>
             <article class="comparison-card">
               <p class="eyebrow">After Extra Payments</p>
               <p class="muted">Payoff: <strong id="afterPayoffDate">-</strong></p>
-              <p class="muted">Total Paid: <strong id="afterTotalPaid">$0.00</strong></p>
-              <p class="muted">Interest Saved: <strong id="interestSaved">$0.00</strong></p>
+              <p class="muted">Total Paid: <strong id="afterTotalPaid">0.00</strong></p>
+              <p class="muted">Interest Saved: <strong id="interestSaved">0.00</strong></p>
               <p class="muted">Months Saved: <strong id="monthsSaved">0</strong></p>
             </article>
           </div>
@@ -234,7 +235,7 @@
       </div>
 
       <section class="card savings-banner" id="savingsBanner" aria-live="polite">
-        You save <strong id="bannerMonthsSaved">0 months</strong> and <strong id="bannerInterestSaved">$0.00</strong> in
+        You save <strong id="bannerMonthsSaved">0 months</strong> and <strong id="bannerInterestSaved">0.00</strong> in
         interest.
       </section>
 
@@ -268,11 +269,11 @@
           <div class="amortization-summary">
             <div class="summary-item">
               <span>Total Payments</span>
-              <strong id="summaryTotalPayments">$0.00</strong>
+              <strong id="summaryTotalPayments">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Total Interest</span>
-              <strong id="summaryTotalInterest">$0.00</strong>
+              <strong id="summaryTotalInterest">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Payoff Date</span>
@@ -337,6 +338,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -357,6 +359,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -365,6 +368,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       

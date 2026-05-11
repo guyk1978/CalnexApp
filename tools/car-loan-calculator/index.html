@@ -34,6 +34,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -42,7 +43,7 @@
   "name": "Car Loan Calculator",
   "description": "Car Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/car-loan-calculator/",
-  "dateModified": "2026-05-11T10:17:15.335Z",
+  "dateModified": "2026-05-11T10:21:17.645Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -124,7 +125,7 @@
           <div class="field">
             <label for="carPrice">Car Price</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="carPrice" type="number" min="1000" step="500" value="35000" />
             </div>
           </div>
@@ -143,9 +144,9 @@
           </div>
 
           <div class="field">
-            <label for="carDownPaymentAmount">Down Payment ($)</label>
+            <label for="carDownPaymentAmount">Down Payment (<span data-currency-symbol>¤</span>)</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="carDownPaymentAmount" type="number" min="0" step="250" value="3500" />
             </div>
           </div>
@@ -153,7 +154,7 @@
           <div class="field">
             <label for="tradeInValue">Trade-in Value (optional)</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="tradeInValue" type="number" min="0" step="250" value="0" />
             </div>
           </div>
@@ -161,7 +162,7 @@
           <div class="field">
             <label for="carFees">Fees (optional)</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="carFees" type="number" min="0" step="100" value="500" />
             </div>
           </div>
@@ -184,7 +185,7 @@
 
           <div class="field">
             <label>Financed Amount (Auto)</label>
-            <p id="carComputedLoanAmount" class="btn-ghost" style="padding: 0.6rem 0.7rem; border-radius: 10px">$0.00</p>
+            <p id="carComputedLoanAmount" class="btn-ghost" style="padding: 0.6rem 0.7rem; border-radius: 10px">0.00</p>
           </div>
         </form>
 
@@ -193,15 +194,15 @@
           <dl class="result-grid">
             <div>
               <dt>Monthly Car Loan Payment</dt>
-              <dd id="carMonthlyPayment">$0.00</dd>
+              <dd id="carMonthlyPayment">0.00</dd>
             </div>
             <div>
               <dt>Total Interest Paid</dt>
-              <dd id="carTotalInterestPaid">$0.00</dd>
+              <dd id="carTotalInterestPaid">0.00</dd>
             </div>
             <div>
               <dt>Total Cost of Vehicle</dt>
-              <dd id="carTotalVehicleCost">$0.00</dd>
+              <dd id="carTotalVehicleCost">0.00</dd>
             </div>
           </dl>
         </aside>
@@ -212,12 +213,12 @@
         <div class="field">
           <label for="carAnnualIncome">Annual Income</label>
           <div class="input-with-prefix">
-            <span>$</span>
+            <span data-currency-symbol>¤</span>
             <input id="carAnnualIncome" type="number" min="0" step="1000" value="72000" />
           </div>
         </div>
-        <p class="muted">Safe monthly range: <strong id="carSafeMin">$0.00</strong> to <strong id="carSafeMax">$0.00</strong></p>
-        <p class="muted">Your estimated payment: <strong id="carCurrentPayment">$0.00</strong></p>
+        <p class="muted">Safe monthly range: <strong id="carSafeMin">0.00</strong> to <strong id="carSafeMax">0.00</strong></p>
+        <p class="muted">Your estimated payment: <strong id="carCurrentPayment">0.00</strong></p>
         <p id="carAffordabilityStatus" class="muted">Add income to evaluate affordability range.</p>
       </section>
 
@@ -245,9 +246,9 @@
           </article>
           <article class="comparison-card">
             <p class="eyebrow">Monthly Cost Comparison</p>
-            <p class="muted">Car A Monthly: <strong id="compareMonthlyA">$0.00</strong></p>
-            <p class="muted">Car B Monthly: <strong id="compareMonthlyB">$0.00</strong></p>
-            <p class="muted">Difference: <strong id="compareDifference">$0.00</strong></p>
+            <p class="muted">Car A Monthly: <strong id="compareMonthlyA">0.00</strong></p>
+            <p class="muted">Car B Monthly: <strong id="compareMonthlyB">0.00</strong></p>
+            <p class="muted">Difference: <strong id="compareDifference">0.00</strong></p>
           </article>
         </div>
       </section>
@@ -328,6 +329,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -342,6 +344,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -350,6 +353,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       

@@ -160,13 +160,13 @@
 
   const bootstrapGlobalLayers = async () => {
     try {
-      await ensureScriptLoaded("/assets/js/currency.js");
       await ensureScriptLoaded("/assets/js/geo-finance.js");
-      if (window.CurrencyLayer?.init) {
-        window.CurrencyLayer.init();
-      }
+      await ensureScriptLoaded("/assets/js/currency.js");
       if (window.GeoFinance?.init) {
         window.GeoFinance.init();
+      }
+      if (window.CurrencyLayer?.init) {
+        window.CurrencyLayer.init();
       }
       console.log("[CalnexApp] Global layers active", {
         currency: window.CurrencyLayer?.getSelectedCurrency?.(),

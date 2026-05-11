@@ -37,6 +37,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -45,7 +46,7 @@
   "name": "Mortgage Calculator",
   "description": "Mortgage Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/mortgage-calculator/",
-  "dateModified": "2026-05-11T10:17:15.335Z",
+  "dateModified": "2026-05-11T10:21:17.645Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -111,7 +112,7 @@
           <div class="field">
             <label for="homePrice">Home Price</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="homePrice" type="number" min="50000" step="1000" value="450000" />
             </div>
           </div>
@@ -130,16 +131,16 @@
           </div>
 
           <div class="field">
-            <label for="downPaymentAmount">Down Payment ($)</label>
+            <label for="downPaymentAmount">Down Payment (<span data-currency-symbol>¤</span>)</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="downPaymentAmount" type="number" min="0" step="1000" value="90000" />
             </div>
           </div>
 
           <div class="field">
             <label>Loan Amount (Auto)</label>
-            <p id="computedLoanAmount" class="btn-ghost" style="padding:0.6rem 0.7rem; border-radius:10px;">$0.00</p>
+            <p id="computedLoanAmount" class="btn-ghost" style="padding:0.6rem 0.7rem; border-radius:10px;">0.00</p>
           </div>
 
           <div class="field">
@@ -159,7 +160,7 @@
           <div class="field">
             <label for="propertyTaxAnnual">Property Tax (Annual, optional)</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="propertyTaxAnnual" type="number" min="0" step="100" value="5400" />
             </div>
           </div>
@@ -167,7 +168,7 @@
           <div class="field">
             <label for="homeInsuranceAnnual">Home Insurance (Annual, optional)</label>
             <div class="input-with-prefix">
-              <span>$</span>
+              <span data-currency-symbol>¤</span>
               <input id="homeInsuranceAnnual" type="number" min="0" step="100" value="1800" />
             </div>
           </div>
@@ -178,14 +179,14 @@
               <div class="field">
                 <label for="mortgageExtraMonthlyPayment">Extra Monthly Payment</label>
                 <div class="input-with-prefix">
-                  <span>$</span>
+                  <span data-currency-symbol>¤</span>
                   <input id="mortgageExtraMonthlyPayment" type="number" min="0" step="25" value="0" />
                 </div>
               </div>
               <div class="field">
                 <label for="mortgageLumpSumPayment">One-Time Lump Sum Payment</label>
                 <div class="input-with-prefix">
-                  <span>$</span>
+                  <span data-currency-symbol>¤</span>
                   <input id="mortgageLumpSumPayment" type="number" min="0" step="500" value="0" />
                 </div>
               </div>
@@ -202,23 +203,23 @@
           <dl class="result-grid">
             <div>
               <dt>Monthly Mortgage Payment</dt>
-              <dd id="monthlyMortgagePayment">$0.00</dd>
+              <dd id="monthlyMortgagePayment">0.00</dd>
             </div>
             <div>
               <dt>Total Interest Paid</dt>
-              <dd id="totalInterestPaid">$0.00</dd>
+              <dd id="totalInterestPaid">0.00</dd>
             </div>
             <div>
               <dt>Total Cost of Home</dt>
-              <dd id="totalHomeCost">$0.00</dd>
+              <dd id="totalHomeCost">0.00</dd>
             </div>
           </dl>
 
           <div class="comparison-grid">
             <article class="comparison-card">
               <p class="eyebrow">Loan Breakdown</p>
-              <p class="muted">Principal + Interest: <strong id="principalInterestMonthly">$0.00</strong></p>
-              <p class="muted">Tax + Insurance: <strong id="taxInsuranceMonthly">$0.00</strong></p>
+              <p class="muted">Principal + Interest: <strong id="principalInterestMonthly">0.00</strong></p>
+              <p class="muted">Tax + Insurance: <strong id="taxInsuranceMonthly">0.00</strong></p>
               <p class="muted">Payoff Date: <strong id="payoffDate">-</strong></p>
             </article>
             <article class="comparison-card">
@@ -235,12 +236,12 @@
         <div class="field">
           <label for="annualIncome">Annual Household Income</label>
           <div class="input-with-prefix">
-            <span>$</span>
+            <span data-currency-symbol>¤</span>
             <input id="annualIncome" type="number" min="0" step="1000" value="120000" />
           </div>
         </div>
-        <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment">$0.00</strong></p>
-        <p class="muted">Your estimated monthly payment: <strong id="actualPayment">$0.00</strong></p>
+        <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment">0.00</strong></p>
+        <p class="muted">Your estimated monthly payment: <strong id="actualPayment">0.00</strong></p>
         <p id="affordabilityWarning" class="muted">Enter annual income to get an affordability signal.</p>
       </section>
 
@@ -249,16 +250,16 @@
         <div class="comparison-grid">
           <article class="comparison-card">
             <p class="eyebrow">15-Year</p>
-            <p class="muted">Monthly: <strong id="compare15Monthly">$0.00</strong></p>
-            <p class="muted">Total Interest: <strong id="compare15Interest">$0.00</strong></p>
+            <p class="muted">Monthly: <strong id="compare15Monthly">0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare15Interest">0.00</strong></p>
           </article>
           <article class="comparison-card">
             <p class="eyebrow">30-Year</p>
-            <p class="muted">Monthly: <strong id="compare30Monthly">$0.00</strong></p>
-            <p class="muted">Total Interest: <strong id="compare30Interest">$0.00</strong></p>
+            <p class="muted">Monthly: <strong id="compare30Monthly">0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare30Interest">0.00</strong></p>
           </article>
         </div>
-        <p class="muted">Interest difference: <strong id="compareInterestDifference">$0.00</strong></p>
+        <p class="muted">Interest difference: <strong id="compareInterestDifference">0.00</strong></p>
         <div id="comparisonBars"></div>
       </section>
 
@@ -292,11 +293,11 @@
           <div class="amortization-summary">
             <div class="summary-item">
               <span>Total Payments</span>
-              <strong id="mortgageSummaryTotalPayments">$0.00</strong>
+              <strong id="mortgageSummaryTotalPayments">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Total Interest</span>
-              <strong id="mortgageSummaryTotalInterest">$0.00</strong>
+              <strong id="mortgageSummaryTotalInterest">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Payoff Date</span>
@@ -365,6 +366,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -382,6 +384,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -390,6 +393,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
