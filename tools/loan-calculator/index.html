@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Calculator - CalnexApp</title>
+    <meta
+      name="description"
+      content="Calculate monthly loan payments, total interest, and total repayment instantly with CalnexApp."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Loan Calculator - CalnexApp" />
+    <meta
+      property="og:description"
+      content="Use our fast loan calculator to plan repayments with confidence."
+    />
+    <meta property="og:url" content="https://calnexapp.com/tools/loan-calculator/" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <meta property="og:image" content="https://calnexapp.com/og-loan-calculator.png" />
+    <link rel="canonical" href="https://calnexapp.com/tools/loan-calculator/" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+  <body data-page="loan-calculator">
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/tools/loan-calculator/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section-space">
+      <section class="page-title">
+        <p class="eyebrow">Tool</p>
+        <h1>Loan Calculator</h1>
+        <p>Get precise repayment estimates in real time.</p>
+      </section>
+
+      <section class="calculator-layout">
+        <form class="card input-card" id="loan-form" aria-label="Loan calculator form">
+          <div class="field">
+            <label for="loanAmount">Loan Amount</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="loanAmount" name="loanAmount" type="number" min="100" step="100" value="10000" required />
+            </div>
+            <input id="loanAmountSlider" type="range" min="1000" max="500000" step="500" value="10000" />
+          </div>
+
+          <div class="field">
+            <label for="interestRate">Interest Rate (%)</label>
+            <input id="interestRate" name="interestRate" type="number" min="0" max="100" step="0.1" value="5" required />
+            <input id="interestRateSlider" type="range" min="0" max="25" step="0.1" value="5" />
+          </div>
+
+          <div class="field">
+            <label for="loanTerm">Loan Term</label>
+            <div class="term-group">
+              <input id="loanTerm" name="loanTerm" type="number" min="1" step="1" value="5" required />
+              <select id="termUnit" name="termUnit">
+                <option value="years" selected>Years</option>
+                <option value="months">Months</option>
+              </select>
+            </div>
+            <input id="loanTermSlider" type="range" min="1" max="30" step="1" value="5" />
+          </div>
+        </form>
+
+        <aside class="card output-card" aria-live="polite">
+          <h2>Results</h2>
+          <dl class="result-grid">
+            <div>
+              <dt>Monthly Payment</dt>
+              <dd id="monthlyPayment">$0.00</dd>
+            </div>
+            <div>
+              <dt>Total Interest</dt>
+              <dd id="totalInterest">$0.00</dd>
+            </div>
+            <div>
+              <dt>Total Repayment</dt>
+              <dd id="totalRepayment">$0.00</dd>
+            </div>
+          </dl>
+
+          <div class="share-tools">
+            <h3>Share this calculation</h3>
+            <div class="share-actions">
+              <button type="button" class="btn btn-ghost share-btn" data-share="copy">Copy Link</button>
+              <a class="btn btn-ghost share-btn" data-share="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="btn btn-ghost share-btn" data-share="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+              <a class="btn btn-ghost share-btn" data-share="twitter" href="#" target="_blank" rel="noopener">Twitter/X</a>
+            </div>
+            <p id="copyFeedback" class="copy-feedback" role="status" aria-live="polite"></p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="card" data-related-tools data-current-tool="loan-calculator"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/blog/">Blog</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="/assets/js/app.js" defer></script>
+    <script src="/assets/js/seo.js" defer></script>
+    <script src="/assets/js/loan.js" defer></script>
+  </body>
+</html>

@@ -1,5 +1,28 @@
-/ /public/index.html 200
-/calculator /public/calculator.html 200
-/blog /public/blog/index.html 200
-/blog/ /public/blog/index.html 200
-/blog/:slug /public/blog/post.html?slug=:slug 200
+/ /index.html 200
+/index.html / 301
+
+# Core directory routes
+/about /about/ 301
+/about/ /about/index.html 200
+/contact /contact/ 301
+/contact/ /contact/index.html 200
+/blog /blog/ 301
+/blog/ /blog/index.html 200
+/tools /tools/loan-calculator/ 302
+
+# Tool directories
+/tools/loan-calculator /tools/loan-calculator/ 301
+/tools/loan-calculator/ /tools/loan-calculator/index.html 200
+/tools/mortgage-calculator /tools/mortgage-calculator/ 301
+/tools/mortgage-calculator/ /tools/mortgage-calculator/index.html 200
+/tools/car-loan-calculator /tools/car-loan-calculator/ 301
+/tools/car-loan-calculator/ /tools/car-loan-calculator/index.html 200
+/tools/interest-calculator /tools/interest-calculator/ 301
+/tools/interest-calculator/ /tools/interest-calculator/index.html 200
+
+# Legacy route support
+/calculator /tools/loan-calculator/ 301
+/calculator/ /tools/loan-calculator/ 301
+/calculator.html /tools/loan-calculator/ 301
+/blog/post.html /blog/ 301
+/blog/:slug /blog/ 302

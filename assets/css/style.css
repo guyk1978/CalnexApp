@@ -45,6 +45,7 @@ a {
   align-items: center;
   justify-content: space-between;
   min-height: 68px;
+  gap: 1rem;
 }
 
 .brand {
@@ -55,7 +56,8 @@ a {
 
 .menu {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.9rem;
 }
 
 .menu a {
@@ -72,7 +74,8 @@ a {
 }
 
 .hero-grid,
-.calculator-layout {
+.calculator-layout,
+.placeholder-grid {
   display: grid;
   gap: 1.2rem;
 }
@@ -93,7 +96,8 @@ a {
 }
 
 .hero-copy,
-.page-title p {
+.page-title p,
+.muted {
   color: var(--muted);
 }
 
@@ -247,27 +251,21 @@ input[type="range"] {
   font-size: 0.88rem;
 }
 
-.blog-grid {
+.blog-grid,
+.tool-grid,
+.related-tools-grid {
   display: grid;
   gap: 1rem;
 }
 
-.blog-card h2 {
+.blog-card h2,
+.tool-card h2 {
   margin: 0 0 0.35rem;
 }
 
 .blog-meta {
   color: var(--muted);
   font-size: 0.9rem;
-}
-
-.post-card h1 {
-  margin-top: 0;
-}
-
-.post-content p {
-  margin: 0 0 1rem;
-  color: #233752;
 }
 
 .site-footer {
@@ -280,8 +278,15 @@ input[type="range"] {
   min-height: 62px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 0.9rem;
 }
 
 @media (min-width: 768px) {
@@ -295,7 +300,10 @@ input[type="range"] {
     align-items: start;
   }
 
-  .blog-grid {
+  .blog-grid,
+  .tool-grid,
+  .related-tools-grid,
+  .placeholder-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

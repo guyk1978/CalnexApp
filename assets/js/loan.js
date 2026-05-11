@@ -52,6 +52,41 @@ const LoanCalculator = (() => {
     return { monthly, totalInterest, totalRepayment };
   };
 
+  const buildCalculationQuery = () => {
+    const params = new URLSearchParams();
+    params.set("amount", parseValue(selectors.loanAmount).toFixed(0));
+    params.set("rate", parseValue(selectors.interestRate).toFixed(2));
+    params.set("term", parseValue(selectors.loanTerm).toFixed(0));
+    params.set("unit", selectors.termUnit.value);
+    return params.toString();
+  };
+
+  const updateSeoAndUrl = () => {
+    const query = buildCalculationQuery();
+    const nextUrl = `${window.location.pathname}?${query}`;
+    window.history.replaceState({}, "", nextUrl);
+    if (window.SeoModule) {
+      window.SeoModule.setLoanMeta({
+        amountText: setCurrency(parseValue(selectors.loanAmount)),
+        term: parseValue(selectors.loanTerm),
+        unit: selectors.termUnit.value,
+        rate: parseValue(selectors.interestRate)
+      });
+    }
+  };
+
+  const updateShareLinks = () => {
+    const url = window.location.href;
+    const text = encodeURIComponent(document.title);
+    const encodedUrl = encodeURIComponent(url);
+    document.querySelector('[data-share="whatsapp"]').href =
+      `https://wa.me/?text=${text}%20${encodedUrl}`;
+    document.querySelector('[data-share="facebook"]').href =
+      `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+    document.querySelector('[data-share="twitter"]').href =
+      `https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`;
+  };
+
   const updateResultUI = () => {
     const result = calculateLoan();
     selectors.monthlyPayment.textContent = setCurrency(result.monthly);
@@ -81,57 +116,15 @@ const LoanCalculator = (() => {
     });
   };
 
-  const buildCalculationQuery = () => {
-    const params = new URLSearchParams();
-    params.set("amount", parseValue(selectors.loanAmount).toFixed(0));
-    params.set("rate", parseValue(selectors.interestRate).toFixed(2));
-    params.set("term", parseValue(selectors.loanTerm).toFixed(0));
-    params.set("unit", selectors.termUnit.value);
-    return params.toString();
-  };
-
-  const getCalculationText = () => {
-    const amount = setCurrency(parseValue(selectors.loanAmount));
-    const rate = `${parseValue(selectors.interestRate)}%`;
-    const term = parseValue(selectors.loanTerm);
-    const unit = selectors.termUnit.value;
-    return `Loan Calculator - ${amount} over ${term} ${unit} at ${rate}`;
-  };
-
-  const updateSeoAndUrl = () => {
-    const title = getCalculationText();
-    const description = `Estimate monthly payment, total interest, and total repayment for ${title.replace(
-      "Loan Calculator - ",
-      ""
-    )}.`;
-    const query = buildCalculationQuery();
-    const nextUrl = `${window.location.pathname}?${query}`;
-
-    document.title = title;
-    const descriptionTag = document.querySelector('meta[name="description"]');
-    if (descriptionTag) {
-      descriptionTag.setAttribute("content", description);
+  const updateTermSliderRange = () => {
+    const inYears = selectors.termUnit.value === "years";
+    selectors.loanTermSlider.max = inYears ? "30" : "360";
+    selectors.loanTermSlider.min = "1";
+    selectors.loanTermSlider.step = "1";
+    if (Number(selectors.loanTerm.value) > Number(selectors.loanTermSlider.max)) {
+      selectors.loanTerm.value = selectors.loanTermSlider.max;
     }
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogTitle) ogTitle.setAttribute("content", title);
-    if (ogDesc) ogDesc.setAttribute("content", description);
-    if (ogUrl) ogUrl.setAttribute("content", `${window.location.origin}${nextUrl}`);
-
-    window.history.replaceState({}, "", nextUrl);
-  };
-
-  const updateShareLinks = () => {
-    const url = window.location.href;
-    const text = encodeURIComponent(getCalculationText());
-    const encodedUrl = encodeURIComponent(url);
-    document.querySelector('[data-share="whatsapp"]').href =
-      `https://wa.me/?text=${text}%20${encodedUrl}`;
-    document.querySelector('[data-share="facebook"]').href =
-      `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-    document.querySelector('[data-share="twitter"]').href =
-      `https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`;
+    selectors.loanTermSlider.value = selectors.loanTerm.value;
   };
 
   const applyQueryState = () => {
@@ -159,31 +152,17 @@ const LoanCalculator = (() => {
     }
   };
 
-  const updateTermSliderRange = () => {
-    const inYears = selectors.termUnit.value === "years";
-    selectors.loanTermSlider.max = inYears ? "30" : "360";
-    selectors.loanTermSlider.min = "1";
-    selectors.loanTermSlider.step = "1";
-    if (Number(selectors.loanTerm.value) > Number(selectors.loanTermSlider.max)) {
-      selectors.loanTerm.value = selectors.loanTermSlider.max;
-    }
-    selectors.loanTermSlider.value = selectors.loanTerm.value;
-  };
-
   const bindEvents = () => {
     syncRangeAndInput(selectors.loanAmount, selectors.loanAmountSlider, { min: 1000, max: 500000 });
     syncRangeAndInput(selectors.interestRate, selectors.interestRateSlider, { min: 0, max: 25 });
     syncRangeAndInput(selectors.loanTerm, selectors.loanTermSlider, { min: 1, max: 360 });
-
     selectors.termUnit.addEventListener("change", () => {
       updateTermSliderRange();
       updateResultUI();
     });
 
     selectors.shareButtons.forEach((node) => {
-      if (node.dataset.share !== "copy") {
-        return;
-      }
+      if (node.dataset.share !== "copy") return;
       node.addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(window.location.href);
@@ -196,9 +175,7 @@ const LoanCalculator = (() => {
   };
 
   const init = () => {
-    if (!document.body.dataset.page || document.body.dataset.page !== "calculator") {
-      return;
-    }
+    if (!document.body.dataset.page || document.body.dataset.page !== "loan-calculator") return;
     applyQueryState();
     bindEvents();
     updateResultUI();

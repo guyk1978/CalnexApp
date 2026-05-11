@@ -3,29 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CalnexApp - Smart Financial Calculators</title>
+    <title>CalnexApp - Financial Calculator Platform</title>
     <meta
       name="description"
-      content="CalnexApp offers fast, simple financial calculators. Start with our loan calculator and plan repayments with confidence."
+      content="CalnexApp is a SaaS-style financial tools platform with calculators for loans, mortgages, car finance, and interest planning."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="CalnexApp - Smart Financial Calculators" />
+    <meta property="og:title" content="CalnexApp - Financial Calculator Platform" />
     <meta
       property="og:description"
-      content="Use the CalnexApp loan calculator to estimate monthly payment, total interest, and total repayment instantly."
+      content="Use CalnexApp tools to make smarter borrowing and repayment decisions."
     />
     <meta property="og:url" content="https://calnexapp.com/" />
     <meta property="og:site_name" content="CalnexApp" />
     <link rel="canonical" href="https://calnexapp.com/" />
-    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
         <nav class="menu">
-          <a href="/calculator">Loan Calculator</a>
-          <a href="/blog">Blog</a>
+          <a href="/" data-nav-link>Home</a>
+          <a href="/tools/loan-calculator/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
         </nav>
       </div>
     </header>
@@ -34,27 +37,51 @@
       <section class="hero">
         <div class="container hero-grid">
           <div>
-            <p class="eyebrow">Financial Tools Platform</p>
-            <h1>Calculate smarter financial decisions in seconds.</h1>
+            <p class="eyebrow">Financial SaaS Platform</p>
+            <h1>One platform for smarter financial calculations.</h1>
             <p class="hero-copy">
-              Start with a professional-grade loan calculator built for speed,
-              mobile usability, and SEO growth. Expand later with car loans,
-              mortgages, and more.
+              CalnexApp helps users compare payment scenarios, estimate interest costs, and plan repayments
+              across multiple financial tools.
             </p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="/calculator">Open Loan Calculator</a>
-              <a class="btn btn-ghost" href="/blog">Read Financial Guides</a>
+              <a class="btn btn-primary" href="/tools/loan-calculator/">Open Loan Calculator</a>
+              <a class="btn btn-ghost" href="/blog/">Read Financial Guides</a>
             </div>
           </div>
           <aside class="card">
-            <h2>Why CalnexApp?</h2>
+            <h2>Platform Highlights</h2>
             <ul class="feature-list">
-              <li>Fast static experience, Cloudflare Pages ready</li>
-              <li>Real-time calculations with zero page reloads</li>
-              <li>SEO-friendly architecture for scaling content</li>
-              <li>Modular codebase for future calculator types</li>
+              <li>Cloudflare Pages compatible static architecture</li>
+              <li>SEO-friendly directory URLs for scalable growth</li>
+              <li>Modular tool pages and shared frontend assets</li>
+              <li>Ready for future financial calculators and content</li>
             </ul>
           </aside>
+        </div>
+      </section>
+
+      <section class="container section-space">
+        <div class="tool-grid">
+          <article class="card tool-card">
+            <h2>Loan Calculator</h2>
+            <p class="muted">Track monthly payment, total interest, and full repayment.</p>
+            <a class="btn btn-ghost" href="/tools/loan-calculator/">Use Tool</a>
+          </article>
+          <article class="card tool-card">
+            <h2>Mortgage Calculator</h2>
+            <p class="muted">Plan long-term borrowing with a home loan estimator.</p>
+            <a class="btn btn-ghost" href="/tools/mortgage-calculator/">View Tool</a>
+          </article>
+          <article class="card tool-card">
+            <h2>Car Loan Calculator</h2>
+            <p class="muted">Compare auto financing options before purchase.</p>
+            <a class="btn btn-ghost" href="/tools/car-loan-calculator/">View Tool</a>
+          </article>
+          <article class="card tool-card">
+            <h2>Interest Calculator</h2>
+            <p class="muted">Estimate growth with simple and compound interest scenarios.</p>
+            <a class="btn btn-ghost" href="/tools/interest-calculator/">View Tool</a>
+          </article>
         </div>
       </section>
     </main>
@@ -62,9 +89,14 @@
     <footer class="site-footer">
       <div class="container footer-content">
         <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/blog/">Blog</a>
+        </nav>
       </div>
     </footer>
 
-    <script src="/assets/js/main.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
   </body>
 </html>

@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "loan-calculator",
+    "name": "Loan Calculator",
+    "path": "/tools/loan-calculator/",
+    "description": "Calculate monthly payment, interest, and total repayment."
+  },
+  {
+    "slug": "mortgage-calculator",
+    "name": "Mortgage Calculator",
+    "path": "/tools/mortgage-calculator/",
+    "description": "Estimate mortgage repayments and long-term borrowing costs."
+  },
+  {
+    "slug": "car-loan-calculator",
+    "name": "Car Loan Calculator",
+    "path": "/tools/car-loan-calculator/",
+    "description": "Compare vehicle financing scenarios before committing."
+  },
+  {
+    "slug": "interest-calculator",
+    "name": "Interest Calculator",
+    "path": "/tools/interest-calculator/",
+    "description": "Explore simple and compound growth over time."
+  }
+]
