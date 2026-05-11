@@ -22,9 +22,12 @@ const SharedState = (() => {
     "interest_simple_total",
     "interest_compound_total",
     "interest_total_interest",
+    "currency",
+    "selected_country",
     "scenario"
   ];
-  const stringFields = new Set(["scenario", "interest_compounding"]);
+  const stringFields = new Set(["scenario", "interest_compounding", "currency", "selected_country"]);
+  const objectFields = new Set(["geo_defaults"]);
   const state = {};
 
   const toNumber = (value) => {
@@ -35,6 +38,11 @@ const SharedState = (() => {
 
   const normalizeState = (raw = {}) => {
     const normalized = {};
+    objectFields.forEach((field) => {
+      if (raw[field] && typeof raw[field] === "object") {
+        normalized[field] = raw[field];
+      }
+    });
     fields.forEach((key) => {
       if (stringFields.has(key)) {
         const value = raw[key];
@@ -59,7 +67,9 @@ const SharedState = (() => {
       down_payment: params.get("down_payment"),
       income: params.get("income"),
       scenario: params.get("scenario"),
-      interest_compounding: params.get("interest_compounding") || params.get("frequency")
+      interest_compounding: params.get("interest_compounding") || params.get("frequency"),
+      currency: params.get("currency") || window.localStorage.getItem("calnex_currency"),
+      selected_country: params.get("selected_country") || params.get("country") || window.localStorage.getItem("calnex_country")
     };
     fields.forEach((field) => {
       if (!(field in seed)) {
@@ -73,7 +83,10 @@ const SharedState = (() => {
     const params = new URLSearchParams();
     fields.forEach((key) => {
       if (stringFields.has(key)) {
-        if (snapshot[key]) params.set(key, String(snapshot[key]));
+        if (snapshot[key]) {
+          if (key === "selected_country") params.set("country", String(snapshot[key]));
+          else params.set(key, String(snapshot[key]));
+        }
         return;
       }
       const value = toNumber(snapshot[key]);
@@ -106,6 +119,11 @@ const SharedState = (() => {
       if (!(field in partial)) return;
       if (partial[field] === null || partial[field] === "") delete state[field];
       else state[field] = String(partial[field]);
+    });
+    objectFields.forEach((field) => {
+      if (!(field in partial)) return;
+      if (!partial[field] || typeof partial[field] !== "object") delete state[field];
+      else state[field] = { ...partial[field] };
     });
     Object.assign(state, next);
     fields.forEach((key) => {

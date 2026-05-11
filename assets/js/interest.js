@@ -26,9 +26,11 @@ const InterestCalculator = (() => {
 
   const parseValue = (node) => Number(node?.value) || 0;
   const setCurrency = (value) =>
-    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(
-      Number(value) || 0
-    );
+    (typeof CurrencyLayer !== "undefined"
+      ? CurrencyLayer.formatCurrency(value)
+      : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(
+          Number(value) || 0
+        ));
 
   const getInputs = () => {
     const principal = Math.max(0, parseValue(selectors.principal));

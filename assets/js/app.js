@@ -124,7 +124,18 @@
     }
   };
 
+  const injectLegalDisclaimer = () => {
+    const footer = document.querySelector(".site-footer .footer-content");
+    if (!footer || footer.querySelector(".legal-disclaimer")) return;
+    const disclaimer = document.createElement("p");
+    disclaimer.className = "legal-disclaimer";
+    disclaimer.textContent =
+      "CalnexApp provides financial estimation tools for informational purposes only. We are not responsible for financial decisions made based on these calculations. Always consult a licensed financial advisor before making financial commitments.";
+    footer.append(disclaimer);
+  };
+
   markActiveNav();
   renderRelatedTools();
   renderBlogIndex();
+  injectLegalDisclaimer();
 })();

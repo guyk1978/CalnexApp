@@ -55,11 +55,13 @@ const LoanCalculator = (() => {
   let toastTimer;
 
   const setCurrency = (value) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2
-    }).format(value || 0);
+    (typeof CurrencyLayer !== "undefined"
+      ? CurrencyLayer.formatCurrency(value)
+      : new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 2
+        }).format(Number(value) || 0));
 
   const parseValue = (node) => Number(node?.value) || 0;
 
@@ -709,6 +711,16 @@ const LoanCalculator = (() => {
     }
   };
 
+  const applyGeoDefaults = (force = false) => {
+    if (typeof GeoFinance === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const hasExplicitRate = params.has("rate") || params.has("interest_rate");
+    if (!force && hasExplicitRate) return;
+    const geo = GeoFinance.getCountryData();
+    selectors.interestRate.value = String(geo.average_interest_rate);
+    selectors.interestRateSlider.value = String(geo.average_interest_rate);
+  };
+
   const bindEvents = () => {
     syncRangeAndInput(selectors.loanAmount, selectors.loanAmountSlider, { min: 1000, max: 500000 });
     syncRangeAndInput(selectors.interestRate, selectors.interestRateSlider, { min: 0, max: 25 });
@@ -774,11 +786,16 @@ const LoanCalculator = (() => {
   const init = () => {
     if (!document.body.dataset.page || document.body.dataset.page !== "loan-calculator") return;
     applyQueryState();
+    applyGeoDefaults(false);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     bindEvents();
     updateResultUI();
     document.addEventListener("sharedstate:updated", () => {
       applyQueryState();
+      updateResultUI();
+    });
+    document.addEventListener("geo:changed", () => {
+      applyGeoDefaults(true);
       updateResultUI();
     });
   };

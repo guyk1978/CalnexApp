@@ -44,7 +44,9 @@ const ScenarioEngine = (() => {
       loan_term: state.loan_term || 0,
       extra_payment: state.extra_payment || 0,
       down_payment: state.down_payment || 0,
-      income: state.income || 0
+      income: state.income || 0,
+      selected_country: state.selected_country || "US",
+      geo_defaults: state.geo_defaults || (typeof GeoFinance !== "undefined" ? GeoFinance.getCountryData() : {})
     };
     return clone(baselineState);
   };
@@ -53,8 +55,18 @@ const ScenarioEngine = (() => {
     const next = { ...base };
     Object.entries(overrides).forEach(([key, value]) => {
       if (value === null || value === undefined) return;
-      if (typeof value === "number") next[key] = value;
-      if (typeof value === "string" && value.trim() !== "") next[key] = Number(value) || next[key];
+      if (typeof value === "number") {
+        next[key] = value;
+        return;
+      }
+      if (typeof value === "string" && value.trim() !== "") {
+        const parsed = Number(value);
+        next[key] = Number.isFinite(parsed) ? parsed : value;
+        return;
+      }
+      if (typeof value === "object") {
+        next[key] = { ...value };
+      }
     });
     return next;
   };
@@ -103,13 +115,19 @@ const ScenarioEngine = (() => {
   const getCurrentOverrides = () => {
     const base = baselineState && Object.keys(baselineState).length ? baselineState : captureBaseline();
     const current = getShared();
-    const keys = ["extra_payment", "interest_rate", "loan_term", "income"];
+    const keys = ["extra_payment", "interest_rate", "loan_term", "income", "selected_country"];
     const overrides = {};
     keys.forEach((key) => {
-      const baseValue = Number(base[key] || 0);
-      const currentValue = Number(current[key] || 0);
-      if (Math.abs(currentValue - baseValue) > 0.0001) {
-        overrides[key] = currentValue;
+      if (typeof base[key] === "string" || typeof current[key] === "string") {
+        if (String(base[key] || "") !== String(current[key] || "")) {
+          overrides[key] = String(current[key] || "");
+        }
+      } else {
+        const baseValue = Number(base[key] || 0);
+        const currentValue = Number(current[key] || 0);
+        if (Math.abs(currentValue - baseValue) > 0.0001) {
+          overrides[key] = currentValue;
+        }
       }
     });
     return overrides;

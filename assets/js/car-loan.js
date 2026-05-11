@@ -38,11 +38,13 @@ const CarLoanCalculator = (() => {
   let balanceChartInstance;
 
   const setCurrency = (value) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2
-    }).format(Number(value) || 0);
+    (typeof CurrencyLayer !== "undefined"
+      ? CurrencyLayer.formatCurrency(value)
+      : new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 2
+        }).format(Number(value) || 0));
 
   const parseValue = (node) => Number(node?.value) || 0;
 
@@ -79,6 +81,15 @@ const CarLoanCalculator = (() => {
     totalPaid: schedule.reduce((sum, row) => sum + row.payment, 0),
     totalInterest: schedule.reduce((sum, row) => sum + row.interest, 0)
   });
+
+  const getAffordabilityRange = () => {
+    if (typeof GeoFinance === "undefined") return { min: 0.15, max: 0.2 };
+    const geo = GeoFinance.getCountryData();
+    return {
+      min: Number(geo.car_affordability_min) || 0.15,
+      max: Number(geo.car_affordability_max) || 0.2
+    };
+  };
 
   const computeLoanBase = () => {
     const carPrice = parseValue(selectors.carPrice);
@@ -141,8 +152,9 @@ const CarLoanCalculator = (() => {
 
   const updateAffordability = (monthlyPayment) => {
     const monthlyIncome = parseValue(selectors.annualIncome) / 12;
-    const safeMin = monthlyIncome * 0.15;
-    const safeMax = monthlyIncome * 0.2;
+    const range = getAffordabilityRange();
+    const safeMin = monthlyIncome * range.min;
+    const safeMax = monthlyIncome * range.max;
     selectors.safeMin.textContent = setCurrency(safeMin);
     selectors.safeMax.textContent = setCurrency(safeMax);
     selectors.currentPayment.textContent = setCurrency(monthlyPayment);
@@ -296,6 +308,9 @@ const CarLoanCalculator = (() => {
     updateResultUI();
     document.addEventListener("sharedstate:updated", () => {
       applySharedState();
+      updateResultUI();
+    });
+    document.addEventListener("geo:changed", () => {
       updateResultUI();
     });
   };

@@ -47,11 +47,13 @@ const MortgageCalculator = (() => {
   let balanceChartInstance;
 
   const setCurrency = (value) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2
-    }).format(Number(value) || 0);
+    (typeof CurrencyLayer !== "undefined"
+      ? CurrencyLayer.formatCurrency(value)
+      : new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 2
+        }).format(Number(value) || 0));
 
   const parseValue = (node) => Number(node?.value) || 0;
 
@@ -433,9 +435,19 @@ const MortgageCalculator = (() => {
     SharedState.refreshToolLinks();
   };
 
+  const applyGeoDefaults = (force = false) => {
+    if (typeof GeoFinance === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const hasExplicitTerm = params.has("term") || params.has("loan_term");
+    if (!force && hasExplicitTerm) return;
+    const geo = GeoFinance.getCountryData();
+    selectors.loanTerm.value = String(Math.max(1, Number(geo.loan_norm_years) || 5));
+  };
+
   const init = () => {
     if (document.body.dataset.page !== "mortgage-calculator") return;
     applySharedStateInputs();
+    applyGeoDefaults(false);
     const isPercent = selectors.downPaymentType.value === "percent";
     selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
     selectors.downPaymentAmount.closest(".field").style.display = isPercent ? "none" : "";
@@ -443,6 +455,10 @@ const MortgageCalculator = (() => {
     updateResultUI();
     document.addEventListener("sharedstate:updated", () => {
       applySharedStateInputs();
+      updateResultUI();
+    });
+    document.addEventListener("geo:changed", () => {
+      applyGeoDefaults(true);
       updateResultUI();
     });
   };

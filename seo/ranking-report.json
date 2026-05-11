@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-11T09:55:33.296Z",
+  "generated_at": "2026-05-11T10:03:54.590Z",
   "summary": {
     "total_pages": 59,
     "pages_need_improvement": 0,
@@ -49,12 +49,12 @@
       "type": "tool",
       "title": "Interest Calculator",
       "metrics": {
-        "keyword_coverage": 75,
-        "internal_links_count": 16,
-        "content_depth_words": 108,
+        "keyword_coverage": 100,
+        "internal_links_count": 15,
+        "content_depth_words": 151,
         "intent_match_score": 100
       },
-      "ranking_score": 71
+      "ranking_score": 79
     },
     {
       "url": "/blog/how-extra-payments-save-money/",
@@ -481,6 +481,18 @@
       "ranking_score": 83
     },
     {
+      "url": "/tools/interest-calculator/",
+      "type": "tool",
+      "title": "Interest Calculator",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 15,
+        "content_depth_words": 151,
+        "intent_match_score": 100
+      },
+      "ranking_score": 79
+    },
+    {
       "url": "/tools/mortgage-calculator/",
       "type": "tool",
       "title": "Mortgage Calculator",
@@ -503,18 +515,6 @@
         "intent_match_score": 65
       },
       "ranking_score": 78
-    },
-    {
-      "url": "/tools/interest-calculator/",
-      "type": "tool",
-      "title": "Interest Calculator",
-      "metrics": {
-        "keyword_coverage": 75,
-        "internal_links_count": 16,
-        "content_depth_words": 108,
-        "intent_match_score": 100
-      },
-      "ranking_score": 71
     },
     {
       "url": "/tools/car-loan-calculator/",

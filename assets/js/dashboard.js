@@ -10,6 +10,10 @@ const FinancialDashboard = (() => {
     carCost: document.getElementById("dashCarCost"),
     growthProjection: document.getElementById("dashGrowthProjection"),
     growthSummary: document.getElementById("dashGrowthSummary"),
+    countryCode: document.getElementById("dashCountryCode"),
+    countryLabel: document.getElementById("dashCountryLabel"),
+    geoSummary: document.getElementById("dashGeoSummary"),
+    geoComparison: document.getElementById("dashGeoComparison"),
     affordabilityScore: document.getElementById("dashAffordabilityScore"),
     affordabilityBadge: document.getElementById("dashAffordabilityBadge"),
     debtIncomeChart: document.getElementById("dashDebtIncomeChart"),
@@ -40,16 +44,19 @@ const FinancialDashboard = (() => {
   let scenarioTimelineChart;
 
   const setCurrency = (value) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2
-    }).format(Number(value) || 0);
+    (typeof CurrencyLayer !== "undefined"
+      ? CurrencyLayer.formatCurrency(value)
+      : new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 2
+        }).format(Number(value) || 0));
 
   const setPercent = (value) => `${Math.round((Number(value) || 0) * 100)}%`;
 
   const getShared = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
   const getScenarioEngine = () => (typeof ScenarioEngine !== "undefined" ? ScenarioEngine : null);
+  const getGeo = () => (typeof GeoFinance !== "undefined" ? GeoFinance : null);
 
   const getTotalMonthlyObligations = (state) =>
     (state.loan_monthly_payment || 0) + (state.mortgage_monthly_payment || 0) + (state.car_monthly_payment || 0);
@@ -105,6 +112,23 @@ const FinancialDashboard = (() => {
     selectors.affordabilityBadge.textContent = scoreLabel;
     selectors.affordabilityBadge.classList.remove("status-green", "status-yellow", "status-red");
     selectors.affordabilityBadge.classList.add(scoreClass);
+
+    const geo = getGeo();
+    if (geo && selectors.countryCode) {
+      const code = state.selected_country || geo.getSelectedCountry();
+      const local = geo.getCountryData(code);
+      const globalAvg = geo.getGlobalAverage();
+      selectors.countryCode.textContent = code;
+      selectors.countryLabel.textContent = local.label || code;
+      selectors.geoSummary.textContent = `Avg rate ${setPercent(local.average_interest_rate / 100)}, inflation ${setPercent(
+        local.inflation_rate / 100
+      )}, avg income ${setCurrency(local.average_income)}, norm term ${local.loan_norm_years} years.`;
+      const rateDiff = local.average_interest_rate - globalAvg.average_interest_rate;
+      const incomeDiff = local.average_income - globalAvg.average_income;
+      selectors.geoComparison.textContent = `Vs global average: rate ${rateDiff >= 0 ? "+" : ""}${rateDiff.toFixed(
+        2
+      )} pts, income ${incomeDiff >= 0 ? "+" : "-"}${setCurrency(Math.abs(incomeDiff))}.`;
+    }
 
     return { monthlyIncome, obligations, totalInterest, loanMonthly, mortgageMonthly, carMonthly };
   };
@@ -349,6 +373,7 @@ const FinancialDashboard = (() => {
       selectors.scenarioShareLink.textContent = `Share this scenario: ${window.location.href}`;
     }
     document.addEventListener("sharedstate:updated", renderAll);
+    document.addEventListener("geo:changed", renderAll);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
   };
 

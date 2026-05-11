@@ -50,6 +50,13 @@
       </section>
 
       <section class="card">
+        <h2>Geo Financial Context</h2>
+        <p class="muted">Selected country: <strong id="dashCountryCode">US</strong> (<span id="dashCountryLabel">United States</span>)</p>
+        <p class="muted" id="dashGeoSummary">Local financial context will appear here.</p>
+        <p class="muted" id="dashGeoComparison">Comparison to global averages will appear here.</p>
+      </section>
+
+      <section class="card">
         <h2>Navigate with Prefilled State</h2>
         <div class="share-actions">
           <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Open Loan Calculator</a>
@@ -185,6 +192,25 @@
           </article>
         </div>
       </section>
+
+      <section class="card email-capture-card" id="emailCaptureCard">
+        <h3>Save your financial results</h3>
+        <p class="muted">Get your calculation summary and scenario updates via email.</p>
+        <div class="tool-grid">
+          <label class="muted" for="emailCaptureName">Name (optional)
+            <input id="emailCaptureName" type="text" placeholder="Your name" />
+          </label>
+          <label class="muted" for="emailCaptureEmail">Email
+            <input id="emailCaptureEmail" type="email" placeholder="you@example.com" />
+          </label>
+        </div>
+        <div class="email-capture-actions">
+          <button class="btn btn-primary" id="emailCaptureSendBtn" type="button">Send me my results</button>
+          <button class="btn btn-ghost" id="emailCaptureSaveResultsBtn" type="button">Save Results</button>
+          <a class="btn btn-ghost" id="emailCaptureSummaryLink" href="#" target="_blank" rel="noopener">Open summary link</a>
+        </div>
+        <p class="email-capture-status" id="emailCaptureStatus">No email submitted yet.</p>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -198,10 +224,13 @@
       </div>
     </footer>
 
+    <script src="/assets/js/currency.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/shared-state.js" defer></script>
+    <script src="/assets/js/geo-finance.js" defer></script>
     <script src="/assets/js/scenario-engine.js" defer></script>
     <script src="/assets/js/scenario-ui.js" defer></script>
+    <script src="/assets/js/email-capture.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/dashboard.js" defer></script>
   </body>
