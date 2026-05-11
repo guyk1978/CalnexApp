@@ -83,6 +83,7 @@ const FinancialCore = (() => {
   });
 
   const loanAmortizationRaw = (opts = {}) => {
+    console.trace("LOAN CORE EXECUTION"); // 👈 כאן בדיוק
     const principal0 = clampNonNeg(opts.principal);
     const annual = clampNonNeg(opts.annualAprPercent);
     const termMonths = Math.max(0, Math.round(Number(opts.termMonths) || 0));
@@ -141,6 +142,7 @@ const FinancialCore = (() => {
   };
 
   const calculateReferenceRetirementRaw = ({ initial, monthly, annualReturn, months }) => {
+    console.trace("RETIREMENT CORE EXECUTION");
     const P = clampNonNeg(initial);
     const PMT = clampNonNeg(monthly);
     const annual = clampNonNeg(annualReturn);
@@ -153,6 +155,7 @@ const FinancialCore = (() => {
   };
 
   const simulateFinancialPlanRaw = (opts = {}) => {
+    console.trace("SIMULATION CORE EXECUTION");
     const initial = clampNonNeg(opts.initial);
     const monthly = clampNonNeg(opts.monthly);
     const annualReturn = clampNonNeg(opts.annualReturn);
