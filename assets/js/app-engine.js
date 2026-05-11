@@ -94,6 +94,9 @@ const AppEngine = (() => {
       if (typeof SharedState !== "undefined") {
         SharedState.setState(snapshot, { engineCommit: true, syncUrl: false });
       }
+      if (typeof window.CalnexAppRender?.appRenderAll === "function") {
+        CalnexAppRender.appRenderAll("engine-commit");
+      }
       queueMicrotask(() => {
         phase = PHASE.RENDER;
         logPhase("render");

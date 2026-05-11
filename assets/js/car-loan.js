@@ -36,6 +36,7 @@ const CarLoanCalculator = (() => {
 
   let principalInterestChartInstance;
   let balanceChartInstance;
+  let lastCarSchedule = [];
 
   const setCurrency = (value) =>
     (typeof CurrencyLayer !== "undefined"
@@ -226,9 +227,7 @@ const CarLoanCalculator = (() => {
     const monthlyPayment = getMonthlyPayment(financed, annualRate, totalMonths);
     const schedule = buildSchedule({ principal: financed, annualRate, totalMonths, monthlyPayment });
     const summary = summarizeSchedule(schedule);
-
-    renderSchedule(schedule);
-    renderCharts(schedule);
+    lastCarSchedule = schedule;
 
     const core = {
       loan_amount: financed,
@@ -247,6 +246,11 @@ const CarLoanCalculator = (() => {
     const ins = buildInsightsPatch(financed, annualRate);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     return { ...core, ...aff, ...comp, ...ins };
+  };
+
+  const paintCarCharts = () => {
+    renderSchedule(lastCarSchedule);
+    renderCharts(lastCarSchedule);
   };
 
   const togglePanel = () => {
@@ -309,6 +313,9 @@ const CarLoanCalculator = (() => {
   const init = () => {
     if (document.body.dataset.page !== "car-loan-calculator") return;
     if (window.AppEngine) AppEngine.registerToolPipeline("car-loan-calculator", runCarPipeline);
+    if (window.CalnexAppRender?.registerCharts) {
+      CalnexAppRender.registerCharts("car-loan-calculator", paintCarCharts);
+    }
     applySharedState();
     const isPercent = selectors.downPaymentType.value === "percent";
     selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
@@ -318,8 +325,10 @@ const CarLoanCalculator = (() => {
       AppEngine.runImmediate();
     } else if (typeof SharedState !== "undefined") {
       SharedState.setState(runCarPipeline(), { engineCommit: true });
+      window.CalnexAppRender?.appRenderAll?.("init");
     } else {
       runCarPipeline();
+      window.CalnexAppRender?.appRenderAll?.("init");
     }
     document.addEventListener("sharedstate:updated", (event) => {
       if (event.detail?.__engineSource === "commit") return;

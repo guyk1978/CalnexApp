@@ -599,9 +599,6 @@ const LoanCalculator = (() => {
     const baseSummary = summarizeSchedule(baselineSchedule);
     const acceleratedSummary = summarizeSchedule(acceleratedSchedule);
 
-    renderScheduleTable(displayedSchedule);
-    renderCharts();
-
     const snapshot = {
       loan_amount: principal,
       interest_rate: annualRate,
@@ -626,6 +623,11 @@ const LoanCalculator = (() => {
     updateShareLinks();
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     return snapshot;
+  };
+
+  const paintLoanCharts = () => {
+    renderScheduleTable(displayedSchedule);
+    renderCharts();
   };
 
   const syncRangeAndInput = (inputNode, sliderNode, options = {}) => {
@@ -781,6 +783,9 @@ const LoanCalculator = (() => {
     if (window.AppEngine) {
       AppEngine.registerToolPipeline("loan-calculator", runLoanPipeline);
     }
+    if (window.CalnexAppRender?.registerCharts) {
+      CalnexAppRender.registerCharts("loan-calculator", paintLoanCharts);
+    }
     applyQueryState();
     applyGeoDefaults(false);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
@@ -789,8 +794,10 @@ const LoanCalculator = (() => {
       AppEngine.runImmediate();
     } else if (typeof SharedState !== "undefined") {
       SharedState.setState(runLoanPipeline(), { engineCommit: true });
+      window.CalnexAppRender?.appRenderAll?.("init");
     } else {
       runLoanPipeline();
+      window.CalnexAppRender?.appRenderAll?.("init");
     }
     document.addEventListener("sharedstate:updated", (event) => {
       if (event.detail?.__engineSource === "commit") return;

@@ -119,6 +119,17 @@
 
         <article class="card">
           <h2>Retirement Results</h2>
+          <div class="financial-validation-panel" role="status">
+            <div class="financial-validation-head">
+              <span class="financial-validator-badge" data-bind="financial_validation_badge" data-format="text"></span>
+              <p class="financial-validation-confidence">
+                <strong>Result confidence:</strong>
+                <span data-bind="financial_validation_confidence_label" data-format="text">—</span>
+                <span class="muted">(<span data-bind="financial_validation_confidence_score" data-format="number">100</span>/100)</span>
+              </p>
+            </div>
+            <p class="financial-validation-warnings muted" data-bind="financial_validation_warnings_text" data-format="text"></p>
+          </div>
           <dl class="result-grid">
             <div>
               <dt>Years to Retirement</dt>
@@ -192,11 +203,13 @@
     <script src="/assets/js/geo-finance.js" defer></script>
     <script src="/assets/js/currency.js" defer></script>
     <script src="/assets/js/parse-utils.js" defer></script>
+    <script src="/engine/financial-validator.js" defer></script>
     <script src="/assets/js/shared-state.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app-render.js" defer></script>
     <script src="/assets/js/app-engine.js" defer></script>
     <script src="/assets/js/input-sync.js" defer></script>
     <script src="/assets/js/scenario-engine.js" defer></script>
-    <script src="/assets/js/ui-renderer.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/retirement.js" defer></script>

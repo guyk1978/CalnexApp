@@ -97,6 +97,11 @@ const SharedState = (() => {
     "scenario_delta_interest",
     "scenario_delta_payoff",
     "scenario_delta_affordability",
+    "financial_validation_confidence_label",
+    "financial_validation_warnings_text",
+    "financial_validation_badge",
+    "financial_validation_confidence_score",
+    "financial_validation_is_valid",
     "currency",
     "selected_country",
     "scenario"
@@ -133,7 +138,10 @@ const SharedState = (() => {
     "scenario_delta_monthly",
     "scenario_delta_interest",
     "scenario_delta_payoff",
-    "scenario_delta_affordability"
+    "scenario_delta_affordability",
+    "financial_validation_confidence_label",
+    "financial_validation_warnings_text",
+    "financial_validation_badge"
   ]);
   const objectFields = new Set(["geo_defaults"]);
   const state = {};
@@ -248,6 +256,22 @@ const SharedState = (() => {
       AppEngine.deferSetState(partial);
       return { ...state };
     }
+
+    if (opts.engineCommit && typeof window.FinancialValidator?.validateFinancialResult === "function") {
+      const page = document.body?.dataset?.page || "";
+      const validatorType = FinancialValidator.getTypeFromPage(page);
+      if (validatorType) {
+        const inputs = typeof CalnexParse !== "undefined" ? CalnexParse.collectDataInputBindings() : {};
+        const mergedOut = { ...getState(), ...partial };
+        const validation = FinancialValidator.validateFinancialResult({
+          type: validatorType,
+          inputs,
+          outputs: mergedOut
+        });
+        Object.assign(partial, FinancialValidator.toStatePatch(validation));
+      }
+    }
+
     const next = normalizeState(partial);
     stringFields.forEach((field) => {
       if (!(field in partial)) return;

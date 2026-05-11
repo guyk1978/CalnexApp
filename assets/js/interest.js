@@ -17,6 +17,7 @@ const InterestCalculator = (() => {
   let growthChartInstance;
   let compareChartInstance;
   let isApplyingSharedState = false;
+  let lastInterestRows = [];
 
   const compoundingMap = {
     yearly: 1,
@@ -198,16 +199,22 @@ const InterestCalculator = (() => {
     const baseContributed = inputs.principal + inputs.monthlyContribution * 12 * inputs.years;
     const totalInterest = compoundAmount - baseContributed;
     const rows = buildYearlyBreakdown(inputs);
-
-    renderYearlyTable(rows);
-    renderCharts(rows);
+    lastInterestRows = rows;
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     return buildInterestPatch(inputs, compoundAmount, totalInterest);
+  };
+
+  const paintInterestCharts = () => {
+    renderYearlyTable(lastInterestRows);
+    if (lastInterestRows.length) renderCharts(lastInterestRows);
   };
 
   const init = () => {
     if (document.body.dataset.page !== "interest-calculator") return;
     if (window.AppEngine) AppEngine.registerToolPipeline("interest-calculator", runInterestPipeline);
+    if (window.CalnexAppRender?.registerCharts) {
+      CalnexAppRender.registerCharts("interest-calculator", paintInterestCharts);
+    }
     isApplyingSharedState = true;
     applySharedState();
     isApplyingSharedState = false;
@@ -215,8 +222,10 @@ const InterestCalculator = (() => {
       AppEngine.runImmediate();
     } else if (typeof SharedState !== "undefined") {
       SharedState.setState(runInterestPipeline(), { engineCommit: true });
+      window.CalnexAppRender?.appRenderAll?.("init");
     } else {
       runInterestPipeline();
+      window.CalnexAppRender?.appRenderAll?.("init");
     }
     document.addEventListener("sharedstate:updated", (event) => {
       if (event.detail?.__engineSource === "commit") return;

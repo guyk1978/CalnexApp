@@ -15,6 +15,7 @@ const RetirementCalculator = (() => {
 
   let growthChartInstance;
   let isApplyingShared = false;
+  let lastRetirementProjection = [];
 
   const num = (key, el, fb = 0) =>
     typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
@@ -111,11 +112,15 @@ const RetirementCalculator = (() => {
     retirement_readiness: outputs.readinessPercent
   });
 
+  const paintRetirementCharts = () => {
+    if (lastRetirementProjection.length) renderChart(lastRetirementProjection);
+  };
+
   const runRetirementPipeline = () => {
     if (isApplyingShared) return {};
     const inputs = getInputs();
     const outputs = calculate(inputs);
-    renderChart(outputs.projection);
+    lastRetirementProjection = outputs.projection || [];
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     return buildRetirementPatch(inputs, outputs);
   };
@@ -197,6 +202,9 @@ const RetirementCalculator = (() => {
   const init = () => {
     if (document.body.dataset.page !== "retirement-calculator") return;
     if (window.AppEngine) AppEngine.registerToolPipeline("retirement-calculator", runRetirementPipeline);
+    if (window.CalnexAppRender?.registerCharts) {
+      CalnexAppRender.registerCharts("retirement-calculator", paintRetirementCharts);
+    }
     applyGeoDefaults();
     isApplyingShared = true;
     applySharedState();
@@ -206,8 +214,10 @@ const RetirementCalculator = (() => {
       AppEngine.runImmediate();
     } else if (typeof SharedState !== "undefined") {
       SharedState.setState(runRetirementPipeline(), { engineCommit: true });
+      window.CalnexAppRender?.appRenderAll?.("init");
     } else {
       runRetirementPipeline();
+      window.CalnexAppRender?.appRenderAll?.("init");
     }
     document.addEventListener("sharedstate:updated", (event) => {
       if (event.detail?.__engineSource === "commit") return;

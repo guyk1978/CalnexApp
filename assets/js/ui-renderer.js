@@ -82,6 +82,13 @@ const UiRenderer = (() => {
       node.textContent = formatByType(key, value, formatType);
       boundCount += 1;
     });
+    document.querySelectorAll(".financial-validator-badge").forEach((node) => {
+      const txt = (node.textContent || "").trim();
+      node.classList.toggle("financial-validator-badge--visible", Boolean(txt));
+    });
+    if (document.body?.dataset?.page === "retirement-calculator") {
+      console.log("[RENDER] retirement", { boundCount });
+    }
     console.log(`[Renderer] bound ${boundCount} nodes`);
   };
 
@@ -94,10 +101,8 @@ const UiRenderer = (() => {
   const renderScenarioState = () => {};
 
   const renderAll = () => {
-    console.log("[UI Renderer] renderAll triggered", {
-      currency: getCurrency(),
-      country: getState().selected_country || "US"
-    });
+    const page = document.body?.dataset?.page || "";
+    console.log("[RENDER] ui", { page, currency: getCurrency(), country: getState().selected_country || "US" });
     renderCurrency();
     renderLabels();
     renderInputs();
@@ -114,6 +119,9 @@ const UiRenderer = (() => {
     if (appStateListenerAttached) return;
     appStateListenerAttached = true;
     window.addEventListener("appStateChanged", (event) => {
+      if (event.detail?.source === "engine-commit") {
+        return;
+      }
       if (typeof window.AppEngine !== "undefined" && AppEngine.isInputPhase() && !event.detail?.bypassInputGuard) {
         console.log("[ENGINE] render phase skipped (input — no bypass)");
         return;

@@ -247,8 +247,6 @@ const MortgageCalculator = (() => {
       <div class="interest-bar-row"><span>15-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill" style="width:${width15}%"></div></div></div>
       <div class="interest-bar-row"><span>30-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill danger" style="width:${width30}%"></div></div></div>
     `;
-    renderScheduleTable();
-    renderCharts();
 
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
 
@@ -286,6 +284,11 @@ const MortgageCalculator = (() => {
     };
   };
 
+  const paintMortgageCharts = () => {
+    renderScheduleTable();
+    renderCharts();
+  };
+
   const bindUiEvents = () => {
     if (selectors.toggleAdvanced && selectors.advancedPanel) {
       selectors.toggleAdvanced.addEventListener("click", () => {
@@ -319,6 +322,9 @@ const MortgageCalculator = (() => {
   const init = () => {
     if (document.body.dataset.page !== "mortgage-calculator") return;
     if (window.AppEngine) AppEngine.registerToolPipeline("mortgage-calculator", computeMortgage);
+    if (window.CalnexAppRender?.registerCharts) {
+      CalnexAppRender.registerCharts("mortgage-calculator", paintMortgageCharts);
+    }
     applyGeoDefaults();
     syncDownPaymentUi();
     bindUiEvents();
@@ -331,8 +337,10 @@ const MortgageCalculator = (() => {
       AppEngine.runImmediate();
     } else if (typeof SharedState !== "undefined") {
       SharedState.setState(computeMortgage(), { engineCommit: true });
+      window.CalnexAppRender?.appRenderAll?.("init");
     } else {
       computeMortgage();
+      window.CalnexAppRender?.appRenderAll?.("init");
     }
   };
 
