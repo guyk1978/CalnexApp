@@ -374,6 +374,7 @@ const FinancialDashboard = (() => {
     }
     document.addEventListener("sharedstate:updated", renderAll);
     document.addEventListener("geo:changed", renderAll);
+    document.addEventListener("currency:changed", renderAll);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
   };
 

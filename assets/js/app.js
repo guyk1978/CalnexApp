@@ -134,8 +134,52 @@
     footer.append(disclaimer);
   };
 
+  const ensureScriptLoaded = (src) =>
+    new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        if (existing.dataset.loaded === "true") {
+          resolve();
+          return;
+        }
+        existing.addEventListener("load", () => resolve(), { once: true });
+        existing.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = src;
+      script.defer = true;
+      script.dataset.globalLayer = "true";
+      script.addEventListener("load", () => {
+        script.dataset.loaded = "true";
+        resolve();
+      });
+      script.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)));
+      document.head.append(script);
+    });
+
+  const bootstrapGlobalLayers = async () => {
+    try {
+      await ensureScriptLoaded("/assets/js/currency.js");
+      await ensureScriptLoaded("/assets/js/geo-finance.js");
+      if (window.CurrencyLayer?.init) {
+        window.CurrencyLayer.init();
+      }
+      if (window.GeoFinance?.init) {
+        window.GeoFinance.init();
+      }
+      console.log("[CalnexApp] Global layers active", {
+        currency: window.CurrencyLayer?.getSelectedCurrency?.(),
+        country: window.GeoFinance?.getSelectedCountry?.()
+      });
+    } catch (error) {
+      console.warn("[CalnexApp] Global layer bootstrap failed", error);
+    }
+  };
+
   markActiveNav();
   renderRelatedTools();
   renderBlogIndex();
   injectLegalDisclaimer();
+  bootstrapGlobalLayers();
 })();

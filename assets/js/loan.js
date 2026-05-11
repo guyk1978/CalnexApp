@@ -719,6 +719,7 @@ const LoanCalculator = (() => {
     const geo = GeoFinance.getCountryData();
     selectors.interestRate.value = String(geo.average_interest_rate);
     selectors.interestRateSlider.value = String(geo.average_interest_rate);
+    console.log("[CalnexApp] Applied loan geo defaults", geo);
   };
 
   const bindEvents = () => {
@@ -796,6 +797,9 @@ const LoanCalculator = (() => {
     });
     document.addEventListener("geo:changed", () => {
       applyGeoDefaults(true);
+      updateResultUI();
+    });
+    document.addEventListener("currency:changed", () => {
       updateResultUI();
     });
   };

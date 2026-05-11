@@ -101,6 +101,20 @@ const GeoFinance = (() => {
     });
   };
 
+  const renderIndicator = () => {
+    const nav = document.querySelector(".site-header .nav");
+    if (!nav) return;
+    let indicator = nav.querySelector(".geo-indicator");
+    if (!indicator) {
+      indicator = document.createElement("span");
+      indicator.className = "geo-indicator";
+      nav.append(indicator);
+    }
+    const selected = getSelectedCountry();
+    const label = getCountryData(selected).label || selected;
+    indicator.textContent = `Location: ${label} | Default rates applied`;
+  };
+
   const getGlobalAverage = () => {
     const list = COUNTRY_CODES.map((code) => COUNTRY_DATA[code]);
     const sum = (key) => list.reduce((acc, item) => acc + (Number(item[key]) || 0), 0);
@@ -114,8 +128,10 @@ const GeoFinance = (() => {
 
   const init = () => {
     renderSelector();
+    renderIndicator();
     const selected = getSelectedCountry();
     const defaults = getCountryData(selected);
+    console.log("[CalnexApp] Detected country", selected, defaults);
     window.localStorage.setItem(STORAGE_KEY, selected);
     if (typeof SharedState !== "undefined") {
       const state = SharedState.getState();
@@ -125,6 +141,8 @@ const GeoFinance = (() => {
         SharedState.setState({ geo_defaults: defaults });
       }
     }
+    document.addEventListener("sharedstate:updated", renderIndicator);
+    document.addEventListener("geo:changed", renderIndicator);
   };
 
   return {
@@ -134,9 +152,14 @@ const GeoFinance = (() => {
     getCountryData,
     getGlobalAverage,
     normalizeCountry,
-    setCountry
+    setCountry,
+    init
   };
 })();
 
 window.GeoFinance = GeoFinance;
-window.addEventListener("DOMContentLoaded", GeoFinance.init);
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", GeoFinance.init);
+} else {
+  GeoFinance.init();
+}

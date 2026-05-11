@@ -230,6 +230,9 @@ const InterestCalculator = (() => {
       updateResultUI();
       isApplyingSharedState = false;
     });
+    document.addEventListener("currency:changed", () => {
+      updateResultUI();
+    });
   };
 
   return { init };

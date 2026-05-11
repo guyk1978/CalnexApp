@@ -85,6 +85,7 @@ const CarLoanCalculator = (() => {
   const getAffordabilityRange = () => {
     if (typeof GeoFinance === "undefined") return { min: 0.15, max: 0.2 };
     const geo = GeoFinance.getCountryData();
+    console.log("[CalnexApp] Applied car geo defaults", geo);
     return {
       min: Number(geo.car_affordability_min) || 0.15,
       max: Number(geo.car_affordability_max) || 0.2
@@ -311,6 +312,9 @@ const CarLoanCalculator = (() => {
       updateResultUI();
     });
     document.addEventListener("geo:changed", () => {
+      updateResultUI();
+    });
+    document.addEventListener("currency:changed", () => {
       updateResultUI();
     });
   };

@@ -442,6 +442,7 @@ const MortgageCalculator = (() => {
     if (!force && hasExplicitTerm) return;
     const geo = GeoFinance.getCountryData();
     selectors.loanTerm.value = String(Math.max(1, Number(geo.loan_norm_years) || 5));
+    console.log("[CalnexApp] Applied mortgage geo defaults", geo);
   };
 
   const init = () => {
@@ -459,6 +460,9 @@ const MortgageCalculator = (() => {
     });
     document.addEventListener("geo:changed", () => {
       applyGeoDefaults(true);
+      updateResultUI();
+    });
+    document.addEventListener("currency:changed", () => {
       updateResultUI();
     });
   };

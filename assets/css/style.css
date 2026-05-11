@@ -111,6 +111,12 @@ a {
   min-width: 84px;
 }
 
+.geo-indicator {
+  color: #6a778a;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
 .legal-disclaimer {
   margin: 0.85rem 0 0;
   font-size: 0.76rem;

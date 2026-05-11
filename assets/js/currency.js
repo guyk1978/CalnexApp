@@ -118,6 +118,7 @@ const CurrencyLayer = (() => {
     if (typeof SharedState !== "undefined" && SharedState.getState().currency !== selected) {
       SharedState.setState({ currency: selected });
     }
+    console.log("[CalnexApp] Selected currency", selected);
     document.addEventListener("sharedstate:updated", syncSelectors);
   };
 
@@ -129,9 +130,14 @@ const CurrencyLayer = (() => {
     setCurrency,
     convertFromUsd,
     formatCurrency,
-    normalizeCurrency
+    normalizeCurrency,
+    init
   };
 })();
 
 window.formatCurrency = (value, currency) => CurrencyLayer.formatCurrency(value, currency);
-window.addEventListener("DOMContentLoaded", CurrencyLayer.init);
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", CurrencyLayer.init);
+} else {
+  CurrencyLayer.init();
+}
