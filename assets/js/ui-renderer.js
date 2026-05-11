@@ -52,6 +52,7 @@ const UiRenderer = (() => {
     document.querySelectorAll("[data-input-bind]").forEach((node) => {
       const key = node.getAttribute("data-input-bind");
       if (!key || !(key in state)) return;
+      if (document.activeElement === node) return;
       const next = String(state[key]);
       if (node.value !== next) node.value = next;
     });

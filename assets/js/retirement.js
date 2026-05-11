@@ -220,6 +220,9 @@ const RetirementCalculator = (() => {
       applyGeoDefaults();
       updateResultUI();
     });
+    document.addEventListener("inputsync:updated", () => {
+      updateResultUI();
+    });
   };
 
   return { init };

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-11T13:55:28.003Z",
+  "generated_at": "2026-05-11T14:01:31.737Z",
   "summary": {
     "total_pages": 59,
     "pages_need_improvement": 0,
@@ -26,8 +26,8 @@
       "title": "Mortgage Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 29,
-        "content_depth_words": 375,
+        "internal_links_count": 30,
+        "content_depth_words": 377,
         "intent_match_score": 65
       },
       "ranking_score": 79
@@ -50,8 +50,8 @@
       "title": "Interest Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 15,
-        "content_depth_words": 151,
+        "internal_links_count": 16,
+        "content_depth_words": 154,
         "intent_match_score": 100
       },
       "ranking_score": 79
@@ -486,8 +486,8 @@
       "title": "Mortgage Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 29,
-        "content_depth_words": 375,
+        "internal_links_count": 30,
+        "content_depth_words": 377,
         "intent_match_score": 65
       },
       "ranking_score": 79
@@ -498,8 +498,8 @@
       "title": "Interest Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 15,
-        "content_depth_words": 151,
+        "internal_links_count": 16,
+        "content_depth_words": 154,
         "intent_match_score": 100
       },
       "ranking_score": 79

@@ -823,6 +823,9 @@ const LoanCalculator = (() => {
     document.addEventListener("currency:changed", () => {
       updateResultUI();
     });
+    document.addEventListener("inputsync:updated", () => {
+      updateResultUI();
+    });
   };
 
   return { init };
