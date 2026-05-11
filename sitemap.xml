@@ -43,6 +43,12 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://calnexapp.com/blog/latest/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://calnexapp.com/blog/loan-vs-mortgage/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>monthly</changefreq>
@@ -241,6 +247,12 @@
     <priority>0.65</priority>
   </url>
   <url>
+    <loc>https://calnexapp.com/tools/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calnexapp.com/tools/car-loan-calculator/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -248,6 +260,12 @@
   </url>
   <url>
     <loc>https://calnexapp.com/tools/interest-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/latest/</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

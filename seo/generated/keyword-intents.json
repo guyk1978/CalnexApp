@@ -1,0 +1,1485 @@
+{
+  "generated_at": "2026-05-11T09:30:28.562Z",
+  "totals": {
+    "keywords": 359,
+    "informational": 120,
+    "commercial": 143,
+    "transactional": 96
+  },
+  "samples": {
+    "informational": [
+      "how does 100000 loan work",
+      "how does 15 vs 30 years work",
+      "how does 15 years work",
+      "how does 150000 loan work",
+      "how does 200000 loan work",
+      "how does 250000 loan work",
+      "how does 3.5 percent work",
+      "how does 30 years work",
+      "how does 300000 loan work",
+      "how does 4 percent work"
+    ],
+    "commercial": [
+      "amortization",
+      "monthly payment",
+      "interest",
+      "mortgage",
+      "home loan",
+      "car loan",
+      "auto finance",
+      "compound interest",
+      "simple interest",
+      "growth"
+    ],
+    "transactional": [
+      "loan calculator",
+      "interest calculator",
+      "100000 loan at 3 5 percent for 15 years monthly payment calculator",
+      "100000 loan at 3 5 percent for 30 years monthly payment calculator",
+      "100000 loan at 4 5 percent for 15 years monthly payment calculator",
+      "100000 loan at 4 5 percent for 30 years monthly payment calculator",
+      "100000 loan at 4 percent for 15 years monthly payment calculator",
+      "100000 loan at 4 percent for 30 years monthly payment calculator",
+      "100000 loan at 5 percent for 15 years monthly payment calculator",
+      "100000 loan at 5 percent for 30 years monthly payment calculator"
+    ]
+  },
+  "classified_keywords": [
+    {
+      "keyword": "loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "amortization",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "monthly payment",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "interest",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "mortgage",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "home loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "auto finance",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "interest calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "compound interest",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "simple interest",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "growth",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan interest",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed rate",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "variable rate",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "risk",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "interest saved",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan payoff",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan vs mortgage",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "collateral",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "term",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "15 vs 30 years",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan term",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "total interest",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "100000 loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "3.5 percent",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "15 years",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "30 years",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "4 percent",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "4.5 percent",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "5 percent",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "6 percent",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "150000 loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "200000 loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "250000 loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "300000 loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "100000 loan at 3 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 3 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 4 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 4 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 4 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 4 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 6 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan at 6 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "100000 loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "100000 loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "15 vs 30 year loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "15 vs 30 years calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "15 vs 30 years for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "15 vs 30 years with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "15 years calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "15 years for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "15 years with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "150000 loan at 3 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 3 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 4 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 4 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 4 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 4 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 6 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan at 6 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "150000 loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "150000 loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "200000 loan at 3 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 3 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 4 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 4 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 4 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 4 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 6 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan at 6 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "200000 loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "200000 loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "250000 loan at 3 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 3 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 4 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 4 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 4 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 4 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 6 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan at 6 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "250000 loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "250000 loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "3.5 percent calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "3.5 percent for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "3.5 percent with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "30 years calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "30 years for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "30 years with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "300000 loan at 3 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 3 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 4 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 4 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 4 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 4 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 5 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 5 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 6 percent for 15 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan at 6 percent for 30 years monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "300000 loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "300000 loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "4 percent calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "4 percent for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "4 percent with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "4.5 percent calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "4.5 percent for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "4.5 percent with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "5 percent calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "5 percent for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "5 percent with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "6 percent calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "6 percent for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "6 percent with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "amortization calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "amortization for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "amortization with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "auto finance calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "auto finance for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "auto finance with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "car loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "collateral calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "collateral for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "collateral with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "compound interest calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "compound interest for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "compound interest with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "extra payments calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "extra payments for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "extra payments with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed rate calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "fixed rate for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed rate with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "growth calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "growth for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "growth with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "home loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "home loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "home loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "how does 100000 loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 15 vs 30 years work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 15 years work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 150000 loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 200000 loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 250000 loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 3.5 percent work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 30 years work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 300000 loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 4 percent work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 4.5 percent work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 5 percent work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does 6 percent work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does amortization work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does auto finance work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does car loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does collateral work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does compound interest work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does extra payments work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does fixed rate work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does growth work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does home loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does interest calculator work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does interest saved work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does interest work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does loan calculator work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does loan interest work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does loan payoff work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does loan term work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does loan vs mortgage work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does monthly payment work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does mortgage work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does risk work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does simple interest work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does term work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does total interest work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does variable rate work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 3 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 3 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 4 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 4 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 4 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 4 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 6 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 100000 loan at 6 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 3 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 3 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 4 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 4 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 4 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 4 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 6 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 150000 loan at 6 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 3 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 3 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 4 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 4 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 4 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 4 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 6 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 200000 loan at 6 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 3 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 3 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 4 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 4 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 4 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 4 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 6 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 250000 loan at 6 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 3 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 3 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 4 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 4 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 4 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 4 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 5 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 5 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 6 percent for 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how much interest on 300000 loan at 6 percent for 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 100000 loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 15 vs 30 years",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "how to reduce 15 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 150000 loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 200000 loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 250000 loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 3.5 percent",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 30 years",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 300000 loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 4 percent",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 4.5 percent",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 5 percent",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce 6 percent",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce amortization",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce auto finance",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce car loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce collateral",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce compound interest",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce extra payments",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce fixed rate",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce growth",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce home loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce interest",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce interest calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "how to reduce interest saved",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "how to reduce loan interest",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce loan payoff",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce loan term",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce loan vs mortgage",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "how to reduce monthly payment",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce mortgage",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce risk",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce simple interest",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce term",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce total interest",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce variable rate",
+      "intent": "informational"
+    },
+    {
+      "keyword": "interest calculator calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "interest calculator for beginners",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "interest calculator with extra payments",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "interest for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "interest saved calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "interest saved for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "interest saved with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "interest with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 100000 loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 15 vs 30 years worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 15 years worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 150000 loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 200000 loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 250000 loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 3.5 percent worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 30 years worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 300000 loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 4 percent worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 4.5 percent worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 5 percent worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is 6 percent worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is amortization worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is auto finance worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is car loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is collateral worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is compound interest worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is extra payments worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is fixed rate worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is growth worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is home loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is interest calculator worth it",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "is interest saved worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is interest worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is loan calculator worth it",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "is loan interest worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is loan payoff worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is loan term worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is loan vs mortgage worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is monthly payment worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is mortgage worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is risk worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is simple interest worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is term worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is total interest worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is variable rate worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan calculator calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan calculator for beginners",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan calculator with extra payments",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan interest calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan interest for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan interest with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan payoff calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan payoff for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan payoff with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan term calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan term for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan term with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan vs mortgage calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan vs mortgage for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan vs mortgage with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "monthly payment calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "monthly payment for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "monthly payment with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "mortgage calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "mortgage for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "mortgage with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "risk calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "risk for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "risk with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "simple interest calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "simple interest for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "simple interest with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "term calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "term for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "term with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "total interest calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "total interest for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "total interest with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "variable rate calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "variable rate for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "variable rate with extra payments",
+      "intent": "commercial"
+    }
+  ]
+}

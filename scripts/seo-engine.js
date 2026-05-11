@@ -32,6 +32,33 @@ const urlToFilePath = (url) => {
   return path.join(ROOT, clean.slice(1), "index.html");
 };
 
+const collectGeneratedSeoEntries = () => {
+  const base = path.join(ROOT, "seo", "generated");
+  if (!fs.existsSync(base)) return [];
+  const results = [];
+  const walk = (dir) => {
+    const nodes = fs.readdirSync(dir, { withFileTypes: true });
+    nodes.forEach((node) => {
+      const fullPath = path.join(dir, node.name);
+      if (node.isDirectory()) {
+        walk(fullPath);
+        return;
+      }
+      if (node.isFile() && node.name === "index.html") {
+        const rel = path.relative(ROOT, fullPath).replace(/\\/g, "/");
+        const url = `/${rel.replace(/index\.html$/, "")}`;
+        results.push({
+          url: normalizeUrl(url),
+          type: "seo",
+          title: path.basename(path.dirname(fullPath)).replaceAll("-", " ")
+        });
+      }
+    });
+  };
+  walk(base);
+  return results;
+};
+
 const buildBreadcrumbSchema = (url, title) => {
   const segments = normalizeUrl(url).split("/").filter(Boolean);
   const items = [
@@ -149,15 +176,35 @@ ${schemaJson}
 };
 
 const generateSitemap = (entries) => {
-  const urls = entries
+  const today = new Date().toISOString().slice(0, 10);
+  const knownEntries = [...entries];
+  const staticPages = [
+    { url: "/", type: "static" },
+    { url: "/tools/", type: "static" },
+    { url: "/tools/latest/", type: "static" },
+    { url: "/blog/latest/", type: "static" },
+    { url: "/seo/latest/", type: "static" },
+    { url: "/about/", type: "static" },
+    { url: "/contact/", type: "static" }
+  ];
+  staticPages.forEach((item) => {
+    if (!knownEntries.some((entry) => normalizeUrl(entry.url) === normalizeUrl(item.url))) {
+      knownEntries.push(item);
+    }
+  });
+  collectGeneratedSeoEntries().forEach((item) => {
+    if (!knownEntries.some((entry) => normalizeUrl(entry.url) === normalizeUrl(item.url))) {
+      knownEntries.push(item);
+    }
+  });
+  const urls = knownEntries
     .map((entry) => {
       const pagePath = urlToFilePath(entry.url);
       if (!fs.existsSync(pagePath)) return null;
-      const lastmod = fs.statSync(pagePath).mtime.toISOString().slice(0, 10);
       const priority = TYPE_PRIORITY[entry.type] || "0.6";
       return `  <url>
     <loc>${SITE_URL}${normalizeUrl(entry.url)}</loc>
-    <lastmod>${lastmod}</lastmod>
+    <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${priority}</priority>
   </url>`;

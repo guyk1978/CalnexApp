@@ -3,24 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mortgage Calculator - CalnexApp</title>
+    <title>Mortgage Calculator with Taxes, Insurance, and Affordability | CalnexApp</title>
     <meta
       name="description"
-      content="Mortgage calculator coming soon on CalnexApp. Estimate monthly housing finance scenarios."
+      content="Plan your home loan with a premium mortgage calculator. Estimate monthly payment, amortization, total interest, affordability, and 15 vs 30 year costs."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Mortgage Calculator - CalnexApp" />
+    <meta property="og:title" content="Mortgage Calculator with Taxes, Insurance, and Affordability | CalnexApp" />
+    <meta
+      property="og:description"
+      content="Run full mortgage planning scenarios including down payment, escrow, extra payments, and payoff timeline."
+    />
     <meta property="og:url" content="https://calnexapp.com/tools/mortgage-calculator/" />
+    <meta property="og:site_name" content="CalnexApp" />
     <link rel="canonical" href="https://calnexapp.com/tools/mortgage-calculator/" />
     <link rel="stylesheet" href="/assets/css/style.css" />
-      <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-MMLPFGBR27');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
+    </script>
   
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
@@ -30,7 +37,7 @@
   "name": "Mortgage Calculator",
   "description": "Mortgage Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/mortgage-calculator/",
-  "dateModified": "2026-05-11T08:26:50.347Z",
+  "dateModified": "2026-05-11T09:29:52.607Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -59,7 +66,7 @@
     </script>
     <!-- SEO_ENGINE_SCHEMA_END -->
   </head>
-  <body>
+  <body data-page="mortgage-calculator">
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
@@ -77,14 +84,248 @@
       <section class="page-title">
         <p class="eyebrow">Tool</p>
         <h1>Mortgage Calculator</h1>
-        <p>Feature in progress. Launching soon.</p>
+        <p>Professional home loan planning with escrow, amortization, affordability, and term comparison.</p>
       </section>
+
+      <section class="calculator-layout">
+        <form class="card input-card" aria-label="Mortgage calculator form">
+          <div class="field">
+            <label for="homePrice">Home Price</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="homePrice" type="number" min="50000" step="1000" value="450000" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="downPaymentType">Down Payment Type</label>
+            <select id="downPaymentType">
+              <option value="percent" selected>Percentage</option>
+              <option value="fixed">Fixed Amount</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="downPaymentPercent">Down Payment (%)</label>
+            <input id="downPaymentPercent" type="number" min="0" max="100" step="0.1" value="20" />
+          </div>
+
+          <div class="field">
+            <label for="downPaymentAmount">Down Payment ($)</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="downPaymentAmount" type="number" min="0" step="1000" value="90000" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Loan Amount (Auto)</label>
+            <p id="computedLoanAmount" class="btn-ghost" style="padding:0.6rem 0.7rem; border-radius:10px;">$0.00</p>
+          </div>
+
+          <div class="field">
+            <label for="mortgageInterestRate">Interest Rate (%)</label>
+            <input id="mortgageInterestRate" type="number" min="0" max="25" step="0.01" value="6.25" />
+          </div>
+
+          <div class="field">
+            <label for="mortgageLoanTerm">Loan Term</label>
+            <select id="mortgageLoanTerm">
+              <option value="15">15 years</option>
+              <option value="20">20 years</option>
+              <option value="30" selected>30 years</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="propertyTaxAnnual">Property Tax (Annual, optional)</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="propertyTaxAnnual" type="number" min="0" step="100" value="5400" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="homeInsuranceAnnual">Home Insurance (Annual, optional)</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="homeInsuranceAnnual" type="number" min="0" step="100" value="1800" />
+            </div>
+          </div>
+
+          <div class="advanced-payments">
+            <button id="toggleMortgageAdvanced" type="button" class="btn btn-ghost">Advanced: Extra Payments</button>
+            <div id="mortgageAdvancedPanel" class="advanced-panel" aria-hidden="true">
+              <div class="field">
+                <label for="mortgageExtraMonthlyPayment">Extra Monthly Payment</label>
+                <div class="input-with-prefix">
+                  <span>$</span>
+                  <input id="mortgageExtraMonthlyPayment" type="number" min="0" step="25" value="0" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="mortgageLumpSumPayment">One-Time Lump Sum Payment</label>
+                <div class="input-with-prefix">
+                  <span>$</span>
+                  <input id="mortgageLumpSumPayment" type="number" min="0" step="500" value="0" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="mortgagePaymentStartMonth">Payment Start Month</label>
+                <input id="mortgagePaymentStartMonth" type="number" min="1" step="1" value="1" />
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <aside class="card output-card" aria-live="polite">
+          <h2>Mortgage Results</h2>
+          <dl class="result-grid">
+            <div>
+              <dt>Monthly Mortgage Payment</dt>
+              <dd id="monthlyMortgagePayment">$0.00</dd>
+            </div>
+            <div>
+              <dt>Total Interest Paid</dt>
+              <dd id="totalInterestPaid">$0.00</dd>
+            </div>
+            <div>
+              <dt>Total Cost of Home</dt>
+              <dd id="totalHomeCost">$0.00</dd>
+            </div>
+          </dl>
+
+          <div class="comparison-grid">
+            <article class="comparison-card">
+              <p class="eyebrow">Loan Breakdown</p>
+              <p class="muted">Principal + Interest: <strong id="principalInterestMonthly">$0.00</strong></p>
+              <p class="muted">Tax + Insurance: <strong id="taxInsuranceMonthly">$0.00</strong></p>
+              <p class="muted">Payoff Date: <strong id="payoffDate">-</strong></p>
+            </article>
+            <article class="comparison-card">
+              <p class="eyebrow">Cross-Tool Planning</p>
+              <p class="muted">Need unsecured loan analysis?</p>
+              <a class="btn btn-ghost" href="/tools/loan-calculator/">Open Loan Calculator</a>
+            </article>
+          </div>
+        </aside>
+      </section>
+
       <section class="card">
-        <p>
-          This calculator will help users estimate mortgage payment schedules, borrowing costs, and affordability
-          ranges.
-        </p>
+        <h2>Affordability (28% Rule)</h2>
+        <div class="field">
+          <label for="annualIncome">Annual Household Income</label>
+          <div class="input-with-prefix">
+            <span>$</span>
+            <input id="annualIncome" type="number" min="0" step="1000" value="120000" />
+          </div>
+        </div>
+        <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment">$0.00</strong></p>
+        <p class="muted">Your estimated monthly payment: <strong id="actualPayment">$0.00</strong></p>
+        <p id="affordabilityWarning" class="muted">Enter annual income to get an affordability signal.</p>
       </section>
+
+      <section class="card">
+        <h2>15 vs 30 Year Mortgage Comparison</h2>
+        <div class="comparison-grid">
+          <article class="comparison-card">
+            <p class="eyebrow">15-Year</p>
+            <p class="muted">Monthly: <strong id="compare15Monthly">$0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare15Interest">$0.00</strong></p>
+          </article>
+          <article class="comparison-card">
+            <p class="eyebrow">30-Year</p>
+            <p class="muted">Monthly: <strong id="compare30Monthly">$0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare30Interest">$0.00</strong></p>
+          </article>
+        </div>
+        <p class="muted">Interest difference: <strong id="compareInterestDifference">$0.00</strong></p>
+        <div id="comparisonBars"></div>
+      </section>
+
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Insights</p>
+          <h2>Mortgage Visual Breakdown</h2>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Principal vs Interest</h3>
+            <div class="chart-wrap">
+              <canvas id="mortgagePrincipalInterestChart"></canvas>
+            </div>
+          </article>
+          <article class="card chart-card">
+            <h3>Remaining Balance</h3>
+            <div class="chart-wrap">
+              <canvas id="mortgageBalanceChart"></canvas>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card amortization-card">
+        <div class="amortization-header">
+          <h2>Amortization Schedule</h2>
+          <button id="toggleMortgageSchedule" type="button" class="btn btn-ghost">Show full amortization schedule</button>
+        </div>
+        <div id="mortgageSchedulePanel" class="schedule-panel" aria-hidden="true">
+          <div class="amortization-summary">
+            <div class="summary-item">
+              <span>Total Payments</span>
+              <strong id="mortgageSummaryTotalPayments">$0.00</strong>
+            </div>
+            <div class="summary-item">
+              <span>Total Interest</span>
+              <strong id="mortgageSummaryTotalInterest">$0.00</strong>
+            </div>
+            <div class="summary-item">
+              <span>Payoff Date</span>
+              <strong id="mortgageSummaryPayoffDate">-</strong>
+            </div>
+          </div>
+          <div class="schedule-table-wrap">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Payment</th>
+                  <th>Principal</th>
+                  <th>Interest</th>
+                  <th>Remaining Balance</th>
+                </tr>
+              </thead>
+              <tbody id="mortgageScheduleBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Mortgage Planning FAQ</h2>
+        <details>
+          <summary>Does this include property tax and insurance?</summary>
+          <p>Yes, annual property tax and insurance are converted to monthly escrow and added to your total monthly payment.</p>
+        </details>
+        <details>
+          <summary>Can I compare with a standard loan?</summary>
+          <p>Yes, use the <a href="/tools/loan-calculator/">Loan Calculator</a> to compare non-mortgage repayment scenarios.</p>
+        </details>
+        <details>
+          <summary>How is affordability calculated?</summary>
+          <p>It uses a simple 28% rule: recommended monthly housing payment is 28% of gross monthly income.</p>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2>Related Tools</h2>
+        <ul class="toc-list">
+          <li><a href="/tools/loan-calculator/">Loan Calculator</a></li>
+          <li><a href="/tools/interest-calculator/">Interest Calculator</a></li>
+          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a></li>
+        </ul>
+      </section>
+
       <section class="card" data-related-tools data-current-tool="mortgage-calculator"></section>
     
       <!-- SEO_ENGINE_RELATED_START -->
@@ -95,6 +336,24 @@
         </ul>
       </section>
       <!-- SEO_ENGINE_RELATED_END -->
+
+      <!-- RANK_TOOL_FAQ_START -->
+      <section class="card">
+        <h2>Loan Tool FAQ</h2>
+        <details><summary>How should I compare calculator outputs?</summary><p>Compare monthly payment, total interest, and payoff speed together.</p></details>
+        <details><summary>Can this tool help with planning extra payments?</summary><p>Yes. Test baseline and accelerated scenarios to estimate savings.</p></details>
+      </section>
+      <!-- RANK_TOOL_FAQ_END -->
+
+      <!-- RANK_TOOL_COMPARISON_START -->
+      <section class="card">
+        <h2>Comparison section</h2>
+        <p class="muted">Compare this calculator with related tools for different borrowing scenarios.</p>
+        <ul class="toc-list">
+          <li><a href="/tools/loan-calculator/">Loan Calculator</a></li><li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a></li>
+        </ul>
+      </section>
+      <!-- RANK_TOOL_COMPARISON_END -->
 </main>
 
     <footer class="site-footer">
@@ -108,5 +367,7 @@
       </div>
     </footer>
     <script src="/assets/js/app.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="/assets/js/mortgage.js" defer></script>
   </body>
 </html>

@@ -490,6 +490,40 @@ input[type="range"] {
   margin-left: 0.35rem;
 }
 
+#affordabilityWarning.warning {
+  color: #9b1c1c;
+  font-weight: 600;
+}
+
+.interest-bar-row {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 0.6rem;
+}
+
+.interest-bar-row span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.interest-bar-track {
+  height: 12px;
+  border-radius: 999px;
+  background: #e6edf7;
+  overflow: hidden;
+}
+
+.interest-bar-fill {
+  height: 100%;
+  background: var(--primary);
+}
+
+.interest-bar-fill.danger {
+  background: #b7791f;
+}
+
 .blog-grid,
 .tool-grid,
 .related-tools-grid {

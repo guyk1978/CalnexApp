@@ -4,9 +4,15 @@
   "scripts": {
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "seo:build": "node scripts/seo-engine.js",
+    "links:boost": "node scripts/internal-link-booster.js",
+    "sitemap:ping": "node scripts/ping-sitemap.js",
     "keywords:expand": "node scripts/keyword-expander.js",
+    "intent:classify": "node scripts/intent-classifier.js",
+    "serp:gap": "node scripts/serp-gap-analyzer.js",
+    "rank:optimize": "node scripts/ranking-optimizer.js",
     "pages:expand": "node scripts/page-expander.js",
     "seo:scale": "npm run keywords:expand && npm run pages:expand",
-    "build": "npm run seo:build && npm run seo:scale"
+    "ranking:build": "npm run intent:classify && npm run serp:gap && npm run rank:optimize",
+    "build": "npm run links:boost && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run sitemap:ping"
   }
 }
