@@ -54,16 +54,20 @@ const MortgageCalculator = (() => {
       ? CurrencyLayer.formatCurrency(value)
       : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(Number(value) || 0));
 
-  const getMonthlyPayment = (principal, annualRate, totalMonths) => {
-    if (!principal || !totalMonths) return 0;
-    const monthlyRate = annualRate / 100 / 12;
-    if (monthlyRate === 0) return principal / totalMonths;
-    const factor = (1 + monthlyRate) ** totalMonths;
-    return (principal * monthlyRate * factor) / (factor - 1);
+  const annualPercentToMonthlyDecimal = (annualPercent) => (Number(annualPercent) || 0) / 100 / 12;
+
+  const getMonthlyPayment = (principal, annualRatePercent, totalMonths) => {
+    const P = Math.max(0, Number(principal) || 0);
+    const n = Math.max(0, Math.round(Number(totalMonths) || 0));
+    const r = annualPercentToMonthlyDecimal(annualRatePercent);
+    if (!P || !n) return 0;
+    if (r === 0) return P / n;
+    const pow = (1 + r) ** n;
+    return (P * r * pow) / (pow - 1);
   };
 
   const buildSchedule = ({ principal, annualRate, totalMonths, monthlyPayment, includeExtra, extraConfig }) => {
-    const monthlyRate = annualRate / 100 / 12;
+    const monthlyRate = annualPercentToMonthlyDecimal(annualRate);
     const schedule = [];
     let balance = principal;
     let month = 1;
@@ -160,6 +164,17 @@ const MortgageCalculator = (() => {
     });
   };
 
+  const resolveLoanTermMonths = () => {
+    const raw = num("loan_term", selectors.loanTerm, 360);
+    const t = Math.round(Number(raw) || 0);
+    if (t <= 0) return 360;
+    const commonMortgageYears = new Set([10, 15, 20, 25, 30]);
+    if (commonMortgageYears.has(t)) return Math.min(600, Math.max(12, t * 12));
+    if (t >= 12 && t <= 600) return t;
+    if (t <= 40) return Math.min(600, Math.max(12, t * 12));
+    return 360;
+  };
+
   const computeMortgage = () => {
     const homePrice = Math.max(0, num("loan_amount", selectors.homePrice, 0));
     const downType = selectors.downPaymentType.value === "fixed" ? "fixed" : "percent";
@@ -168,12 +183,18 @@ const MortgageCalculator = (() => {
     const downPayment = downType === "percent" ? (homePrice * downPercent) / 100 : downFixed;
     const loanAmount = Math.max(0, homePrice - downPayment);
     const annualRate = Math.max(0, num("interest_rate", selectors.interestRate, 0));
-    const loanTermYears = Math.max(1, num("loan_term", selectors.loanTerm, 1));
-    const totalMonths = loanTermYears * 12;
+    const totalMonths = resolveLoanTermMonths();
     const extraMonthly = Math.max(0, num("extra_payment", selectors.extraMonthlyPayment, 0));
     const lumpSum = Math.max(0, num("mortgage_lump_sum_payment", selectors.lumpSumPayment, 0));
     const paymentStartMonth = Math.max(1, Math.min(totalMonths, num("mortgage_payment_start_month", selectors.paymentStartMonth, 1) || 1));
     const monthlyPrincipalInterest = getMonthlyPayment(loanAmount, annualRate, totalMonths);
+    const rDbg = annualPercentToMonthlyDecimal(annualRate);
+    console.log("[Mortgage]", {
+      "[P] principal": loanAmount,
+      "[r] monthly rate": rDbg,
+      "[n] months": totalMonths,
+      "[M] payment result": monthlyPrincipalInterest
+    });
     const taxMonthly = Math.max(0, num("property_tax_annual", selectors.propertyTaxAnnual, 0)) / 12;
     const insuranceMonthly = Math.max(0, num("home_insurance_annual", selectors.homeInsuranceAnnual, 0)) / 12;
     const monthlyEscrow = taxMonthly + insuranceMonthly;
@@ -183,7 +204,7 @@ const MortgageCalculator = (() => {
     displayedSchedule = acceleratedSchedule;
     const summary = summarizeSchedule(displayedSchedule);
     const monthlyMortgagePayment = monthlyPrincipalInterest + monthlyEscrow;
-    const totalHomeCost = homePrice - (homePrice - loanAmount) + summary.totalPaid + monthlyEscrow * summary.months;
+    const totalHomeCost = downPayment + summary.totalPaid + monthlyEscrow * summary.months;
     const payoffDate = getPayoffDate(summary.months);
 
     const monthlyIncome = Math.max(0, num("income", selectors.annualIncome, 0)) / 12;
@@ -234,7 +255,7 @@ const MortgageCalculator = (() => {
     return {
       loan_amount: homePrice,
       interest_rate: annualRate,
-      loan_term: loanTermYears,
+      loan_term: totalMonths,
       down_payment: downPayment,
       income: num("income", selectors.annualIncome, 0),
       extra_payment: extraMonthly,
@@ -286,8 +307,7 @@ const MortgageCalculator = (() => {
     if (typeof GeoFinance === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     if (params.has("term") || params.has("loan_term")) return;
-    const geo = GeoFinance.getCountryData();
-    selectors.loanTerm.value = String(Math.max(1, Number(geo.loan_norm_years) || 5));
+    selectors.loanTerm.value = "360";
   };
 
   const syncDownPaymentUi = () => {
