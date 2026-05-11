@@ -63,10 +63,13 @@ const LoanCalculator = (() => {
           maximumFractionDigits: 2
         }).format(Number(value) || 0));
 
-  const parseValue = (node) => Number(node?.value) || 0;
+  const num = (key, el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
+  const numEl = (el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.parseNumber(el?.value) ?? fb : Number(el?.value) || fb;
 
   const getTermInMonths = () => {
-    const term = parseValue(selectors.loanTerm);
+    const term = numEl(selectors.loanTerm, 0);
     return selectors.termUnit.value === "years" ? term * 12 : term;
   };
 
@@ -80,11 +83,14 @@ const LoanCalculator = (() => {
 
   const getExtraConfig = () => {
     const term = getTermInMonths();
-    const startMonth = Math.max(1, Math.min(term || 1, parseValue(selectors.paymentStartMonth) || 1));
-    selectors.paymentStartMonth.value = String(startMonth);
+    const startRaw = numEl(selectors.paymentStartMonth, 1);
+    const startMonth = Math.max(1, Math.min(term || 1, startRaw || 1));
+    if (document.activeElement !== selectors.paymentStartMonth) {
+      selectors.paymentStartMonth.value = String(startMonth);
+    }
     return {
-      extraMonthly: Math.max(0, parseValue(selectors.extraMonthlyPayment)),
-      lumpSum: Math.max(0, parseValue(selectors.lumpSumPayment)),
+      extraMonthly: Math.max(0, num("extra_payment", selectors.extraMonthlyPayment, 0)),
+      lumpSum: Math.max(0, numEl(selectors.lumpSumPayment, 0)),
       startMonth
     };
   };
@@ -416,12 +422,12 @@ const LoanCalculator = (() => {
 
     drawHeader();
     sectionTitle("Loan Inputs");
-    lineText("Loan amount", setCurrency(parseValue(selectors.loanAmount)));
-    lineText("Interest rate", `${parseValue(selectors.interestRate)}%`);
-    lineText("Loan term", `${parseValue(selectors.loanTerm)} ${selectors.termUnit.value}`);
-    lineText("Extra monthly payment", setCurrency(parseValue(selectors.extraMonthlyPayment)));
-    lineText("Lump sum payment", setCurrency(parseValue(selectors.lumpSumPayment)));
-    lineText("Payment start month", String(parseValue(selectors.paymentStartMonth) || 1));
+    lineText("Loan amount", setCurrency(num("loan_amount", selectors.loanAmount, 0)));
+    lineText("Interest rate", `${num("interest_rate", selectors.interestRate, 0)}%`);
+    lineText("Loan term", `${numEl(selectors.loanTerm, 0)} ${selectors.termUnit.value}`);
+    lineText("Extra monthly payment", setCurrency(num("extra_payment", selectors.extraMonthlyPayment, 0)));
+    lineText("Lump sum payment", setCurrency(numEl(selectors.lumpSumPayment, 0)));
+    lineText("Payment start month", String(numEl(selectors.paymentStartMonth, 1) || 1));
 
     ensureSpace(120);
     sectionTitle("Calculated Outputs");
@@ -509,13 +515,13 @@ const LoanCalculator = (() => {
 
   const serializeInputsToQuery = () => {
     const params = new URLSearchParams();
-    params.set("loan", parseValue(selectors.loanAmount).toFixed(0));
-    params.set("rate", parseValue(selectors.interestRate).toFixed(2));
-    params.set("term", parseValue(selectors.loanTerm).toFixed(0));
+    params.set("loan", num("loan_amount", selectors.loanAmount, 0).toFixed(0));
+    params.set("rate", num("interest_rate", selectors.interestRate, 0).toFixed(2));
+    params.set("term", numEl(selectors.loanTerm, 0).toFixed(0));
     params.set("unit", selectors.termUnit.value);
-    params.set("extra", parseValue(selectors.extraMonthlyPayment).toFixed(0));
-    params.set("lump", parseValue(selectors.lumpSumPayment).toFixed(0));
-    params.set("start", parseValue(selectors.paymentStartMonth).toFixed(0));
+    params.set("extra", num("extra_payment", selectors.extraMonthlyPayment, 0).toFixed(0));
+    params.set("lump", numEl(selectors.lumpSumPayment, 0).toFixed(0));
+    params.set("start", numEl(selectors.paymentStartMonth, 1).toFixed(0));
     return params.toString();
   };
 
@@ -547,10 +553,10 @@ const LoanCalculator = (() => {
   const updateSeoMeta = () => {
     if (typeof SeoModule !== "undefined") {
       SeoModule.setLoanMeta({
-        amountText: setCurrency(parseValue(selectors.loanAmount)),
-        term: parseValue(selectors.loanTerm),
+        amountText: setCurrency(num("loan_amount", selectors.loanAmount, 0)),
+        term: numEl(selectors.loanTerm, 0),
         unit: selectors.termUnit.value,
-        rate: parseValue(selectors.interestRate)
+        rate: num("interest_rate", selectors.interestRate, 0)
       });
     }
   };
@@ -566,8 +572,8 @@ const LoanCalculator = (() => {
   };
 
   const runLoanPipeline = () => {
-    const principal = parseValue(selectors.loanAmount);
-    const annualRate = parseValue(selectors.interestRate);
+    const principal = num("loan_amount", selectors.loanAmount, 0);
+    const annualRate = num("interest_rate", selectors.interestRate, 0);
     const totalMonths = getTermInMonths();
     const monthlyPayment = getMonthlyPayment(principal, annualRate, totalMonths);
     const extraConfig = getExtraConfig();
@@ -599,7 +605,7 @@ const LoanCalculator = (() => {
     const snapshot = {
       loan_amount: principal,
       interest_rate: annualRate,
-      loan_term: parseValue(selectors.loanTerm),
+      loan_term: numEl(selectors.loanTerm, 0),
       extra_payment: extraConfig.extraMonthly,
       loan_monthly_payment: monthlyPayment,
       loan_total_interest: acceleratedSummary.totalInterest,
@@ -628,7 +634,9 @@ const LoanCalculator = (() => {
       return Math.min(options.max, Math.max(options.min, value));
     };
     inputNode.addEventListener("input", () => {
-      sliderNode.value = clamp(Number(inputNode.value) || 0);
+      const raw =
+        typeof CalnexParse !== "undefined" ? CalnexParse.parseNumber(inputNode.value) ?? 0 : Number(inputNode.value) || 0;
+      sliderNode.value = String(clamp(raw));
       if (window.AppEngine) AppEngine.notifyToolInput();
     });
     sliderNode.addEventListener("input", () => {
@@ -642,7 +650,7 @@ const LoanCalculator = (() => {
     selectors.loanTermSlider.max = inYears ? "30" : "360";
     selectors.loanTermSlider.min = "1";
     selectors.loanTermSlider.step = "1";
-    if (Number(selectors.loanTerm.value) > Number(selectors.loanTermSlider.max)) {
+    if (numEl(selectors.loanTerm, 0) > Number(selectors.loanTermSlider.max)) {
       selectors.loanTerm.value = selectors.loanTermSlider.max;
     }
     selectors.loanTermSlider.value = selectors.loanTerm.value;

@@ -198,6 +198,7 @@
 
   const bootstrapGlobalLayers = async () => {
     try {
+      await ensureScriptLoaded("/assets/js/parse-utils.js");
       await ensureScriptLoaded("/assets/js/geo-finance.js");
       await ensureScriptLoaded("/assets/js/currency.js");
       await ensureScriptLoaded("/assets/js/app-engine.js");

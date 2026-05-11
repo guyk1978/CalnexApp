@@ -6,6 +6,16 @@ const InputSyncLayer = (() => {
     const trimmed = String(raw ?? "").trim();
     if (trimmed === "") return null;
 
+    if (typeof CalnexParse !== "undefined" && node.tagName !== "SELECT" && node.dataset.inputType !== "text") {
+      const parsed = CalnexParse.parseNumber(raw);
+      if (parsed !== null) {
+        previousValid.set(key, parsed);
+        return parsed;
+      }
+      if (previousValid.has(key)) return previousValid.get(key);
+      return null;
+    }
+
     const isNumericInput = node.type === "number" || node.type === "range";
     if (isNumericInput) {
       const parsed = Number(trimmed);
@@ -31,10 +41,10 @@ const InputSyncLayer = (() => {
     if (node.dataset.programmaticUpdate === "true") return;
     const key = node.getAttribute("data-input-bind");
     if (!key) return;
+    console.log("[INPUT] value changed", { key, raw: node.value });
     if (typeof window.AppEngine !== "undefined") {
       AppEngine.beginInput();
       AppEngine.schedulePipeline();
-      console.log(`[input-sync] input phase (deferred commit): ${key}`);
       return;
     }
     if (typeof SharedState === "undefined") return;

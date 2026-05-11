@@ -46,10 +46,13 @@ const CarLoanCalculator = (() => {
           maximumFractionDigits: 2
         }).format(Number(value) || 0));
 
-  const parseValue = (node) => Number(node?.value) || 0;
+  const num = (key, el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
+  const numEl = (el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.parseNumber(el?.value) ?? fb : Number(el?.value) || fb;
 
   const getTermInMonths = () => {
-    const term = parseValue(selectors.loanTerm);
+    const term = num("loan_term", selectors.loanTerm, 0);
     return selectors.termUnit.value === "years" ? term * 12 : term;
   };
 
@@ -93,11 +96,11 @@ const CarLoanCalculator = (() => {
   };
 
   const computeLoanBase = () => {
-    const carPrice = parseValue(selectors.carPrice);
-    const tradeInValue = Math.max(0, parseValue(selectors.tradeInValue));
-    const fees = Math.max(0, parseValue(selectors.fees));
-    const downByPercent = (carPrice * Math.max(0, parseValue(selectors.downPaymentPercent))) / 100;
-    const downByAmount = Math.max(0, parseValue(selectors.downPaymentAmount));
+    const carPrice = num("loan_amount", selectors.carPrice, 0);
+    const tradeInValue = Math.max(0, numEl(selectors.tradeInValue, 0));
+    const fees = Math.max(0, numEl(selectors.fees, 0));
+    const downByPercent = (carPrice * Math.max(0, numEl(selectors.downPaymentPercent, 0))) / 100;
+    const downByAmount = Math.max(0, numEl(selectors.downPaymentAmount, 0));
     const downPayment = selectors.downPaymentType.value === "percent" ? downByPercent : downByAmount;
     const financed = Math.max(0, carPrice - downPayment - tradeInValue + fees);
     return { carPrice, tradeInValue, fees, downPayment, financed };
@@ -152,7 +155,7 @@ const CarLoanCalculator = (() => {
   };
 
   const buildAffordabilityPatch = (monthlyPayment) => {
-    const monthlyIncome = parseValue(selectors.annualIncome) / 12;
+    const monthlyIncome = numEl(selectors.annualIncome, 0) / 12;
     const range = getAffordabilityRange();
     const safeMin = monthlyIncome * range.min;
     const safeMax = monthlyIncome * range.max;
@@ -185,10 +188,10 @@ const CarLoanCalculator = (() => {
   };
 
   const buildComparisonPatch = (currentMonthly) => {
-    const priceB = Math.max(0, parseValue(selectors.comparePriceB));
-    const downB = Math.max(0, parseValue(selectors.compareDownB));
-    const rateB = Math.max(0, parseValue(selectors.compareRateB));
-    const termB = Math.max(1, parseValue(selectors.compareTermB));
+    const priceB = Math.max(0, numEl(selectors.comparePriceB, 0));
+    const downB = Math.max(0, numEl(selectors.compareDownB, 0));
+    const rateB = Math.max(0, numEl(selectors.compareRateB, 0));
+    const termB = Math.max(1, numEl(selectors.compareTermB, 0));
     const financedB = Math.max(0, priceB - downB);
     const monthlyB = getMonthlyPayment(financedB, rateB, termB);
     const diff = monthlyB - currentMonthly;
@@ -218,7 +221,7 @@ const CarLoanCalculator = (() => {
 
   const runCarPipeline = () => {
     const { carPrice, financed, tradeInValue, downPayment, fees } = computeLoanBase();
-    const annualRate = Math.max(0, parseValue(selectors.interestRate));
+    const annualRate = Math.max(0, num("interest_rate", selectors.interestRate, 0));
     const totalMonths = Math.max(1, getTermInMonths());
     const monthlyPayment = getMonthlyPayment(financed, annualRate, totalMonths);
     const schedule = buildSchedule({ principal: financed, annualRate, totalMonths, monthlyPayment });
@@ -233,7 +236,7 @@ const CarLoanCalculator = (() => {
       loan_term: totalMonths,
       extra_payment: 0,
       down_payment: downPayment,
-      income: parseValue(selectors.annualIncome),
+      income: numEl(selectors.annualIncome, 0),
       car_computed_loan_amount: financed,
       car_monthly_payment: monthlyPayment,
       car_total_interest: summary.totalInterest,

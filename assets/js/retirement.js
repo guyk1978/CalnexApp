@@ -16,22 +16,23 @@ const RetirementCalculator = (() => {
   let growthChartInstance;
   let isApplyingShared = false;
 
-  const parseValue = (node) => Number(node?.value) || 0;
+  const num = (key, el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
   const getState = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
   const getGeo = () => (typeof GeoFinance !== "undefined" ? GeoFinance.getCountryData() : null);
   const getScenarioEngine = () => (typeof ScenarioEngine !== "undefined" ? ScenarioEngine : null);
 
   const getInputs = () => {
-    const currentAge = Math.max(0, parseValue(selectors.currentAge));
-    const targetAge = Math.max(currentAge + 1, parseValue(selectors.targetAge));
+    const currentAge = Math.max(0, num("retirement_current_age", selectors.currentAge, 0));
+    const targetAge = Math.max(currentAge + 1, num("retirement_target_age", selectors.targetAge, currentAge + 1));
     return {
       currentAge,
       targetAge,
-      currentSavings: Math.max(0, parseValue(selectors.currentSavings)),
-      monthlyContribution: Math.max(0, parseValue(selectors.monthlyContribution)),
-      annualReturnRate: Math.max(0, parseValue(selectors.annualReturnRate)),
-      inflationRate: Math.max(0, parseValue(selectors.inflationRate)),
-      desiredRetirementIncome: Math.max(0, parseValue(selectors.desiredIncome))
+      currentSavings: Math.max(0, num("retirement_current_savings", selectors.currentSavings, 0)),
+      monthlyContribution: Math.max(0, num("retirement_monthly_contribution", selectors.monthlyContribution, 0)),
+      annualReturnRate: Math.max(0, num("retirement_return_rate", selectors.annualReturnRate, 0)),
+      inflationRate: Math.max(0, num("retirement_inflation_rate", selectors.inflationRate, 0)),
+      desiredRetirementIncome: Math.max(0, num("retirement_desired_income", selectors.desiredIncome, 0))
     };
   };
 
@@ -159,8 +160,8 @@ const RetirementCalculator = (() => {
         const state = getState();
         applyScenarioOverride("Retire 3 years later", {
           retirement_target_age: Math.max(
-            (state.retirement_current_age || parseValue(selectors.currentAge)) + 1,
-            (state.retirement_target_age || parseValue(selectors.targetAge)) + 3
+            (state.retirement_current_age || num("retirement_current_age", selectors.currentAge, 0)) + 1,
+            (state.retirement_target_age || num("retirement_target_age", selectors.targetAge, 65)) + 3
           )
         });
       });
@@ -171,7 +172,7 @@ const RetirementCalculator = (() => {
         applyScenarioOverride("Increase retirement contribution", {
           retirement_monthly_contribution: Math.max(
             0,
-            (state.retirement_monthly_contribution || parseValue(selectors.monthlyContribution)) + 250
+            (state.retirement_monthly_contribution || num("retirement_monthly_contribution", selectors.monthlyContribution, 0)) + 250
           )
         });
       });
@@ -180,7 +181,10 @@ const RetirementCalculator = (() => {
       selectors.scenarioReturnBtn.addEventListener("click", () => {
         const state = getState();
         applyScenarioOverride("Higher return assumption", {
-          retirement_return_rate: Math.max(0, (state.retirement_return_rate || parseValue(selectors.annualReturnRate)) + 1)
+          retirement_return_rate: Math.max(
+            0,
+            (state.retirement_return_rate || num("retirement_return_rate", selectors.annualReturnRate, 0)) + 1
+          )
         });
       });
     }

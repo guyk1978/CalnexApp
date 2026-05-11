@@ -66,13 +66,16 @@ const AppEngine = (() => {
     }
 
     phase = PHASE.COMPUTE;
-    logPhase("compute");
-
+    window.__calnexSanitizedInputs =
+      typeof CalnexParse !== "undefined" ? CalnexParse.collectDataInputBindings() : {};
+    console.log("[COMPUTE] executed", { page: document.body?.dataset?.page });
     let snapshot = null;
     try {
       snapshot = runner();
     } catch (err) {
       console.error("[ENGINE] compute failed", err);
+    } finally {
+      delete window.__calnexSanitizedInputs;
     }
 
     const deferred = takeDeferredMerged();

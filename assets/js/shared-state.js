@@ -140,6 +140,10 @@ const SharedState = (() => {
 
   const toNumber = (value) => {
     if (value === null || value === undefined || value === "") return undefined;
+    if (typeof window.CalnexParse !== "undefined") {
+      const parsed = CalnexParse.parseNumber(value);
+      return parsed !== null ? parsed : undefined;
+    }
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : undefined;
   };
@@ -244,6 +248,7 @@ const SharedState = (() => {
     });
     if (opts.syncUrl !== false) replaceUrl();
     refreshToolLinks();
+    console.log("[STATE] updated", { keys: Object.keys(next), source: opts.engineCommit ? "commit" : opts.system ? "system" : "external" });
     const engineSource = opts.engineCommit ? "commit" : opts.system ? "system" : "external";
     document.dispatchEvent(new CustomEvent("sharedstate:updated", { detail: { ...state, __engineSource: engineSource } }));
     window.dispatchEvent(

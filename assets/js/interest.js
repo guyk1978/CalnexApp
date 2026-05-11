@@ -24,7 +24,10 @@ const InterestCalculator = (() => {
     daily: 365
   };
 
-  const parseValue = (node) => Number(node?.value) || 0;
+  const num = (key, el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
+  const numEl = (el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.parseNumber(el?.value) ?? fb : Number(el?.value) || fb;
   const setCurrency = (value) =>
     (typeof CurrencyLayer !== "undefined"
       ? CurrencyLayer.formatCurrency(value)
@@ -33,10 +36,10 @@ const InterestCalculator = (() => {
         ));
 
   const getInputs = () => {
-    const principal = Math.max(0, parseValue(selectors.principal));
-    const annualRate = Math.max(0, parseValue(selectors.rate));
-    const years = Math.max(1, parseValue(selectors.years));
-    const monthlyContribution = Math.max(0, parseValue(selectors.monthlyContribution));
+    const principal = Math.max(0, num("interest_principal", selectors.principal, 0));
+    const annualRate = Math.max(0, num("interest_rate", selectors.rate, 0));
+    const years = Math.max(1, num("interest_years", selectors.years, 1));
+    const monthlyContribution = Math.max(0, numEl(selectors.monthlyContribution, 0));
     const compounding = selectors.compounding.value || "monthly";
     const periodsPerYear = compoundingMap[compounding] || 12;
     return { principal, annualRate, years, monthlyContribution, compounding, periodsPerYear };
@@ -110,7 +113,7 @@ const InterestCalculator = (() => {
     if (!window.Chart) return;
     const labels = rows.map((row) => `Year ${row.year}`);
     const compoundSeries = rows.map((row) => row.compoundAmount);
-    const principalPlusContribSeries = rows.map((row) => row.contributions + parseValue(selectors.principal));
+    const principalPlusContribSeries = rows.map((row) => row.contributions + num("interest_principal", selectors.principal, 0));
     const simpleSeries = rows.map((row) => row.simpleAmount);
 
     if (growthChartInstance) growthChartInstance.destroy();

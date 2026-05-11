@@ -49,21 +49,24 @@ const UiRenderer = (() => {
 
   const renderInputs = () => {
     const state = getState();
+    const active = document.activeElement;
     document.querySelectorAll("[data-input-bind]").forEach((node) => {
       const key = node.getAttribute("data-input-bind");
       if (!key || !(key in state)) return;
-      if (document.activeElement === node) {
-        console.log("[Renderer] render skipped focused input", key);
-        return;
-      }
-      const next = String(state[key]);
-      if (node.value !== next) {
-        node.dataset.programmaticUpdate = "true";
-        node.value = next;
-        queueMicrotask(() => {
-          delete node.dataset.programmaticUpdate;
-        });
-      }
+      if (active === node) return;
+      const raw = state[key];
+      const next =
+        typeof raw === "number"
+          ? String(raw)
+          : raw === null || raw === undefined
+            ? ""
+            : String(raw);
+      if (node.value === next) return;
+      node.dataset.programmaticUpdate = "true";
+      node.value = next;
+      queueMicrotask(() => {
+        delete node.dataset.programmaticUpdate;
+      });
     });
   };
 
@@ -100,6 +103,7 @@ const UiRenderer = (() => {
     renderInputs();
     renderOutputs();
     renderDashboard();
+    console.log("[RENDER] applied");
   };
 
   let appStateListenerAttached = false;

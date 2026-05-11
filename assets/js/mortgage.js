@@ -47,7 +47,8 @@ const MortgageCalculator = (() => {
   let acceleratedSchedule = [];
   let principalInterestChartInstance;
   let balanceChartInstance;
-  const parseValue = (node) => Number(node?.value) || 0;
+  const num = (key, el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
   const setCurrency = (value) =>
     (typeof CurrencyLayer !== "undefined"
       ? CurrencyLayer.formatCurrency(value)
@@ -160,21 +161,21 @@ const MortgageCalculator = (() => {
   };
 
   const computeMortgage = () => {
-    const homePrice = Math.max(0, parseValue(selectors.homePrice));
+    const homePrice = Math.max(0, num("loan_amount", selectors.homePrice, 0));
     const downType = selectors.downPaymentType.value === "fixed" ? "fixed" : "percent";
-    const downPercent = Math.max(0, parseValue(selectors.downPaymentPercent));
-    const downFixed = Math.max(0, parseValue(selectors.downPaymentAmount));
+    const downPercent = Math.max(0, num("mortgage_down_payment_percent", selectors.downPaymentPercent, 0));
+    const downFixed = Math.max(0, num("down_payment", selectors.downPaymentAmount, 0));
     const downPayment = downType === "percent" ? (homePrice * downPercent) / 100 : downFixed;
     const loanAmount = Math.max(0, homePrice - downPayment);
-    const annualRate = Math.max(0, parseValue(selectors.interestRate));
-    const loanTermYears = Math.max(1, parseValue(selectors.loanTerm));
+    const annualRate = Math.max(0, num("interest_rate", selectors.interestRate, 0));
+    const loanTermYears = Math.max(1, num("loan_term", selectors.loanTerm, 1));
     const totalMonths = loanTermYears * 12;
-    const extraMonthly = Math.max(0, parseValue(selectors.extraMonthlyPayment));
-    const lumpSum = Math.max(0, parseValue(selectors.lumpSumPayment));
-    const paymentStartMonth = Math.max(1, Math.min(totalMonths, parseValue(selectors.paymentStartMonth) || 1));
+    const extraMonthly = Math.max(0, num("extra_payment", selectors.extraMonthlyPayment, 0));
+    const lumpSum = Math.max(0, num("mortgage_lump_sum_payment", selectors.lumpSumPayment, 0));
+    const paymentStartMonth = Math.max(1, Math.min(totalMonths, num("mortgage_payment_start_month", selectors.paymentStartMonth, 1) || 1));
     const monthlyPrincipalInterest = getMonthlyPayment(loanAmount, annualRate, totalMonths);
-    const taxMonthly = Math.max(0, parseValue(selectors.propertyTaxAnnual)) / 12;
-    const insuranceMonthly = Math.max(0, parseValue(selectors.homeInsuranceAnnual)) / 12;
+    const taxMonthly = Math.max(0, num("property_tax_annual", selectors.propertyTaxAnnual, 0)) / 12;
+    const insuranceMonthly = Math.max(0, num("home_insurance_annual", selectors.homeInsuranceAnnual, 0)) / 12;
     const monthlyEscrow = taxMonthly + insuranceMonthly;
     const extraConfig = { extraMonthly, lumpSum, startMonth: paymentStartMonth };
     baselineSchedule = buildSchedule({ principal: loanAmount, annualRate, totalMonths, monthlyPayment: monthlyPrincipalInterest, includeExtra: false, extraConfig });
@@ -185,7 +186,7 @@ const MortgageCalculator = (() => {
     const totalHomeCost = homePrice - (homePrice - loanAmount) + summary.totalPaid + monthlyEscrow * summary.months;
     const payoffDate = getPayoffDate(summary.months);
 
-    const monthlyIncome = Math.max(0, parseValue(selectors.annualIncome)) / 12;
+    const monthlyIncome = Math.max(0, num("income", selectors.annualIncome, 0)) / 12;
     const recommendedMonthly = monthlyIncome > 0 ? monthlyIncome * 0.28 : 0;
     const warning =
       recommendedMonthly === 0
@@ -235,12 +236,12 @@ const MortgageCalculator = (() => {
       interest_rate: annualRate,
       loan_term: loanTermYears,
       down_payment: downPayment,
-      income: parseValue(selectors.annualIncome),
+      income: num("income", selectors.annualIncome, 0),
       extra_payment: extraMonthly,
       mortgage_down_payment_type: selectors.downPaymentType.value,
       mortgage_down_payment_percent: downPercent,
-      property_tax_annual: parseValue(selectors.propertyTaxAnnual),
-      home_insurance_annual: parseValue(selectors.homeInsuranceAnnual),
+      property_tax_annual: num("property_tax_annual", selectors.propertyTaxAnnual, 0),
+      home_insurance_annual: num("home_insurance_annual", selectors.homeInsuranceAnnual, 0),
       mortgage_lump_sum_payment: lumpSum,
       mortgage_payment_start_month: paymentStartMonth,
       mortgage_computed_loan_amount: loanAmount,
