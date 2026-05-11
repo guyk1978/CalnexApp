@@ -10,9 +10,18 @@ const LoanCalculator = (() => {
     monthlyPayment: document.getElementById("monthlyPayment"),
     totalInterest: document.getElementById("totalInterest"),
     totalRepayment: document.getElementById("totalRepayment"),
+    summaryTotalPayments: document.getElementById("summaryTotalPayments"),
+    summaryTotalInterest: document.getElementById("summaryTotalInterest"),
+    summaryPayoffDate: document.getElementById("summaryPayoffDate"),
+    scheduleBody: document.getElementById("scheduleBody"),
+    schedulePanel: document.getElementById("schedulePanel"),
+    toggleSchedule: document.getElementById("toggleSchedule"),
+    downloadCsv: document.getElementById("downloadCsv"),
+    printSchedule: document.getElementById("printSchedule"),
     copyFeedback: document.getElementById("copyFeedback"),
     shareButtons: document.querySelectorAll("[data-share]")
   };
+  let latestSchedule = [];
 
   const setCurrency = (value) =>
     new Intl.NumberFormat("en-US", {
@@ -50,6 +59,149 @@ const LoanCalculator = (() => {
     const totalRepayment = monthly * totalMonths;
     const totalInterest = totalRepayment - principal;
     return { monthly, totalInterest, totalRepayment };
+  };
+
+  const buildAmortizationSchedule = () => {
+    const principal = parseValue(selectors.loanAmount);
+    const annualRate = parseValue(selectors.interestRate);
+    const totalMonths = getTermInMonths();
+    if (!principal || !totalMonths) return [];
+
+    const monthlyRate = annualRate / 100 / 12;
+    const loan = calculateLoan();
+    let balance = principal;
+    const schedule = [];
+
+    for (let month = 1; month <= totalMonths; month += 1) {
+      const rawInterest = monthlyRate === 0 ? 0 : balance * monthlyRate;
+      const interest = Math.max(0, rawInterest);
+      let principalPaid = loan.monthly - interest;
+      if (month === totalMonths || principalPaid > balance) {
+        principalPaid = balance;
+      }
+      const payment = principalPaid + interest;
+      balance = Math.max(0, balance - principalPaid);
+
+      schedule.push({
+        month,
+        payment,
+        principal: principalPaid,
+        interest,
+        balance
+      });
+    }
+
+    return schedule;
+  };
+
+  const getPayoffDate = (monthsAhead) => {
+    const payoff = new Date();
+    payoff.setMonth(payoff.getMonth() + monthsAhead);
+    return payoff.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric"
+    });
+  };
+
+  const renderScheduleTable = (schedule) => {
+    if (!selectors.scheduleBody) return;
+    selectors.scheduleBody.innerHTML = schedule
+      .map((row, index) => {
+        const payoffClass = index === schedule.length - 1 ? "payoff-row" : "";
+        return `
+          <tr class="${payoffClass}">
+            <td>${row.month}</td>
+            <td>${setCurrency(row.payment)}</td>
+            <td>${setCurrency(row.principal)}</td>
+            <td>${setCurrency(row.interest)}</td>
+            <td>${setCurrency(row.balance)}</td>
+          </tr>
+        `;
+      })
+      .join("");
+  };
+
+  const renderScheduleSummary = (schedule) => {
+    const totalPayments = schedule.reduce((sum, row) => sum + row.payment, 0);
+    const totalInterest = schedule.reduce((sum, row) => sum + row.interest, 0);
+    selectors.summaryTotalPayments.textContent = setCurrency(totalPayments);
+    selectors.summaryTotalInterest.textContent = setCurrency(totalInterest);
+    selectors.summaryPayoffDate.textContent = schedule.length ? getPayoffDate(schedule.length) : "-";
+  };
+
+  const toCsv = (schedule) => {
+    const header = ["Month", "Payment", "Principal", "Interest", "Remaining Balance"];
+    const lines = schedule.map((row) => [
+      row.month,
+      row.payment.toFixed(2),
+      row.principal.toFixed(2),
+      row.interest.toFixed(2),
+      row.balance.toFixed(2)
+    ]);
+    return [header, ...lines].map((line) => line.join(",")).join("\n");
+  };
+
+  const downloadScheduleCsv = () => {
+    if (!latestSchedule.length) return;
+    const csv = toCsv(latestSchedule);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "calnexapp-loan-amortization.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const printSchedule = () => {
+    if (!latestSchedule.length) return;
+    const rows = latestSchedule
+      .map(
+        (row) => `<tr>
+          <td>${row.month}</td>
+          <td>${setCurrency(row.payment)}</td>
+          <td>${setCurrency(row.principal)}</td>
+          <td>${setCurrency(row.interest)}</td>
+          <td>${setCurrency(row.balance)}</td>
+        </tr>`
+      )
+      .join("");
+    const win = window.open("", "_blank", "width=1024,height=768");
+    if (!win) return;
+    win.document.write(`
+      <html>
+        <head>
+          <title>Loan Amortization Schedule</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { border: 1px solid #dce4f0; padding: 8px; text-align: right; }
+            th:first-child, td:first-child { text-align: left; }
+            thead th { background: #f2f6fd; }
+          </style>
+        </head>
+        <body>
+          <h1>CalnexApp Loan Amortization Schedule</h1>
+          <table>
+            <thead>
+              <tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Remaining Balance</th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </body>
+      </html>
+    `);
+    win.document.close();
+    win.focus();
+    win.print();
+  };
+
+  const toggleSchedule = () => {
+    const isOpen = selectors.schedulePanel.classList.toggle("is-open");
+    selectors.schedulePanel.setAttribute("aria-hidden", String(!isOpen));
+    selectors.toggleSchedule.textContent = isOpen ? "Hide full schedule" : "Show full schedule";
   };
 
   const buildCalculationQuery = () => {
@@ -92,6 +244,9 @@ const LoanCalculator = (() => {
     selectors.monthlyPayment.textContent = setCurrency(result.monthly);
     selectors.totalInterest.textContent = setCurrency(result.totalInterest);
     selectors.totalRepayment.textContent = setCurrency(result.totalRepayment);
+    latestSchedule = buildAmortizationSchedule();
+    renderScheduleSummary(latestSchedule);
+    renderScheduleTable(latestSchedule);
     updateSeoAndUrl();
     updateShareLinks();
   };
@@ -160,6 +315,9 @@ const LoanCalculator = (() => {
       updateTermSliderRange();
       updateResultUI();
     });
+    selectors.toggleSchedule.addEventListener("click", toggleSchedule);
+    selectors.downloadCsv.addEventListener("click", downloadScheduleCsv);
+    selectors.printSchedule.addEventListener("click", printSchedule);
 
     selectors.shareButtons.forEach((node) => {
       if (node.dataset.share !== "copy") return;
