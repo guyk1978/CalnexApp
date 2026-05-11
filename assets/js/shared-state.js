@@ -15,8 +15,16 @@ const SharedState = (() => {
     "car_monthly_payment",
     "car_total_interest",
     "car_total_cost",
+    "interest_principal",
+    "interest_monthly_contribution",
+    "interest_years",
+    "interest_compounding",
+    "interest_simple_total",
+    "interest_compound_total",
+    "interest_total_interest",
     "scenario"
   ];
+  const stringFields = new Set(["scenario", "interest_compounding"]);
   const state = {};
 
   const toNumber = (value) => {
@@ -28,7 +36,7 @@ const SharedState = (() => {
   const normalizeState = (raw = {}) => {
     const normalized = {};
     fields.forEach((key) => {
-      if (key === "scenario") {
+      if (stringFields.has(key)) {
         const value = raw[key];
         if (value !== undefined && value !== null && value !== "") {
           normalized[key] = String(value);
@@ -50,7 +58,8 @@ const SharedState = (() => {
       extra_payment: params.get("extra_payment") || params.get("extra"),
       down_payment: params.get("down_payment"),
       income: params.get("income"),
-      scenario: params.get("scenario")
+      scenario: params.get("scenario"),
+      interest_compounding: params.get("interest_compounding") || params.get("frequency")
     };
     fields.forEach((field) => {
       if (!(field in seed)) {
@@ -63,8 +72,8 @@ const SharedState = (() => {
   const toQuery = (snapshot = state) => {
     const params = new URLSearchParams();
     fields.forEach((key) => {
-      if (key === "scenario") {
-        if (snapshot.scenario) params.set("scenario", String(snapshot.scenario));
+      if (stringFields.has(key)) {
+        if (snapshot[key]) params.set(key, String(snapshot[key]));
         return;
       }
       const value = toNumber(snapshot[key]);
@@ -93,13 +102,11 @@ const SharedState = (() => {
 
   const setState = (partial = {}, options = { syncUrl: true }) => {
     const next = normalizeState(partial);
-    if ("scenario" in partial) {
-      if (partial.scenario === null || partial.scenario === "") {
-        delete state.scenario;
-      } else {
-        state.scenario = String(partial.scenario);
-      }
-    }
+    stringFields.forEach((field) => {
+      if (!(field in partial)) return;
+      if (partial[field] === null || partial[field] === "") delete state[field];
+      else state[field] = String(partial[field]);
+    });
     Object.assign(state, next);
     fields.forEach((key) => {
       if (!(key in next) && partial[key] === null) delete state[key];

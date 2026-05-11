@@ -6,7 +6,7 @@
     <title>Interest Calculator - CalnexApp</title>
     <meta
       name="description"
-      content="Interest calculator coming soon on CalnexApp for simple and compound growth planning."
+      content="Calculate simple and compound interest growth with monthly contributions, charts, and year-by-year breakdowns."
     />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Interest Calculator - CalnexApp" />
@@ -33,6 +33,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -41,7 +42,7 @@
   "name": "Interest Calculator",
   "description": "Interest Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/interest-calculator/",
-  "dateModified": "2026-05-11T09:40:16.544Z",
+  "dateModified": "2026-05-11T09:44:17.314Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -70,7 +71,7 @@
     </script>
     <!-- SEO_ENGINE_SCHEMA_END -->
   </head>
-  <body>
+  <body data-page="interest-calculator">
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
@@ -88,25 +89,115 @@
       <section class="page-title">
         <p class="eyebrow">Tool</p>
         <h1>Interest Calculator</h1>
-        <p>Feature in progress. Launching soon.</p>
+        <p>Calculate simple and compound interest growth with optional monthly contributions.</p>
       </section>
-      <section class="card">
-        <p>
-          This tool will estimate growth from simple and compound interest with configurable contribution and time
-          periods.
-        </p>
+
+      <section class="calculator-layout">
+        <article class="card">
+          <h2>Inputs</h2>
+          <div class="field">
+            <label for="interestPrincipal">Principal Amount</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="interestPrincipal" type="number" min="0" step="100" value="10000" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="interestRate">Interest Rate (%)</label>
+            <input id="interestRate" type="number" min="0" step="0.01" value="5" />
+          </div>
+          <div class="field">
+            <label for="interestYears">Time Period (Years)</label>
+            <input id="interestYears" type="number" min="1" step="1" value="10" />
+          </div>
+          <div class="field">
+            <label for="interestCompounding">Compounding Frequency</label>
+            <select id="interestCompounding">
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+              <option value="daily">Daily</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="interestMonthlyContribution">Monthly Contribution (Optional)</label>
+            <div class="input-with-prefix">
+              <span>$</span>
+              <input id="interestMonthlyContribution" type="number" min="0" step="10" value="0" />
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Results</h2>
+          <dl class="result-grid">
+            <div>
+              <dt>Final Amount (Compound)</dt>
+              <dd id="interestFinalAmount">$0.00</dd>
+            </div>
+            <div>
+              <dt>Total Interest Earned</dt>
+              <dd id="interestTotalInterest">$0.00</dd>
+            </div>
+            <div>
+              <dt>Simple Interest Total</dt>
+              <dd id="interestSimpleAmount">$0.00</dd>
+            </div>
+            <div>
+              <dt>Compound Interest Total</dt>
+              <dd id="interestCompoundAmount">$0.00</dd>
+            </div>
+          </dl>
+        </article>
       </section>
+
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Visualization</p>
+          <h2>Growth and Comparison Charts</h2>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Growth Chart</h3>
+            <div class="chart-wrap"><canvas id="interestGrowthChart"></canvas></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Simple vs Compound</h3>
+            <div class="chart-wrap"><canvas id="interestCompareChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card amortization-card">
+        <div class="amortization-header">
+          <h2>Year-by-Year Breakdown</h2>
+        </div>
+        <div class="schedule-table-wrap">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Simple Total</th>
+                <th>Compound Total</th>
+                <th>Total Contributions</th>
+                <th>Interest Earned</th>
+              </tr>
+            </thead>
+            <tbody id="interestYearlyBody"></tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="card">
         <h2>Cross-Tool Navigation</h2>
         <div class="share-actions">
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Switch to Mortgage Calculator</a>
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Compare Loan Scenarios</a>
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Check Affordability</a>
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Optimize Payments</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Open Loan Calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Open Mortgage Calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/dashboard/" href="/dashboard/">Open Dashboard</a>
         </div>
       </section>
       <section class="card" data-related-tools data-current-tool="interest-calculator"></section>
     
+      
       
       
       
@@ -134,6 +225,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -142,6 +234,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
@@ -172,5 +265,7 @@
     </footer>
     <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/shared-state.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="/assets/js/interest.js" defer></script>
   </body>
 </html>

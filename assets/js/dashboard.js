@@ -77,11 +77,20 @@ const FinancialDashboard = (() => {
     selectors.carMonthly.textContent = setCurrency(carMonthly);
     selectors.carCost.textContent = setCurrency(state.car_total_cost || 0);
 
-    const yearlyContribution = (state.income || 0) * 0.1;
-    const yearlyRate = Math.max(0.01, (state.interest_rate || 5) / 100);
-    const projection = yearlyContribution * (((1 + yearlyRate) ** 10 - 1) / yearlyRate);
-    selectors.growthProjection.textContent = setCurrency(projection);
-    selectors.growthSummary.textContent = `10-year projection using ${setPercent(yearlyRate)} annual compound rate on 10% income contribution.`;
+    const hasInterestProjection = (state.interest_compound_total || 0) > 0;
+    if (hasInterestProjection) {
+      const years = state.interest_years || Math.max(1, Math.round((state.loan_term || 120) / 12));
+      selectors.growthProjection.textContent = setCurrency(state.interest_compound_total || 0);
+      selectors.growthSummary.textContent = `${years}-year projection from Interest Calculator (${String(
+        state.interest_compounding || "monthly"
+      )} compounding).`;
+    } else {
+      const yearlyContribution = (state.income || 0) * 0.1;
+      const yearlyRate = Math.max(0.01, (state.interest_rate || 5) / 100);
+      const projection = yearlyContribution * (((1 + yearlyRate) ** 10 - 1) / yearlyRate);
+      selectors.growthProjection.textContent = setCurrency(projection);
+      selectors.growthSummary.textContent = `10-year projection using ${setPercent(yearlyRate)} annual compound rate on 10% income contribution.`;
+    }
 
     let scoreLabel = "Safe";
     let scoreClass = "status-green";
