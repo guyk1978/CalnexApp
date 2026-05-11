@@ -2,176 +2,566 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://calnexapp.com/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/about/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/contact/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/blog/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/</loc>
+    <loc>https://calnexapp.com/blog/best-loan-term-15-vs-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://calnexapp.com/tools/mortgage-calculator/</loc>
+    <loc>https://calnexapp.com/blog/fixed-vs-variable-interest-rate/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/blog/how-extra-payments-save-money/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/blog/how-to-calculate-loan-interest/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/blog/loan-vs-mortgage/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/contact/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-4-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-4-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-6-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/100000-loan-at-6-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/15-vs-30-year-loan/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-4-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-4-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-6-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/150000-loan-at-6-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-4-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-4-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-5-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-5-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-6-percent-for-15-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/seo/generated/200000-loan-at-6-percent-for-30-years-monthly-payment-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/car-loan-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/interest-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-3-5-percent-for-30-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-4-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-4-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-6-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/100000-loan-at-6-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-3-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-3-5-percent-for-30-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-4-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-4-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-6-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-3-5-percent-for-30-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-4-percent-for-15-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-4-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-4-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-4-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-6-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/200000-loan-at-6-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-3-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-3-5-percent-for-30-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-4-percent-for-15-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-4-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-4-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-4-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-6-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/</loc>
-  </url>
-  <url>
-    <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://calnexapp.com/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://calnexapp.com/tools/mortgage-calculator/</loc>
+    <lastmod>2026-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

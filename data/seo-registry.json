@@ -1,0 +1,415 @@
+[
+  {
+    "url": "/tools/loan-calculator/",
+    "type": "tool",
+    "title": "Loan Calculator",
+    "category": "tools",
+    "keywords": ["loan calculator", "amortization", "monthly payment", "interest"]
+  },
+  {
+    "url": "/tools/mortgage-calculator/",
+    "type": "tool",
+    "title": "Mortgage Calculator",
+    "category": "tools",
+    "keywords": ["mortgage", "home loan", "monthly payment", "interest"]
+  },
+  {
+    "url": "/tools/car-loan-calculator/",
+    "type": "tool",
+    "title": "Car Loan Calculator",
+    "category": "tools",
+    "keywords": ["car loan", "auto finance", "monthly payment", "interest"]
+  },
+  {
+    "url": "/tools/interest-calculator/",
+    "type": "tool",
+    "title": "Interest Calculator",
+    "category": "tools",
+    "keywords": ["interest calculator", "compound interest", "simple interest", "growth"]
+  },
+  {
+    "url": "/blog/how-to-calculate-loan-interest/",
+    "type": "blog",
+    "title": "How to Calculate Loan Interest: A Practical Guide",
+    "category": "loan-basics",
+    "keywords": ["loan interest", "amortization", "monthly payment", "loan calculator"]
+  },
+  {
+    "url": "/blog/fixed-vs-variable-interest-rate/",
+    "type": "blog",
+    "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+    "category": "interest-rates",
+    "keywords": ["fixed rate", "variable rate", "loan interest", "risk"]
+  },
+  {
+    "url": "/blog/how-extra-payments-save-money/",
+    "type": "blog",
+    "title": "How Extra Payments Save Money on Your Loan",
+    "category": "repayment-strategy",
+    "keywords": ["extra payments", "interest saved", "loan payoff", "amortization"]
+  },
+  {
+    "url": "/blog/loan-vs-mortgage/",
+    "type": "blog",
+    "title": "Loan vs Mortgage: Key Differences Explained",
+    "category": "loan-basics",
+    "keywords": ["loan vs mortgage", "collateral", "term", "interest"]
+  },
+  {
+    "url": "/blog/best-loan-term-15-vs-30-years/",
+    "type": "blog",
+    "title": "Best Loan Term: 15 vs 30 Years",
+    "category": "term-planning",
+    "keywords": ["15 vs 30 years", "loan term", "monthly payment", "total interest"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 3.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "3.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 3.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "3.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 4% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "4 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 4% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "4 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-4-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 4.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "4.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-4-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 4.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "4.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-6-percent-for-15-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 6% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "6 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/100000-loan-at-6-percent-for-30-years/",
+    "type": "seo",
+    "title": "$100,000 loan at 6% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["100000 loan", "6 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-3-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 3.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "3.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-3-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 3.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "3.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 4% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "4 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 4% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "4 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-4-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 4.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "4.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-4-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 4.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "4.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-6-percent-for-15-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 6% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "6 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/",
+    "type": "seo",
+    "title": "$150,000 loan at 6% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["150000 loan", "6 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 3.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "3.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-3-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 3.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "3.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-4-percent-for-15-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 4% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "4 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 4% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "4 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-4-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 4.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "4.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-4-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 4.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "4.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-6-percent-for-15-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 6% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "6 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/200000-loan-at-6-percent-for-30-years/",
+    "type": "seo",
+    "title": "$200,000 loan at 6% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["200000 loan", "6 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-3-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 3.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "3.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-3-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 3.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "3.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-4-percent-for-15-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 4% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "4 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-4-percent-for-30-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 4% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "4 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-4-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 4.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "4.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-4-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 4.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "4.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-6-percent-for-15-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 6% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "6 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/",
+    "type": "seo",
+    "title": "$250,000 loan at 6% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["250000 loan", "6 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 3.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "3.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 3.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "3.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 4% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "4 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 4% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "4 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 4.5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "4.5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 4.5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "4.5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 5% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "5 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 5% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "5 percent", "30 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 6% for 15 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "6 percent", "15 years", "loan calculator"]
+  },
+  {
+    "url": "/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/",
+    "type": "seo",
+    "title": "$300,000 loan at 6% for 30 years",
+    "category": "programmatic-loan",
+    "keywords": ["300000 loan", "6 percent", "30 years", "loan calculator"]
+  }
+]

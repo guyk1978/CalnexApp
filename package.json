@@ -1,0 +1,12 @@
+{
+  "name": "calnexapp",
+  "private": true,
+  "scripts": {
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "seo:build": "node scripts/seo-engine.js",
+    "keywords:expand": "node scripts/keyword-expander.js",
+    "pages:expand": "node scripts/page-expander.js",
+    "seo:scale": "npm run keywords:expand && npm run pages:expand",
+    "build": "npm run seo:build && npm run seo:scale"
+  }
+}
