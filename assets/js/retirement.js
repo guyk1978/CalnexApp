@@ -37,19 +37,27 @@ const RetirementCalculator = (() => {
     };
   };
 
-  const buildProjectionSeries = ({ currentAge, targetAge, currentSavings, monthlyContribution, annualReturnRate }) => {
-    const monthlyRate = annualReturnRate / 100 / 12;
-    const years = Math.max(0, targetAge - currentAge);
+  const retirementHorizonMonths = ({ currentAge, targetAge }) =>
+    Math.max(0, Math.round((Math.max(0, targetAge - currentAge) || 0) * 12));
+
+  const buildProjectionSeries = (inputs) => {
+    const { currentAge, targetAge, currentSavings, monthlyContribution, annualReturnRate } = inputs;
+    const nMonths = retirementHorizonMonths(inputs);
     const points = [{ age: currentAge, balance: currentSavings }];
-    let balance = currentSavings;
-    for (let year = 1; year <= years; year += 1) {
-      for (let month = 1; month <= 12; month += 1) {
-        balance += monthlyContribution;
-        if (monthlyRate > 0) {
-          balance += balance * monthlyRate;
-        }
-      }
-      points.push({ age: currentAge + year, balance });
+    if (typeof FinancialCore === "undefined") return points;
+    for (let m = 12; m <= nMonths; m += 12) {
+      const balance =
+        FinancialCore.compoundGrowth(currentSavings, annualReturnRate, m) +
+        FinancialCore.annuityContribution(monthlyContribution, annualReturnRate, m);
+      points.push({ age: currentAge + m / 12, balance });
+    }
+    if (nMonths > 0 && nMonths % 12 !== 0) {
+      points.push({
+        age: currentAge + nMonths / 12,
+        balance:
+          FinancialCore.compoundGrowth(currentSavings, annualReturnRate, nMonths) +
+          FinancialCore.annuityContribution(monthlyContribution, annualReturnRate, nMonths)
+      });
     }
     return points;
   };
@@ -57,9 +65,32 @@ const RetirementCalculator = (() => {
   const calculate = (inputs) => {
     const yearsToRetirement = Math.max(0, inputs.targetAge - inputs.currentAge);
     const projection = buildProjectionSeries(inputs);
-    const projectedBalance = projection.length ? projection[projection.length - 1].balance : inputs.currentSavings;
-    const inflationAdjustedGoal = inputs.desiredRetirementIncome * (1 + inputs.inflationRate / 100) ** yearsToRetirement;
-    const monthlyIncomeEstimate = (projectedBalance * 0.04) / 12;
+    if (typeof FinancialCore === "undefined") {
+      const projectedBalance = projection.length ? projection[projection.length - 1].balance : inputs.currentSavings;
+      return {
+        yearsToRetirement,
+        projectedBalance,
+        inflationAdjustedGoal: inputs.desiredRetirementIncome,
+        monthlyIncomeEstimate: (projectedBalance * 0.04) / 12,
+        fundingGap: 0,
+        readinessPercent: 0,
+        projection
+      };
+    }
+    const sim = FinancialCore.simulateFinancialPlan({
+      initial: inputs.currentSavings,
+      monthly: inputs.monthlyContribution,
+      annualReturn: inputs.annualReturnRate,
+      years: yearsToRetirement,
+      inflation: inputs.inflationRate
+    });
+    const projectedBalance = sim.nominalFinalBalance;
+    const inflationAdjustedGoal = FinancialCore.inflationAdjustment(
+      inputs.desiredRetirementIncome,
+      inputs.inflationRate,
+      yearsToRetirement
+    );
+    const monthlyIncomeEstimate = sim.monthlyEquivalentIncome;
     const targetMonthlyIncome = inflationAdjustedGoal / 12;
     const fundingGap = Math.max(0, targetMonthlyIncome - monthlyIncomeEstimate);
     const readinessPercent = targetMonthlyIncome > 0 ? Math.min(100, (monthlyIncomeEstimate / targetMonthlyIncome) * 100) : 0;

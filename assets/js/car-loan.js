@@ -57,35 +57,6 @@ const CarLoanCalculator = (() => {
     return selectors.termUnit.value === "years" ? term * 12 : term;
   };
 
-  const getMonthlyPayment = (principal, annualRate, totalMonths) => {
-    if (!principal || !totalMonths) return 0;
-    const monthlyRate = annualRate / 100 / 12;
-    if (monthlyRate === 0) return principal / totalMonths;
-    const factor = (1 + monthlyRate) ** totalMonths;
-    return (principal * monthlyRate * factor) / (factor - 1);
-  };
-
-  const buildSchedule = ({ principal, annualRate, totalMonths, monthlyPayment }) => {
-    const monthlyRate = annualRate / 100 / 12;
-    const schedule = [];
-    let balance = principal;
-    let month = 1;
-    while (balance > 0 && month <= Math.max(totalMonths + 120, 720)) {
-      const interest = monthlyRate === 0 ? 0 : balance * monthlyRate;
-      const principalPaid = Math.min(balance, Math.max(0, monthlyPayment - interest));
-      const payment = principalPaid + interest;
-      balance = Math.max(0, balance - principalPaid);
-      schedule.push({ month, payment, principal: principalPaid, interest, balance });
-      month += 1;
-    }
-    return schedule;
-  };
-
-  const summarizeSchedule = (schedule) => ({
-    totalPaid: schedule.reduce((sum, row) => sum + row.payment, 0),
-    totalInterest: schedule.reduce((sum, row) => sum + row.interest, 0)
-  });
-
   const getAffordabilityRange = () => {
     if (typeof GeoFinance === "undefined") return { min: 0.15, max: 0.2 };
     const geo = GeoFinance.getCountryData();
@@ -194,7 +165,12 @@ const CarLoanCalculator = (() => {
     const rateB = Math.max(0, numEl(selectors.compareRateB, 0));
     const termB = Math.max(1, numEl(selectors.compareTermB, 0));
     const financedB = Math.max(0, priceB - downB);
-    const monthlyB = getMonthlyPayment(financedB, rateB, termB);
+    const monthlyB = FinancialCore.loanAmortization({
+      principal: financedB,
+      annualAprPercent: rateB,
+      termMonths: termB,
+      includeExtra: false
+    }).monthlyPayment;
     const diff = monthlyB - currentMonthly;
     return {
       car_compare_monthly_a: currentMonthly,
@@ -204,12 +180,12 @@ const CarLoanCalculator = (() => {
   };
 
   const buildInsightsPatch = (financed, annualRate) => {
-    const monthly48 = getMonthlyPayment(financed, annualRate, 48);
-    const monthly72 = getMonthlyPayment(financed, annualRate, 72);
-    const schedule48 = buildSchedule({ principal: financed, annualRate, totalMonths: 48, monthlyPayment: monthly48 });
-    const schedule72 = buildSchedule({ principal: financed, annualRate, totalMonths: 72, monthlyPayment: monthly72 });
-    const summary48 = summarizeSchedule(schedule48);
-    const summary72 = summarizeSchedule(schedule72);
+    const loan48 = FinancialCore.loanAmortization({ principal: financed, annualAprPercent: annualRate, termMonths: 48, includeExtra: false });
+    const loan72 = FinancialCore.loanAmortization({ principal: financed, annualAprPercent: annualRate, termMonths: 72, includeExtra: false });
+    const monthly48 = loan48.monthlyPayment;
+    const monthly72 = loan72.monthlyPayment;
+    const summary48 = loan48.summary;
+    const summary72 = loan72.summary;
     const monthlyDiff = Math.max(0, monthly48 - monthly72);
     const interestDiff = Math.max(0, summary72.totalInterest - summary48.totalInterest);
     return {
@@ -224,9 +200,13 @@ const CarLoanCalculator = (() => {
     const { carPrice, financed, tradeInValue, downPayment, fees } = computeLoanBase();
     const annualRate = Math.max(0, num("interest_rate", selectors.interestRate, 0));
     const totalMonths = Math.max(1, getTermInMonths());
-    const monthlyPayment = getMonthlyPayment(financed, annualRate, totalMonths);
-    const schedule = buildSchedule({ principal: financed, annualRate, totalMonths, monthlyPayment });
-    const summary = summarizeSchedule(schedule);
+    const mainLoan = FinancialCore.loanAmortization({
+      principal: financed,
+      annualAprPercent: annualRate,
+      termMonths: totalMonths,
+      includeExtra: false
+    });
+    const { monthlyPayment, schedule, summary } = mainLoan;
     lastCarSchedule = schedule;
 
     const core = {

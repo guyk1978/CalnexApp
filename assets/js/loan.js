@@ -73,14 +73,6 @@ const LoanCalculator = (() => {
     return selectors.termUnit.value === "years" ? term * 12 : term;
   };
 
-  const getMonthlyPayment = (principal, annualRate, totalMonths) => {
-    if (!principal || !totalMonths) return 0;
-    const monthlyRate = annualRate / 100 / 12;
-    if (monthlyRate === 0) return principal / totalMonths;
-    const factor = (1 + monthlyRate) ** totalMonths;
-    return (principal * monthlyRate * factor) / (factor - 1);
-  };
-
   const getExtraConfig = () => {
     const term = getTermInMonths();
     const startRaw = numEl(selectors.paymentStartMonth, 1);
@@ -92,56 +84,6 @@ const LoanCalculator = (() => {
       extraMonthly: Math.max(0, num("extra_payment", selectors.extraMonthlyPayment, 0)),
       lumpSum: Math.max(0, numEl(selectors.lumpSumPayment, 0)),
       startMonth
-    };
-  };
-
-  const buildSchedule = ({ principal, annualRate, totalMonths, monthlyPayment, includeExtra, extraConfig }) => {
-    const monthlyRate = annualRate / 100 / 12;
-    const schedule = [];
-    let balance = principal;
-    let month = 1;
-    const maxIterations = Math.max(1200, totalMonths + 240);
-
-    while (balance > 0 && month <= maxIterations) {
-      const interest = monthlyRate === 0 ? 0 : balance * monthlyRate;
-      const basePrincipalPaid = Math.max(0, monthlyPayment - interest);
-
-      let extraMonthlyApplied = 0;
-      let lumpApplied = 0;
-      if (includeExtra && month >= extraConfig.startMonth) {
-        extraMonthlyApplied = extraConfig.extraMonthly;
-        if (month === extraConfig.startMonth) {
-          lumpApplied = extraConfig.lumpSum;
-        }
-      }
-
-      const plannedPrincipalPaid = basePrincipalPaid + extraMonthlyApplied + lumpApplied;
-      const principalPaid = Math.min(balance, plannedPrincipalPaid);
-      const payment = principalPaid + interest;
-      balance = Math.max(0, balance - principalPaid);
-
-      schedule.push({
-        month,
-        payment,
-        principal: principalPaid,
-        interest,
-        balance,
-        hadExtraPayment: extraMonthlyApplied + lumpApplied > 0
-      });
-
-      month += 1;
-    }
-
-    return schedule;
-  };
-
-  const summarizeSchedule = (schedule) => {
-    const totalPaid = schedule.reduce((sum, row) => sum + row.payment, 0);
-    const totalInterest = schedule.reduce((sum, row) => sum + row.interest, 0);
-    return {
-      totalPaid,
-      totalInterest,
-      months: schedule.length
     };
   };
 
@@ -575,29 +517,32 @@ const LoanCalculator = (() => {
     const principal = num("loan_amount", selectors.loanAmount, 0);
     const annualRate = num("interest_rate", selectors.interestRate, 0);
     const totalMonths = getTermInMonths();
-    const monthlyPayment = getMonthlyPayment(principal, annualRate, totalMonths);
     const extraConfig = getExtraConfig();
 
-    baselineSchedule = buildSchedule({
+    const baselineLoan = FinancialCore.loanAmortization({
       principal,
-      annualRate,
-      totalMonths,
-      monthlyPayment,
+      annualAprPercent: annualRate,
+      termMonths: totalMonths,
       includeExtra: false,
-      extraConfig
+      extraMonthly: 0,
+      lumpSum: 0,
+      extraStartMonth: extraConfig.startMonth
     });
-    acceleratedSchedule = buildSchedule({
+    const acceleratedLoan = FinancialCore.loanAmortization({
       principal,
-      annualRate,
-      totalMonths,
-      monthlyPayment,
+      annualAprPercent: annualRate,
+      termMonths: totalMonths,
       includeExtra: true,
-      extraConfig
+      extraMonthly: extraConfig.extraMonthly,
+      lumpSum: extraConfig.lumpSum,
+      extraStartMonth: extraConfig.startMonth
     });
+    baselineSchedule = baselineLoan.schedule;
+    acceleratedSchedule = acceleratedLoan.schedule;
     displayedSchedule = acceleratedSchedule;
-
-    const baseSummary = summarizeSchedule(baselineSchedule);
-    const acceleratedSummary = summarizeSchedule(acceleratedSchedule);
+    const monthlyPayment = baselineLoan.monthlyPayment;
+    const baseSummary = baselineLoan.summary;
+    const acceleratedSummary = acceleratedLoan.summary;
 
     const snapshot = {
       loan_amount: principal,

@@ -75,34 +75,39 @@ const ScenarioEngine = (() => {
     return next;
   };
 
-  const getMonthlyPayment = (principal, annualRate, totalMonths) => {
-    if (!principal || !totalMonths) return 0;
-    const monthlyRate = annualRate / 100 / 12;
-    if (monthlyRate === 0) return principal / totalMonths;
-    const factor = (1 + monthlyRate) ** totalMonths;
-    return (principal * monthlyRate * factor) / (factor - 1);
-  };
-
   const summarize = (state) => {
     const principal = Number(state.loan_amount) || 0;
     const annualRate = Number(state.interest_rate) || 0;
     const months = Math.max(1, Number(state.loan_term) || 1);
     const extra = Math.max(0, Number(state.extra_payment) || 0);
     const monthlyIncome = (Number(state.income) || 0) / 12;
-    const monthlyPayment = getMonthlyPayment(principal, annualRate, months);
-    const monthlyRate = annualRate / 100 / 12;
-    let balance = principal;
-    let month = 0;
-    let totalInterest = 0;
-    const maxIterations = Math.max(1200, months + 240);
-    while (balance > 0 && month < maxIterations) {
-      const interest = monthlyRate === 0 ? 0 : balance * monthlyRate;
-      const basePrincipal = Math.max(0, monthlyPayment - interest);
-      const principalPaid = Math.min(balance, basePrincipal + extra);
-      balance = Math.max(0, balance - principalPaid);
-      totalInterest += interest;
-      month += 1;
+    if (typeof FinancialCore === "undefined") {
+      return {
+        monthlyPayment: 0,
+        totalInterest: 0,
+        payoffMonths: 0,
+        affordabilityRatio: 0,
+        affordabilityScore: "safe"
+      };
     }
+    const baselineLoan = FinancialCore.loanAmortization({
+      principal,
+      annualAprPercent: annualRate,
+      termMonths: months,
+      includeExtra: false
+    });
+    const withExtraLoan = FinancialCore.loanAmortization({
+      principal,
+      annualAprPercent: annualRate,
+      termMonths: months,
+      includeExtra: extra > 0,
+      extraMonthly: extra,
+      lumpSum: 0,
+      extraStartMonth: 1
+    });
+    const monthlyPayment = baselineLoan.monthlyPayment;
+    const totalInterest = withExtraLoan.summary.totalInterest;
+    const month = withExtraLoan.summary.months;
     const affordabilityRatio = monthlyIncome > 0 ? (monthlyPayment + extra) / monthlyIncome : 0;
     let affordabilityScore = "safe";
     if (affordabilityRatio > 0.45) affordabilityScore = "overleveraged";

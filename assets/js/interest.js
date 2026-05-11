@@ -46,45 +46,33 @@ const InterestCalculator = (() => {
 
   const calculateSimple = ({ principal, annualRate, years }) => principal * (1 + (annualRate / 100) * years);
 
+  const periodicContributionFromMonthly = (monthlyContribution, periodsPerYear) => {
+    const pp = periodsPerYear || 12;
+    return pp ? (monthlyContribution * 12) / pp : 0;
+  };
+
   const calculateCompoundFinal = ({ principal, annualRate, years, periodsPerYear, monthlyContribution }) => {
-    const r = annualRate / 100;
-    const totalPeriods = Math.round(years * periodsPerYear);
-    const periodicRate = periodsPerYear ? r / periodsPerYear : 0;
-    const periodsPerMonth = periodsPerYear / 12;
-    const periodicContribution = periodsPerMonth > 0 ? monthlyContribution / periodsPerMonth : 0;
-
-    if (periodicRate === 0) {
-      return principal + periodicContribution * totalPeriods;
-    }
-
-    const growthFactor = (1 + periodicRate) ** totalPeriods;
-    const principalFuture = principal * growthFactor;
-    const contributionFuture = periodicContribution * ((growthFactor - 1) / periodicRate);
-    return principalFuture + contributionFuture;
+    const pp = periodsPerYear || 12;
+    const totalPeriods = Math.round(years * pp);
+    const c = periodicContributionFromMonthly(monthlyContribution, pp);
+    return FinancialCore.compoundGrowth(principal, annualRate, totalPeriods, pp) + FinancialCore.annuityContribution(c, annualRate, totalPeriods, pp);
   };
 
   const buildYearlyBreakdown = ({ principal, annualRate, years, periodsPerYear, monthlyContribution }) => {
     const rows = [];
-    const r = annualRate / 100;
-    const periodicRate = periodsPerYear ? r / periodsPerYear : 0;
-    const periodsPerMonth = periodsPerYear / 12;
-    const periodicContribution = periodsPerMonth > 0 ? monthlyContribution / periodsPerMonth : 0;
-
-    let balance = principal;
-    let contributionSum = 0;
+    const pp = periodsPerYear || 12;
+    const c = periodicContributionFromMonthly(monthlyContribution, pp);
     for (let year = 1; year <= years; year += 1) {
-      for (let period = 1; period <= periodsPerYear; period += 1) {
-        balance += periodicContribution;
-        contributionSum += periodicContribution;
-        balance += balance * periodicRate;
-      }
-      const simpleAtYear = principal * (1 + r * year);
-      const principalAndContrib = principal + contributionSum;
-      const interestEarned = balance - principalAndContrib;
+      const nPer = year * pp;
+      const compoundAmount =
+        FinancialCore.compoundGrowth(principal, annualRate, nPer, pp) + FinancialCore.annuityContribution(c, annualRate, nPer, pp);
+      const simpleAtYear = principal * (1 + (annualRate / 100) * year);
+      const contributionSum = monthlyContribution * 12 * year;
+      const interestEarned = compoundAmount - principal - contributionSum;
       rows.push({
         year,
         simpleAmount: simpleAtYear,
-        compoundAmount: balance,
+        compoundAmount,
         contributions: contributionSum,
         interestEarned
       });

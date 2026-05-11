@@ -17,22 +17,6 @@ const FinancialValidator = (() => {
     return Number.isFinite(x) ? x : fb;
   };
 
-  const amortMonthlyPayment = (principal, annualPct, months) => {
-    const P = Math.max(0, principal);
-    const mo = Math.max(1, Math.round(months));
-    const r = annualPct / 100 / 12;
-    if (!P || !mo) return 0;
-    if (r <= 0) return P / mo;
-    const pow = (1 + r) ** mo;
-    return (P * r * pow) / (pow - 1);
-  };
-
-  const amortTotalInterest = (principal, annualPct, months) => {
-    const M = amortMonthlyPayment(principal, annualPct, months);
-    const mo = Math.max(1, Math.round(months));
-    return Math.max(0, M * mo - principal);
-  };
-
   const resolveLoanTermMonths = (storedTerm, page) => {
     const t = Math.max(1, n(storedTerm, 1));
     if (page === "loan-calculator") {
@@ -52,55 +36,55 @@ const FinancialValidator = (() => {
     return Math.round(t);
   };
 
-  const fvRetirement = (pv, monthlyContrib, annualPct, years) => {
-    const m = Math.max(0, Math.round(years * 12));
-    const r = annualPct / 100 / 12;
-    const C = Math.max(0, monthlyContrib);
-    const P = Math.max(0, pv);
-    if (m === 0) return P;
-    if (r <= 0) return P + C * m;
-    const factor = (1 + r) ** m;
-    return P * factor + C * ((factor - 1) / r);
-  };
-
-  const compoundFvBenchmark = (principal, annualPct, years, periodsPerYear, monthlyContrib) => {
-    const r = annualPct / 100;
-    const pp = Math.max(1, periodsPerYear);
-    const totalPeriods = Math.round(years * pp);
-    const periodicRate = r / pp;
-    const periodsPerMonth = pp / 12;
-    const periodicContribution = periodsPerMonth > 0 ? monthlyContrib / periodsPerMonth : 0;
-    if (totalPeriods <= 0) return principal;
-    if (periodicRate <= 0) return principal + periodicContribution * totalPeriods;
-    const growthFactor = (1 + periodicRate) ** totalPeriods;
-    return principal * growthFactor + periodicContribution * ((growthFactor - 1) / periodicRate);
-  };
-
   const compoundingMap = { yearly: 1, monthly: 12, daily: 365 };
+
+  const interestPeriodicContrib = (monthlyContrib, periodsPerYear) => {
+    const pp = Math.max(1, periodsPerYear);
+    return (monthlyContrib * 12) / pp;
+  };
 
   const calculateBenchmark = (type, inputs, outputs) => {
     const out = {};
+    if (typeof FinancialCore === "undefined") return out;
     if (type === "loan" || type === "car") {
       const principal = n(type === "car" ? outputs.car_computed_loan_amount ?? inputs.loan_amount : outputs.loan_amount ?? inputs.loan_amount);
       const rate = n(inputs.interest_rate ?? outputs.interest_rate);
       const months = resolveLoanTermMonths(inputs.loan_term ?? outputs.loan_term, type === "car" ? "car-loan-calculator" : "loan-calculator");
-      out.monthlyPayment = amortMonthlyPayment(principal, rate, months);
-      out.totalInterest = amortTotalInterest(principal, rate, months);
+      const benchLoan = FinancialCore.loanAmortization({
+        principal,
+        annualAprPercent: rate,
+        termMonths: months,
+        includeExtra: false
+      });
+      out.monthlyPayment = benchLoan.monthlyPayment;
+      out.totalInterest = benchLoan.summary.totalInterest;
       out.totalRepayment = principal + out.totalInterest;
       out.termMonths = months;
     } else if (type === "mortgage") {
       const principal = n(outputs.mortgage_computed_loan_amount ?? inputs.loan_amount);
       const rate = n(inputs.interest_rate ?? outputs.interest_rate);
       const months = resolveLoanTermMonths(inputs.loan_term ?? outputs.loan_term, "mortgage-calculator");
-      out.monthlyPayment = amortMonthlyPayment(principal, rate, months);
-      out.totalInterest = amortTotalInterest(principal, rate, months);
+      const benchLoan = FinancialCore.loanAmortization({
+        principal,
+        annualAprPercent: rate,
+        termMonths: months,
+        includeExtra: false
+      });
+      out.monthlyPayment = benchLoan.monthlyPayment;
+      out.totalInterest = benchLoan.summary.totalInterest;
       out.termMonths = months;
     } else if (type === "retirement") {
       const pv = n(inputs.retirement_current_savings ?? outputs.retirement_current_savings);
       const c = n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution);
       const r = n(inputs.retirement_return_rate ?? outputs.retirement_return_rate);
       const years = Math.max(0, n(inputs.retirement_target_age, 67) - n(inputs.retirement_current_age, 30));
-      out.projectedBalance = fvRetirement(pv, c, r, years);
+      out.projectedBalance = FinancialCore.simulateFinancialPlan({
+        initial: pv,
+        monthly: c,
+        annualReturn: r,
+        years,
+        inflation: 0
+      }).nominalFinalBalance;
       out.years = years;
     } else if (type === "interest") {
       const principal = n(inputs.interest_principal ?? outputs.interest_principal ?? inputs.loan_amount);
@@ -109,7 +93,11 @@ const FinancialValidator = (() => {
       const contrib = n(inputs.interest_monthly_contribution ?? outputs.interest_monthly_contribution ?? inputs.extra_payment);
       const comp = String(inputs.interest_compounding ?? outputs.interest_compounding ?? "monthly");
       const pp = compoundingMap[comp] || 12;
-      out.finalAmount = compoundFvBenchmark(principal, rate, years, pp, contrib);
+      const totalPeriods = Math.round(years * pp);
+      const cPer = interestPeriodicContrib(contrib, pp);
+      out.finalAmount =
+        FinancialCore.compoundGrowth(principal, rate, totalPeriods, pp) +
+        FinancialCore.annuityContribution(cPer, rate, totalPeriods, pp);
       const baseContributed = principal + contrib * 12 * years;
       out.totalInterest = Math.max(0, out.finalAmount - baseContributed);
     }
@@ -227,6 +215,48 @@ const FinancialValidator = (() => {
     return true;
   };
 
+  const detectGsfmDriftAndUnits = (type, inputs, outputs, warnings, scoreRef) => {
+    if (typeof FinancialCore === "undefined") return;
+    if (type === "retirement") {
+      const yrs = Math.max(0, n(inputs.retirement_target_age) - n(inputs.retirement_current_age));
+      const coreBal = FinancialCore.simulateFinancialPlan({
+        initial: n(inputs.retirement_current_savings ?? outputs.retirement_current_savings),
+        monthly: n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution),
+        annualReturn: n(inputs.retirement_return_rate ?? outputs.retirement_return_rate),
+        years: yrs,
+        inflation: 0
+      }).nominalFinalBalance;
+      const outBal = n(outputs.retirement_projected_balance);
+      if (coreBal > 100 && outBal > coreBal * 1.01) {
+        pushWarn(warnings, scoreRef, "Retirement balance exceeds GSFM core replay (possible duplicate compounding).", 22);
+      }
+    }
+    if (type === "loan" || type === "car") {
+      const months = resolveLoanTermMonths(inputs.loan_term ?? outputs.loan_term, type === "car" ? "car-loan-calculator" : "loan-calculator");
+      const principal = n(type === "car" ? outputs.car_computed_loan_amount ?? inputs.loan_amount : outputs.loan_amount ?? inputs.loan_amount);
+      if (months > 0 && months <= 6 && principal > 25_000) {
+        pushWarn(warnings, scoreRef, "Very short loan term for a large principal — confirm term is in months vs years.", 8);
+      }
+    }
+    if (type === "interest") {
+      const principal = n(inputs.interest_principal ?? outputs.interest_principal);
+      const years = n(inputs.interest_years ?? outputs.interest_years, 1);
+      const rate = n(inputs.interest_rate ?? outputs.interest_rate);
+      const comp = String(inputs.interest_compounding ?? outputs.interest_compounding ?? "monthly");
+      const pp = compoundingMap[comp] || 12;
+      const contrib = n(inputs.interest_monthly_contribution ?? outputs.interest_monthly_contribution ?? inputs.extra_payment);
+      const totalPeriods = Math.round(years * pp);
+      const cPer = interestPeriodicContrib(contrib, pp);
+      const coreFinal =
+        FinancialCore.compoundGrowth(principal, rate, totalPeriods, pp) +
+        FinancialCore.annuityContribution(cPer, rate, totalPeriods, pp);
+      const outFinal = n(outputs.interest_final_amount ?? outputs.interest_compound_total);
+      if (coreFinal > 100 && outFinal > coreFinal * 1.01) {
+        pushWarn(warnings, scoreRef, "Interest compound total exceeds GSFM core replay (possible duplicate compounding).", 22);
+      }
+    }
+  };
+
   const validateFinancialResult = ({ type, inputs, outputs }) => {
     const warnings = [];
     const scoreRef = { v: 100 };
@@ -237,6 +267,7 @@ const FinancialValidator = (() => {
     }
 
     const bench = calculateBenchmark(type, inputs, outputs);
+    detectGsfmDriftAndUnits(type, inputs, outputs, warnings, scoreRef);
 
     if (type === "loan") {
       isValid = validateLoanLike("loan", inputs, outputs, warnings, scoreRef, bench) && isValid;

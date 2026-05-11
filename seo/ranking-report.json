@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-11T15:30:48.352Z",
+  "generated_at": "2026-05-11T15:52:02.612Z",
   "summary": {
     "total_pages": 59,
     "pages_need_improvement": 0,
@@ -15,7 +15,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 25,
-        "content_depth_words": 271,
+        "content_depth_words": 277,
         "intent_match_score": 100
       },
       "ranking_score": 83
@@ -27,7 +27,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 30,
-        "content_depth_words": 377,
+        "content_depth_words": 383,
         "intent_match_score": 65
       },
       "ranking_score": 79
@@ -39,7 +39,7 @@
       "metrics": {
         "keyword_coverage": 75,
         "internal_links_count": 22,
-        "content_depth_words": 341,
+        "content_depth_words": 347,
         "intent_match_score": 65
       },
       "ranking_score": 70
@@ -51,10 +51,10 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 16,
-        "content_depth_words": 154,
+        "content_depth_words": 160,
         "intent_match_score": 100
       },
-      "ranking_score": 79
+      "ranking_score": 80
     },
     {
       "url": "/blog/how-extra-payments-save-money/",
@@ -475,22 +475,10 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 25,
-        "content_depth_words": 271,
+        "content_depth_words": 277,
         "intent_match_score": 100
       },
       "ranking_score": 83
-    },
-    {
-      "url": "/tools/mortgage-calculator/",
-      "type": "tool",
-      "title": "Mortgage Calculator",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 30,
-        "content_depth_words": 377,
-        "intent_match_score": 65
-      },
-      "ranking_score": 79
     },
     {
       "url": "/tools/interest-calculator/",
@@ -499,8 +487,20 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 16,
-        "content_depth_words": 154,
+        "content_depth_words": 160,
         "intent_match_score": 100
+      },
+      "ranking_score": 80
+    },
+    {
+      "url": "/tools/mortgage-calculator/",
+      "type": "tool",
+      "title": "Mortgage Calculator",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 30,
+        "content_depth_words": 383,
+        "intent_match_score": 65
       },
       "ranking_score": 79
     },
@@ -523,7 +523,7 @@
       "metrics": {
         "keyword_coverage": 75,
         "internal_links_count": 22,
-        "content_depth_words": 341,
+        "content_depth_words": 347,
         "intent_match_score": 65
       },
       "ranking_score": 70

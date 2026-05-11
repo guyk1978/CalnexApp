@@ -54,49 +54,6 @@ const MortgageCalculator = (() => {
       ? CurrencyLayer.formatCurrency(value)
       : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(Number(value) || 0));
 
-  const annualPercentToMonthlyDecimal = (annualPercent) => (Number(annualPercent) || 0) / 100 / 12;
-
-  const getMonthlyPayment = (principal, annualRatePercent, totalMonths) => {
-    const P = Math.max(0, Number(principal) || 0);
-    const n = Math.max(0, Math.round(Number(totalMonths) || 0));
-    const r = annualPercentToMonthlyDecimal(annualRatePercent);
-    if (!P || !n) return 0;
-    if (r === 0) return P / n;
-    const pow = (1 + r) ** n;
-    return (P * r * pow) / (pow - 1);
-  };
-
-  const buildSchedule = ({ principal, annualRate, totalMonths, monthlyPayment, includeExtra, extraConfig }) => {
-    const monthlyRate = annualPercentToMonthlyDecimal(annualRate);
-    const schedule = [];
-    let balance = principal;
-    let month = 1;
-    const maxIterations = Math.max(1200, totalMonths + 240);
-    while (balance > 0 && month <= maxIterations) {
-      const interest = monthlyRate === 0 ? 0 : balance * monthlyRate;
-      const basePrincipalPaid = Math.max(0, monthlyPayment - interest);
-      let extraMonthlyApplied = 0;
-      let lumpApplied = 0;
-      if (includeExtra && month >= extraConfig.startMonth) {
-        extraMonthlyApplied = extraConfig.extraMonthly;
-        if (month === extraConfig.startMonth) lumpApplied = extraConfig.lumpSum;
-      }
-      const plannedPrincipalPaid = basePrincipalPaid + extraMonthlyApplied + lumpApplied;
-      const principalPaid = Math.min(balance, plannedPrincipalPaid);
-      const payment = principalPaid + interest;
-      balance = Math.max(0, balance - principalPaid);
-      schedule.push({ month, payment, principal: principalPaid, interest, balance, hadExtraPayment: extraMonthlyApplied + lumpApplied > 0 });
-      month += 1;
-    }
-    return schedule;
-  };
-
-  const summarizeSchedule = (schedule) => ({
-    totalPaid: schedule.reduce((sum, row) => sum + row.payment, 0),
-    totalInterest: schedule.reduce((sum, row) => sum + row.interest, 0),
-    months: schedule.length
-  });
-
   const getPayoffDate = (monthsAhead) => {
     const payoff = new Date();
     payoff.setMonth(payoff.getMonth() + monthsAhead);
@@ -187,22 +144,32 @@ const MortgageCalculator = (() => {
     const extraMonthly = Math.max(0, num("extra_payment", selectors.extraMonthlyPayment, 0));
     const lumpSum = Math.max(0, num("mortgage_lump_sum_payment", selectors.lumpSumPayment, 0));
     const paymentStartMonth = Math.max(1, Math.min(totalMonths, num("mortgage_payment_start_month", selectors.paymentStartMonth, 1) || 1));
-    const monthlyPrincipalInterest = getMonthlyPayment(loanAmount, annualRate, totalMonths);
-    const rDbg = annualPercentToMonthlyDecimal(annualRate);
-    console.log("[Mortgage]", {
-      "[P] principal": loanAmount,
-      "[r] monthly rate": rDbg,
-      "[n] months": totalMonths,
-      "[M] payment result": monthlyPrincipalInterest
-    });
     const taxMonthly = Math.max(0, num("property_tax_annual", selectors.propertyTaxAnnual, 0)) / 12;
     const insuranceMonthly = Math.max(0, num("home_insurance_annual", selectors.homeInsuranceAnnual, 0)) / 12;
     const monthlyEscrow = taxMonthly + insuranceMonthly;
-    const extraConfig = { extraMonthly, lumpSum, startMonth: paymentStartMonth };
-    baselineSchedule = buildSchedule({ principal: loanAmount, annualRate, totalMonths, monthlyPayment: monthlyPrincipalInterest, includeExtra: false, extraConfig });
-    acceleratedSchedule = buildSchedule({ principal: loanAmount, annualRate, totalMonths, monthlyPayment: monthlyPrincipalInterest, includeExtra: true, extraConfig });
+    const baselineMortgage = FinancialCore.loanAmortization({
+      principal: loanAmount,
+      annualAprPercent: annualRate,
+      termMonths: totalMonths,
+      includeExtra: false,
+      extraMonthly: 0,
+      lumpSum: 0,
+      extraStartMonth: paymentStartMonth
+    });
+    const monthlyPrincipalInterest = baselineMortgage.monthlyPayment;
+    const acceleratedMortgage = FinancialCore.loanAmortization({
+      principal: loanAmount,
+      annualAprPercent: annualRate,
+      termMonths: totalMonths,
+      includeExtra: true,
+      extraMonthly,
+      lumpSum,
+      extraStartMonth: paymentStartMonth
+    });
+    baselineSchedule = baselineMortgage.schedule;
+    acceleratedSchedule = acceleratedMortgage.schedule;
     displayedSchedule = acceleratedSchedule;
-    const summary = summarizeSchedule(displayedSchedule);
+    const summary = acceleratedMortgage.summary;
     const monthlyMortgagePayment = monthlyPrincipalInterest + monthlyEscrow;
     const totalHomeCost = downPayment + summary.totalPaid + monthlyEscrow * summary.months;
     const payoffDate = getPayoffDate(summary.months);
@@ -217,10 +184,24 @@ const MortgageCalculator = (() => {
           : "Good fit: Estimated housing payment is within the 28% guideline.";
     selectors.affordabilityWarning.classList.toggle("warning", warning.startsWith("Warning:"));
 
-    const monthly15 = getMonthlyPayment(loanAmount, annualRate, 180);
-    const monthly30 = getMonthlyPayment(loanAmount, annualRate, 360);
-    const summary15 = summarizeSchedule(buildSchedule({ principal: loanAmount, annualRate, totalMonths: 180, monthlyPayment: monthly15, includeExtra: false, extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 } }));
-    const summary30 = summarizeSchedule(buildSchedule({ principal: loanAmount, annualRate, totalMonths: 360, monthlyPayment: monthly30, includeExtra: false, extraConfig: { extraMonthly: 0, lumpSum: 0, startMonth: 1 } }));
+    const loan15 = FinancialCore.loanAmortization({
+      principal: loanAmount,
+      annualAprPercent: annualRate,
+      termMonths: 180,
+      includeExtra: false,
+      extraStartMonth: 1
+    });
+    const loan30 = FinancialCore.loanAmortization({
+      principal: loanAmount,
+      annualAprPercent: annualRate,
+      termMonths: 360,
+      includeExtra: false,
+      extraStartMonth: 1
+    });
+    const monthly15 = loan15.monthlyPayment;
+    const monthly30 = loan30.monthlyPayment;
+    const summary15 = loan15.summary;
+    const summary30 = loan30.summary;
     const maxInterest = Math.max(summary15.totalInterest, summary30.totalInterest, 1);
     const width15 = Math.max(4, Math.round((summary15.totalInterest / maxInterest) * 100));
     const width30 = Math.max(4, Math.round((summary30.totalInterest / maxInterest) * 100));
