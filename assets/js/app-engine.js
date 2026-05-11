@@ -68,7 +68,7 @@ const AppEngine = (() => {
     phase = PHASE.COMPUTE;
     window.__calnexSanitizedInputs =
       typeof CalnexParse !== "undefined" ? CalnexParse.collectDataInputBindings() : {};
-    console.log("[COMPUTE] executed", { page: document.body?.dataset?.page });
+    console.log("[COMPUTE] triggered", { page: document.body?.dataset?.page });
     let snapshot = null;
     try {
       snapshot = runner();

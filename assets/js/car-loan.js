@@ -257,26 +257,24 @@ const CarLoanCalculator = (() => {
 
   const bindEvents = () => {
     [
-      selectors.carPrice,
-      selectors.downPaymentPercent,
-      selectors.downPaymentAmount,
       selectors.tradeInValue,
       selectors.fees,
-      selectors.interestRate,
-      selectors.loanTerm,
-      selectors.termUnit,
+      selectors.downPaymentPercent,
+      selectors.downPaymentAmount,
       selectors.annualIncome,
+      selectors.termUnit,
       selectors.comparePriceB,
       selectors.compareDownB,
       selectors.compareRateB,
       selectors.compareTermB
-    ].forEach((node) =>
+    ].forEach((node) => {
+      if (!node) return;
       node.addEventListener("input", () => {
         if (window.AppEngine) AppEngine.notifyToolInput();
-      })
-    );
+      });
+    });
 
-    selectors.downPaymentType.addEventListener("change", () => {
+    selectors.downPaymentType.addEventListener("input", () => {
       const isPercent = selectors.downPaymentType.value === "percent";
       selectors.downPaymentPercent.closest(".field").style.display = isPercent ? "" : "none";
       selectors.downPaymentAmount.closest(".field").style.display = isPercent ? "none" : "";

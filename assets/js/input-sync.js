@@ -1,3 +1,7 @@
+/**
+ * Single global input pipeline: capture-phase `input` only (device-agnostic).
+ * input → normalize → schedule compute (AppEngine) or legacy setState
+ */
 const InputSyncLayer = (() => {
   const previousValid = new Map();
 
@@ -36,12 +40,21 @@ const InputSyncLayer = (() => {
     return trimmed;
   };
 
+  const resolveBoundNode = (target) => {
+    if (!target || target.nodeType !== 1) return null;
+    if (target.dataset?.programmaticUpdate === "true") return null;
+    if (target.hasAttribute?.("data-input-bind")) return target;
+    return target.closest?.("[data-input-bind]") || null;
+  };
+
   const updateSharedState = (node) => {
     if (!node) return;
     if (node.dataset.programmaticUpdate === "true") return;
     const key = node.getAttribute("data-input-bind");
     if (!key) return;
-    console.log("[INPUT] value changed", { key, raw: node.value });
+
+    console.log("[INPUT] fired", { key, raw: node.value });
+
     if (typeof window.AppEngine !== "undefined") {
       AppEngine.beginInput();
       AppEngine.schedulePipeline();
@@ -52,25 +65,21 @@ const InputSyncLayer = (() => {
     const current = SharedState.getState();
     if (current[key] === normalized) return;
     SharedState.setState({ [key]: normalized }, { skipPhaseGuard: true });
-    console.log(`[input-sync] field updated: ${key}=${normalized === null ? "null" : normalized}`);
   };
 
-  const bindInput = (node) => {
-    if (!node || node.dataset.inputSyncBound === "true") return;
-    node.dataset.inputSyncBound = "true";
-    ["input", "change", "blur"].forEach((eventName) => {
-      node.addEventListener(eventName, () => updateSharedState(node));
-    });
+  const onDelegatedInput = (event) => {
+    const node = resolveBoundNode(event.target);
+    if (!node) return;
+    updateSharedState(node);
   };
 
-  const bindAll = () => {
-    document.querySelectorAll("[data-input-bind]").forEach(bindInput);
-  };
+  const bindAll = () => {};
 
   const init = () => {
-    bindAll();
-    const observer = new MutationObserver(() => bindAll());
-    observer.observe(document.body, { childList: true, subtree: true });
+    if (window.__calnexInputSyncInit) return;
+    window.__calnexInputSyncInit = true;
+    const root = document.body || document.documentElement;
+    root.addEventListener("input", onDelegatedInput, true);
   };
 
   return { init, bindAll, updateSharedState };

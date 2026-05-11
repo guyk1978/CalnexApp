@@ -69,7 +69,7 @@ const LoanCalculator = (() => {
     typeof CalnexParse !== "undefined" ? CalnexParse.parseNumber(el?.value) ?? fb : Number(el?.value) || fb;
 
   const getTermInMonths = () => {
-    const term = numEl(selectors.loanTerm, 0);
+    const term = num("loan_term", selectors.loanTerm, 0);
     return selectors.termUnit.value === "years" ? term * 12 : term;
   };
 
@@ -605,7 +605,7 @@ const LoanCalculator = (() => {
     const snapshot = {
       loan_amount: principal,
       interest_rate: annualRate,
-      loan_term: numEl(selectors.loanTerm, 0),
+      loan_term: num("loan_term", selectors.loanTerm, 0),
       extra_payment: extraConfig.extraMonthly,
       loan_monthly_payment: monthlyPayment,
       loan_total_interest: acceleratedSummary.totalInterest,
@@ -637,7 +637,7 @@ const LoanCalculator = (() => {
       const raw =
         typeof CalnexParse !== "undefined" ? CalnexParse.parseNumber(inputNode.value) ?? 0 : Number(inputNode.value) || 0;
       sliderNode.value = String(clamp(raw));
-      if (window.AppEngine) AppEngine.notifyToolInput();
+      if (!inputNode.hasAttribute("data-input-bind") && window.AppEngine) AppEngine.notifyToolInput();
     });
     sliderNode.addEventListener("input", () => {
       inputNode.value = sliderNode.value;
@@ -708,7 +708,7 @@ const LoanCalculator = (() => {
     syncRangeAndInput(selectors.loanAmount, selectors.loanAmountSlider, { min: 1000, max: 500000 });
     syncRangeAndInput(selectors.interestRate, selectors.interestRateSlider, { min: 0, max: 25 });
     syncRangeAndInput(selectors.loanTerm, selectors.loanTermSlider, { min: 1, max: 360 });
-    selectors.termUnit.addEventListener("change", () => {
+    selectors.termUnit.addEventListener("input", () => {
       updateTermSliderRange();
       if (window.AppEngine) AppEngine.notifyToolInput();
     });

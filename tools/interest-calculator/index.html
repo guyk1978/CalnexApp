@@ -46,6 +46,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -54,7 +55,7 @@
   "name": "Interest Calculator",
   "description": "Interest Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/interest-calculator/",
-  "dateModified": "2026-05-11T14:50:35.554Z",
+  "dateModified": "2026-05-11T14:56:07.050Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -124,7 +125,7 @@
           </div>
           <div class="field">
             <label for="interestCompounding">Compounding Frequency</label>
-            <select id="interestCompounding">
+            <select id="interestCompounding" data-input-bind="interest_compounding">
               <option value="monthly">Monthly</option>
               <option value="yearly">Yearly</option>
               <option value="daily">Daily</option>
@@ -134,7 +135,7 @@
             <label for="interestMonthlyContribution">Monthly Contribution (Optional)</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="interestMonthlyContribution" type="number" min="0" step="10" value="0" />
+              <input id="interestMonthlyContribution" data-input-bind="interest_monthly_contribution" type="number" min="0" step="10" value="0" />
             </div>
           </div>
         </article>
@@ -234,6 +235,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -243,6 +245,7 @@
       </section>
       <!-- SEO_ENGINE_RELATED_END -->
 
+      
       
       
       
@@ -291,6 +294,7 @@
       
       
       
+      
       <!-- RANK_TOOL_COMPARISON_START -->
       <section class="card">
         <h2>Comparison section</h2>
@@ -317,6 +321,7 @@
     <script src="/assets/js/parse-utils.js" defer></script>
     <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/app-engine.js" defer></script>
+    <script src="/assets/js/input-sync.js" defer></script>
     <script src="/assets/js/ui-renderer.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>

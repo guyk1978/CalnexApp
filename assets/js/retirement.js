@@ -191,20 +191,6 @@ const RetirementCalculator = (() => {
   };
 
   const bindEvents = () => {
-    [
-      selectors.currentAge,
-      selectors.targetAge,
-      selectors.currentSavings,
-      selectors.monthlyContribution,
-      selectors.annualReturnRate,
-      selectors.inflationRate,
-      selectors.desiredIncome
-    ].forEach((node) => {
-      if (!node) return;
-      node.addEventListener("input", () => {
-        if (window.AppEngine) AppEngine.notifyToolInput();
-      });
-    });
     bindScenarios();
   };
 

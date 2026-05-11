@@ -52,6 +52,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -60,7 +61,7 @@
   "name": "Loan Calculator",
   "description": "Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/loan-calculator/",
-  "dateModified": "2026-05-11T14:50:34.930Z",
+  "dateModified": "2026-05-11T14:56:06.479Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -141,7 +142,7 @@
           <div class="field">
             <label for="loanTerm">Loan Term</label>
             <div class="term-group">
-              <input id="loanTerm" name="loanTerm" type="number" min="1" step="1" value="5" required />
+              <input id="loanTerm" name="loanTerm" data-input-bind="loan_term" type="number" min="1" step="1" value="5" required />
               <select id="termUnit" name="termUnit">
                 <option value="years" selected>Years</option>
                 <option value="months">Months</option>
@@ -356,6 +357,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -365,6 +367,7 @@
       </section>
       <!-- SEO_ENGINE_RELATED_END -->
 
+      
       
       
       
@@ -413,6 +416,7 @@
       
       
       
+      
       <!-- RANK_TOOL_COMPARISON_START -->
       <section class="card">
         <h2>Comparison section</h2>
@@ -440,6 +444,7 @@
     <script src="/assets/js/parse-utils.js" defer></script>
     <script src="/assets/js/shared-state.js" defer></script>
     <script src="/assets/js/app-engine.js" defer></script>
+    <script src="/assets/js/input-sync.js" defer></script>
     <script src="/assets/js/scenario-engine.js" defer></script>
     <script src="/assets/js/ui-renderer.js" defer></script>
     <script src="/assets/js/app.js" defer></script>

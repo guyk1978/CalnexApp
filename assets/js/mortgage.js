@@ -265,29 +265,6 @@ const MortgageCalculator = (() => {
     };
   };
 
-  const bindDirectInputEvents = () => {
-    [
-      selectors.homePrice,
-      selectors.downPaymentPercent,
-      selectors.downPaymentAmount,
-      selectors.interestRate,
-      selectors.loanTerm,
-      selectors.propertyTaxAnnual,
-      selectors.homeInsuranceAnnual,
-      selectors.extraMonthlyPayment,
-      selectors.lumpSumPayment,
-      selectors.paymentStartMonth,
-      selectors.annualIncome
-    ].forEach((node) => {
-      if (!node) return;
-      const onChange = () => {
-        if (window.AppEngine) AppEngine.notifyToolInput();
-      };
-      node.addEventListener("input", onChange);
-      node.addEventListener("change", onChange);
-    });
-  };
-
   const bindUiEvents = () => {
     if (selectors.toggleAdvanced && selectors.advancedPanel) {
       selectors.toggleAdvanced.addEventListener("click", () => {
@@ -325,11 +302,11 @@ const MortgageCalculator = (() => {
     applyGeoDefaults();
     syncDownPaymentUi();
     bindUiEvents();
-    bindDirectInputEvents();
-    selectors.downPaymentType.addEventListener("change", () => {
-      syncDownPaymentUi();
-      if (window.AppEngine) AppEngine.notifyToolInput();
-    });
+    if (selectors.downPaymentType) {
+      selectors.downPaymentType.addEventListener("input", () => {
+        syncDownPaymentUi();
+      });
+    }
     if (window.AppEngine) {
       AppEngine.runImmediate();
     } else if (typeof SharedState !== "undefined") {
