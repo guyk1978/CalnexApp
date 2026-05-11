@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retirement Calculator - Plan Savings, Income, and Readiness | CalnexApp</title>
+    <meta
+      name="description"
+      content="Plan retirement with projected balance, inflation-adjusted goals, funding gap, and readiness score. Build what-if scenarios for contributions, target age, and return assumptions."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Retirement Calculator - Plan Savings, Income, and Readiness | CalnexApp" />
+    <meta
+      property="og:description"
+      content="Use CalnexApp Retirement Calculator to model long-term growth, future income targets, and retirement readiness with charts and scenario testing."
+    />
+    <meta property="og:url" content="https://calnexapp.com/tools/retirement-calculator/" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <link rel="canonical" href="https://calnexapp.com/tools/retirement-calculator/" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Retirement Calculator",
+        "description": "Retirement planning calculator with projected balance, readiness score, and funding gap analysis.",
+        "url": "https://calnexapp.com/tools/retirement-calculator/",
+        "applicationCategory": "FinanceApplication",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "CalnexApp",
+          "url": "https://calnexapp.com/"
+        }
+      }
+    </script>
+  </head>
+  <body data-page="retirement-calculator">
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/dashboard/" data-nav-link>Dashboard</a>
+          <a href="/tools/loan-calculator/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section-space">
+      <section class="page-title">
+        <p class="eyebrow">Flagship Tool</p>
+        <h1>Retirement Calculator</h1>
+        <p>Model retirement savings growth, income readiness, and funding gap with what-if scenario planning.</p>
+      </section>
+
+      <section class="calculator-layout">
+        <article class="card">
+          <h2>Retirement Inputs</h2>
+          <div class="field">
+            <label for="retirementCurrentAge">Current Age</label>
+            <input id="retirementCurrentAge" data-input-bind="retirement_current_age" type="number" min="18" max="100" step="1" value="35" />
+          </div>
+          <div class="field">
+            <label for="retirementTargetAge">Target Retirement Age</label>
+            <input id="retirementTargetAge" data-input-bind="retirement_target_age" type="number" min="30" max="100" step="1" value="65" />
+          </div>
+          <div class="field">
+            <label for="retirementCurrentSavings" data-currency-label="retirement_current_savings">Current Savings</label>
+            <div class="input-with-prefix">
+              <span data-currency-symbol>¤</span>
+              <input
+                id="retirementCurrentSavings"
+                data-input-bind="retirement_current_savings"
+                type="number"
+                min="0"
+                step="100"
+                value="50000"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label for="retirementMonthlyContribution" data-currency-label="retirement_monthly_contribution">Monthly Contribution</label>
+            <div class="input-with-prefix">
+              <span data-currency-symbol>¤</span>
+              <input
+                id="retirementMonthlyContribution"
+                data-input-bind="retirement_monthly_contribution"
+                type="number"
+                min="0"
+                step="25"
+                value="750"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label for="retirementAnnualReturnRate">Annual Return Rate (%)</label>
+            <input id="retirementAnnualReturnRate" data-input-bind="retirement_return_rate" type="number" min="0" step="0.01" value="6.5" />
+          </div>
+          <div class="field">
+            <label for="retirementInflationRate">Inflation Rate (%)</label>
+            <input id="retirementInflationRate" data-input-bind="retirement_inflation_rate" type="number" min="0" step="0.01" value="2.5" />
+          </div>
+          <div class="field">
+            <label for="retirementDesiredIncome" data-currency-label="retirement_desired_income">Desired Annual Retirement Income</label>
+            <div class="input-with-prefix">
+              <span data-currency-symbol>¤</span>
+              <input
+                id="retirementDesiredIncome"
+                data-input-bind="retirement_desired_income"
+                type="number"
+                min="0"
+                step="500"
+                value="60000"
+              />
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Retirement Results</h2>
+          <dl class="result-grid">
+            <div>
+              <dt>Years to Retirement</dt>
+              <dd data-bind="retirement_years_to_retirement" data-format="number">0</dd>
+            </div>
+            <div>
+              <dt>Projected Balance</dt>
+              <dd data-bind="retirement_projected_balance" data-format="currency">0.00</dd>
+            </div>
+            <div>
+              <dt>Inflation-Adjusted Goal (Annual)</dt>
+              <dd data-bind="retirement_inflation_adjusted_goal" data-format="currency">0.00</dd>
+            </div>
+            <div>
+              <dt>Estimated Monthly Income (4% Rule)</dt>
+              <dd data-bind="retirement_monthly_income" data-format="currency">0.00</dd>
+            </div>
+            <div>
+              <dt>Funding Gap (Monthly)</dt>
+              <dd data-bind="retirement_gap" data-format="currency">0.00</dd>
+            </div>
+            <div>
+              <dt>Readiness</dt>
+              <dd data-bind="retirement_readiness" data-format="percent">0%</dd>
+            </div>
+          </dl>
+          <div class="share-actions">
+            <button id="retirementScenarioLaterBtn" class="btn btn-ghost" type="button">What-if: Retire 3 years later</button>
+            <button id="retirementScenarioContributionBtn" class="btn btn-ghost" type="button">What-if: +250 monthly</button>
+            <button id="retirementScenarioReturnBtn" class="btn btn-ghost" type="button">What-if: +1% return</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Visualization</p>
+          <h2>Retirement Growth Over Time</h2>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Projected Balance by Age</h3>
+            <div class="chart-wrap"><canvas id="retirementGrowthChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Connected Planning Tools</h2>
+        <div class="share-actions">
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/interest-calculator/" href="/tools/interest-calculator/">Interest Calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Mortgage Calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/dashboard/" href="/dashboard/">Dashboard</a>
+        </div>
+      </section>
+
+      <section class="card" data-related-tools data-current-tool="retirement-calculator"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/blog/">Blog</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
+    <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="/assets/js/retirement.js" defer></script>
+  </body>
+</html>

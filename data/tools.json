@@ -22,5 +22,11 @@
     "name": "Interest Calculator",
     "path": "/tools/interest-calculator/",
     "description": "Explore simple and compound growth over time."
+  },
+  {
+    "slug": "retirement-calculator",
+    "name": "Retirement Calculator",
+    "path": "/tools/retirement-calculator/",
+    "description": "Project retirement balance, funding gap, and readiness."
   }
 ]

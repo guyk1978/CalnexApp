@@ -45,6 +45,10 @@ const ScenarioEngine = (() => {
       extra_payment: state.extra_payment || 0,
       down_payment: state.down_payment || 0,
       income: state.income || 0,
+      retirement_current_age: state.retirement_current_age || 35,
+      retirement_target_age: state.retirement_target_age || 65,
+      retirement_monthly_contribution: state.retirement_monthly_contribution || 0,
+      retirement_return_rate: state.retirement_return_rate || 6,
       selected_country: state.selected_country || "US",
       geo_defaults: state.geo_defaults || (typeof GeoFinance !== "undefined" ? GeoFinance.getCountryData() : {})
     };
@@ -115,7 +119,16 @@ const ScenarioEngine = (() => {
   const getCurrentOverrides = () => {
     const base = baselineState && Object.keys(baselineState).length ? baselineState : captureBaseline();
     const current = getShared();
-    const keys = ["extra_payment", "interest_rate", "loan_term", "income", "selected_country"];
+    const keys = [
+      "extra_payment",
+      "interest_rate",
+      "loan_term",
+      "income",
+      "selected_country",
+      "retirement_target_age",
+      "retirement_monthly_contribution",
+      "retirement_return_rate"
+    ];
     const overrides = {};
     keys.forEach((key) => {
       if (typeof base[key] === "string" || typeof current[key] === "string") {
@@ -266,7 +279,11 @@ const ScenarioEngine = (() => {
           loan_term: next.loan_term || 0,
           extra_payment: next.extra_payment || 0,
           down_payment: next.down_payment || 0,
-          income: next.income || 0
+          income: next.income || 0,
+          retirement_current_age: next.retirement_current_age || 35,
+          retirement_target_age: next.retirement_target_age || 65,
+          retirement_monthly_contribution: next.retirement_monthly_contribution || 0,
+          retirement_return_rate: next.retirement_return_rate || 6
         };
       }
     });

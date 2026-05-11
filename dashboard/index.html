@@ -62,6 +62,7 @@
           <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Open Loan Calculator</a>
           <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Open Mortgage Calculator</a>
           <a class="btn btn-ghost" data-shared-link data-target-path="/tools/car-loan-calculator/" href="/tools/car-loan-calculator/">Open Car Loan Calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/retirement-calculator/" href="/tools/retirement-calculator/">Open Retirement Calculator</a>
         </div>
       </section>
 
@@ -128,6 +129,12 @@
           <h2>Interest Growth</h2>
           <p class="muted">Projected savings growth: <strong id="dashGrowthProjection" data-bind="dashboard_growth_projection" data-format="currency">0.00</strong></p>
           <p class="muted" id="dashGrowthSummary" data-bind="dashboard_growth_summary" data-format="text">Waiting for state input from calculators.</p>
+        </article>
+        <article class="card">
+          <h2>Retirement Readiness</h2>
+          <p class="muted">Projected balance: <strong data-bind="retirement_projected_balance" data-format="currency">0.00</strong></p>
+          <p class="muted">Funding gap: <strong data-bind="retirement_gap" data-format="currency">0.00</strong></p>
+          <p class="muted">Readiness: <strong data-bind="retirement_readiness" data-format="percent">0%</strong></p>
         </article>
       </section>
 
