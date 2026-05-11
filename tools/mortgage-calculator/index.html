@@ -42,6 +42,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -50,7 +51,7 @@
   "name": "Mortgage Calculator",
   "description": "Mortgage Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/mortgage-calculator/",
-  "dateModified": "2026-05-11T14:01:31.692Z",
+  "dateModified": "2026-05-11T14:07:12.369Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -123,7 +124,7 @@
 
           <div class="field">
             <label for="downPaymentType">Down Payment Type</label>
-            <select id="downPaymentType">
+            <select id="downPaymentType" data-input-bind="mortgage_down_payment_type" data-input-type="text">
               <option value="percent" selected>Percentage</option>
               <option value="fixed">Fixed Amount</option>
             </select>
@@ -131,14 +132,14 @@
 
           <div class="field">
             <label for="downPaymentPercent">Down Payment (%)</label>
-            <input id="downPaymentPercent" type="number" min="0" max="100" step="0.1" value="20" />
+            <input id="downPaymentPercent" data-input-bind="mortgage_down_payment_percent" type="number" min="0" max="100" step="0.1" value="20" />
           </div>
 
           <div class="field">
             <label for="downPaymentAmount">Down Payment (<span data-currency-symbol>¤</span>)</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="downPaymentAmount" type="number" min="0" step="1000" value="90000" />
+              <input id="downPaymentAmount" data-input-bind="down_payment" type="number" min="0" step="1000" value="90000" />
             </div>
           </div>
 
@@ -165,7 +166,7 @@
             <label for="propertyTaxAnnual">Property Tax (Annual, optional)</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="propertyTaxAnnual" type="number" min="0" step="100" value="5400" />
+              <input id="propertyTaxAnnual" data-input-bind="property_tax_annual" type="number" min="0" step="100" value="5400" />
             </div>
           </div>
 
@@ -173,7 +174,7 @@
             <label for="homeInsuranceAnnual">Home Insurance (Annual, optional)</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="homeInsuranceAnnual" type="number" min="0" step="100" value="1800" />
+              <input id="homeInsuranceAnnual" data-input-bind="home_insurance_annual" type="number" min="0" step="100" value="1800" />
             </div>
           </div>
 
@@ -184,19 +185,19 @@
                 <label for="mortgageExtraMonthlyPayment">Extra Monthly Payment</label>
                 <div class="input-with-prefix">
                   <span data-currency-symbol>¤</span>
-                  <input id="mortgageExtraMonthlyPayment" type="number" min="0" step="25" value="0" />
+                  <input id="mortgageExtraMonthlyPayment" data-input-bind="extra_payment" type="number" min="0" step="25" value="0" />
                 </div>
               </div>
               <div class="field">
                 <label for="mortgageLumpSumPayment">One-Time Lump Sum Payment</label>
                 <div class="input-with-prefix">
                   <span data-currency-symbol>¤</span>
-                  <input id="mortgageLumpSumPayment" type="number" min="0" step="500" value="0" />
+                  <input id="mortgageLumpSumPayment" data-input-bind="mortgage_lump_sum_payment" type="number" min="0" step="500" value="0" />
                 </div>
               </div>
               <div class="field">
                 <label for="mortgagePaymentStartMonth">Payment Start Month</label>
-                <input id="mortgagePaymentStartMonth" type="number" min="1" step="1" value="1" />
+                <input id="mortgagePaymentStartMonth" data-input-bind="mortgage_payment_start_month" type="number" min="1" step="1" value="1" />
               </div>
             </div>
           </div>
@@ -241,7 +242,7 @@
           <label for="annualIncome">Annual Household Income</label>
           <div class="input-with-prefix">
             <span data-currency-symbol>¤</span>
-            <input id="annualIncome" type="number" min="0" step="1000" value="120000" />
+            <input id="annualIncome" data-input-bind="income" type="number" min="0" step="1000" value="120000" />
           </div>
         </div>
         <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment" data-bind="mortgage_recommended_payment">0.00</strong></p>
@@ -376,6 +377,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -398,6 +400,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -406,6 +409,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
