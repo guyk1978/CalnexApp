@@ -55,6 +55,9 @@ const AppEngine = (() => {
   const notifyToolInput = () => {
     beginInput();
     schedulePipeline();
+    if (typeof SharedState !== "undefined" && typeof SharedState.scheduleDebouncedUrlSync === "function") {
+      SharedState.scheduleDebouncedUrlSync();
+    }
   };
 
   const runPipeline = () => {
@@ -89,7 +92,7 @@ const AppEngine = (() => {
       phase = PHASE.COMMIT;
       logPhase("commit");
       if (typeof SharedState !== "undefined") {
-        SharedState.setState(snapshot, { engineCommit: true });
+        SharedState.setState(snapshot, { engineCommit: true, syncUrl: false });
       }
       queueMicrotask(() => {
         phase = PHASE.RENDER;

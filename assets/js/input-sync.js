@@ -56,8 +56,7 @@ const InputSyncLayer = (() => {
     console.log("[INPUT] fired", { key, raw: node.value });
 
     if (typeof window.AppEngine !== "undefined") {
-      AppEngine.beginInput();
-      AppEngine.schedulePipeline();
+      AppEngine.notifyToolInput();
       return;
     }
     if (typeof SharedState === "undefined") return;
@@ -65,6 +64,9 @@ const InputSyncLayer = (() => {
     const current = SharedState.getState();
     if (current[key] === normalized) return;
     SharedState.setState({ [key]: normalized }, { skipPhaseGuard: true });
+    if (typeof SharedState.scheduleDebouncedUrlSync === "function") {
+      SharedState.scheduleDebouncedUrlSync();
+    }
   };
 
   const onDelegatedInput = (event) => {

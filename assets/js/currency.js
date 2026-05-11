@@ -63,7 +63,7 @@ const CurrencyLayer = (() => {
     const nextCurrency = normalizeCurrency(currency);
     window.localStorage.setItem(STORAGE_KEY, nextCurrency);
     if (typeof SharedState !== "undefined") {
-      SharedState.setState({ currency: nextCurrency }, { system: true });
+      SharedState.setState({ currency: nextCurrency }, { system: true, syncUrl: true });
     }
     document.dispatchEvent(new CustomEvent("currency:changed", { detail: { currency: nextCurrency } }));
     window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "currency", currency: nextCurrency } }));
@@ -130,7 +130,7 @@ const CurrencyLayer = (() => {
     const selected = getSelectedCurrency();
     window.localStorage.setItem(STORAGE_KEY, selected);
     if (typeof SharedState !== "undefined" && SharedState.getState().currency !== selected) {
-      SharedState.setState({ currency: selected }, { system: true });
+      SharedState.setState({ currency: selected }, { system: true, syncUrl: true });
     }
     syncCurrencySymbols();
     console.log("[CalnexApp] Selected currency", selected, "sample:", formatCurrency(1234.56, selected));

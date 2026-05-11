@@ -74,7 +74,7 @@ const GeoFinance = (() => {
           selected_country: nextCountry,
           geo_defaults: defaults
         },
-        { system: true }
+        { system: true, syncUrl: true }
       );
     }
     document.dispatchEvent(new CustomEvent("geo:changed", { detail: { country: nextCountry, defaults } }));
@@ -140,9 +140,9 @@ const GeoFinance = (() => {
     if (typeof SharedState !== "undefined") {
       const state = SharedState.getState();
       if (state.selected_country !== selected) {
-        SharedState.setState({ selected_country: selected, geo_defaults: defaults }, { system: true });
+        SharedState.setState({ selected_country: selected, geo_defaults: defaults }, { system: true, syncUrl: true });
       } else if (!state.geo_defaults) {
-        SharedState.setState({ geo_defaults: defaults }, { system: true });
+        SharedState.setState({ geo_defaults: defaults }, { system: true, syncUrl: true });
       }
     }
     document.addEventListener("sharedstate:updated", renderIndicator);

@@ -138,6 +138,9 @@ const SharedState = (() => {
   const objectFields = new Set(["geo_defaults"]);
   const state = {};
 
+  const URL_NUMERIC_KEYS = ["loan_amount", "interest_rate", "loan_term", "extra_payment", "down_payment", "income"];
+  const URL_STRING_KEYS = ["currency", "selected_country"];
+
   const toNumber = (value) => {
     if (value === null || value === undefined || value === "") return undefined;
     if (typeof window.CalnexParse !== "undefined") {
@@ -178,45 +181,53 @@ const SharedState = (() => {
       extra_payment: params.get("extra_payment") || params.get("extra"),
       down_payment: params.get("down_payment"),
       income: params.get("income"),
-      scenario: params.get("scenario"),
-      interest_compounding: params.get("interest_compounding") || params.get("frequency"),
       currency: params.get("currency") || window.localStorage.getItem("calnex_currency"),
       selected_country: params.get("selected_country") || params.get("country") || window.localStorage.getItem("calnex_country")
     };
-    fields.forEach((field) => {
-      if (!(field in seed)) {
-        seed[field] = params.get(field);
-      }
-    });
     return normalizeState(seed);
   };
 
-  const toQuery = (snapshot = state) => {
+  const toQueryInputStateOnly = (snapshot = state) => {
     const params = new URLSearchParams();
-    fields.forEach((key) => {
-      if (stringFields.has(key)) {
-        if (snapshot[key]) {
-          if (key === "selected_country") params.set("country", String(snapshot[key]));
-          else params.set(key, String(snapshot[key]));
-        }
-        return;
-      }
-      const value = toNumber(snapshot[key]);
+    const snap = snapshot || {};
+
+    if (snap.currency) {
+      params.set("currency", String(snap.currency));
+    }
+    if (snap.selected_country) {
+      params.set("country", String(snap.selected_country));
+    }
+
+    URL_NUMERIC_KEYS.forEach((key) => {
+      const value = toNumber(snap[key]);
       if (value !== undefined && value >= 0) {
         params.set(key, String(value));
       }
     });
+
     return params.toString();
   };
 
-  const replaceUrl = () => {
-    const query = toQuery(state);
+  let urlDebounceTimer = null;
+  const URL_DEBOUNCE_MS = 400;
+
+  const replaceHistoryFromInputState = () => {
+    const query = toQueryInputStateOnly(state);
     const nextUrl = query ? `${window.location.pathname}?${query}${window.location.hash}` : `${window.location.pathname}${window.location.hash}`;
     window.history.replaceState({}, "", nextUrl);
+    console.log("[URL] updated with input state only", { query });
   };
 
-  const refreshToolLinks = () => {
-    const query = toQuery(state);
+  const scheduleDebouncedUrlSync = () => {
+    if (urlDebounceTimer) window.clearTimeout(urlDebounceTimer);
+    urlDebounceTimer = window.setTimeout(() => {
+      urlDebounceTimer = null;
+      replaceHistoryFromInputState();
+    }, URL_DEBOUNCE_MS);
+  };
+
+  const refreshToolLinksInternal = () => {
+    const query = toQueryInputStateOnly(state);
     document.querySelectorAll("[data-shared-link]").forEach((node) => {
       const target = node.getAttribute("data-target-path");
       if (!target) return;
@@ -225,8 +236,14 @@ const SharedState = (() => {
     });
   };
 
-  const setState = (partial = {}, options = { syncUrl: true }) => {
-    const opts = typeof options === "object" && options !== null ? options : { syncUrl: true };
+  const refreshToolLinks = () => {
+    refreshToolLinksInternal();
+  };
+
+  const setState = (partial = {}, options = null) => {
+    const opts = typeof options === "object" && options !== null ? options : {};
+    const syncUrl = opts.syncUrl === true;
+
     if (typeof window.AppEngine !== "undefined" && AppEngine.shouldDeferSetState(opts)) {
       AppEngine.deferSetState(partial);
       return { ...state };
@@ -246,8 +263,12 @@ const SharedState = (() => {
     fields.forEach((key) => {
       if (!(key in next) && partial[key] === null) delete state[key];
     });
-    if (opts.syncUrl !== false) replaceUrl();
-    refreshToolLinks();
+
+    refreshToolLinksInternal();
+    if (syncUrl) {
+      replaceHistoryFromInputState();
+    }
+
     console.log("[STATE] updated", { keys: Object.keys(next), source: opts.engineCommit ? "commit" : opts.system ? "system" : "external" });
     const engineSource = opts.engineCommit ? "commit" : opts.system ? "system" : "external";
     document.dispatchEvent(new CustomEvent("sharedstate:updated", { detail: { ...state, __engineSource: engineSource } }));
@@ -266,7 +287,7 @@ const SharedState = (() => {
   const getState = () => ({ ...state });
 
   const getCurrentUrl = () => {
-    const query = toQuery(state);
+    const query = toQueryInputStateOnly(state);
     return `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ""}`;
   };
 
@@ -281,6 +302,7 @@ const SharedState = (() => {
     getState,
     setState,
     refreshToolLinks,
-    getCurrentUrl
+    getCurrentUrl,
+    scheduleDebouncedUrlSync
   };
 })();
