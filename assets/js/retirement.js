@@ -17,55 +17,6 @@ const RetirementCalculator = (() => {
   let isApplyingShared = false;
   let lastRetirementProjection = [];
 
-  /** Single retirement FV primitive — same path as `referenceFinancialResult.projectedBalance`. */
-  const referenceBalanceAtMonths = (inputs, months) => {
-    if (typeof FinancialCore === "undefined" || typeof FinancialCore.calculateReferenceRetirement !== "function") {
-      return null;
-    }
-    const m = Math.max(0, Math.round(Number(months) || 0));
-    return FinancialCore.calculateReferenceRetirement({
-      initial: inputs.currentSavings,
-      monthly: inputs.monthlyContribution,
-      annualReturn: inputs.annualReturnRate,
-      months: m
-    });
-  };
-
-  /**
-   * Chart series: only `calculateReferenceRetirement` by month (no parallel compounding loops).
-   * Terminal row uses `terminalProjectedBalance` (must equal UI `referenceFinancialResult.projectedBalance`).
-   */
-  const buildReferenceRetirementChartSeries = (inputs, nMonths, terminalProjectedBalance) => {
-    const { currentAge, currentSavings } = inputs;
-    const points = [{ age: currentAge, balance: currentSavings }];
-    if (nMonths <= 0) return points;
-
-    const refAt = (m) => referenceBalanceAtMonths(inputs, m);
-    if (refAt(12) === null) {
-      points.push({ age: currentAge + nMonths / 12, balance: terminalProjectedBalance });
-      return points;
-    }
-
-    for (let m = 12; m <= nMonths; m += 12) {
-      points.push({ age: currentAge + m / 12, balance: refAt(m) });
-    }
-    if (nMonths % 12 !== 0) {
-      points.push({
-        age: currentAge + nMonths / 12,
-        balance: terminalProjectedBalance
-      });
-    }
-
-    const last = points[points.length - 1];
-    if (last && Number.isFinite(terminalProjectedBalance)) {
-      const tol = Math.max(1e-9 * Math.max(1, Math.abs(terminalProjectedBalance)), 0.01);
-      if (Math.abs(last.balance - terminalProjectedBalance) > tol) {
-        last.balance = terminalProjectedBalance;
-      }
-    }
-    return points;
-  };
-
   const num = (key, el, fb = 0) =>
     typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
   const getState = () => (typeof SharedState !== "undefined" ? SharedState.getState() : {});
@@ -84,159 +35,6 @@ const RetirementCalculator = (() => {
       inflationRate: Math.max(0, num("retirement_inflation_rate", selectors.inflationRate, 0)),
       desiredRetirementIncome: Math.max(0, num("retirement_desired_income", selectors.desiredIncome, 0))
     };
-  };
-
-  const retirementHorizonMonths = ({ currentAge, targetAge }) =>
-    Math.max(0, Math.round((Math.max(0, targetAge - currentAge) || 0) * 12));
-
-  const REFERENCE_FINANCIAL_RESULT_KEYS = [
-    "projectedBalance",
-    "yearsToRetirement",
-    "inflationAdjustedGoal",
-    "estimatedMonthlyIncome",
-    "fundingGap",
-    "readinessScore"
-  ];
-
-  const buildReferenceFinancialResult = (inputs, projectedBalance, yearsToRetirement) => {
-    const pb = Number(projectedBalance);
-    const safePb = Number.isFinite(pb) ? Math.max(0, pb) : 0;
-    const ytr = Math.max(0, Number(yearsToRetirement) || 0);
-
-    let inflationAdjustedGoal = 0;
-    if (typeof FinancialCore !== "undefined" && typeof FinancialCore.inflationAdjustment === "function") {
-      inflationAdjustedGoal = FinancialCore.inflationAdjustment(
-        inputs.desiredRetirementIncome,
-        inputs.inflationRate,
-        ytr
-      );
-    } else {
-      const di = Number(inputs.desiredRetirementIncome);
-      inflationAdjustedGoal = Number.isFinite(di) ? Math.max(0, di) : 0;
-    }
-    if (!Number.isFinite(inflationAdjustedGoal)) inflationAdjustedGoal = 0;
-
-    const estimatedMonthlyIncome = (safePb * 0.04) / 12;
-    const targetMonthlyIncome = inflationAdjustedGoal / 12;
-    const fundingGap = Math.max(0, targetMonthlyIncome - estimatedMonthlyIncome);
-    const readinessScore =
-      targetMonthlyIncome > 0 ? Math.min(100, (estimatedMonthlyIncome / targetMonthlyIncome) * 100) : 0;
-
-    const raw = {
-      projectedBalance: safePb,
-      yearsToRetirement: ytr,
-      inflationAdjustedGoal,
-      estimatedMonthlyIncome,
-      fundingGap,
-      readinessScore
-    };
-
-    const missingFields = REFERENCE_FINANCIAL_RESULT_KEYS.filter(
-      (k) => raw[k] === undefined || (typeof raw[k] === "number" && !Number.isFinite(raw[k]))
-    );
-
-    const result = {};
-    REFERENCE_FINANCIAL_RESULT_KEYS.forEach((k) => {
-      let v = raw[k];
-      if (v === undefined || (typeof v === "number" && !Number.isFinite(v))) v = 0;
-      result[k] = v;
-    });
-    result.readiness = result.readinessScore;
-
-    console.log("[RETIREMENT HYDRATION]", { missingFields });
-
-    return result;
-  };
-
-  const diagnoseRetirementMismatch = (engineNominal, referenceFV, inputs, nMonths) => {
-    const { currentSavings: P, monthlyContribution: C, annualReturnRate: rPct } = inputs;
-    if (referenceFV <= 0) return "reference_zero";
-    const ratio = engineNominal / referenceFV;
-    if (ratio <= 1.0000001 && ratio >= 0.9999999) return "aligned";
-    const half = Math.max(1, Math.floor(nMonths / 2));
-    const refHalf = FinancialCore.calculateReferenceRetirement({
-      initial: P,
-      monthly: C,
-      annualReturn: rPct,
-      months: half
-    });
-    const engHalf =
-      FinancialCore.compoundGrowth(P, rPct, half, 12) + FinancialCore.annuityContribution(C, rPct, half, 12);
-    if (Math.abs(engHalf - refHalf) < 1e-6 && ratio > 1.05) return "possible_horizon_or_month_rounding";
-    if (ratio > 1.3) return "possible_duplicate_compounding_or_rate_scaling";
-    if (ratio < 0.7) return "possible_contribution_undercount_or_rate_too_low";
-    return "engine_reference_mismatch";
-  };
-
-  const calculate = (inputs) => {
-    const yearsToRetirement = Math.max(0, inputs.targetAge - inputs.currentAge);
-    const nMonths = retirementHorizonMonths(inputs);
-
-    if (typeof FinancialCore === "undefined") {
-      const projectedBalance = inputs.currentSavings;
-      const projection = buildReferenceRetirementChartSeries(inputs, nMonths, projectedBalance);
-      const referenceFinancialResult = buildReferenceFinancialResult(inputs, projectedBalance, yearsToRetirement);
-      window.referenceFinancialResult = referenceFinancialResult;
-      return { referenceFinancialResult, projection };
-    }
-
-    const referenceFV = FinancialCore.calculateReferenceRetirement({
-      initial: inputs.currentSavings,
-      monthly: inputs.monthlyContribution,
-      annualReturn: inputs.annualReturnRate,
-      months: nMonths
-    });
-    const projection = buildReferenceRetirementChartSeries(inputs, nMonths, referenceFV);
-
-    const referenceFinancialResult = buildReferenceFinancialResult(inputs, referenceFV, yearsToRetirement);
-
-    const engineSim = FinancialCore.simulateFinancialPlan({
-      initial: inputs.currentSavings,
-      monthly: inputs.monthlyContribution,
-      annualReturn: inputs.annualReturnRate,
-      years: yearsToRetirement,
-      months: nMonths,
-      inflation: inputs.inflationRate
-    });
-    const engineNominal = engineSim.nominalFinalBalance;
-    const denom = Math.max(referenceFV, 1);
-    const deviation = Math.abs(engineNominal - referenceFV) / denom;
-    if (deviation > 0.3) {
-      console.error("[RETIREMENT] INVALID — engine vs reference baseline", {
-        INVALID: true,
-        engineNominal,
-        referenceFV,
-        deviationPct: Math.round(deviation * 1000) / 10,
-        nMonths,
-        yearsToRetirement,
-        diagnosis: diagnoseRetirementMismatch(engineNominal, referenceFV, inputs, nMonths)
-      });
-    } else if (deviation > 1e-9) {
-      console.warn("[RETIREMENT] engine/reference drift (UI uses reference only)", {
-        engineNominal,
-        referenceFV,
-        deviationPct: Math.round(deviation * 1e6) / 1e4
-      });
-    }
-    window.referenceFinancialResult = referenceFinancialResult;
-    return {
-      referenceFinancialResult,
-      projection
-    };
-  };
-
-  const alignChartSeriesToUiProjectedBalance = (series, uiProjectedBalance) => {
-    if (!series.length || uiProjectedBalance == null || !Number.isFinite(uiProjectedBalance)) return series;
-    const last = series[series.length - 1];
-    const tol = Math.max(1e-9 * Math.max(1, Math.abs(uiProjectedBalance)), 0.01);
-    if (Math.abs(last.balance - uiProjectedBalance) <= tol) return series;
-    console.error("[CHART_MISMATCH_DETECTED]", {
-      chartTerminal: last.balance,
-      uiProjectedBalance
-    });
-    const denom = Math.abs(last.balance) > tol ? last.balance : 1;
-    const scale = uiProjectedBalance / denom;
-    return series.map((p, i) => (i === 0 ? p : { ...p, balance: p.balance * scale }));
   };
 
   const renderChart = (projection) => {
@@ -260,7 +58,7 @@ const RetirementCalculator = (() => {
     });
   };
 
-  const buildRetirementPatch = (inputs, outputs) => ({
+  const buildRetirementPatch = (inputs, toolkit) => ({
     retirement_current_age: inputs.currentAge,
     retirement_target_age: inputs.targetAge,
     retirement_current_savings: inputs.currentSavings,
@@ -276,8 +74,8 @@ const RetirementCalculator = (() => {
       fundingGap: 0,
       readinessScore: 0,
       readiness: 0,
-      ...(outputs.referenceFinancialResult && typeof outputs.referenceFinancialResult === "object"
-        ? outputs.referenceFinancialResult
+      ...(toolkit.referenceFinancialResult && typeof toolkit.referenceFinancialResult === "object"
+        ? toolkit.referenceFinancialResult
         : {})
     },
     retirement_years_to_retirement: null,
@@ -291,25 +89,18 @@ const RetirementCalculator = (() => {
 
   const paintRetirementCharts = () => {
     if (!lastRetirementProjection.length) return;
-    const state = getState();
-    const uiBal = state.referenceFinancialResult?.projectedBalance;
-    let series = lastRetirementProjection.map((p) => ({ ...p }));
-    series = alignChartSeriesToUiProjectedBalance(series, uiBal);
-    console.log("[CHART TRACE] source = referenceFinancialResult", {
-      points: series.length,
-      chartTerminal: series[series.length - 1]?.balance,
-      uiProjectedBalance: uiBal
-    });
-    renderChart(series);
+    renderChart(lastRetirementProjection.map((p) => ({ ...p })));
   };
 
   const runRetirementPipeline = () => {
     if (isApplyingShared) return {};
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.computeRetirementToolkit !== "function") return {};
     const inputs = getInputs();
-    const outputs = calculate(inputs);
-    lastRetirementProjection = outputs.projection || [];
+    const toolkit = FinancialCore.computeRetirementToolkit(inputs);
+    lastRetirementProjection = toolkit.projection || [];
+    window.referenceFinancialResult = toolkit.referenceFinancialResult;
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
-    return buildRetirementPatch(inputs, outputs);
+    return buildRetirementPatch(toolkit.inputs, toolkit);
   };
 
   const applyGeoDefaults = () => {

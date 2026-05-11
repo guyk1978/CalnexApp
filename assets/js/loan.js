@@ -514,40 +514,32 @@ const LoanCalculator = (() => {
   };
 
   const runLoanPipeline = () => {
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.computeLoanSnapshot !== "function") return {};
     const principal = num("loan_amount", selectors.loanAmount, 0);
     const annualRate = num("interest_rate", selectors.interestRate, 0);
     const totalMonths = getTermInMonths();
     const extraConfig = getExtraConfig();
 
-    const baselineLoan = FinancialCore.loanAmortization({
+    const sn = FinancialCore.computeLoanSnapshot({
       principal,
-      annualAprPercent: annualRate,
+      annualRate,
       termMonths: totalMonths,
-      includeExtra: false,
-      extraMonthly: 0,
-      lumpSum: 0,
-      extraStartMonth: extraConfig.startMonth
-    });
-    const acceleratedLoan = FinancialCore.loanAmortization({
-      principal,
-      annualAprPercent: annualRate,
-      termMonths: totalMonths,
-      includeExtra: true,
       extraMonthly: extraConfig.extraMonthly,
       lumpSum: extraConfig.lumpSum,
-      extraStartMonth: extraConfig.startMonth
+      extraStartMonth: extraConfig.startMonth,
+      loanTermDisplay: num("loan_term", selectors.loanTerm, 0)
     });
-    baselineSchedule = baselineLoan.schedule;
-    acceleratedSchedule = acceleratedLoan.schedule;
+    baselineSchedule = sn.baselineSchedule;
+    acceleratedSchedule = sn.acceleratedSchedule;
     displayedSchedule = acceleratedSchedule;
-    const monthlyPayment = baselineLoan.monthlyPayment;
-    const baseSummary = baselineLoan.summary;
-    const acceleratedSummary = acceleratedLoan.summary;
+    const monthlyPayment = sn.monthlyPayment;
+    const baseSummary = sn.baseSummary;
+    const acceleratedSummary = sn.acceleratedSummary;
 
     const snapshot = {
       loan_amount: principal,
       interest_rate: annualRate,
-      loan_term: num("loan_term", selectors.loanTerm, 0),
+      loan_term: sn.loanTermDisplay,
       extra_payment: extraConfig.extraMonthly,
       loan_monthly_payment: monthlyPayment,
       loan_total_interest: acceleratedSummary.totalInterest,
@@ -557,8 +549,8 @@ const LoanCalculator = (() => {
       loan_base_total_paid: baseSummary.totalPaid,
       loan_base_total_interest: baseSummary.totalInterest,
       loan_after_total_paid: acceleratedSummary.totalPaid,
-      loan_interest_saved: Math.max(0, baseSummary.totalInterest - acceleratedSummary.totalInterest),
-      loan_months_saved: Math.max(0, baseSummary.months - acceleratedSummary.months),
+      loan_interest_saved: sn.loan_interest_saved,
+      loan_months_saved: sn.loan_months_saved,
       loan_summary_payoff_date: acceleratedSummary.months ? getPayoffDate(acceleratedSummary.months) : "-",
       loan_before_payoff_date: getPayoffDate(baseSummary.months),
       loan_after_payoff_date: getPayoffDate(acceleratedSummary.months)

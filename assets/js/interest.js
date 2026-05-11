@@ -18,12 +18,7 @@ const InterestCalculator = (() => {
   let compareChartInstance;
   let isApplyingSharedState = false;
   let lastInterestRows = [];
-
-  const compoundingMap = {
-    yearly: 1,
-    monthly: 12,
-    daily: 365
-  };
+  let lastInterestPrincipal = 0;
 
   const num = (key, el, fb = 0) =>
     typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
@@ -40,44 +35,7 @@ const InterestCalculator = (() => {
     const years = Math.max(1, num("interest_years", selectors.years, 1));
     const monthlyContribution = Math.max(0, num("interest_monthly_contribution", selectors.monthlyContribution, 0));
     const compounding = selectors.compounding.value || "monthly";
-    const periodsPerYear = compoundingMap[compounding] || 12;
-    return { principal, annualRate, years, monthlyContribution, compounding, periodsPerYear };
-  };
-
-  const calculateSimple = ({ principal, annualRate, years }) => principal * (1 + (annualRate / 100) * years);
-
-  const periodicContributionFromMonthly = (monthlyContribution, periodsPerYear) => {
-    const pp = periodsPerYear || 12;
-    return pp ? (monthlyContribution * 12) / pp : 0;
-  };
-
-  const calculateCompoundFinal = ({ principal, annualRate, years, periodsPerYear, monthlyContribution }) => {
-    const pp = periodsPerYear || 12;
-    const totalPeriods = Math.round(years * pp);
-    const c = periodicContributionFromMonthly(monthlyContribution, pp);
-    return FinancialCore.compoundGrowth(principal, annualRate, totalPeriods, pp) + FinancialCore.annuityContribution(c, annualRate, totalPeriods, pp);
-  };
-
-  const buildYearlyBreakdown = ({ principal, annualRate, years, periodsPerYear, monthlyContribution }) => {
-    const rows = [];
-    const pp = periodsPerYear || 12;
-    const c = periodicContributionFromMonthly(monthlyContribution, pp);
-    for (let year = 1; year <= years; year += 1) {
-      const nPer = year * pp;
-      const compoundAmount =
-        FinancialCore.compoundGrowth(principal, annualRate, nPer, pp) + FinancialCore.annuityContribution(c, annualRate, nPer, pp);
-      const simpleAtYear = principal * (1 + (annualRate / 100) * year);
-      const contributionSum = monthlyContribution * 12 * year;
-      const interestEarned = compoundAmount - principal - contributionSum;
-      rows.push({
-        year,
-        simpleAmount: simpleAtYear,
-        compoundAmount,
-        contributions: contributionSum,
-        interestEarned
-      });
-    }
-    return rows;
+    return { principal, annualRate, years, monthlyContribution, compounding };
   };
 
   const renderYearlyTable = (rows) => {
@@ -100,7 +58,7 @@ const InterestCalculator = (() => {
     if (!window.Chart) return;
     const labels = rows.map((row) => `Year ${row.year}`);
     const compoundSeries = rows.map((row) => row.compoundAmount);
-    const principalPlusContribSeries = rows.map((row) => row.contributions + num("interest_principal", selectors.principal, 0));
+    const principalPlusContribSeries = rows.map((row) => row.contributions + lastInterestPrincipal);
     const simpleSeries = rows.map((row) => row.simpleAmount);
 
     if (growthChartInstance) growthChartInstance.destroy();
@@ -165,7 +123,7 @@ const InterestCalculator = (() => {
     if (state.interest_compounding) selectors.compounding.value = String(state.interest_compounding);
   };
 
-  const buildInterestPatch = ({ principal, annualRate, years, monthlyContribution, compounding }, compoundAmount, totalInterest) => ({
+  const buildInterestPatch = ({ principal, annualRate, years, monthlyContribution, compounding }, toolkit) => ({
     loan_amount: principal,
     interest_rate: annualRate,
     loan_term: years * 12,
@@ -174,22 +132,27 @@ const InterestCalculator = (() => {
     interest_years: years,
     interest_monthly_contribution: monthlyContribution,
     interest_compounding: compounding,
-    interest_simple_total: calculateSimple({ principal, annualRate, years }),
-    interest_compound_total: compoundAmount,
-    interest_total_interest: totalInterest,
-    interest_final_amount: compoundAmount
+    interest_simple_total: toolkit.simpleTotal,
+    interest_compound_total: toolkit.compoundAmount,
+    interest_total_interest: toolkit.totalInterest,
+    interest_final_amount: toolkit.compoundAmount
   });
 
   const runInterestPipeline = () => {
     if (isApplyingSharedState) return {};
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.computeInterestToolkit !== "function") return {};
     const inputs = getInputs();
-    const compoundAmount = calculateCompoundFinal(inputs);
-    const baseContributed = inputs.principal + inputs.monthlyContribution * 12 * inputs.years;
-    const totalInterest = compoundAmount - baseContributed;
-    const rows = buildYearlyBreakdown(inputs);
-    lastInterestRows = rows;
+    const toolkit = FinancialCore.computeInterestToolkit({
+      principal: inputs.principal,
+      annualRate: inputs.annualRate,
+      years: inputs.years,
+      monthlyContribution: inputs.monthlyContribution,
+      compounding: inputs.compounding
+    });
+    lastInterestPrincipal = inputs.principal;
+    lastInterestRows = toolkit.yearlyRows;
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
-    return buildInterestPatch(inputs, compoundAmount, totalInterest);
+    return buildInterestPatch(inputs, toolkit);
   };
 
   const paintInterestCharts = () => {

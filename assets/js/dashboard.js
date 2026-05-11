@@ -68,64 +68,24 @@ const FinancialDashboard = (() => {
     }
   };
 
-  const getTotalMonthlyObligations = (state) =>
-    (state.loan_monthly_payment || 0) + (state.mortgage_monthly_payment || 0) + (state.car_monthly_payment || 0);
-
   const renderCards = (state) => {
-    const loanMonthly = state.loan_monthly_payment || 0;
-    const mortgageMonthly = state.mortgage_monthly_payment || 0;
-    const carMonthly = state.car_monthly_payment || 0;
-    const totalInterest = (state.loan_total_interest || 0) + (state.mortgage_total_interest || 0) + (state.car_total_interest || 0);
-    const monthlyIncome = (state.income || 0) / 12;
-    const obligations = getTotalMonthlyObligations(state);
-    const obligationRatio = monthlyIncome > 0 ? obligations / monthlyIncome : 0;
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.computeDashboardFinancialSlice !== "function") {
+      return { monthlyIncome: 0, obligations: 0, totalInterest: 0, loanMonthly: 0, mortgageMonthly: 0, carMonthly: 0 };
+    }
+    const fin = FinancialCore.computeDashboardFinancialSlice(state);
+    const { monthlyIncome, obligations, totalInterest, loanMonthly, mortgageMonthly, carMonthly } = fin.chartSummary;
 
     const derivedPatch = {
-      dashboard_loan_count: [loanMonthly, mortgageMonthly, carMonthly].filter((value) => value > 0).length,
-      dashboard_mortgage_affordability:
-        monthlyIncome > 0 ? `${setPercent(mortgageMonthly / monthlyIncome)} of monthly income` : "Set income in tools"
+      dashboard_loan_count: fin.dashboard_loan_count,
+      dashboard_mortgage_affordability: fin.dashboard_mortgage_affordability,
+      dashboard_growth_projection: fin.dashboard_growth_projection,
+      dashboard_growth_summary: fin.dashboard_growth_summary,
+      dashboard_affordability_score: fin.dashboard_affordability_score,
+      dashboard_affordability_badge: fin.dashboard_affordability_badge
     };
 
-    const hasInterestProjection = (state.interest_compound_total || 0) > 0;
-    if (hasInterestProjection) {
-      const years = state.interest_years || Math.max(1, Math.round((state.loan_term || 120) / 12));
-      derivedPatch.dashboard_growth_projection = state.interest_compound_total || 0;
-      derivedPatch.dashboard_growth_summary = `${years}-year projection from Interest Calculator (${String(
-        state.interest_compounding || "monthly"
-      )} compounding).`;
-    } else {
-      const yearlyContribution = (state.income || 0) * 0.1;
-      const yearlyRate = Math.max(0.01, (state.interest_rate || 5) / 100);
-      const projection = yearlyContribution * (((1 + yearlyRate) ** 10 - 1) / yearlyRate);
-      const refRetirementBal = state.referenceFinancialResult?.projectedBalance ?? state.retirement_projected_balance;
-      if ((refRetirementBal || 0) > 0) {
-        derivedPatch.dashboard_growth_projection = refRetirementBal || 0;
-        const yrs =
-          (state.retirement_target_age != null && state.retirement_current_age != null
-            ? Math.max(0, state.retirement_target_age - state.retirement_current_age)
-            : state.retirement_years_to_retirement) || 0;
-        derivedPatch.dashboard_growth_summary = `Retirement projection (reference) with ${yrs} years to target age.`;
-      } else {
-        derivedPatch.dashboard_growth_projection = projection;
-        derivedPatch.dashboard_growth_summary = `10-year projection using ${setPercent(
-          yearlyRate
-        )} annual compound rate on 10% income contribution.`;
-      }
-    }
-
-    let scoreLabel = "Safe";
-    let scoreClass = "status-green";
-    if (obligationRatio > 0.45) {
-      scoreLabel = "Overleveraged";
-      scoreClass = "status-red";
-    } else if (obligationRatio > 0.3) {
-      scoreLabel = "Caution";
-      scoreClass = "status-yellow";
-    }
-    derivedPatch.dashboard_affordability_score = monthlyIncome > 0 ? setPercent(obligationRatio) : "N/A";
-    derivedPatch.dashboard_affordability_badge = scoreLabel;
     selectors.affordabilityBadge.classList.remove("status-green", "status-yellow", "status-red");
-    selectors.affordabilityBadge.classList.add(scoreClass);
+    selectors.affordabilityBadge.classList.add(fin.dashboard_affordability_badge_class);
 
     const geo = getGeo();
     if (geo && selectors.countryCode) {
@@ -190,7 +150,7 @@ const FinancialDashboard = (() => {
         datasets: [
           {
             label: "Interest Burden",
-            data: [summary.loanMonthly * 12, summary.mortgageMonthly * 12, summary.carMonthly * 12, summary.totalInterest],
+            data: summary.interestBurdenSeries || [0, 0, 0, 0],
             borderColor: "#b7791f",
             tension: 0.25
           }
@@ -255,29 +215,24 @@ const FinancialDashboard = (() => {
       options: { responsive: true, maintainAspectRatio: false }
     });
 
-    const maxMonths = Math.max(comparison.first.payoffMonths, comparison.second.payoffMonths, 1);
-    const firstLine = [];
-    const secondLine = [];
-    for (let index = 1; index <= maxMonths; index += 1) {
-      const firstRatio = Math.max(0, 1 - index / comparison.first.payoffMonths);
-      const secondRatio = Math.max(0, 1 - index / comparison.second.payoffMonths);
-      firstLine.push(firstRatio * comparison.first.monthlyPayment * comparison.first.payoffMonths);
-      secondLine.push(secondRatio * comparison.second.monthlyPayment * comparison.second.payoffMonths);
-    }
+    const tl =
+      typeof FinancialCore !== "undefined" && typeof FinancialCore.buildScenarioTimelineSeries === "function"
+        ? FinancialCore.buildScenarioTimelineSeries(comparison)
+        : { maxMonths: 0, firstLine: [], secondLine: [], labels: [] };
     scenarioTimelineChart = new window.Chart(selectors.scenarioTimelineChart, {
       type: "line",
       data: {
-        labels: Array.from({ length: maxMonths }, (_, idx) => `M${idx + 1}`),
+        labels: tl.labels,
         datasets: [
           {
             label: `${comparison.first.name} timeline`,
-            data: firstLine,
+            data: tl.firstLine,
             borderColor: "#1b63f0",
             tension: 0.2
           },
           {
             label: `${comparison.second.name} timeline`,
-            data: secondLine,
+            data: tl.secondLine,
             borderColor: "#16a34a",
             tension: 0.2
           }

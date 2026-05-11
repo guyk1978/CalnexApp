@@ -1,5 +1,7 @@
 /**
- * Financial Engine Validator — benchmarks calculator outputs and flags anomalies.
+ * FinancialValidator — passive verification only.
+ * Compares committed state to referenceFinancialResult (single source of truth).
+ * Does not call FinancialCore or perform amortization, FV, or other engine math.
  */
 const FinancialValidator = (() => {
   const PAGE_TO_TYPE = {
@@ -17,93 +19,6 @@ const FinancialValidator = (() => {
     return Number.isFinite(x) ? x : fb;
   };
 
-  const resolveLoanTermMonths = (storedTerm, page) => {
-    const t = Math.max(1, n(storedTerm, 1));
-    if (page === "loan-calculator") {
-      const unit = document.getElementById("termUnit")?.value;
-      return unit === "years" ? Math.round(t * 12) : Math.round(t);
-    }
-    if (page === "car-loan-calculator") {
-      const unit = document.getElementById("carTermUnit")?.value;
-      return unit === "years" ? Math.round(t * 12) : Math.round(t);
-    }
-    if (page === "mortgage-calculator") {
-      const raw = n(storedTerm, 360);
-      if (raw >= 12 && raw <= 600) return Math.round(raw);
-      if (raw <= 40) return Math.round(raw * 12);
-      return 360;
-    }
-    return Math.round(t);
-  };
-
-  const compoundingMap = { yearly: 1, monthly: 12, daily: 365 };
-
-  const interestPeriodicContrib = (monthlyContrib, periodsPerYear) => {
-    const pp = Math.max(1, periodsPerYear);
-    return (monthlyContrib * 12) / pp;
-  };
-
-  const calculateBenchmark = (type, inputs, outputs) => {
-    const out = {};
-    if (typeof FinancialCore === "undefined") return out;
-    if (type === "loan" || type === "car") {
-      const principal = n(type === "car" ? outputs.car_computed_loan_amount ?? inputs.loan_amount : outputs.loan_amount ?? inputs.loan_amount);
-      const rate = n(inputs.interest_rate ?? outputs.interest_rate);
-      const months = resolveLoanTermMonths(inputs.loan_term ?? outputs.loan_term, type === "car" ? "car-loan-calculator" : "loan-calculator");
-      const benchLoan = FinancialCore.loanAmortization({
-        principal,
-        annualAprPercent: rate,
-        termMonths: months,
-        includeExtra: false
-      });
-      out.monthlyPayment = benchLoan.monthlyPayment;
-      out.totalInterest = benchLoan.summary.totalInterest;
-      out.totalRepayment = principal + out.totalInterest;
-      out.termMonths = months;
-    } else if (type === "mortgage") {
-      const principal = n(outputs.mortgage_computed_loan_amount ?? inputs.loan_amount);
-      const rate = n(inputs.interest_rate ?? outputs.interest_rate);
-      const months = resolveLoanTermMonths(inputs.loan_term ?? outputs.loan_term, "mortgage-calculator");
-      const benchLoan = FinancialCore.loanAmortization({
-        principal,
-        annualAprPercent: rate,
-        termMonths: months,
-        includeExtra: false
-      });
-      out.monthlyPayment = benchLoan.monthlyPayment;
-      out.totalInterest = benchLoan.summary.totalInterest;
-      out.termMonths = months;
-    } else if (type === "retirement") {
-      const pv = n(inputs.retirement_current_savings ?? outputs.retirement_current_savings);
-      const c = n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution);
-      const r = n(inputs.retirement_return_rate ?? outputs.retirement_return_rate);
-      const years = Math.max(0, n(inputs.retirement_target_age, 67) - n(inputs.retirement_current_age, 30));
-      const nMo = Math.max(0, Math.round(years * 12));
-      out.projectedBalance = FinancialCore.calculateReferenceRetirement({
-        initial: pv,
-        monthly: c,
-        annualReturn: r,
-        months: nMo
-      });
-      out.years = years;
-    } else if (type === "interest") {
-      const principal = n(inputs.interest_principal ?? outputs.interest_principal ?? inputs.loan_amount);
-      const rate = n(inputs.interest_rate ?? outputs.interest_rate);
-      const years = Math.max(1, n(inputs.interest_years ?? outputs.interest_years, 1));
-      const contrib = n(inputs.interest_monthly_contribution ?? outputs.interest_monthly_contribution ?? inputs.extra_payment);
-      const comp = String(inputs.interest_compounding ?? outputs.interest_compounding ?? "monthly");
-      const pp = compoundingMap[comp] || 12;
-      const totalPeriods = Math.round(years * pp);
-      const cPer = interestPeriodicContrib(contrib, pp);
-      out.finalAmount =
-        FinancialCore.compoundGrowth(principal, rate, totalPeriods, pp) +
-        FinancialCore.annuityContribution(cPer, rate, totalPeriods, pp);
-      const baseContributed = principal + contrib * 12 * years;
-      out.totalInterest = Math.max(0, out.finalAmount - baseContributed);
-    }
-    return out;
-  };
-
   const pushWarn = (warnings, scoreRef, msg, delta = 10) => {
     warnings.push(msg);
     scoreRef.v = Math.max(0, scoreRef.v - delta);
@@ -115,160 +30,74 @@ const FinancialValidator = (() => {
     return "Low";
   };
 
-  const validateLoanLike = (type, inputs, outputs, warnings, scoreRef, bench) => {
-    const principal =
-      type === "car"
-        ? n(outputs.car_computed_loan_amount ?? inputs.loan_amount)
-        : n(outputs.loan_amount ?? inputs.loan_amount);
-    const rate = n(inputs.interest_rate ?? outputs.interest_rate);
-    const actualInterest = type === "car" ? n(outputs.car_total_interest) : n(outputs.loan_total_interest);
-    const actualMonthly = type === "car" ? n(outputs.car_monthly_payment) : n(outputs.loan_monthly_payment);
-
-    if (principal > 0 && actualMonthly <= 0) {
-      pushWarn(warnings, scoreRef, "Monthly payment is zero while principal is positive.", 25);
-    }
-    if (actualInterest < 0) {
-      pushWarn(warnings, scoreRef, "Total interest is negative.", 30);
-      return false;
-    }
-    if (principal > 0 && actualInterest > principal * 6) {
-      pushWarn(warnings, scoreRef, "Total interest exceeds six times principal (unusual for typical loans).", 20);
-    }
-
-    const bInt = bench.totalInterest || 0;
-    const bPay = bench.monthlyPayment || 0;
-    if (bInt > 0 && actualInterest > bInt * 2.5) {
-      pushWarn(warnings, scoreRef, "Total interest is far above a standard amortization benchmark (>2.5×).", 25);
-    }
-    if (bPay > 0 && actualMonthly > bPay * 2.5) {
-      pushWarn(warnings, scoreRef, "Monthly payment is far above benchmark for this principal, rate, and term.", 20);
-    }
-    if (bPay > 0 && actualMonthly > 0 && actualMonthly < bPay * 0.25) {
-      pushWarn(warnings, scoreRef, "Monthly payment is far below benchmark (check term units or inputs).", 20);
-    }
-    return true;
+  /** Relative drift; returns false if either side is non-finite or reference magnitude is negligible. */
+  const relativeDriftExceeds = (actual, reference, maxRel) => {
+    const a = n(actual, NaN);
+    const b = n(reference, NaN);
+    if (!Number.isFinite(a) || !Number.isFinite(b)) return false;
+    const denom = Math.max(Math.abs(b), 1e-9);
+    return Math.abs(a - b) / denom > maxRel;
   };
 
-  const validateMortgage = (inputs, outputs, warnings, scoreRef, bench) => {
-    const principal = n(outputs.mortgage_computed_loan_amount ?? inputs.loan_amount);
-    const pi = n(outputs.mortgage_principal_interest_monthly);
-    const bPay = bench.monthlyPayment || 0;
-    const actualInterest = n(outputs.mortgage_total_interest);
-    const bInt = bench.totalInterest || 0;
+  const SHADOW_FIELD_PAIRS = [
+    ["retirement_projected_balance", "projectedBalance", 0.005],
+    ["retirement_years_to_retirement", "yearsToRetirement", 0.02],
+    ["retirement_inflation_adjusted_goal", "inflationAdjustedGoal", 0.02],
+    ["retirement_monthly_income", "estimatedMonthlyIncome", 0.02],
+    ["retirement_gap", "fundingGap", 0.03],
+    ["retirement_readiness", "readinessScore", 0.02]
+  ];
 
-    if (principal > 0 && pi <= 0) {
-      pushWarn(warnings, scoreRef, "Principal & interest payment is zero while loan amount is positive.", 25);
-    }
-    if (bPay > 0 && pi > 0 && Math.abs(pi - bPay) / bPay > 0.45) {
-      pushWarn(warnings, scoreRef, "Principal & interest component differs strongly from amortization benchmark.", 15);
-    }
-    if (principal > 0 && actualInterest > principal * 6) {
-      pushWarn(warnings, scoreRef, "Mortgage interest exceeds six times loan principal.", 20);
-    }
-    if (bInt > 0 && actualInterest > bInt * 2.5) {
-      pushWarn(warnings, scoreRef, "Mortgage total interest is far above benchmark (>2.5×).", 25);
-    }
-    return true;
-  };
+  const validateRetirementObserver = (inputs, outputs, warnings, scoreRef) => {
+    let isValid = true;
+    const ref = outputs.referenceFinancialResult;
 
-  const retirementProjectedBalance = (outputs) =>
-    n(outputs.referenceFinancialResult?.projectedBalance ?? outputs.retirement_projected_balance);
-
-  const validateRetirement = (inputs, outputs, warnings, scoreRef, bench) => {
-    const projected = retirementProjectedBalance(outputs);
-    const b = n(bench.projectedBalance);
-    if (projected < 0) {
-      pushWarn(warnings, scoreRef, "Projected balance is negative.", 35);
+    if (!ref || typeof ref !== "object") {
+      pushWarn(warnings, scoreRef, "Missing referenceFinancialResult — cannot verify retirement outputs.", 30);
       return false;
     }
-    if (b > 0) {
-      const ratio = projected / b;
-      if (ratio > 2) {
-        pushWarn(warnings, scoreRef, "Projected balance is more than double the internal benchmark (check rates and horizon).", 20);
-      }
-      if (ratio < 0.35 && bench.years >= 5) {
-        pushWarn(warnings, scoreRef, "Projected balance is far below benchmark vs contributions and return (possible input mismatch).", 15);
+
+    const pb = n(ref.projectedBalance);
+    if (!Number.isFinite(pb) || pb < 0) {
+      pushWarn(warnings, scoreRef, "Reference projected balance is missing, non-finite, or negative.", 35);
+      isValid = false;
+    }
+
+    const ytr = n(ref.yearsToRetirement);
+    if (!Number.isFinite(ytr) || ytr < 0) {
+      pushWarn(warnings, scoreRef, "Reference years to retirement is invalid.", 20);
+      isValid = false;
+    }
+
+    const rs = n(ref.readinessScore ?? ref.readiness);
+    if (Number.isFinite(rs) && (rs < -0.01 || rs > 100.01)) {
+      pushWarn(warnings, scoreRef, "Reference readiness is outside the expected 0–100 range.", 15);
+    }
+
+    for (const [flatKey, refKey, tol] of SHADOW_FIELD_PAIRS) {
+      const shadow = outputs[flatKey];
+      if (shadow === null || shadow === undefined || shadow === "") continue;
+      const sv = n(shadow, NaN);
+      if (!Number.isFinite(sv)) continue;
+      const rv = n(ref[refKey], NaN);
+      if (!Number.isFinite(rv)) continue;
+      if (relativeDriftExceeds(sv, rv, tol)) {
+        pushWarn(
+          warnings,
+          scoreRef,
+          `State field "${flatKey}" diverges from referenceFinancialResult.${refKey} (passive drift check).`,
+          22
+        );
       }
     }
+
     const c = n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution);
-    const years = n(bench.years);
-    if (c >= 1000 && years >= 25 && projected > 12_000_000) {
-      pushWarn(warnings, scoreRef, "Very large balance for typical contribution levels — verify return rate and horizon.", 15);
+    const years = Math.max(0, n(inputs.retirement_target_age, 0) - n(inputs.retirement_current_age, 0));
+    if (c >= 1000 && years >= 25 && pb > 12_000_000) {
+      pushWarn(warnings, scoreRef, "Very large reference balance for typical contribution levels — verify inputs.", 12);
     }
-    return true;
-  };
 
-  const validateInterest = (inputs, outputs, warnings, scoreRef, bench) => {
-    const finalAmt = n(outputs.interest_final_amount ?? outputs.interest_compound_total);
-    const b = n(bench.finalAmount);
-    const ti = n(outputs.interest_total_interest);
-    if (finalAmt < 0 || ti < -1) {
-      pushWarn(warnings, scoreRef, "Compound results are negative.", 35);
-      return false;
-    }
-    if (b > 0) {
-      const ratio = finalAmt / b;
-      if (ratio > 2) {
-        pushWarn(warnings, scoreRef, "Final amount is more than double the benchmark estimate.", 25);
-      }
-      if (ratio < 0.4 && n(inputs.interest_years, 1) >= 3) {
-        pushWarn(warnings, scoreRef, "Final amount is far below benchmark — verify compounding and contributions.", 15);
-      }
-    }
-    return true;
-  };
-
-  const detectGsfmDriftAndUnits = (type, inputs, outputs, warnings, scoreRef) => {
-    if (typeof FinancialCore === "undefined") return;
-    if (type === "retirement") {
-      const yrs = Math.max(0, n(inputs.retirement_target_age) - n(inputs.retirement_current_age));
-      const nMo = Math.max(0, Math.round(yrs * 12));
-      const refBal = FinancialCore.calculateReferenceRetirement({
-        initial: n(inputs.retirement_current_savings ?? outputs.retirement_current_savings),
-        monthly: n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution),
-        annualReturn: n(inputs.retirement_return_rate ?? outputs.retirement_return_rate),
-        months: nMo
-      });
-      const engineBal = FinancialCore.simulateFinancialPlan({
-        initial: n(inputs.retirement_current_savings ?? outputs.retirement_current_savings),
-        monthly: n(inputs.retirement_monthly_contribution ?? outputs.retirement_monthly_contribution),
-        annualReturn: n(inputs.retirement_return_rate ?? outputs.retirement_return_rate),
-        years: yrs,
-        months: nMo,
-        inflation: 0
-      }).nominalFinalBalance;
-      if (refBal > 100 && Math.abs(engineBal - refBal) / refBal > 0.005) {
-        pushWarn(warnings, scoreRef, "simulateFinancialPlan diverges from reference retirement FV (core path check).", 18);
-      }
-      const outBal = retirementProjectedBalance(outputs);
-      if (refBal > 100 && Math.abs(outBal - refBal) / refBal > 0.02) {
-        pushWarn(warnings, scoreRef, "Displayed balance diverges from reference retirement baseline.", 20);
-      }
-    }
-    if (type === "loan" || type === "car") {
-      const months = resolveLoanTermMonths(inputs.loan_term ?? outputs.loan_term, type === "car" ? "car-loan-calculator" : "loan-calculator");
-      const principal = n(type === "car" ? outputs.car_computed_loan_amount ?? inputs.loan_amount : outputs.loan_amount ?? inputs.loan_amount);
-      if (months > 0 && months <= 6 && principal > 25_000) {
-        pushWarn(warnings, scoreRef, "Very short loan term for a large principal — confirm term is in months vs years.", 8);
-      }
-    }
-    if (type === "interest") {
-      const principal = n(inputs.interest_principal ?? outputs.interest_principal);
-      const years = n(inputs.interest_years ?? outputs.interest_years, 1);
-      const rate = n(inputs.interest_rate ?? outputs.interest_rate);
-      const comp = String(inputs.interest_compounding ?? outputs.interest_compounding ?? "monthly");
-      const pp = compoundingMap[comp] || 12;
-      const contrib = n(inputs.interest_monthly_contribution ?? outputs.interest_monthly_contribution ?? inputs.extra_payment);
-      const totalPeriods = Math.round(years * pp);
-      const cPer = interestPeriodicContrib(contrib, pp);
-      const coreFinal =
-        FinancialCore.compoundGrowth(principal, rate, totalPeriods, pp) +
-        FinancialCore.annuityContribution(cPer, rate, totalPeriods, pp);
-      const outFinal = n(outputs.interest_final_amount ?? outputs.interest_compound_total);
-      if (coreFinal > 100 && outFinal > coreFinal * 1.01) {
-        pushWarn(warnings, scoreRef, "Interest compound total exceeds GSFM core replay (possible duplicate compounding).", 22);
-      }
-    }
+    return isValid;
   };
 
   const validateFinancialResult = ({ type, inputs, outputs }) => {
@@ -280,24 +109,13 @@ const FinancialValidator = (() => {
       return { isValid: true, warnings: [], adjustedConfidenceScore: 100 };
     }
 
-    const bench = calculateBenchmark(type, inputs, outputs);
-    detectGsfmDriftAndUnits(type, inputs, outputs, warnings, scoreRef);
-
-    if (type === "loan") {
-      isValid = validateLoanLike("loan", inputs, outputs, warnings, scoreRef, bench) && isValid;
-    } else if (type === "car") {
-      isValid = validateLoanLike("car", inputs, outputs, warnings, scoreRef, bench) && isValid;
-    } else if (type === "mortgage") {
-      isValid = validateMortgage(inputs, outputs, warnings, scoreRef, bench) && isValid;
-    } else if (type === "retirement") {
-      isValid = validateRetirement(inputs, outputs, warnings, scoreRef, bench) && isValid;
-    } else if (type === "interest") {
-      isValid = validateInterest(inputs, outputs, warnings, scoreRef, bench) && isValid;
+    if (type === "retirement") {
+      isValid = validateRetirementObserver(inputs || {}, outputs, warnings, scoreRef) && isValid;
     }
 
     const adjustedConfidenceScore = Math.round(Math.max(0, Math.min(100, scoreRef.v)));
     if (!isValid || adjustedConfidenceScore < 50 || warnings.length >= 2) {
-      console.warn("[VALIDATOR] anomaly", { type, isValid, warnings, benchmark: bench, score: adjustedConfidenceScore });
+      console.warn("[VALIDATOR] anomaly", { type, isValid, warnings, score: adjustedConfidenceScore });
     }
 
     return { isValid, warnings, adjustedConfidenceScore };
@@ -313,7 +131,6 @@ const FinancialValidator = (() => {
 
   return {
     getTypeFromPage,
-    calculateBenchmark,
     validateFinancialResult,
     toStatePatch
   };

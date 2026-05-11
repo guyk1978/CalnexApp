@@ -67,17 +67,6 @@ const CarLoanCalculator = (() => {
     };
   };
 
-  const computeLoanBase = () => {
-    const carPrice = num("loan_amount", selectors.carPrice, 0);
-    const tradeInValue = Math.max(0, numEl(selectors.tradeInValue, 0));
-    const fees = Math.max(0, numEl(selectors.fees, 0));
-    const downByPercent = (carPrice * Math.max(0, numEl(selectors.downPaymentPercent, 0))) / 100;
-    const downByAmount = Math.max(0, numEl(selectors.downPaymentAmount, 0));
-    const downPayment = selectors.downPaymentType.value === "percent" ? downByPercent : downByAmount;
-    const financed = Math.max(0, carPrice - downPayment - tradeInValue + fees);
-    return { carPrice, tradeInValue, fees, downPayment, financed };
-  };
-
   const renderSchedule = (schedule) => {
     selectors.scheduleBody.innerHTML = schedule
       .map(
@@ -126,106 +115,71 @@ const CarLoanCalculator = (() => {
     });
   };
 
-  const buildAffordabilityPatch = (monthlyPayment) => {
-    const monthlyIncome = numEl(selectors.annualIncome, 0) / 12;
-    const range = getAffordabilityRange();
-    const safeMin = monthlyIncome * range.min;
-    const safeMax = monthlyIncome * range.max;
-    let affordabilityStatus = "Add income to evaluate affordability range.";
-    selectors.affordabilityStatus.classList.remove("status-green", "status-yellow", "status-red");
-    if (monthlyIncome <= 0) {
-      return {
-        car_safe_min: safeMin,
-        car_safe_max: safeMax,
-        car_current_payment: monthlyPayment,
-        car_affordability_status: affordabilityStatus
-      };
-    }
-    if (monthlyPayment <= safeMax) {
-      affordabilityStatus = "Affordable (green): payment is within safe range.";
-      selectors.affordabilityStatus.classList.add("status-green");
-    } else if (monthlyPayment <= safeMax * 1.2) {
-      affordabilityStatus = "Stretching (yellow): payment is above safe range.";
-      selectors.affordabilityStatus.classList.add("status-yellow");
-    } else {
-      affordabilityStatus = "Not affordable (red): payment is significantly above safe range.";
-      selectors.affordabilityStatus.classList.add("status-red");
-    }
-    return {
-      car_safe_min: safeMin,
-      car_safe_max: safeMax,
-      car_current_payment: monthlyPayment,
-      car_affordability_status: affordabilityStatus
-    };
-  };
-
-  const buildComparisonPatch = (currentMonthly) => {
-    const priceB = Math.max(0, numEl(selectors.comparePriceB, 0));
-    const downB = Math.max(0, numEl(selectors.compareDownB, 0));
-    const rateB = Math.max(0, numEl(selectors.compareRateB, 0));
-    const termB = Math.max(1, numEl(selectors.compareTermB, 0));
-    const financedB = Math.max(0, priceB - downB);
-    const monthlyB = FinancialCore.loanAmortization({
-      principal: financedB,
-      annualAprPercent: rateB,
-      termMonths: termB,
-      includeExtra: false
-    }).monthlyPayment;
-    const diff = monthlyB - currentMonthly;
-    return {
-      car_compare_monthly_a: currentMonthly,
-      car_compare_monthly_b: monthlyB,
-      car_compare_difference: diff
-    };
-  };
-
-  const buildInsightsPatch = (financed, annualRate) => {
-    const loan48 = FinancialCore.loanAmortization({ principal: financed, annualAprPercent: annualRate, termMonths: 48, includeExtra: false });
-    const loan72 = FinancialCore.loanAmortization({ principal: financed, annualAprPercent: annualRate, termMonths: 72, includeExtra: false });
-    const monthly48 = loan48.monthlyPayment;
-    const monthly72 = loan72.monthlyPayment;
-    const summary48 = loan48.summary;
-    const summary72 = loan72.summary;
-    const monthlyDiff = Math.max(0, monthly48 - monthly72);
-    const interestDiff = Math.max(0, summary72.totalInterest - summary48.totalInterest);
-    return {
-      car_insight_72_vs_48: `You pay ${setCurrency(
-        interestDiff
-      )} more in total interest with 72 months vs 48 months, while reducing monthly payment by about ${setCurrency(monthlyDiff)}.`,
-      car_insight_interest_diff: `Interest difference over time: ${setCurrency(interestDiff)} in additional borrowing cost.`
-    };
-  };
-
   const runCarPipeline = () => {
-    const { carPrice, financed, tradeInValue, downPayment, fees } = computeLoanBase();
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.computeCarLoanSnapshot !== "function") return {};
+    const range = getAffordabilityRange();
+    const carPrice = num("loan_amount", selectors.carPrice, 0);
+    const tradeInValue = Math.max(0, numEl(selectors.tradeInValue, 0));
+    const fees = Math.max(0, numEl(selectors.fees, 0));
+    const downType = selectors.downPaymentType.value === "percent" ? "percent" : "fixed";
+    const downPercent = Math.max(0, numEl(selectors.downPaymentPercent, 0));
+    const downFixed = Math.max(0, numEl(selectors.downPaymentAmount, 0));
     const annualRate = Math.max(0, num("interest_rate", selectors.interestRate, 0));
     const totalMonths = Math.max(1, getTermInMonths());
-    const mainLoan = FinancialCore.loanAmortization({
-      principal: financed,
-      annualAprPercent: annualRate,
-      termMonths: totalMonths,
-      includeExtra: false
+
+    const f = FinancialCore.computeCarLoanSnapshot({
+      carPrice,
+      tradeInValue,
+      fees,
+      downType,
+      downPercent,
+      downFixed,
+      annualRate,
+      totalMonths,
+      annualIncome: numEl(selectors.annualIncome, 0),
+      affordabilityMin: range.min,
+      affordabilityMax: range.max,
+      comparePriceB: Math.max(0, numEl(selectors.comparePriceB, 0)),
+      compareDownB: Math.max(0, numEl(selectors.compareDownB, 0)),
+      compareRateB: Math.max(0, numEl(selectors.compareRateB, 0)),
+      compareTermB: Math.max(1, numEl(selectors.compareTermB, 0))
     });
-    const { monthlyPayment, schedule, summary } = mainLoan;
-    lastCarSchedule = schedule;
+
+    lastCarSchedule = f.schedule;
+
+    selectors.affordabilityStatus.classList.remove("status-green", "status-yellow", "status-red");
+    if (f.affordability_band === "green") selectors.affordabilityStatus.classList.add("status-green");
+    else if (f.affordability_band === "yellow") selectors.affordabilityStatus.classList.add("status-yellow");
+    else if (f.affordability_band === "red") selectors.affordabilityStatus.classList.add("status-red");
+
+    const insights = {
+      car_insight_72_vs_48: `You pay ${setCurrency(
+        f.insight_interest_diff
+      )} more in total interest with 72 months vs 48 months, while reducing monthly payment by about ${setCurrency(f.insight_monthly_diff)}.`,
+      car_insight_interest_diff: `Interest difference over time: ${setCurrency(f.insight_interest_diff)} in additional borrowing cost.`
+    };
 
     const core = {
-      loan_amount: financed,
+      loan_amount: f.financed,
       interest_rate: annualRate,
       loan_term: totalMonths,
       extra_payment: 0,
-      down_payment: downPayment,
+      down_payment: f.downPayment,
       income: numEl(selectors.annualIncome, 0),
-      car_computed_loan_amount: financed,
-      car_monthly_payment: monthlyPayment,
-      car_total_interest: summary.totalInterest,
-      car_total_cost: carPrice - tradeInValue - downPayment + fees + summary.totalPaid
+      car_computed_loan_amount: f.financed,
+      car_monthly_payment: f.car_monthly_payment,
+      car_total_interest: f.car_total_interest,
+      car_total_cost: f.car_total_cost,
+      car_safe_min: f.car_safe_min,
+      car_safe_max: f.car_safe_max,
+      car_current_payment: f.car_current_payment,
+      car_affordability_status: f.car_affordability_status,
+      car_compare_monthly_a: f.car_compare_monthly_a,
+      car_compare_monthly_b: f.car_compare_monthly_b,
+      car_compare_difference: f.car_compare_difference
     };
-    const aff = buildAffordabilityPatch(monthlyPayment);
-    const comp = buildComparisonPatch(monthlyPayment);
-    const ins = buildInsightsPatch(financed, annualRate);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
-    return { ...core, ...aff, ...comp, ...ins };
+    return { ...core, ...insights };
   };
 
   const paintCarCharts = () => {

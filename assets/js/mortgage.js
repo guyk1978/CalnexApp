@@ -133,100 +133,61 @@ const MortgageCalculator = (() => {
   };
 
   const computeMortgage = () => {
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.computeMortgageSnapshot !== "function") return {};
     const homePrice = Math.max(0, num("loan_amount", selectors.homePrice, 0));
     const downType = selectors.downPaymentType.value === "fixed" ? "fixed" : "percent";
     const downPercent = Math.max(0, num("mortgage_down_payment_percent", selectors.downPaymentPercent, 0));
     const downFixed = Math.max(0, num("down_payment", selectors.downPaymentAmount, 0));
-    const downPayment = downType === "percent" ? (homePrice * downPercent) / 100 : downFixed;
-    const loanAmount = Math.max(0, homePrice - downPayment);
     const annualRate = Math.max(0, num("interest_rate", selectors.interestRate, 0));
     const totalMonths = resolveLoanTermMonths();
     const extraMonthly = Math.max(0, num("extra_payment", selectors.extraMonthlyPayment, 0));
     const lumpSum = Math.max(0, num("mortgage_lump_sum_payment", selectors.lumpSumPayment, 0));
     const paymentStartMonth = Math.max(1, Math.min(totalMonths, num("mortgage_payment_start_month", selectors.paymentStartMonth, 1) || 1));
-    const taxMonthly = Math.max(0, num("property_tax_annual", selectors.propertyTaxAnnual, 0)) / 12;
-    const insuranceMonthly = Math.max(0, num("home_insurance_annual", selectors.homeInsuranceAnnual, 0)) / 12;
-    const monthlyEscrow = taxMonthly + insuranceMonthly;
-    const baselineMortgage = FinancialCore.loanAmortization({
-      principal: loanAmount,
-      annualAprPercent: annualRate,
-      termMonths: totalMonths,
-      includeExtra: false,
-      extraMonthly: 0,
-      lumpSum: 0,
-      extraStartMonth: paymentStartMonth
-    });
-    const monthlyPrincipalInterest = baselineMortgage.monthlyPayment;
-    const acceleratedMortgage = FinancialCore.loanAmortization({
-      principal: loanAmount,
-      annualAprPercent: annualRate,
-      termMonths: totalMonths,
-      includeExtra: true,
+
+    const f = FinancialCore.computeMortgageSnapshot({
+      homePrice,
+      downType,
+      downPercent,
+      downFixed,
+      annualRate,
+      totalMonths,
       extraMonthly,
       lumpSum,
-      extraStartMonth: paymentStartMonth
+      paymentStartMonth,
+      propertyTaxAnnual: num("property_tax_annual", selectors.propertyTaxAnnual, 0),
+      homeInsuranceAnnual: num("home_insurance_annual", selectors.homeInsuranceAnnual, 0),
+      annualIncome: num("income", selectors.annualIncome, 0)
     });
-    baselineSchedule = baselineMortgage.schedule;
-    acceleratedSchedule = acceleratedMortgage.schedule;
-    displayedSchedule = acceleratedSchedule;
-    const summary = acceleratedMortgage.summary;
-    const monthlyMortgagePayment = monthlyPrincipalInterest + monthlyEscrow;
-    const totalHomeCost = downPayment + summary.totalPaid + monthlyEscrow * summary.months;
-    const payoffDate = getPayoffDate(summary.months);
 
-    const monthlyIncome = Math.max(0, num("income", selectors.annualIncome, 0)) / 12;
-    const recommendedMonthly = monthlyIncome > 0 ? monthlyIncome * 0.28 : 0;
-    const warning =
-      recommendedMonthly === 0
-        ? "Enter annual income to get an affordability signal."
-        : monthlyMortgagePayment > recommendedMonthly
-          ? "Warning: Estimated housing payment is above the 28% affordability guideline."
-          : "Good fit: Estimated housing payment is within the 28% guideline.";
+    baselineSchedule = f.baselineSchedule;
+    acceleratedSchedule = f.acceleratedSchedule;
+    displayedSchedule = acceleratedSchedule;
+    const summary = f.acceleratedSummary;
+    const payoffDate = getPayoffDate(summary.months);
+    const warning = f.mortgage_affordability_warning;
     selectors.affordabilityWarning.classList.toggle("warning", warning.startsWith("Warning:"));
 
-    const loan15 = FinancialCore.loanAmortization({
-      principal: loanAmount,
-      annualAprPercent: annualRate,
-      termMonths: 180,
-      includeExtra: false,
-      extraStartMonth: 1
-    });
-    const loan30 = FinancialCore.loanAmortization({
-      principal: loanAmount,
-      annualAprPercent: annualRate,
-      termMonths: 360,
-      includeExtra: false,
-      extraStartMonth: 1
-    });
-    const monthly15 = loan15.monthlyPayment;
-    const monthly30 = loan30.monthlyPayment;
-    const summary15 = loan15.summary;
-    const summary30 = loan30.summary;
-    const maxInterest = Math.max(summary15.totalInterest, summary30.totalInterest, 1);
-    const width15 = Math.max(4, Math.round((summary15.totalInterest / maxInterest) * 100));
-    const width30 = Math.max(4, Math.round((summary30.totalInterest / maxInterest) * 100));
-
-    selectors.computedLoanAmount.textContent = setCurrency(loanAmount);
-    selectors.monthlyMortgagePayment.textContent = setCurrency(monthlyMortgagePayment);
+    selectors.computedLoanAmount.textContent = setCurrency(f.loanAmount);
+    selectors.monthlyMortgagePayment.textContent = setCurrency(f.monthlyMortgagePayment);
     selectors.totalInterestPaid.textContent = setCurrency(summary.totalInterest);
-    selectors.totalHomeCost.textContent = setCurrency(totalHomeCost);
-    selectors.principalInterestMonthly.textContent = setCurrency(monthlyPrincipalInterest);
-    selectors.taxInsuranceMonthly.textContent = setCurrency(monthlyEscrow);
+    selectors.totalHomeCost.textContent = setCurrency(f.totalHomeCost);
+    selectors.principalInterestMonthly.textContent = setCurrency(f.monthlyPrincipalInterest);
+    selectors.taxInsuranceMonthly.textContent = setCurrency(f.monthlyEscrow);
     selectors.payoffDate.textContent = payoffDate;
-    selectors.summaryTotalPayments.textContent = setCurrency(summary.totalPaid + monthlyEscrow * summary.months);
+    selectors.summaryTotalPayments.textContent = setCurrency(f.mortgage_summary_total_payments);
     selectors.summaryTotalInterest.textContent = setCurrency(summary.totalInterest);
     selectors.summaryPayoffDate.textContent = payoffDate;
-    selectors.affordabilityRecommended.textContent = setCurrency(recommendedMonthly);
-    selectors.affordabilityActual.textContent = setCurrency(monthlyMortgagePayment);
+    selectors.affordabilityRecommended.textContent = setCurrency(f.recommendedMonthly);
+    selectors.affordabilityActual.textContent = setCurrency(f.monthlyMortgagePayment);
     selectors.affordabilityWarning.textContent = warning;
-    selectors.compare15Monthly.textContent = setCurrency(monthly15);
-    selectors.compare15Interest.textContent = setCurrency(summary15.totalInterest);
-    selectors.compare30Monthly.textContent = setCurrency(monthly30);
-    selectors.compare30Interest.textContent = setCurrency(summary30.totalInterest);
-    selectors.compareDifference.textContent = setCurrency(Math.max(0, summary30.totalInterest - summary15.totalInterest));
+    selectors.compare15Monthly.textContent = setCurrency(f.loan15Monthly);
+    selectors.compare15Interest.textContent = setCurrency(f.summary15.totalInterest);
+    selectors.compare30Monthly.textContent = setCurrency(f.loan30Monthly);
+    selectors.compare30Interest.textContent = setCurrency(f.summary30.totalInterest);
+    selectors.compareDifference.textContent = setCurrency(f.mortgage_compare_interest_diff);
     selectors.comparisonBars.innerHTML = `
-      <div class="interest-bar-row"><span>15-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill" style="width:${width15}%"></div></div></div>
-      <div class="interest-bar-row"><span>30-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill danger" style="width:${width30}%"></div></div></div>
+      <div class="interest-bar-row"><span>15-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill" style="width:${f.width15}%"></div></div></div>
+      <div class="interest-bar-row"><span>30-year interest</span><div class="interest-bar-track"><div class="interest-bar-fill danger" style="width:${f.width30}%"></div></div></div>
     `;
 
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
@@ -235,7 +196,7 @@ const MortgageCalculator = (() => {
       loan_amount: homePrice,
       interest_rate: annualRate,
       loan_term: totalMonths,
-      down_payment: downPayment,
+      down_payment: f.downPayment,
       income: num("income", selectors.annualIncome, 0),
       extra_payment: extraMonthly,
       mortgage_down_payment_type: selectors.downPaymentType.value,
@@ -244,23 +205,23 @@ const MortgageCalculator = (() => {
       home_insurance_annual: num("home_insurance_annual", selectors.homeInsuranceAnnual, 0),
       mortgage_lump_sum_payment: lumpSum,
       mortgage_payment_start_month: paymentStartMonth,
-      mortgage_computed_loan_amount: loanAmount,
-      mortgage_monthly_payment: monthlyMortgagePayment,
+      mortgage_computed_loan_amount: f.loanAmount,
+      mortgage_monthly_payment: f.monthlyMortgagePayment,
       mortgage_total_interest: summary.totalInterest,
-      mortgage_total_cost: totalHomeCost,
-      mortgage_principal_interest_monthly: monthlyPrincipalInterest,
-      mortgage_tax_insurance_monthly: monthlyEscrow,
-      mortgage_summary_total_payments: summary.totalPaid + monthlyEscrow * summary.months,
+      mortgage_total_cost: f.totalHomeCost,
+      mortgage_principal_interest_monthly: f.monthlyPrincipalInterest,
+      mortgage_tax_insurance_monthly: f.monthlyEscrow,
+      mortgage_summary_total_payments: f.mortgage_summary_total_payments,
       mortgage_summary_total_interest: summary.totalInterest,
       mortgage_payoff_date: payoffDate,
       mortgage_summary_payoff_date: payoffDate,
-      mortgage_recommended_payment: recommendedMonthly,
-      mortgage_actual_payment: monthlyMortgagePayment,
-      mortgage_compare_15_monthly: monthly15,
-      mortgage_compare_15_interest: summary15.totalInterest,
-      mortgage_compare_30_monthly: monthly30,
-      mortgage_compare_30_interest: summary30.totalInterest,
-      mortgage_compare_interest_diff: Math.max(0, summary30.totalInterest - summary15.totalInterest),
+      mortgage_recommended_payment: f.recommendedMonthly,
+      mortgage_actual_payment: f.monthlyMortgagePayment,
+      mortgage_compare_15_monthly: f.loan15Monthly,
+      mortgage_compare_15_interest: f.summary15.totalInterest,
+      mortgage_compare_30_monthly: f.loan30Monthly,
+      mortgage_compare_30_interest: f.summary30.totalInterest,
+      mortgage_compare_interest_diff: f.mortgage_compare_interest_diff,
       mortgage_affordability_warning: warning
     };
   };

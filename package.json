@@ -2,6 +2,7 @@
   "name": "calnexapp",
   "private": true,
   "scripts": {
+    "test": "node --test tests/financial-core.test.cjs",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "seo:build": "node scripts/seo-engine.js",
     "links:boost": "node scripts/internal-link-booster.js",
