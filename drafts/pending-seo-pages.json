@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "items": [
     {
       "status": "published",
@@ -213,7 +213,7 @@
       "word_count_estimate": 1275
     },
     {
-      "status": "pending",
+      "status": "approved",
       "slug": "loan-origination-fees-points-true-borrowing-cost",
       "title": "Loan Origination Fees and Discount Points: Reading the Lines That Change True Borrowing Cost",
       "meta_description": "Understand origination charges, discount points, and lender credits on mortgage disclosures—so you compare offers on total cost, not teaser rates alone.",
