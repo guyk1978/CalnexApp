@@ -171,9 +171,9 @@
       <h1>SEO draft approval</h1>
       <p class="muted-note">
         <strong>Reads:</strong> <code>/drafts/pending-seo-pages.json</code> on this origin.
-        <strong>Approve</strong> calls <code>POST /api/publish-now</code> (body <code>{}</code>) and publishes that draft
-        immediately to <code>/blog/{slug}/</code> and <code>/data/blog.json</code> via Cloudflare KV (bind
-        <code>SEO_KV</code> on Pages).         <strong>Reject</strong> calls <code>POST /api/draft-reject</code> (same body).
+        <strong>Publish</strong> calls <code>POST /api/publish-now</code> with JSON <code>{"slug":"…"}</code> for one post, or
+        <code>{}</code> to publish every draft that is not yet <code>published</code>. Live HTML and the manifest are read
+        from <code>SEO_KV</code> only (no static fallback). <strong>Reject</strong> calls <code>POST /api/draft-reject</code> (same body).
         No external CI build is required for the live post.
       </p>
 
@@ -202,13 +202,17 @@
         }
 
         async function postJsonEmptyBody(pathWithQuery) {
+          return postJson(pathWithQuery, {});
+        }
+
+        async function postJson(path, bodyObj) {
           var res;
           var text = "";
           try {
-            res = await fetch(pathWithQuery, {
+            res = await fetch(path, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: "{}",
+              body: JSON.stringify(bodyObj && typeof bodyObj === "object" ? bodyObj : {}),
               cache: "no-store"
             });
             text = await res.text().catch(function () {
@@ -409,7 +413,9 @@
             actions.className = "seo-draft-card__actions";
 
             var disabled = actionInFlight;
-            var isPending = normalizeDraftStatus(item.status) === "pending";
+            var st = normalizeDraftStatus(item.status);
+            var isPending = st === "pending";
+            var canPublish = st !== "published" && st !== "rejected";
 
             var btnPreview = document.createElement("button");
             btnPreview.type = "button";
@@ -420,22 +426,23 @@
 
             actions.appendChild(btnPreview);
 
-            if (isPending) {
-              var btnApprove = document.createElement("button");
-              btnApprove.type = "button";
-              btnApprove.className = "btn btn-primary";
-              btnApprove.dataset.action = "approve";
-              btnApprove.textContent = "Approve";
-              btnApprove.disabled = disabled;
+            if (canPublish) {
+              var btnPublish = document.createElement("button");
+              btnPublish.type = "button";
+              btnPublish.className = "btn btn-primary";
+              btnPublish.dataset.action = "approve";
+              btnPublish.textContent = "Publish";
+              btnPublish.disabled = disabled;
+              actions.appendChild(btnPublish);
+            }
 
+            if (isPending) {
               var btnReject = document.createElement("button");
               btnReject.type = "button";
               btnReject.className = "btn btn-ghost";
               btnReject.dataset.action = "reject";
               btnReject.textContent = "Reject";
               btnReject.disabled = disabled;
-
-              actions.appendChild(btnApprove);
               actions.appendChild(btnReject);
             }
 
@@ -492,12 +499,12 @@
                       return it.slug === slug;
                     })
                   : null;
-              if (!targetA || normalizeDraftStatus(targetA.status) !== "pending") {
+              var tSt = normalizeDraftStatus(targetA && targetA.status);
+              if (!targetA || tSt === "published" || tSt === "rejected") {
                 showToast("Draft list changed; synced from server.", true);
                 return;
               }
-              var pubUrl = "/api/publish-now?" + new URLSearchParams({ slug: slug }).toString();
-              var pub = await postJsonEmptyBody(pubUrl);
+              var pub = await postJson("/api/publish-now", { slug: slug });
               if (pub.network) {
                 showToast("Publish failed (network).", true);
               } else if (pub.status === 503 && pub.json && pub.json.error === "kv_not_configured") {

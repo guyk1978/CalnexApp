@@ -1,79 +1,30 @@
 /**
- * POST /api/publish-now — instant publish (no GitHub, no CI).
- * Requires KV binding SEO_KV on Pages. Drafts + blog list + HTML live in KV; middleware serves /drafts/*, /data/blog.json, /blog/{slug}/.
+ * POST /api/publish-now — strict KV-only publish.
+ * No ASSETS.fetch, no GitHub, no static fallback.
  *
- * Body must be {} (optionally with ?slug= for single-row Approve from pending|approved).
- * Without ?slug: publishes every item with normalized status "approved".
+ * Body: {} or { slug?: string }
+ *   - With slug: publish only that draft row.
+ *   - Without slug: publish every item where status !== "published".
+ *
+ * Draft mutation rule: only set item.status = "published".
+ * Reads/writes ONLY: drafts:pending-seo-pages, blog:manifest, blog:html:{slug}.
  */
-import {
-  buildArticleHtml,
-  buildBlogEntryFromItem,
-  normSlug,
-  normalizeDraftStatus
-} from "./_lib/blog-article-html.js";
+import { buildArticleHtml, buildBlogEntryFromItem, normSlug } from "./_lib/blog-article-html.js";
 
 const K_DRAFTS = "drafts:pending-seo-pages";
 const K_MANIFEST = "blog:manifest";
-const htmlKey = (slug) => `blog:html:${slug}`;
+const htmlKey = (s) => `blog:html:${s}`;
 
 function json(data, status, origin) {
-  const o = origin || "*";
   return new Response(JSON.stringify(data), {
     status: status || 200,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": o,
+      "Access-Control-Allow-Origin": origin || "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type"
     }
   });
-}
-
-async function readDraftsDoc(env, request) {
-  const raw = await env.SEO_KV.get(K_DRAFTS);
-  if (raw) {
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return { version: 1, items: [] };
-    }
-  }
-  const r = await env.ASSETS.fetch(new URL("/drafts/pending-seo-pages.json", request.url));
-  if (!r.ok) return { version: 1, items: [] };
-  const doc = JSON.parse(await r.text());
-  await env.SEO_KV.put(K_DRAFTS, JSON.stringify(doc));
-  return doc;
-}
-
-async function writeDraftsDoc(env, doc) {
-  await env.SEO_KV.put(K_DRAFTS, JSON.stringify(doc));
-}
-
-async function readManifest(env, request) {
-  const raw = await env.SEO_KV.get(K_MANIFEST);
-  if (raw) {
-    try {
-      const p = JSON.parse(raw);
-      return Array.isArray(p) ? p : [];
-    } catch {
-      return [];
-    }
-  }
-  const r = await env.ASSETS.fetch(new URL("/data/blog.json", request.url));
-  if (!r.ok) return [];
-  let arr = [];
-  try {
-    const p = await r.json();
-    arr = Array.isArray(p) ? p : [];
-  } catch {
-    arr = [];
-  }
-  await env.SEO_KV.put(K_MANIFEST, JSON.stringify(arr));
-  return arr;
-}
-
-async function writeManifest(env, posts) {
-  await env.SEO_KV.put(K_MANIFEST, JSON.stringify(posts));
 }
 
 export async function onRequestOptions(context) {
@@ -90,23 +41,16 @@ export async function onRequestOptions(context) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-
-  console.log("ENV KEYS:", Object.keys(env || {}));
-  console.log("[PUBLISH-NOW] start");
+  const origin = request.headers.get("Origin") || "*";
 
   if (!env.SEO_KV) {
-    return json({ ok: false, error: "kv_not_configured" }, 503);
+    return json({ ok: false, error: "kv_not_configured" }, 503, origin);
   }
 
-  let bodyText = "";
-  try {
-    bodyText = await request.text();
-  } catch {
-    bodyText = "";
-  }
   let body = {};
   try {
-    body = bodyText ? JSON.parse(bodyText) : {};
+    const t = await request.text();
+    body = t ? JSON.parse(t) : {};
   } catch {
     return json({ ok: false, error: "invalid_json" }, 400, origin);
   }
@@ -114,76 +58,85 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "body must be object" }, 400, origin);
   }
 
-  const url = new URL(request.url);
-  const slugParam = normSlug({ slug: url.searchParams.get("slug") || "" });
-
+  const slugFilter = normSlug({ slug: body.slug || "" });
   const siteOrigin = env.SEO_SITE_ORIGIN || "https://calnexapp.com";
 
-  const doc = await readDraftsDoc(env, request);
-  if (!Array.isArray(doc.items)) doc.items = [];
+  let drafts;
+  try {
+    const raw = await env.SEO_KV.get(K_DRAFTS);
+    drafts = raw ? JSON.parse(raw) : { items: [] };
+  } catch {
+    drafts = { items: [] };
+  }
+  if (!Array.isArray(drafts.items)) drafts.items = [];
+  const items = drafts.items;
 
   /** @type {object[]} */
-  let queue = [];
-  if (slugParam) {
-    const it = doc.items.find((i) => i && normSlug(i) === slugParam);
-    if (!it) {
+  let queue;
+  if (slugFilter) {
+    queue = items.filter((i) => i && normSlug(i) === slugFilter);
+    if (!queue.length) {
       return json({ ok: false, error: "slug not found" }, 400, origin);
     }
-    const st = normalizeDraftStatus(it.status);
-    if (st === "published") {
-      console.log("[PUBLISH-NOW] done");
-      return json({ ok: true, published: 0 }, 200, origin);
-    }
-    if (st !== "pending" && st !== "approved") {
-      return json({ ok: false, error: "only pending or approved can be published" }, 400, origin);
-    }
-    queue = [it];
   } else {
+<<<<<<< Updated upstream
     queue = Array.isArray(doc.items) ? doc.items.filter(Boolean) : [];
+=======
+    queue = items.filter((i) => i && String(i.status || "") !== "published");
+>>>>>>> Stashed changes
   }
 
-  if (!queue.length) {
-    console.log("[PUBLISH-NOW] done");
-    return json({ ok: true, published: 0 }, 200, origin);
+  let manifest;
+  try {
+    const mraw = await env.SEO_KV.get(K_MANIFEST);
+    const parsed = mraw ? JSON.parse(mraw) : [];
+    manifest = Array.isArray(parsed) ? parsed : [];
+  } catch {
+    manifest = [];
   }
 
-  let posts = await readManifest(env, request);
-  if (!Array.isArray(posts)) posts = [];
-
-  let publishedCount = 0;
+  let published = 0;
 
   for (const item of queue) {
     const slug = normSlug(item);
     if (!slug) continue;
-    const st = normalizeDraftStatus(item.status);
-    if (st === "published") continue;
+    if (String(item.status || "") === "published") continue;
 
-    console.log("[PUBLISH-NOW] slug", slug);
     const html = buildArticleHtml(item, siteOrigin);
     if (!html) {
-      console.error("[PUBLISH-NOW] html failed", slug);
       return json({ ok: false, error: `html generation failed for ${slug}` }, 500, origin);
     }
 
     await env.SEO_KV.put(htmlKey(slug), html);
-    console.log("[PUBLISH-NOW] written", slug);
 
-    const entry = buildBlogEntryFromItem(item, slug);
-    const idx = posts.findIndex((p) => p && p.slug === slug);
-    if (idx >= 0) posts[idx] = { ...posts[idx], ...entry, featured: Boolean(posts[idx].featured) };
-    else posts.push({ ...entry, featured: false });
+    const rich = buildBlogEntryFromItem(item, slug);
+    const entry = {
+      slug,
+      title: item.title || rich.title,
+      excerpt:
+        item.excerpt != null && String(item.excerpt).trim() !== ""
+          ? String(item.excerpt)
+          : rich.excerpt,
+      updatedDate: item.updatedDate || rich.updatedDate,
+      featured: false,
+      category: rich.category,
+      readTime: rich.readTime
+    };
+
+    const idx = manifest.findIndex((p) => p && p.slug === slug);
+    if (idx >= 0) {
+      entry.featured = Boolean(manifest[idx].featured);
+      manifest[idx] = entry;
+    } else {
+      manifest.push(entry);
+    }
 
     item.status = "published";
-    publishedCount += 1;
+    published++;
   }
 
-  if (typeof doc.version !== "number" || !Number.isFinite(doc.version)) doc.version = 1;
-  else doc.version += 1;
+  await env.SEO_KV.put(K_MANIFEST, JSON.stringify(manifest));
+  await env.SEO_KV.put(K_DRAFTS, JSON.stringify(drafts));
 
-  await writeManifest(env, posts);
-  await writeDraftsDoc(env, doc);
-
-  console.log("[PUBLISH-NOW] done");
-  return json({ ok: true, published: publishedCount }, 200, origin);
+  return json({ ok: true, published }, 200, origin);
 }
-

@@ -1,38 +1,22 @@
 /**
- * POST /api/draft-reject — set one pending draft to rejected in KV (no Git).
- * Query: ?slug=  Body must be {}.
+ * POST /api/draft-reject — set one pending draft to rejected.
+ * Strict KV-only. No ASSETS.fetch.
+ * Query: ?slug=  Body: {}.
  */
 import { normSlug, normalizeDraftStatus } from "./_lib/blog-article-html.js";
 
 const K_DRAFTS = "drafts:pending-seo-pages";
 
 function json(data, status, origin) {
-  const o = origin || "*";
   return new Response(JSON.stringify(data), {
     status: status || 200,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": o,
+      "Access-Control-Allow-Origin": origin || "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type"
     }
   });
-}
-
-async function readDraftsDoc(env, request) {
-  const raw = await env.SEO_KV.get(K_DRAFTS);
-  if (raw) {
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return { version: 1, items: [] };
-    }
-  }
-  const r = await env.ASSETS.fetch(new URL("/drafts/pending-seo-pages.json", request.url));
-  if (!r.ok) return { version: 1, items: [] };
-  const doc = JSON.parse(await r.text());
-  await env.SEO_KV.put(K_DRAFTS, JSON.stringify(doc));
-  return doc;
 }
 
 export async function onRequestOptions(context) {
@@ -72,7 +56,13 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "slug required" }, 400, origin);
   }
 
-  const doc = await readDraftsDoc(env, request);
+  let doc;
+  try {
+    const raw = await env.SEO_KV.get(K_DRAFTS);
+    doc = raw ? JSON.parse(raw) : { version: 1, items: [] };
+  } catch {
+    doc = { version: 1, items: [] };
+  }
   if (!Array.isArray(doc.items)) doc.items = [];
 
   const it = doc.items.find((i) => i && normSlug(i) === slug);
