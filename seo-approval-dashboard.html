@@ -179,10 +179,10 @@
       <p class="eyebrow">Internal</p>
       <h1>SEO draft approval</h1>
       <p class="muted-note">
-        <strong>Production:</strong> drafts load from <code>/drafts/pending-seo-pages.json</code> (same origin, cache-busted).
-        <strong>Local:</strong> with <code>localhost</code> / <code>127.0.0.1</code>, reads default to the persist server on port 38421.
-        Approve / Reject POST still targets <code>npm run seo-draft-server</code> (local only unless you set
-        <code>window.__SEO_DRAFT_SAVE_URL__</code>).
+        <strong>Reads:</strong> <code>/drafts/pending-seo-pages.json</code> on this origin (localhost may use persist server).
+        <strong>Saves:</strong> localhost → <code>127.0.0.1:38421/save</code>; production →
+        <code>/api/seo-drafts/save</code> (Cloudflare Pages Function + GitHub API — configure
+        <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, <code>GITHUB_REPO</code> in Pages settings).
       </p>
 
       <section id="draft-list" aria-live="polite"></section>
@@ -205,18 +205,28 @@
 
     <script>
       (function () {
+        function isLocalHost() {
+          var h = (window.location.hostname || "").toLowerCase();
+          return h === "localhost" || h === "127.0.0.1";
+        }
+
         function resolveSaveUrl() {
-          return typeof window.__SEO_DRAFT_SAVE_URL__ === "string" && window.__SEO_DRAFT_SAVE_URL__
-            ? window.__SEO_DRAFT_SAVE_URL__
-            : "http://127.0.0.1:38421/save";
+          var h = (window.location.hostname || "").toLowerCase().replace(/\.$/, "");
+          var override = window.__SEO_DRAFT_SAVE_URL__;
+          if (typeof override === "string" && override.trim() !== "") {
+            return override.trim();
+          }
+          if (h === "localhost" || h === "127.0.0.1") {
+            return "http://127.0.0.1:38421/save";
+          }
+          return "/api/seo-drafts/save";
         }
 
         function resolveDraftReadBase() {
           if (typeof window.__SEO_DRAFT_READ_URL__ === "string" && window.__SEO_DRAFT_READ_URL__) {
             return window.__SEO_DRAFT_READ_URL__.replace(/\?.*$/, "");
           }
-          var h = (window.location.hostname || "").toLowerCase();
-          if (h === "localhost" || h === "127.0.0.1") {
+          if (isLocalHost()) {
             try {
               var save = resolveSaveUrl();
               var u = new URL(save, window.location.href);
@@ -375,7 +385,7 @@
               var t2 = copy.items.find(function (it) {
                 return it.slug === slug;
               });
-              if (!t2 || t2.status !== "pending") {
+              if (!t2 || normalizeDraftStatus(t2.status) !== "pending") {
                 return { ok: false, stale: true };
               }
               t2.status = nextStatus;
@@ -387,7 +397,17 @@
 
           if (!res.ok) {
             console.warn("[SEO-SAVE] HTTP", res.status, text);
-            return { ok: false, httpError: true, status: res.status };
+            var je = {};
+            try {
+              je = JSON.parse(text);
+            } catch (_) {}
+            if (res.status === 503 && je.error === "github_not_configured") {
+              return { ok: false, saveNotConfigured: true };
+            }
+            if (res.status === 403 && je.error === "origin_forbidden") {
+              return { ok: false, originForbidden: true };
+            }
+            return { ok: false, httpError: true, status: res.status, httpBody: text };
           }
 
           var j = {};
@@ -555,7 +575,7 @@
               var target = updated.items.find(function (it) {
                 return it.slug === slug;
               });
-              if (!target || target.status !== "pending") {
+              if (!target || normalizeDraftStatus(target.status) !== "pending") {
                 showToast("Draft list changed; synced from server.", true);
                 return;
               }
@@ -563,7 +583,14 @@
 
               var result = await persistDraftSave(serverDoc.version, updated.items, slug, nextStatus, 1);
               if (!result.ok) {
-                if (result.network || result.conflictRetryExhausted) {
+                if (result.saveNotConfigured) {
+                  showToast(
+                    "Production save is not configured. In Cloudflare Pages set GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO (and optional GITHUB_BRANCH).",
+                    true
+                  );
+                } else if (result.originForbidden) {
+                  showToast("Save blocked: set ALLOWED_ORIGINS on Pages to include this site.", true);
+                } else if (result.network || result.conflictRetryExhausted) {
                   showToast("Operation failed.", true);
                 } else if (result.serverOkFalse) {
                   showToast("Save rejected: " + String(result.error || "unknown"), true);
@@ -571,6 +598,8 @@
                   showToast("Unexpected server response; reloading.", true);
                 } else if (result.stale) {
                   showToast("Draft list changed; synced from server.", true);
+                } else if (result.httpError) {
+                  showToast("Save failed (HTTP " + String(result.status || "?") + "). Check Pages Function logs.", true);
                 } else {
                   showToast("Could not save. Is npm run seo-draft-server running?", true);
                 }
