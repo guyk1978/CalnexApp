@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "items": [
     {
       "status": "published",
@@ -74,7 +74,7 @@
       "word_count_estimate": 1741
     },
     {
-      "status": "pending",
+      "status": "approved",
       "slug": "apr-vs-interest-rate-car-loan-explained",
       "title": "APR vs Interest Rate on a Car Loan: What the Sticker Rate Leaves Out",
       "meta_description": "Discover why car loan APR and nominal interest rate differ, which fees fold into APR, and how to compare dealer financing with pre-approval offers fairly.",
