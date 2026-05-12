@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "items": [
     {
       "status": "published",
@@ -142,7 +142,7 @@
       "word_count_estimate": 1432
     },
     {
-      "status": "pending",
+      "status": "approved",
       "slug": "mortgage-refinance-break-even-months",
       "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
       "meta_description": "Step through refinance break-even math with closing costs, rate drops, and term resets—so you know when a refi pays back, not just when the payment looks smaller.",
