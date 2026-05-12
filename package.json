@@ -15,6 +15,7 @@
     "pages:expand": "node scripts/page-expander.js",
     "seo:scale": "npm run keywords:expand && npm run pages:expand",
     "ranking:build": "npm run intent:classify && npm run serp:gap && npm run rank:optimize",
-    "build": "npm run links:boost && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run sitemap:ping"
+    "publish-approved-blog": "node scripts/publish-approved-blog-from-drafts.js",
+    "build": "npm run publish-approved-blog && npm run links:boost && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run generate-sitemap && npm run sitemap:ping"
   }
 }

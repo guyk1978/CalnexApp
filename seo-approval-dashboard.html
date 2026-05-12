@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      // Force the dashboard to read drafts from the running persist server
+      window.__SEO_DRAFT_READ_URL__ = "http://127.0.0.1:38421/drafts/pending-seo-pages.json";
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SEO draft approval | CalnexApp</title>
@@ -162,8 +166,9 @@
       <p class="eyebrow">Internal</p>
       <h1>SEO draft approval</h1>
       <p class="muted-note">
-        Reads default to the <strong>same host as POST /save</strong> (<code>127.0.0.1:38421/drafts/pending-seo-pages.json</code>) so the UI always sees the file the persist server writes
-        (<code>drafts/pending-seo-pages.json</code> in this repo). Override with <code>window.__SEO_DRAFT_READ_URL__</code> only if needed.
+        Draft list is loaded from <code>window.__SEO_DRAFT_READ_URL__</code> (set at the top of
+        <code>&lt;head&gt;</code> to <code>http://127.0.0.1:38421/drafts/pending-seo-pages.json</code>).
+        POST still uses <code>npm run seo-draft-server</code> on <code>127.0.0.1:38421/save</code>.
       </p>
 
       <section id="draft-list" aria-live="polite"></section>
@@ -194,7 +199,7 @@
 
         function resolveDraftReadBase() {
           if (typeof window.__SEO_DRAFT_READ_URL__ === "string" && window.__SEO_DRAFT_READ_URL__) {
-            return window.__SEO_DRAFT_READ_URL__.replace(/?.*$/, "");
+            return window.__SEO_DRAFT_READ_URL__.replace(/\?.*$/, "");
           }
           try {
             var save = resolveSaveUrl();
@@ -540,7 +545,7 @@
               if (looksNetwork) {
                 showToast("Operation failed.", true);
               } else {
-                showToast("Could not load drafts. Check the read URL and server.", true);
+                showToast("Could not load drafts. Please start npm run seo-draft-server", true);
               }
               try {
                 await syncFromServer();
@@ -568,9 +573,9 @@
             render();
           } catch (e) {
             console.error("[SEO-FETCH] init error", e);
-            showToast("Failed to load drafts (check URL and server).", true);
+            showToast("Could not load drafts. Please start npm run seo-draft-server", true);
             emptyEl.hidden = false;
-            emptyEl.textContent = "Could not load draft file.";
+            emptyEl.textContent = "Could not load drafts. Please start npm run seo-draft-server";
           }
         }
 

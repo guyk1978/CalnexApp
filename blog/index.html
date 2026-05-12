@@ -58,7 +58,18 @@
         <h2>All Articles</h2>
         <div id="blogList" class="blog-grid" aria-live="polite"></div>
       </section>
-    
+
+      <section id="seoApprovedSection" class="card" hidden>
+        <h2>Approved SEO drafts</h2>
+        <p class="muted-note">
+          Pulled live from <code>drafts/pending-seo-pages.json</code> (items with <code>status === "approved"</code>).
+          Serve the site from the repo root so <code>/drafts/</code> is available, or set
+          <code>window.__SEO_DRAFTS_JSON_URL__</code> (e.g. your persist server) before this script runs.
+        </p>
+        <ul id="seoApprovedFromDrafts" class="toc-list"></ul>
+      </section>
+
+      
       
       
       
@@ -102,7 +113,7 @@
       <section class="card">
         <h2>Recently updated</h2>
         <ul class="toc-list">
-          <li><a href="/blog/loan-vs-mortgage/">Loan vs Mortgage: Key Differences Explained</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/best-loan-term-15-vs-30-years/">Best Loan Term: 15 vs 30 Years</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/fixed-vs-variable-interest-rate/">Fixed vs Variable Interest Rate: What Borrowers Need to Know</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/how-extra-payments-save-money/">How Extra Payments Save Money on Your Loan</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a> <span class="muted">(2026-05-12)</span></li>
+          <li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/fixed-vs-variable-interest-rate/">Fixed vs Variable Interest Rate: What Borrowers Need to Know</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/how-extra-payments-save-money/">How Extra Payments Save Money on Your Loan</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/loan-vs-mortgage/">Loan vs Mortgage: Key Differences Explained</a> <span class="muted">(2026-05-12)</span></li><li><a href="/blog/best-loan-term-15-vs-30-years/">Best Loan Term: 15 vs 30 Years</a> <span class="muted">(2026-05-12)</span></li>
         </ul>
       </section>
       <!-- ILB_BLOG_LATEST_END -->
@@ -119,6 +130,7 @@
       </div>
     </footer>
 
+    <script src="/assets/js/seo-approved-drafts-list.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
   </body>
 </html>
