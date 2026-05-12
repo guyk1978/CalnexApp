@@ -1,5 +1,5 @@
 {
-  "version": 9,
+  "version": 10,
   "items": [
     {
       "status": "published",
@@ -74,7 +74,7 @@
       "word_count_estimate": 1741
     },
     {
-      "status": "approved",
+      "status": "published",
       "slug": "apr-vs-interest-rate-car-loan-explained",
       "title": "APR vs Interest Rate on a Car Loan: What the Sticker Rate Leaves Out",
       "meta_description": "Discover why car loan APR and nominal interest rate differ, which fees fold into APR, and how to compare dealer financing with pre-approval offers fairly.",
@@ -142,7 +142,7 @@
       "word_count_estimate": 1432
     },
     {
-      "status": "approved",
+      "status": "published",
       "slug": "mortgage-refinance-break-even-months",
       "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
       "meta_description": "Step through refinance break-even math with closing costs, rate drops, and term resets—so you know when a refi pays back, not just when the payment looks smaller.",
@@ -213,7 +213,7 @@
       "word_count_estimate": 1275
     },
     {
-      "status": "approved",
+      "status": "published",
       "slug": "loan-origination-fees-points-true-borrowing-cost",
       "title": "Loan Origination Fees and Discount Points: Reading the Lines That Change True Borrowing Cost",
       "meta_description": "Understand origination charges, discount points, and lender credits on mortgage disclosures—so you compare offers on total cost, not teaser rates alone.",
@@ -285,7 +285,7 @@
       "word_count_estimate": 1215
     },
     {
-      "status": "approved",
+      "status": "published",
       "slug": "biweekly-mortgage-payments-extra-principal-truth",
       "title": "Biweekly Mortgage Payments vs True Extra Principal: What Actually Shortens Your Loan",
       "meta_description": "Learn how biweekly half-payments, third-payment acceleration, and plain extra principal differ—so you pick a strategy that matches your cash flow and goals.",
