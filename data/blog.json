@@ -52,5 +52,23 @@
     "updatedDate": "2026-05-12",
     "readTime": "8 min read",
     "featured": false
+  },
+  {
+    "slug": "apr-vs-interest-rate-car-loan-explained",
+    "title": "APR vs Interest Rate on a Car Loan: What the Sticker Rate Leaves Out",
+    "excerpt": "Discover why car loan APR and nominal interest rate differ, which fees fold into APR, and how to compare dealer financing with pre-approval offers fairly.",
+    "category": "Auto Loans",
+    "updatedDate": "2026-05-12",
+    "readTime": "7 min read",
+    "featured": false
+  },
+  {
+    "slug": "mortgage-refinance-break-even-months",
+    "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
+    "excerpt": "Step through refinance break-even math with closing costs, rate drops, and term resets—so you know when a refi pays back, not just when the payment looks smaller.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-12",
+    "readTime": "6 min read",
+    "featured": false
   }
 ]

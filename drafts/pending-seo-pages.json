@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "version": 7,
+=======
+  "version": 6,
+>>>>>>> 7a1ee81 (Publish approved posts)
   "items": [
     {
       "status": "published",
@@ -74,7 +78,7 @@
       "word_count_estimate": 1741
     },
     {
-      "status": "approved",
+      "status": "published",
       "slug": "apr-vs-interest-rate-car-loan-explained",
       "title": "APR vs Interest Rate on a Car Loan: What the Sticker Rate Leaves Out",
       "meta_description": "Discover why car loan APR and nominal interest rate differ, which fees fold into APR, and how to compare dealer financing with pre-approval offers fairly.",
@@ -142,7 +146,7 @@
       "word_count_estimate": 1432
     },
     {
-      "status": "approved",
+      "status": "published",
       "slug": "mortgage-refinance-break-even-months",
       "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
       "meta_description": "Step through refinance break-even math with closing costs, rate drops, and term resets—so you know when a refi pays back, not just when the payment looks smaller.",
