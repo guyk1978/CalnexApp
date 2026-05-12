@@ -413,9 +413,9 @@
             actions.className = "seo-draft-card__actions";
 
             var disabled = actionInFlight;
-            var st = normalizeDraftStatus(item.status);
-            var isPending = st === "pending";
-            var canPublish = st !== "published" && st !== "rejected";
+            var isPublished =
+              String(item.status || "").trim().toLowerCase() === "published";
+            var isPending = normalizeDraftStatus(item.status) === "pending";
 
             var btnPreview = document.createElement("button");
             btnPreview.type = "button";
@@ -426,7 +426,7 @@
 
             actions.appendChild(btnPreview);
 
-            if (canPublish) {
+            if (!isPublished) {
               var btnPublish = document.createElement("button");
               btnPublish.type = "button";
               btnPublish.className = "btn btn-primary";
