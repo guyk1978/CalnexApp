@@ -1,15 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <script>
-      // On localhost only: read/write via persist server. On production (e.g. calnexapp.com) use same-origin /drafts/…
-      (function () {
-        var h = (window.location.hostname || "").toLowerCase();
-        if (h === "localhost" || h === "127.0.0.1") {
-          window.__SEO_DRAFT_READ_URL__ = "http://127.0.0.1:38421/drafts/pending-seo-pages.json";
-        }
-      })();
-    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SEO draft approval | CalnexApp</title>
@@ -179,12 +170,11 @@
       <p class="eyebrow">Internal</p>
       <h1>SEO draft approval</h1>
       <p class="muted-note">
-        <strong>Reads:</strong> <code>/drafts/pending-seo-pages.json</code> on this origin (localhost may use persist server).
-        <strong>Approved</strong> is saved here only. <strong>Published</strong> appears in this list only when the JSON
-        status is <code>published</code> (set by CI after <code>publish-approved-blog</code> writes
-        <code>blog/{slug}/index.html</code> and <code>data/blog.json</code>) — not the same as live on /blog until that
-        build runs. <strong>Saves:</strong> localhost → persist server; production → <code>/api/seo-drafts/save</code>
-        (Pages + GitHub: <code>GITHUB_*</code> env when used).
+        <strong>Reads:</strong> <code>/drafts/pending-seo-pages.json</code> on this origin.
+        <strong>Approve</strong> calls <code>POST /api/publish-now</code> (body <code>{}</code>) and publishes that draft
+        immediately to <code>/blog/{slug}/</code> and <code>/data/blog.json</code> via Cloudflare KV (bind
+        <code>SEO_KV</code> on Pages).         <strong>Reject</strong> calls <code>POST /api/draft-reject</code> (same body).
+        No external CI build is required for the live post.
       </p>
 
       <section id="draft-list" aria-live="polite"></section>
@@ -207,37 +197,35 @@
 
     <script>
       (function () {
-        function isLocalHost() {
-          var h = (window.location.hostname || "").toLowerCase();
-          return h === "localhost" || h === "127.0.0.1";
-        }
-
-        function resolveSaveUrl() {
-          var h = (window.location.hostname || "").toLowerCase().replace(/\.$/, "");
-          var override = window.__SEO_DRAFT_SAVE_URL__;
-          if (typeof override === "string" && override.trim() !== "") {
-            return override.trim();
-          }
-          if (h === "localhost" || h === "127.0.0.1") {
-            return "http://127.0.0.1:38421/save";
-          }
-          return "/api/seo-drafts/save";
-        }
-
         function resolveDraftReadBase() {
-          if (typeof window.__SEO_DRAFT_READ_URL__ === "string" && window.__SEO_DRAFT_READ_URL__) {
-            return window.__SEO_DRAFT_READ_URL__.replace(/\?.*$/, "");
-          }
-          if (isLocalHost()) {
-            try {
-              var save = resolveSaveUrl();
-              var u = new URL(save, window.location.href);
-              return u.origin + "/drafts/pending-seo-pages.json";
-            } catch (e) {
-              return "/drafts/pending-seo-pages.json";
-            }
-          }
           return "/drafts/pending-seo-pages.json";
+        }
+
+        async function postJsonEmptyBody(pathWithQuery) {
+          var res;
+          var text = "";
+          try {
+            res = await fetch(pathWithQuery, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: "{}",
+              cache: "no-store"
+            });
+            text = await res.text().catch(function () {
+              return "";
+            });
+          } catch (e) {
+            console.error("[SEO-API] network", e);
+            return { ok: false, network: true, status: 0, json: {} };
+          }
+          var j = {};
+          try {
+            j = text ? JSON.parse(text) : {};
+          } catch (pe) {
+            console.warn("[SEO-API] bad JSON", pe);
+            return { ok: false, badJson: true, status: res.status, json: {} };
+          }
+          return { ok: res.ok, status: res.status, json: j };
         }
 
         function normalizeServerSnapshot(raw) {
@@ -294,7 +282,7 @@
         }
 
         var serverDoc = null;
-        var persistInFlight = false;
+        var actionInFlight = false;
 
         const listEl = document.getElementById("draft-list");
         const emptyEl = document.getElementById("draft-empty");
@@ -345,101 +333,8 @@
           return o[s] != null ? o[s] : 9;
         }
 
-        function deepCloneDoc(obj) {
-          if (typeof structuredClone === "function") return structuredClone(obj);
-          return JSON.parse(JSON.stringify(obj));
-        }
-
-        function isVersionConflictError(errStr) {
-          return /version[\s_]*conflict/i.test(String(errStr || ""));
-        }
-
         async function syncFromServer() {
           serverDoc = await fetchDrafts();
-        }
-
-        async function persistDraftSave(payloadVersion, items, slug, nextStatus, postAttempt) {
-          var saveUrl = resolveSaveUrl();
-          var body = JSON.stringify({ version: payloadVersion, items: items });
-          console.log("[SEO-SAVE]", slug, "version", payloadVersion, "attempt", postAttempt);
-
-          var res;
-          var text;
-          try {
-            res = await fetch(saveUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: body,
-              cache: "no-store"
-            });
-            text = await res.text().catch(function () {
-              return "";
-            });
-          } catch (e) {
-            console.error("[SEO-SAVE] network error", e);
-            return { ok: false, network: true };
-          }
-
-          if (res.status === 409) {
-            var j409 = {};
-            try {
-              j409 = JSON.parse(text);
-            } catch (_) {}
-            var err409 = j409.error;
-            if (isVersionConflictError(err409)) {
-              var actualV =
-                typeof j409.version === "number" && Number.isFinite(j409.version) ? j409.version : "?";
-              console.log("[SEO-CONFLICT] expected", payloadVersion, "actual", actualV);
-              if (postAttempt >= 2) {
-                return { ok: false, conflictRetryExhausted: true };
-              }
-              showToast("Updated by server, retrying...", false);
-              await syncFromServer();
-              render();
-              var copy = deepCloneDoc(serverDoc);
-              var t2 = copy.items.find(function (it) {
-                return it.slug === slug;
-              });
-              if (!t2 || normalizeDraftStatus(t2.status) !== "pending") {
-                return { ok: false, stale: true };
-              }
-              t2.status = nextStatus;
-              console.log("[SEO-RETRY] attempt", postAttempt + 1);
-              return persistDraftSave(serverDoc.version, copy.items, slug, nextStatus, postAttempt + 1);
-            }
-            return { ok: false, error: err409 || "Save rejected", status: res.status };
-          }
-
-          if (!res.ok) {
-            console.warn("[SEO-SAVE] HTTP", res.status, text);
-            var je = {};
-            try {
-              je = JSON.parse(text);
-            } catch (_) {}
-            if (res.status === 503 && je.error === "github_not_configured") {
-              return { ok: false, saveNotConfigured: true };
-            }
-            if (res.status === 403 && je.error === "origin_forbidden") {
-              return { ok: false, originForbidden: true };
-            }
-            return { ok: false, httpError: true, status: res.status, httpBody: text };
-          }
-
-          var j = {};
-          try {
-            j = JSON.parse(text);
-          } catch (pe) {
-            console.warn("[SEO-SAVE] invalid JSON body", pe);
-            return { ok: false, badResponse: true };
-          }
-          if (j.ok === false) {
-            return { ok: false, serverOkFalse: true, error: j.error || "save_failed" };
-          }
-          if (j.ok !== true || typeof j.version !== "number" || !Number.isFinite(j.version)) {
-            console.warn("[SEO-SAVE] unexpected success shape", j);
-            return { ok: false, badResponse: true };
-          }
-          return { ok: true };
         }
 
         function render() {
@@ -513,7 +408,7 @@
             var actions = document.createElement("div");
             actions.className = "seo-draft-card__actions";
 
-            var disabled = persistInFlight;
+            var disabled = actionInFlight;
             var isPending = normalizeDraftStatus(item.status) === "pending";
 
             var btnPreview = document.createElement("button");
@@ -584,87 +479,96 @@
             return;
           }
 
-          if (action === "approve" || action === "reject") {
-            if (persistInFlight) return;
-            var nextStatus = action === "approve" ? "approved" : "rejected";
-
-            persistInFlight = true;
+          if (action === "approve") {
+            if (actionInFlight) return;
+            actionInFlight = true;
             render();
-
             try {
-              var latest = await fetchDrafts();
-              serverDoc = latest;
-              console.log("[SEO-APPROVE]", slug, nextStatus, "version", serverDoc.version);
-
-              var updated = deepCloneDoc(serverDoc);
-              var target = updated.items.find(function (it) {
-                return it.slug === slug;
-              });
-              if (!target || normalizeDraftStatus(target.status) !== "pending") {
+              var latestA = await fetchDrafts();
+              serverDoc = latestA;
+              var targetA =
+                serverDoc && serverDoc.items
+                  ? serverDoc.items.find(function (it) {
+                      return it.slug === slug;
+                    })
+                  : null;
+              if (!targetA || normalizeDraftStatus(targetA.status) !== "pending") {
                 showToast("Draft list changed; synced from server.", true);
                 return;
               }
-              target.status = nextStatus;
-              console.log(
-                "[SEO-STATE] transition (client, before save)",
-                slug,
-                "pending →",
-                nextStatus,
-                "(Published only after CI runs publish-approved-blog)"
-              );
-
-              var result = await persistDraftSave(serverDoc.version, updated.items, slug, nextStatus, 1);
-              if (!result.ok) {
-                if (result.saveNotConfigured) {
-                  showToast(
-                    "Production save is not configured. In Cloudflare Pages set GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO (and optional GITHUB_BRANCH).",
-                    true
-                  );
-                } else if (result.originForbidden) {
-                  showToast("Save blocked: set ALLOWED_ORIGINS on Pages to include this site.", true);
-                } else if (result.network || result.conflictRetryExhausted) {
-                  showToast("Operation failed.", true);
-                } else if (result.serverOkFalse) {
-                  showToast("Save rejected: " + String(result.error || "unknown"), true);
-                } else if (result.badResponse) {
-                  showToast("Unexpected server response; reloading.", true);
-                } else if (result.stale) {
-                  showToast("Draft list changed; synced from server.", true);
-                } else if (result.httpError) {
-                  showToast("Save failed (HTTP " + String(result.status || "?") + "). Check Pages Function logs.", true);
-                } else {
-                  showToast("Could not save. Is npm run seo-draft-server running?", true);
-                }
+              var pubUrl = "/api/publish-now?" + new URLSearchParams({ slug: slug }).toString();
+              var pub = await postJsonEmptyBody(pubUrl);
+              if (pub.network) {
+                showToast("Publish failed (network).", true);
+              } else if (pub.status === 503 && pub.json && pub.json.error === "kv_not_configured") {
+                showToast("Publish unavailable: bind SEO_KV on Cloudflare Pages.", true);
+              } else if (pub.ok && pub.json && pub.json.ok === true) {
+                showToast("Published successfully", false);
                 await syncFromServer();
-                return;
+              } else {
+                var em = pub.json && pub.json.error ? String(pub.json.error) : "publish failed";
+                showToast("Publish failed: " + em, true);
+                await syncFromServer();
               }
-
-              await syncFromServer();
-              showToast(
-                action === "approve"
-                  ? "Draft approved (status in JSON). Run or wait for CI build (publish-approved-blog) for /blog + published."
-                  : "Draft rejected"
-              );
             } catch (e) {
               console.error("[SEO-APPROVE] error", e);
-              var msg = e && e.message ? String(e.message) : String(e);
-              var looksNetwork =
-                (e && e.name === "TypeError") ||
-                /failed to fetch|networkerror|load failed|network request failed/i.test(msg);
-              if (looksNetwork) {
-                showToast("Operation failed.", true);
-              } else {
-                showToast("Could not load drafts. Please start npm run seo-draft-server", true);
-              }
+              showToast("Publish failed.", true);
               try {
                 await syncFromServer();
               } catch (e2) {
                 console.error("[SEO-FETCH] recovery failed", e2);
               }
             } finally {
-              persistInFlight = false;
+              actionInFlight = false;
               render();
             }
+            return;
+          }
+
+          if (action === "reject") {
+            if (actionInFlight) return;
+            actionInFlight = true;
+            render();
+            try {
+              var latestR = await fetchDrafts();
+              serverDoc = latestR;
+              var targetR =
+                serverDoc && serverDoc.items
+                  ? serverDoc.items.find(function (it) {
+                      return it.slug === slug;
+                    })
+                  : null;
+              if (!targetR || normalizeDraftStatus(targetR.status) !== "pending") {
+                showToast("Draft list changed; synced from server.", true);
+                return;
+              }
+              var rejUrl = "/api/draft-reject?" + new URLSearchParams({ slug: slug }).toString();
+              var rej = await postJsonEmptyBody(rejUrl);
+              if (rej.network) {
+                showToast("Reject failed (network).", true);
+              } else if (rej.status === 503 && rej.json && rej.json.error === "kv_not_configured") {
+                showToast("Reject unavailable: bind SEO_KV on Cloudflare Pages.", true);
+              } else if (rej.ok && rej.json && rej.json.ok === true) {
+                showToast("Draft rejected", false);
+                await syncFromServer();
+              } else {
+                var er = rej.json && rej.json.error ? String(rej.json.error) : "reject failed";
+                showToast("Reject failed: " + er, true);
+                await syncFromServer();
+              }
+            } catch (e) {
+              console.error("[SEO-REJECT] error", e);
+              showToast("Reject failed.", true);
+              try {
+                await syncFromServer();
+              } catch (e2) {
+                console.error("[SEO-FETCH] recovery failed", e2);
+              }
+            } finally {
+              actionInFlight = false;
+              render();
+            }
+            return;
           }
         });
 
@@ -682,9 +586,9 @@
             render();
           } catch (e) {
             console.error("[SEO-FETCH] init error", e);
-            showToast("Could not load drafts. Please start npm run seo-draft-server", true);
+            showToast("Could not load drafts from /drafts/pending-seo-pages.json", true);
             emptyEl.hidden = false;
-            emptyEl.textContent = "Could not load drafts. Please start npm run seo-draft-server";
+            emptyEl.textContent = "Could not load drafts. Check that this origin serves /drafts/pending-seo-pages.json.";
           }
         }
 

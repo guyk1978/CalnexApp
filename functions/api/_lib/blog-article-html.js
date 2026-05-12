@@ -1,0 +1,215 @@
+/** Blog HTML generator (aligned with scripts/publish-approved-blog-from-drafts.js). */
+
+export function normalizeDraftStatus(s) {
+  return String(s == null ? "" : s)
+    .trim()
+    .toLowerCase();
+}
+
+export function normSlug(item) {
+  return String((item && item.slug) || "").replace(/[^a-z0-9-]/gi, "");
+}
+
+export function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function inlineMarkdownToHtml(text) {
+  let t = escapeHtml(text);
+  t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+    const h = String(href).trim();
+    if (!/^https?:\/\//i.test(h) && !h.startsWith("/")) {
+      return escapeHtml(label);
+    }
+    return `<a href="${escapeHtml(h)}">${escapeHtml(label)}</a>`;
+  });
+  return t;
+}
+
+function bodyMarkdownToHtml(md) {
+  if (!md || typeof md !== "string") return "<p></p>";
+  const chunks = md.split(/\n\n+/);
+  const out = [];
+  for (const raw of chunks) {
+    const block = raw.trim();
+    if (!block) continue;
+    if (block.startsWith("### ")) {
+      out.push(`<h3>${escapeHtml(block.slice(4).trim())}</h3>`);
+    } else if (block.startsWith("## ")) {
+      out.push(`<h2>${escapeHtml(block.slice(3).trim())}</h2>`);
+    } else {
+      const lines = block.split(/\n/).map((l) => l.trim()).filter(Boolean);
+      const merged = lines.join(" ");
+      out.push(`<p>${inlineMarkdownToHtml(merged)}</p>`);
+    }
+  }
+  return out.join("\n        ");
+}
+
+function faqSectionHtml(faq) {
+  if (!Array.isArray(faq) || !faq.length) return "";
+  const items = faq
+    .map((f) => {
+      if (!f || !f.question) return "";
+      return `<div class="faq-item"><h3 class="h4">${escapeHtml(f.question)}</h3><p>${inlineMarkdownToHtml(
+        f.answer || ""
+      )}</p></div>`;
+    })
+    .filter(Boolean)
+    .join("\n        ");
+  if (!items) return "";
+  return `
+      <section class="card">
+        <h2>FAQ</h2>
+        ${items}
+      </section>`;
+}
+
+function faqJsonLd(faq) {
+  if (!Array.isArray(faq) || !faq.length) return "";
+  const mainEntity = faq
+    .filter((f) => f && f.question)
+    .map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer || "" }
+    }));
+  if (!mainEntity.length) return "";
+  return `<script type="application/ld+json">
+${JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity }, null, 2)}
+    </script>`;
+}
+
+function readMinutesFromItem(item) {
+  const w = item.word_count_estimate;
+  if (typeof w === "number" && w > 0) {
+    return Math.max(1, Math.round(w / 220));
+  }
+  return 10;
+}
+
+function inferCategory(item) {
+  const kw = (item.primary_keyword || "").toLowerCase();
+  if (/mortgage|dti|housing|home/.test(kw)) return "Mortgage";
+  if (/car|auto|vehicle/.test(kw)) return "Auto Loans";
+  if (/interest|apr|rate/.test(kw)) return "Interest Rates";
+  return "Mortgage Planning";
+}
+
+export function buildArticleHtml(item, siteOrigin) {
+  const origin = (siteOrigin || "https://calnexapp.com").replace(/\/$/, "");
+  const slug = String(item.slug || "").replace(/[^a-z0-9-]/gi, "");
+  if (!slug) return null;
+  const title = item.title || item.h1 || slug;
+  const h1 = item.h1 || title;
+  const desc = item.meta_description || "";
+  const canonical = `${origin}/blog/${slug}/`;
+  const today = new Date().toISOString().slice(0, 10);
+  const readTime = `${readMinutesFromItem(item)} min read`;
+  const bodyHtml = bodyMarkdownToHtml(item.body_markdown || "");
+  const faqHtml = faqSectionHtml(item.faq);
+  const faqLd = faqJsonLd(item.faq);
+
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(title)} | CalnexApp Blog</title>
+    <meta name="description" content="${escapeHtml(desc)}" />
+    <link rel="canonical" href="${canonical}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${escapeHtml(title)} | CalnexApp Blog" />
+    <meta property="og:description" content="${escapeHtml(desc)}" />
+    <meta property="og:url" content="${canonical}" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script type="application/ld+json">
+${JSON.stringify(
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: title,
+          author: { "@type": "Person", name: "CalnexApp Editorial Team" },
+          dateModified: today,
+          datePublished: today,
+          mainEntityOfPage: canonical,
+          publisher: { "@type": "Organization", name: "CalnexApp" }
+        },
+        null,
+        2
+      )}
+    </script>
+    ${faqLd}
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/tools/loan-calculator/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section-space article-layout">
+      <section class="page-title">
+        <p class="eyebrow">${escapeHtml(inferCategory(item))}</p>
+        <h1>${escapeHtml(h1)}</h1>
+        <div class="article-meta">
+          <span>By CalnexApp Editorial Team</span>
+          <span>Updated ${today}</span>
+          <span>${escapeHtml(readTime)}</span>
+        </div>
+      </section>
+
+      <article class="card article-body">
+        ${bodyHtml}
+      </article>
+      ${faqHtml}
+
+      <section class="card">
+        <h2>Recommended calculators</h2>
+        <ul class="toc-list">
+          <li><a href="/tools/loan-calculator/">Loan Calculator</a></li>
+          <li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a></li>
+          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/blog/">Blog</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="/assets/js/app.js" defer></script>
+  </body>
+</html>
+`;
+}
+
+export function buildBlogEntryFromItem(item, slug) {
+  const title = item.title || item.h1 || slug;
+  const excerpt =
+    (item.meta_description && String(item.meta_description).slice(0, 220)) ||
+    (item.body_markdown && String(item.body_markdown).replace(/\s+/g, " ").trim().slice(0, 180)) ||
+    title;
+  const category = inferCategory(item);
+  const today = new Date().toISOString().slice(0, 10);
+  const readTime = `${readMinutesFromItem(item)} min read`;
+  return { slug, title, excerpt, category, updatedDate: today, readTime, featured: false };
+}
