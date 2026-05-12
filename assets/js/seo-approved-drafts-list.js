@@ -17,6 +17,12 @@
     return base + sep + "ts=" + Date.now();
   }
 
+  function normalizeStatus(s) {
+    return String(s == null ? "" : s)
+      .trim()
+      .toLowerCase();
+  }
+
   async function loadApproved() {
     var section = document.getElementById("seoApprovedSection");
     var listEl = document.getElementById("seoApprovedFromDrafts");
@@ -40,8 +46,9 @@
       var data = JSON.parse(raw);
       var items = Array.isArray(data.items) ? data.items : [];
       var approved = items.filter(function (i) {
-        return i && i.status === "approved";
+        return i && normalizeStatus(i.status) === "approved";
       });
+      console.log("[seo-approved-drafts-list] items", items.length, "approved (for /blog teaser list)", approved.length);
       listEl.innerHTML = "";
       if (!approved.length) {
         section.hidden = true;

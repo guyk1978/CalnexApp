@@ -1,8 +1,12 @@
 /**
  * Publish approved SEO drafts to static blog:
- * 1. Reads drafts/pending-seo-pages.json (items with status === "approved")
+ * 1. Reads drafts/pending-seo-pages.json — ONLY items whose normalized status is "approved"
  * 2. Writes blog/{slug}/index.html from body_markdown + metadata
- * 3. Merges each approved item into data/blog.json so /blog/ lists them (app.js fetchJson)
+ * 3. Merges each into data/blog.json so /blog/ lists them
+ * 4. Sets those items to status "published" in the drafts file (ONLY after HTML + blog.json succeed)
+ *
+ * Idempotent: second run with no "approved" rows does nothing. Re-run with same approved overwrites HTML/JSON safely.
+ * Approve/reject live only in drafts JSON until this script runs (CI/build).
  *
  * Run: npm run publish-approved-blog
  * Cloudflare: ensure build runs this (see package.json "build").
@@ -14,6 +18,17 @@ const ROOT = path.resolve(__dirname, "..");
 const DRAFTS_PATH = path.join(ROOT, "drafts", "pending-seo-pages.json");
 const BLOG_JSON_PATH = path.join(ROOT, "data", "blog.json");
 const SITE_ORIGIN = "https://calnexapp.com";
+
+/** Lowercase trim — ONLY this value is published (dashboard must not use other spellings for queue). */
+function normalizeDraftStatus(s) {
+  return String(s == null ? "" : s)
+    .trim()
+    .toLowerCase();
+}
+
+function normSlug(item) {
+  return String((item && item.slug) || "").replace(/[^a-z0-9-]/gi, "");
+}
 
 function escapeHtml(s) {
   return String(s)
@@ -221,6 +236,7 @@ function loadBlogJson() {
 
 function saveBlogJson(posts) {
   fs.writeFileSync(BLOG_JSON_PATH, JSON.stringify(posts, null, 2) + "\n", "utf8");
+  console.log("[publish-approved-blog] wrote blog JSON file", path.relative(ROOT, BLOG_JSON_PATH));
 }
 
 function saveDraftsDoc(doc) {
@@ -230,17 +246,46 @@ function saveDraftsDoc(doc) {
     doc.version += 1;
   }
   fs.writeFileSync(DRAFTS_PATH, JSON.stringify(doc, null, 2) + "\n", "utf8");
-  console.log("[publish-approved-blog] updated", path.relative(ROOT, DRAFTS_PATH), "version", doc.version);
+  console.log(
+    "[publish-approved-blog] wrote drafts file",
+    path.relative(ROOT, DRAFTS_PATH),
+    "version",
+    doc.version
+  );
 }
 
 function main() {
   const doc = loadDrafts();
   const items = Array.isArray(doc.items) ? doc.items : [];
-  const approved = items.filter((i) => i && i.status === "approved");
+  const approved = items.filter((i) => i && normalizeDraftStatus(i.status) === "approved");
+  const byStatus = items.reduce(
+    (acc, i) => {
+      const k = normalizeDraftStatus(i && i.status) || "(empty)";
+      acc[k] = (acc[k] || 0) + 1;
+      return acc;
+    },
+    {}
+  );
+  console.log(
+    "[publish-approved-blog] drafts version",
+    doc.version,
+    "items",
+    items.length,
+    "by-status",
+    JSON.stringify(byStatus)
+  );
+
   if (!approved.length) {
-    console.log("[publish-approved-blog] no approved items in drafts");
+    console.log("[publish-approved-blog] no items with status===approved (after normalize); nothing to publish");
     return;
   }
+
+  console.log(
+    "[publish-approved-blog] queue",
+    approved.length,
+    "approved slug(s):",
+    approved.map((a) => normSlug(a)).filter(Boolean).join(", ") || "(none valid)"
+  );
 
   let posts = loadBlogJson();
   if (!Array.isArray(posts)) posts = [];
@@ -248,17 +293,28 @@ function main() {
   const publishedSlugs = [];
 
   for (const item of approved) {
-    const slug = String(item.slug || "").replace(/[^a-z0-9-]/gi, "");
-    if (!slug) continue;
+    const slug = normSlug(item);
+    if (!slug) {
+      console.warn("[publish-approved-blog] skip approved item with empty/invalid slug", item && item.title);
+      continue;
+    }
 
     const html = buildArticleHtml(item);
-    if (!html) continue;
+    if (!html) {
+      console.warn("[publish-approved-blog] skip slug", slug, "(buildArticleHtml returned null)");
+      continue;
+    }
 
     const dir = path.join(ROOT, "blog", slug);
     fs.mkdirSync(dir, { recursive: true });
     const outFile = path.join(dir, "index.html");
     fs.writeFileSync(outFile, html, "utf8");
-    console.log("[publish-approved-blog] wrote", path.relative(ROOT, outFile));
+    console.log(
+      "[publish-approved-blog] wrote static HTML",
+      path.relative(ROOT, outFile),
+      "(slug",
+      slug + ")"
+    );
 
     const title = item.title || item.h1 || slug;
     const excerpt =
@@ -285,13 +341,32 @@ function main() {
     publishedSlugs.push(slug);
   }
 
+  if (!publishedSlugs.length) {
+    console.warn(
+      "[publish-approved-blog] no slugs published (invalid slugs or HTML build failed); skipping blog.json and drafts updates (idempotent)"
+    );
+    return;
+  }
+
   saveBlogJson(posts);
-  console.log("[publish-approved-blog] merged", approved.length, "into", path.relative(ROOT, BLOG_JSON_PATH));
+  console.log(
+    "[publish-approved-blog] updated blog JSON",
+    path.relative(ROOT, BLOG_JSON_PATH),
+    "posts count",
+    posts.length
+  );
 
   for (const it of doc.items) {
-    if (it && publishedSlugs.indexOf(String(it.slug || "").replace(/[^a-z0-9-]/gi, "")) !== -1 && it.status === "approved") {
-      it.status = "published";
-    }
+    if (!it) continue;
+    const s = normSlug(it);
+    if (publishedSlugs.indexOf(s) === -1) continue;
+    if (normalizeDraftStatus(it.status) !== "approved") continue;
+    const prev = it.status;
+    it.status = "published";
+    console.log(
+      "[publish-approved-blog] status transition",
+      JSON.stringify({ slug: s, from: prev, to: "published", note: "approved→published after HTML+blog.json" })
+    );
   }
   saveDraftsDoc(doc);
 }

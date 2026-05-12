@@ -180,9 +180,11 @@
       <h1>SEO draft approval</h1>
       <p class="muted-note">
         <strong>Reads:</strong> <code>/drafts/pending-seo-pages.json</code> on this origin (localhost may use persist server).
-        <strong>Saves:</strong> localhost → <code>127.0.0.1:38421/save</code>; production →
-        <code>/api/seo-drafts/save</code> (Cloudflare Pages Function + GitHub API — configure
-        <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, <code>GITHUB_REPO</code> in Pages settings).
+        <strong>Approved</strong> is saved here only. <strong>Published</strong> appears in this list only when the JSON
+        status is <code>published</code> (set by CI after <code>publish-approved-blog</code> writes
+        <code>blog/{slug}/index.html</code> and <code>data/blog.json</code>) — not the same as live on /blog until that
+        build runs. <strong>Saves:</strong> localhost → persist server; production → <code>/api/seo-drafts/save</code>
+        (Pages + GitHub: <code>GITHUB_*</code> env when used).
       </p>
 
       <section id="draft-list" aria-live="polite"></section>
@@ -278,6 +280,16 @@
           }
           var snap = normalizeServerSnapshot(data);
           console.log("[SEO-FETCH] version", snap.version);
+          var counts = { pending: 0, approved: 0, published: 0, rejected: 0, unknown: 0 };
+          snap.items.forEach(function (it) {
+            var st = normalizeDraftStatus(it && it.status);
+            if (st === "pending") counts.pending++;
+            else if (st === "approved") counts.approved++;
+            else if (st === "published") counts.published++;
+            else if (st === "rejected") counts.rejected++;
+            else counts.unknown++;
+          });
+          console.log("[SEO-FETCH] status counts from server JSON", counts);
           return snap;
         }
 
@@ -304,11 +316,12 @@
         function normalizeDraftStatus(status) {
           var s = String(status || "").trim().toLowerCase();
           if (s === "pending" || s === "approved" || s === "rejected" || s === "published") return s;
-          return s || "pending";
+          return "";
         }
 
         function badgeClass(status) {
           var s = normalizeDraftStatus(status);
+          if (!s) return "status-badge status-badge--other";
           if (s === "approved") return "status-badge status-badge--approved";
           if (s === "rejected") return "status-badge status-badge--rejected";
           if (s === "published") return "status-badge status-badge--published";
@@ -322,12 +335,14 @@
           if (s === "rejected") return "Rejected";
           if (s === "published") return "Published";
           if (s === "pending") return "Pending";
-          return s ? s.charAt(0).toUpperCase() + s.slice(1) : "Unknown";
+          return "Unknown";
         }
 
         function statusSortOrder(status) {
           var o = { pending: 0, approved: 1, published: 2, rejected: 3 };
-          return o[normalizeDraftStatus(status)] != null ? o[normalizeDraftStatus(status)] : 9;
+          var s = normalizeDraftStatus(status);
+          if (!s) return 9;
+          return o[s] != null ? o[s] : 9;
         }
 
         function deepCloneDoc(obj) {
@@ -440,22 +455,32 @@
             return statusSortOrder(a && a.status) - statusSortOrder(b && b.status);
           });
 
-          console.log(
-            "[SEO-RENDER] total",
-            rows.length,
-            "pending",
-            rows.filter(function (i) {
-              return normalizeDraftStatus(i && i.status) === "pending";
-            }).length
-          );
-
           if (!rows.length) {
             emptyEl.hidden = false;
             return;
           }
           emptyEl.hidden = true;
 
+          console.log(
+            "[SEO-RENDER] total",
+            rows.length,
+            "pending",
+            rows.filter(function (i) {
+              return normalizeDraftStatus(i && i.status) === "pending";
+            }).length,
+            "approved",
+            rows.filter(function (i) {
+              return normalizeDraftStatus(i && i.status) === "approved";
+            }).length,
+            "published",
+            rows.filter(function (i) {
+              return normalizeDraftStatus(i && i.status) === "published";
+            }).length
+          );
+
           rows.forEach(function (item) {
+            var st = normalizeDraftStatus(item.status);
+            console.log("[SEO-RENDER] row", item.slug || "?", "badge=", st || "unknown", "raw=", JSON.stringify(item && item.status));
             var card = document.createElement("article");
             card.className = "seo-draft-card";
             card.dataset.slug = item.slug;
@@ -580,6 +605,13 @@
                 return;
               }
               target.status = nextStatus;
+              console.log(
+                "[SEO-STATE] transition (client, before save)",
+                slug,
+                "pending →",
+                nextStatus,
+                "(Published only after CI runs publish-approved-blog)"
+              );
 
               var result = await persistDraftSave(serverDoc.version, updated.items, slug, nextStatus, 1);
               if (!result.ok) {
@@ -608,7 +640,11 @@
               }
 
               await syncFromServer();
-              showToast(action === "approve" ? "Draft approved" : "Draft rejected");
+              showToast(
+                action === "approve"
+                  ? "Draft approved (status in JSON). Run or wait for CI build (publish-approved-blog) for /blog + published."
+                  : "Draft rejected"
+              );
             } catch (e) {
               console.error("[SEO-APPROVE] error", e);
               var msg = e && e.message ? String(e.message) : String(e);
