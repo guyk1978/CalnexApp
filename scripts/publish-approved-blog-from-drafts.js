@@ -115,6 +115,9 @@ function readMinutesFromItem(item) {
 
 function inferCategory(item) {
   const kw = (item.primary_keyword || "").toLowerCase();
+  if (/automat|operation|business management|crm|follow[- ]?up|smb|workflow|small business/.test(kw)) {
+    return "Business Operations";
+  }
   if (/mortgage|dti|housing|home/.test(kw)) return "Mortgage";
   if (/car|auto|vehicle/.test(kw)) return "Auto Loans";
   if (/interest|apr|rate/.test(kw)) return "Interest Rates";

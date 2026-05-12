@@ -6,7 +6,23 @@
     "category": "Loan Basics",
     "updatedDate": "2026-05-11",
     "readTime": "12 min read",
-    "featured": true
+    "featured": true,
+    "primary_keyword": "how to calculate loan interest",
+    "internal_links": [
+      {
+        "title": "Loan vs Mortgage: Key Differences Explained",
+        "slug": "loan-vs-mortgage"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      },
+      {
+        "title": "How Extra Payments Save Money on Your Loan",
+        "slug": "how-extra-payments-save-money"
+      }
+    ],
+    "is_pillar": false
   },
   {
     "slug": "fixed-vs-variable-interest-rate",
@@ -15,7 +31,19 @@
     "category": "Interest Rates",
     "updatedDate": "2026-05-11",
     "readTime": "13 min read",
-    "featured": true
+    "featured": true,
+    "primary_keyword": "fixed vs variable interest rate",
+    "internal_links": [
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "How Extra Payments Save Money on Your Loan",
+        "slug": "how-extra-payments-save-money"
+      }
+    ],
+    "is_pillar": false
   },
   {
     "slug": "how-extra-payments-save-money",
@@ -24,7 +52,19 @@
     "category": "Repayment Strategy",
     "updatedDate": "2026-05-11",
     "readTime": "12 min read",
-    "featured": true
+    "featured": true,
+    "primary_keyword": "how extra payments save money",
+    "internal_links": [
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": false
   },
   {
     "slug": "loan-vs-mortgage",
@@ -33,7 +73,23 @@
     "category": "Loan Basics",
     "updatedDate": "2026-05-11",
     "readTime": "11 min read",
-    "featured": false
+    "featured": false,
+    "primary_keyword": "loan vs mortgage",
+    "internal_links": [
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": false
   },
   {
     "slug": "best-loan-term-15-vs-30-years",
@@ -42,7 +98,19 @@
     "category": "Term Planning",
     "updatedDate": "2026-05-11",
     "readTime": "12 min read",
-    "featured": false
+    "featured": false,
+    "primary_keyword": "best loan term 15 vs 30 years",
+    "internal_links": [
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": false
   },
   {
     "slug": "debt-to-income-ratio-mortgage-qualification",
@@ -51,6 +119,216 @@
     "category": "Mortgage",
     "updatedDate": "2026-05-12",
     "readTime": "8 min read",
-    "featured": false
+    "featured": false,
+    "primary_keyword": "debt to income ratio mortgage qualification",
+    "internal_links": [
+      {
+        "title": "How to Remove PMI From Your Mortgage: Timing, Triggers, and Trade-Offs",
+        "slug": "how-to-remove-pmi-from-mortgage"
+      },
+      {
+        "title": "Mortgage Pre-Approval vs Pre-Qualification: Which One Actually Counts",
+        "slug": "mortgage-pre-approval-vs-pre-qualification"
+      },
+      {
+        "title": "How Your Credit Score Moves Your Mortgage Rate (and by How Much)",
+        "slug": "credit-score-mortgage-rate-impact"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "automate-small-business-operations-2026",
+    "title": "How Small Businesses Can Automate Daily Operations in 2026",
+    "excerpt": "A practical 2026 playbook for small business automation: a five-layer model, quick wins, mid-horizon projects, and the metrics that prove it's working.",
+    "category": "Business Operations",
+    "updatedDate": "2026-05-12",
+    "readTime": "8 min read",
+    "featured": false,
+    "primary_keyword": "automate small business operations 2026",
+    "internal_links": [
+      {
+        "title": "Best All-in-One Business Management Software for Small Businesses",
+        "slug": "all-in-one-business-management-software"
+      },
+      {
+        "title": "Why Businesses Lose Customers Without Proper Follow-Up Systems",
+        "slug": "customer-follow-up-system"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "all-in-one-business-management-software",
+    "title": "Best All-in-One Business Management Software for Small Businesses",
+    "excerpt": "How small businesses evaluate all-in-one business management software in 2026: real criteria, hidden costs, pilot tactics, and consolidation signals.",
+    "category": "Business Operations",
+    "updatedDate": "2026-05-12",
+    "readTime": "8 min read",
+    "featured": false,
+    "primary_keyword": "all in one business management software",
+    "internal_links": [
+      {
+        "title": "How Small Businesses Can Automate Daily Operations in 2026",
+        "slug": "automate-small-business-operations-2026"
+      },
+      {
+        "title": "Why Businesses Lose Customers Without Proper Follow-Up Systems",
+        "slug": "customer-follow-up-system"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "customer-follow-up-system",
+    "title": "Why Businesses Lose Customers Without Proper Follow-Up Systems",
+    "excerpt": "The real revenue cost of missed follow-ups, where they break, and seven sequences every SMB should run to retain leads, customers, and renewals.",
+    "category": "Business Operations",
+    "updatedDate": "2026-05-12",
+    "readTime": "8 min read",
+    "featured": false,
+    "primary_keyword": "customer follow up system",
+    "internal_links": [
+      {
+        "title": "How Small Businesses Can Automate Daily Operations in 2026",
+        "slug": "automate-small-business-operations-2026"
+      },
+      {
+        "title": "Best All-in-One Business Management Software for Small Businesses",
+        "slug": "all-in-one-business-management-software"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "how-to-remove-pmi-from-mortgage",
+    "title": "How to Remove PMI From Your Mortgage: Timing, Triggers, and Trade-Offs",
+    "excerpt": "When and how to cancel private mortgage insurance: HPA triggers, request thresholds, appraisal strategy, and the cost-benefit math most borrowers skip.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-12",
+    "readTime": "9 min read",
+    "featured": false,
+    "primary_keyword": "how to remove pmi from mortgage",
+    "internal_links": [
+      {
+        "title": "Debt-to-Income Ratio for Mortgage Qualification: What Lenders See and How to Prepare",
+        "slug": "debt-to-income-ratio-mortgage-qualification"
+      },
+      {
+        "title": "Mortgage Pre-Approval vs Pre-Qualification: Which One Actually Counts",
+        "slug": "mortgage-pre-approval-vs-pre-qualification"
+      },
+      {
+        "title": "How Your Credit Score Moves Your Mortgage Rate (and by How Much)",
+        "slug": "credit-score-mortgage-rate-impact"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "mortgage-pre-approval-vs-pre-qualification",
+    "title": "Mortgage Pre-Approval vs Pre-Qualification: Which One Actually Counts",
+    "excerpt": "How mortgage pre-approval differs from pre-qualification, what documents lenders verify at each stage, and which letter sellers and listing agents take seriously.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-12",
+    "readTime": "8 min read",
+    "featured": false,
+    "primary_keyword": "mortgage pre approval vs pre qualification",
+    "internal_links": [
+      {
+        "title": "Debt-to-Income Ratio for Mortgage Qualification: What Lenders See and How to Prepare",
+        "slug": "debt-to-income-ratio-mortgage-qualification"
+      },
+      {
+        "title": "How to Remove PMI From Your Mortgage: Timing, Triggers, and Trade-Offs",
+        "slug": "how-to-remove-pmi-from-mortgage"
+      },
+      {
+        "title": "How Your Credit Score Moves Your Mortgage Rate (and by How Much)",
+        "slug": "credit-score-mortgage-rate-impact"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "credit-score-mortgage-rate-impact",
+    "title": "How Your Credit Score Moves Your Mortgage Rate (and by How Much)",
+    "excerpt": "How FICO score ranges translate to mortgage rate buckets, the dollar impact across a 30-year loan, and the credit moves that actually shift your bucket.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-12",
+    "readTime": "9 min read",
+    "featured": false,
+    "primary_keyword": "credit score mortgage rate impact",
+    "internal_links": [
+      {
+        "title": "Debt-to-Income Ratio for Mortgage Qualification: What Lenders See and How to Prepare",
+        "slug": "debt-to-income-ratio-mortgage-qualification"
+      },
+      {
+        "title": "How to Remove PMI From Your Mortgage: Timing, Triggers, and Trade-Offs",
+        "slug": "how-to-remove-pmi-from-mortgage"
+      },
+      {
+        "title": "Mortgage Pre-Approval vs Pre-Qualification: Which One Actually Counts",
+        "slug": "mortgage-pre-approval-vs-pre-qualification"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": true
   }
 ]
