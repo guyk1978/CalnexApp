@@ -1,39 +1,63 @@
+import {
+  buildArticleHtml,
+  normSlug
+} from "./_lib/blog-article-html.js";
+
 export async function onRequestPost({ env }) {
-  const slug = "debt-to-income-ratio-mortgage-qualification";
+  const slug =
+    "debt-to-income-ratio-mortgage-qualification";
 
-  const raw = await env.SEO_KV.get("drafts:pending-seo-pages");
-  const drafts = raw ? JSON.parse(raw) : { items: [] };
-
-  const item = drafts.items.find(
-    (x) =>
-      x.slug === slug ||
-      x.id === slug
+  const raw = await env.SEO_KV.get(
+    "drafts:pending-seo-pages"
   );
 
+  const drafts = raw
+    ? JSON.parse(raw)
+    : { items: [] };
+
+  const item = drafts.items.find((x) => {
+    return normSlug(x) === slug;
+  });
+
   if (!item) {
-    return new Response("draft not found", { status: 404 });
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "draft_not_found"
+      }),
+      {
+        status: 404,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
   }
 
-  const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>${item.title}</title>
-</head>
-<body>
-  <main>
-    <h1>${item.title}</h1>
-    <p>${item.excerpt || ""}</p>
-    <article>
-      ${item.content || ""}
-    </article>
-  </main>
-</body>
-</html>
-`;
+  const html = buildArticleHtml(
+    item,
+    "https://calnexapp.com"
+  );
 
-  await env.SEO_KV.put(`blog:html:${slug}`, html);
+  if (!html) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "html_generation_failed"
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+  }
+
+  await env.SEO_KV.put(
+    `blog:html:${slug}`,
+    html
+  );
 
   return new Response(
     JSON.stringify({
