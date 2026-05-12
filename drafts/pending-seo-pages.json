@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "items": [
     {
       "status": "published",
@@ -285,7 +285,7 @@
       "word_count_estimate": 1215
     },
     {
-      "status": "pending",
+      "status": "approved",
       "slug": "biweekly-mortgage-payments-extra-principal-truth",
       "title": "Biweekly Mortgage Payments vs True Extra Principal: What Actually Shortens Your Loan",
       "meta_description": "Learn how biweekly half-payments, third-payment acceleration, and plain extra principal differ—so you pick a strategy that matches your cash flow and goals.",
