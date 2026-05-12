@@ -90,11 +90,12 @@ export async function onRequestOptions(context) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-  const origin = request.headers.get("Origin") || "*";
+
+  console.log("ENV KEYS:", Object.keys(env || {}));
   console.log("[PUBLISH-NOW] start");
 
   if (!env.SEO_KV) {
-    return json({ ok: false, error: "kv_not_configured" }, 503, origin);
+    return json({ ok: false, error: "kv_not_configured" }, 503);
   }
 
   let bodyText = "";
