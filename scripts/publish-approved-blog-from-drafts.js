@@ -223,6 +223,16 @@ function saveBlogJson(posts) {
   fs.writeFileSync(BLOG_JSON_PATH, JSON.stringify(posts, null, 2) + "\n", "utf8");
 }
 
+function saveDraftsDoc(doc) {
+  if (typeof doc.version !== "number" || !Number.isFinite(doc.version)) {
+    doc.version = 1;
+  } else {
+    doc.version += 1;
+  }
+  fs.writeFileSync(DRAFTS_PATH, JSON.stringify(doc, null, 2) + "\n", "utf8");
+  console.log("[publish-approved-blog] updated", path.relative(ROOT, DRAFTS_PATH), "version", doc.version);
+}
+
 function main() {
   const doc = loadDrafts();
   const items = Array.isArray(doc.items) ? doc.items : [];
@@ -234,6 +244,8 @@ function main() {
 
   let posts = loadBlogJson();
   if (!Array.isArray(posts)) posts = [];
+
+  const publishedSlugs = [];
 
   for (const item of approved) {
     const slug = String(item.slug || "").replace(/[^a-z0-9-]/gi, "");
@@ -269,10 +281,19 @@ function main() {
     };
     if (idx >= 0) posts[idx] = { ...posts[idx], ...entry };
     else posts.push(entry);
+
+    publishedSlugs.push(slug);
   }
 
   saveBlogJson(posts);
   console.log("[publish-approved-blog] merged", approved.length, "into", path.relative(ROOT, BLOG_JSON_PATH));
+
+  for (const it of doc.items) {
+    if (it && publishedSlugs.indexOf(String(it.slug || "").replace(/[^a-z0-9-]/gi, "")) !== -1 && it.status === "approved") {
+      it.status = "published";
+    }
+  }
+  saveDraftsDoc(doc);
 }
 
 main();

@@ -1,8 +1,8 @@
 {
-  "version": 2,
+  "version": 3,
   "items": [
     {
-      "status": "approved",
+      "status": "published",
       "slug": "debt-to-income-ratio-mortgage-qualification",
       "title": "Debt-to-Income Ratio for Mortgage Qualification: What Lenders See and How to Prepare",
       "meta_description": "Learn how front-end and back-end DTI ratios affect mortgage approval, how to calculate yours, and practical steps to improve your profile before you apply.",

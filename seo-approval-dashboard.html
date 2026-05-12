@@ -2,8 +2,13 @@
 <html lang="en">
   <head>
     <script>
-      // Force the dashboard to read drafts from the running persist server
-      window.__SEO_DRAFT_READ_URL__ = "http://127.0.0.1:38421/drafts/pending-seo-pages.json";
+      // On localhost only: read/write via persist server. On production (e.g. calnexapp.com) use same-origin /drafts/…
+      (function () {
+        var h = (window.location.hostname || "").toLowerCase();
+        if (h === "localhost" || h === "127.0.0.1") {
+          window.__SEO_DRAFT_READ_URL__ = "http://127.0.0.1:38421/drafts/pending-seo-pages.json";
+        }
+      })();
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -68,6 +73,14 @@
       .status-badge--rejected {
         background: #fee2e2;
         color: #991b1b;
+      }
+      .status-badge--published {
+        background: #e0e7ff;
+        color: #3730a3;
+      }
+      .status-badge--other {
+        background: #f3f4f6;
+        color: #374151;
       }
       .seo-toast-host {
         position: fixed;
@@ -166,13 +179,14 @@
       <p class="eyebrow">Internal</p>
       <h1>SEO draft approval</h1>
       <p class="muted-note">
-        Draft list is loaded from <code>window.__SEO_DRAFT_READ_URL__</code> (set at the top of
-        <code>&lt;head&gt;</code> to <code>http://127.0.0.1:38421/drafts/pending-seo-pages.json</code>).
-        POST still uses <code>npm run seo-draft-server</code> on <code>127.0.0.1:38421/save</code>.
+        <strong>Production:</strong> drafts load from <code>/drafts/pending-seo-pages.json</code> (same origin, cache-busted).
+        <strong>Local:</strong> with <code>localhost</code> / <code>127.0.0.1</code>, reads default to the persist server on port 38421.
+        Approve / Reject POST still targets <code>npm run seo-draft-server</code> (local only unless you set
+        <code>window.__SEO_DRAFT_SAVE_URL__</code>).
       </p>
 
       <section id="draft-list" aria-live="polite"></section>
-      <p id="draft-empty" class="muted-note" hidden>No pending drafts.</p>
+      <p id="draft-empty" class="muted-note" hidden>No draft items in file.</p>
     </main>
 
     <div id="seo-modal" class="seo-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="seo-modal-title" hidden>
@@ -201,13 +215,17 @@
           if (typeof window.__SEO_DRAFT_READ_URL__ === "string" && window.__SEO_DRAFT_READ_URL__) {
             return window.__SEO_DRAFT_READ_URL__.replace(/\?.*$/, "");
           }
-          try {
-            var save = resolveSaveUrl();
-            var u = new URL(save, window.location.href);
-            return u.origin + "/drafts/pending-seo-pages.json";
-          } catch (e) {
-            return "/drafts/pending-seo-pages.json";
+          var h = (window.location.hostname || "").toLowerCase();
+          if (h === "localhost" || h === "127.0.0.1") {
+            try {
+              var save = resolveSaveUrl();
+              var u = new URL(save, window.location.href);
+              return u.origin + "/drafts/pending-seo-pages.json";
+            } catch (e) {
+              return "/drafts/pending-seo-pages.json";
+            }
           }
+          return "/drafts/pending-seo-pages.json";
         }
 
         function normalizeServerSnapshot(raw) {
@@ -273,18 +291,33 @@
           }, 4200);
         }
 
+        function normalizeDraftStatus(status) {
+          var s = String(status || "").trim().toLowerCase();
+          if (s === "pending" || s === "approved" || s === "rejected" || s === "published") return s;
+          return s || "pending";
+        }
+
         function badgeClass(status) {
-          var s = String(status || "").toLowerCase();
+          var s = normalizeDraftStatus(status);
           if (s === "approved") return "status-badge status-badge--approved";
           if (s === "rejected") return "status-badge status-badge--rejected";
-          return "status-badge status-badge--pending";
+          if (s === "published") return "status-badge status-badge--published";
+          if (s === "pending") return "status-badge status-badge--pending";
+          return "status-badge status-badge--other";
         }
 
         function badgeLabel(status) {
-          var s = String(status || "").toLowerCase();
+          var s = normalizeDraftStatus(status);
           if (s === "approved") return "Approved";
           if (s === "rejected") return "Rejected";
-          return "Pending";
+          if (s === "published") return "Published";
+          if (s === "pending") return "Pending";
+          return s ? s.charAt(0).toUpperCase() + s.slice(1) : "Unknown";
+        }
+
+        function statusSortOrder(status) {
+          var o = { pending: 0, approved: 1, published: 2, rejected: 3 };
+          return o[normalizeDraftStatus(status)] != null ? o[normalizeDraftStatus(status)] : 9;
         }
 
         function deepCloneDoc(obj) {
@@ -378,24 +411,31 @@
           listEl.innerHTML = "";
           var doc = serverDoc;
           if (!doc || !Array.isArray(doc.items)) {
-            console.log("[SEO-RENDER] pending count", 0);
+            console.log("[SEO-RENDER] item count", 0);
             emptyEl.hidden = false;
             return;
           }
 
-          var pending = doc.items.filter(function (i) {
-            return i.status === "pending";
+          var rows = doc.items.slice().sort(function (a, b) {
+            return statusSortOrder(a && a.status) - statusSortOrder(b && b.status);
           });
 
-          console.log("[SEO-RENDER] pending count", pending.length);
+          console.log(
+            "[SEO-RENDER] total",
+            rows.length,
+            "pending",
+            rows.filter(function (i) {
+              return normalizeDraftStatus(i && i.status) === "pending";
+            }).length
+          );
 
-          if (!pending.length) {
+          if (!rows.length) {
             emptyEl.hidden = false;
             return;
           }
           emptyEl.hidden = true;
 
-          pending.forEach(function (item) {
+          rows.forEach(function (item) {
             var card = document.createElement("article");
             card.className = "seo-draft-card";
             card.dataset.slug = item.slug;
@@ -429,6 +469,7 @@
             actions.className = "seo-draft-card__actions";
 
             var disabled = persistInFlight;
+            var isPending = normalizeDraftStatus(item.status) === "pending";
 
             var btnPreview = document.createElement("button");
             btnPreview.type = "button";
@@ -437,23 +478,26 @@
             btnPreview.textContent = "Preview";
             btnPreview.disabled = disabled;
 
-            var btnApprove = document.createElement("button");
-            btnApprove.type = "button";
-            btnApprove.className = "btn btn-primary";
-            btnApprove.dataset.action = "approve";
-            btnApprove.textContent = "Approve";
-            btnApprove.disabled = disabled;
-
-            var btnReject = document.createElement("button");
-            btnReject.type = "button";
-            btnReject.className = "btn btn-ghost";
-            btnReject.dataset.action = "reject";
-            btnReject.textContent = "Reject";
-            btnReject.disabled = disabled;
-
             actions.appendChild(btnPreview);
-            actions.appendChild(btnApprove);
-            actions.appendChild(btnReject);
+
+            if (isPending) {
+              var btnApprove = document.createElement("button");
+              btnApprove.type = "button";
+              btnApprove.className = "btn btn-primary";
+              btnApprove.dataset.action = "approve";
+              btnApprove.textContent = "Approve";
+              btnApprove.disabled = disabled;
+
+              var btnReject = document.createElement("button");
+              btnReject.type = "button";
+              btnReject.className = "btn btn-ghost";
+              btnReject.dataset.action = "reject";
+              btnReject.textContent = "Reject";
+              btnReject.disabled = disabled;
+
+              actions.appendChild(btnApprove);
+              actions.appendChild(btnReject);
+            }
 
             card.appendChild(head);
             card.appendChild(meta);
