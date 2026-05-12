@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEO draft approval | CalnexApp</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <style>
+      .seo-dash-wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem 1rem 4rem;
+      }
+      .seo-draft-card {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .seo-draft-card__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .seo-draft-card__title {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 600;
+      }
+      .seo-draft-card__slug {
+        font-size: 0.85rem;
+        color: #5f6b7a;
+        margin: 0.25rem 0 0;
+      }
+      .seo-draft-card__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .status-badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+      }
+      .status-badge--pending {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .status-badge--approved {
+        background: #d1fae5;
+        color: #065f46;
+      }
+      .status-badge--rejected {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .seo-toast-host {
+        position: fixed;
+        bottom: 1.25rem;
+        right: 1.25rem;
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .seo-toast {
+        background: #111827;
+        color: #f9fafb;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        max-width: 320px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        animation: seoToastIn 0.2s ease;
+      }
+      .seo-toast--err {
+        background: #7f1d1d;
+      }
+      @keyframes seoToastIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .seo-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        z-index: 1500;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      .seo-modal-backdrop.is-open {
+        display: flex;
+      }
+      .seo-modal {
+        background: #fff;
+        border-radius: 12px;
+        max-width: 900px;
+        width: 100%;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+      .seo-modal__head {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .seo-modal__body {
+        padding: 1rem 1.25rem;
+        overflow: auto;
+        font-size: 0.8rem;
+      }
+      .seo-modal__body pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+      .muted-note {
+        color: #5f6b7a;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/seo/latest/" data-nav-link>SEO pages</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="seo-dash-wrap">
+      <p class="eyebrow">Internal</p>
+      <h1>SEO draft approval</h1>
+      <p class="muted-note">
+        Only drafts with status <strong>pending</strong> are listed. Approve / Reject updates
+        <code>drafts/pending-seo-pages.json</code> via the local save server
+        (<code>npm run seo-draft-server</code> on <code>127.0.0.1:38421</code>).
+      </p>
+
+      <section id="draft-list" aria-live="polite"></section>
+      <p id="draft-empty" class="muted-note" hidden>No pending drafts.</p>
+    </main>
+
+    <div id="seo-modal" class="seo-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="seo-modal-title" hidden>
+      <div class="seo-modal">
+        <div class="seo-modal__head">
+          <h2 id="seo-modal-title" style="margin: 0; font-size: 1.1rem">Draft preview</h2>
+          <button type="button" class="btn btn-ghost" id="seo-modal-close">Close</button>
+        </div>
+        <div class="seo-modal__body">
+          <pre id="seo-modal-pre"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="seo-toast-host" id="seo-toast-host" aria-live="polite"></div>
+
+    <script>
+      (function () {
+        const DRAFT_JSON_URL = "/drafts/pending-seo-pages.json";
+        const PERSIST_URL =
+          typeof window.__SEO_DRAFT_SAVE_URL__ === "string" && window.__SEO_DRAFT_SAVE_URL__
+            ? window.__SEO_DRAFT_SAVE_URL__
+            : "http://127.0.0.1:38421/save";
+
+        let fullDocument = null;
+
+        const listEl = document.getElementById("draft-list");
+        const emptyEl = document.getElementById("draft-empty");
+        const modal = document.getElementById("seo-modal");
+        const modalPre = document.getElementById("seo-modal-pre");
+        const modalClose = document.getElementById("seo-modal-close");
+        const toastHost = document.getElementById("seo-toast-host");
+
+        function showToast(message, isError) {
+          const t = document.createElement("div");
+          t.className = "seo-toast" + (isError ? " seo-toast--err" : "");
+          t.textContent = message;
+          toastHost.appendChild(t);
+          window.setTimeout(() => t.remove(), 4200);
+        }
+
+        function badgeClass(status) {
+          const s = String(status || "").toLowerCase();
+          if (s === "approved") return "status-badge status-badge--approved";
+          if (s === "rejected") return "status-badge status-badge--rejected";
+          return "status-badge status-badge--pending";
+        }
+
+        function badgeLabel(status) {
+          const s = String(status || "").toLowerCase();
+          if (s === "approved") return "Approved";
+          if (s === "rejected") return "Rejected";
+          return "Pending";
+        }
+
+        async function persistDocument(doc) {
+          try {
+            const res = await fetch(PERSIST_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(doc, null, 2)
+            });
+            if (!res.ok) {
+              const t = await res.text().catch(() => "");
+              throw new Error(t || "Save failed");
+            }
+            const j = await res.json().catch(() => ({}));
+            if (j && j.ok === false) throw new Error(j.error || "Save failed");
+            return true;
+          } catch (e) {
+            console.warn("[seo-dashboard] persist error", e);
+            return false;
+          }
+        }
+
+        function openModal(jsonText) {
+          modalPre.textContent = jsonText;
+          modal.hidden = false;
+          modal.classList.add("is-open");
+          modalClose.focus();
+        }
+
+        function closeModal() {
+          modal.classList.remove("is-open");
+          modal.hidden = true;
+        }
+
+        function render() {
+          listEl.innerHTML = "";
+          if (!fullDocument || !Array.isArray(fullDocument.items)) {
+            emptyEl.hidden = false;
+            return;
+          }
+          const pending = fullDocument.items.filter(function (it) {
+            return String(it.status || "").toLowerCase() === "pending";
+          });
+          if (!pending.length) {
+            emptyEl.hidden = false;
+            return;
+          }
+          emptyEl.hidden = true;
+
+          pending.forEach(function (item) {
+            const card = document.createElement("article");
+            card.className = "seo-draft-card";
+            card.dataset.slug = item.slug;
+
+            const head = document.createElement("div");
+            head.className = "seo-draft-card__head";
+
+            const left = document.createElement("div");
+            const h = document.createElement("h3");
+            h.className = "seo-draft-card__title";
+            h.textContent = item.title || "(no title)";
+            const slugP = document.createElement("p");
+            slugP.className = "seo-draft-card__slug";
+            slugP.textContent = item.slug || "";
+
+            const badge = document.createElement("span");
+            badge.className = badgeClass(item.status);
+            badge.textContent = badgeLabel(item.status);
+
+            left.appendChild(h);
+            left.appendChild(slugP);
+            head.appendChild(left);
+            head.appendChild(badge);
+
+            const meta = document.createElement("p");
+            meta.className = "muted-note";
+            meta.style.margin = "0 0 0.5rem";
+            meta.textContent = item.meta_description || "";
+
+            const actions = document.createElement("div");
+            actions.className = "seo-draft-card__actions";
+
+            const btnPreview = document.createElement("button");
+            btnPreview.type = "button";
+            btnPreview.className = "btn btn-ghost";
+            btnPreview.dataset.action = "preview";
+            btnPreview.textContent = "Preview";
+
+            const btnApprove = document.createElement("button");
+            btnApprove.type = "button";
+            btnApprove.className = "btn btn-primary";
+            btnApprove.dataset.action = "approve";
+            btnApprove.textContent = "Approve";
+
+            const btnReject = document.createElement("button");
+            btnReject.type = "button";
+            btnReject.className = "btn btn-ghost";
+            btnReject.dataset.action = "reject";
+            btnReject.textContent = "Reject";
+
+            actions.appendChild(btnPreview);
+            actions.appendChild(btnApprove);
+            actions.appendChild(btnReject);
+
+            card.appendChild(head);
+            card.appendChild(meta);
+            card.appendChild(actions);
+            listEl.appendChild(card);
+          });
+        }
+
+        listEl.addEventListener("click", async function (ev) {
+          const btn = ev.target.closest("button[data-action]");
+          if (!btn) return;
+          const card = btn.closest(".seo-draft-card");
+          if (!card) return;
+          const slug = card.dataset.slug;
+          const action = btn.dataset.action;
+
+          const item = fullDocument.items.find(function (it) {
+            return it.slug === slug;
+          });
+          if (!item) return;
+
+          if (action === "preview") {
+            openModal(JSON.stringify(item, null, 2));
+            return;
+          }
+
+          if (action === "approve" || action === "reject") {
+            const prev = item.status;
+            item.status = action === "approve" ? "approved" : "rejected";
+            const ok = await persistDocument(fullDocument);
+            if (!ok) {
+              item.status = prev;
+              showToast(
+                "Could not save file. Start: npm run seo-draft-server (listens on 127.0.0.1:38421).",
+                true
+              );
+              return;
+            }
+            card.remove();
+            showToast(action === "approve" ? "Draft approved" : "Draft rejected");
+            const stillPending = fullDocument.items.some(function (it) {
+              return String(it.status || "").toLowerCase() === "pending";
+            });
+            if (!stillPending) emptyEl.hidden = false;
+          }
+        });
+
+        modalClose.addEventListener("click", closeModal);
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) closeModal();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+        });
+
+        async function init() {
+          try {
+            const res = await fetch(DRAFT_JSON_URL, { cache: "no-store" });
+            if (!res.ok) throw new Error("Could not load drafts");
+            fullDocument = await res.json();
+            render();
+          } catch (e) {
+            console.error(e);
+            showToast("Failed to load drafts/pending-seo-pages.json", true);
+            emptyEl.hidden = false;
+            emptyEl.textContent = "Could not load draft file.";
+          }
+        }
+
+        init();
+      })();
+    </script>
+  </body>
+</html>
