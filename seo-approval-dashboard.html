@@ -162,9 +162,8 @@
       <p class="eyebrow">Internal</p>
       <h1>SEO draft approval</h1>
       <p class="muted-note">
-        Only drafts with status <strong>pending</strong> are listed. Approve / Reject updates
-        <code>drafts/pending-seo-pages.json</code> via the local save server
-        (<code>npm run seo-draft-server</code> on <code>127.0.0.1:38421</code>).
+        Versioned saves: POST sends <code>{ version, items }</code> (CAS). On conflict the dashboard refetches once and retries.
+        File on disk is authoritative; <code>version</code> increments on each successful save.
       </p>
 
       <section id="draft-list" aria-live="polite"></section>
@@ -187,13 +186,54 @@
 
     <script>
       (function () {
-        const DRAFT_JSON_URL = "/drafts/pending-seo-pages.json";
-        const PERSIST_URL =
-          typeof window.__SEO_DRAFT_SAVE_URL__ === "string" && window.__SEO_DRAFT_SAVE_URL__
+        function resolveSaveUrl() {
+          return typeof window.__SEO_DRAFT_SAVE_URL__ === "string" && window.__SEO_DRAFT_SAVE_URL__
             ? window.__SEO_DRAFT_SAVE_URL__
             : "http://127.0.0.1:38421/save";
+        }
 
-        let fullDocument = null;
+        function normalizeDocVersion(data) {
+          if (typeof data.version !== "number" || !Number.isFinite(data.version)) {
+            data.version = 1;
+          }
+          return data;
+        }
+
+        /**
+         * Single read model: default /drafts/pending-seo-pages.json?ts=… + cache: no-store.
+         * Set window.__SEO_DRAFT_READ_URL__ to full base when JSON is not on the page origin.
+         */
+        async function fetchDrafts() {
+          var base =
+            typeof window.__SEO_DRAFT_READ_URL__ === "string" && window.__SEO_DRAFT_READ_URL__
+              ? window.__SEO_DRAFT_READ_URL__.replace(/\?.*$/, "")
+              : "/drafts/pending-seo-pages.json";
+          var url = (base.indexOf("?") === -1 ? base + "?" : base + "&") + "ts=" + Date.now();
+          console.log("[DRAFT-FETCH]", url);
+          var r = await fetch(url, {
+            cache: "no-store",
+            headers: {
+              "Cache-Control": "no-cache, no-store, must-revalidate",
+              Pragma: "no-cache"
+            }
+          });
+          if (!r.ok) {
+            var errText = await r.text().catch(function () {
+              return "";
+            });
+            throw new Error(errText || "Fetch failed " + r.status);
+          }
+          var data = await r.json();
+          normalizeDocVersion(data);
+          console.log("[DRAFT-FETCH] ok items=", Array.isArray(data.items) ? data.items.length : 0, "version=", data.version);
+          return data;
+        }
+
+        /** Authoritative CAS version from last successful fetch / sync. */
+        var currentVersion = 0;
+        /** Only replaced from fetchDrafts / syncFromServer — never mutated for persistence. */
+        var serverDoc = null;
+        var persistInFlight = false;
 
         const listEl = document.getElementById("draft-list");
         const emptyEl = document.getElementById("draft-empty");
@@ -203,45 +243,188 @@
         const toastHost = document.getElementById("seo-toast-host");
 
         function showToast(message, isError) {
-          const t = document.createElement("div");
+          var t = document.createElement("div");
           t.className = "seo-toast" + (isError ? " seo-toast--err" : "");
           t.textContent = message;
           toastHost.appendChild(t);
-          window.setTimeout(() => t.remove(), 4200);
+          window.setTimeout(function () {
+            t.remove();
+          }, 4200);
         }
 
         function badgeClass(status) {
-          const s = String(status || "").toLowerCase();
+          var s = String(status || "").toLowerCase();
           if (s === "approved") return "status-badge status-badge--approved";
           if (s === "rejected") return "status-badge status-badge--rejected";
           return "status-badge status-badge--pending";
         }
 
         function badgeLabel(status) {
-          const s = String(status || "").toLowerCase();
+          var s = String(status || "").toLowerCase();
           if (s === "approved") return "Approved";
           if (s === "rejected") return "Rejected";
           return "Pending";
         }
 
-        async function persistDocument(doc) {
-          try {
-            const res = await fetch(PERSIST_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(doc, null, 2)
-            });
-            if (!res.ok) {
-              const t = await res.text().catch(() => "");
-              throw new Error(t || "Save failed");
+        function deepCloneDoc(doc) {
+          if (typeof structuredClone === "function") return structuredClone(doc);
+          return JSON.parse(JSON.stringify(doc));
+        }
+
+        /**
+         * POST { version: currentVersion, items } — one automatic 409 retry after refetch + re-apply.
+         */
+        async function persistVersionedItems(itemsPayload, slug, nextStatus, isRetry) {
+          var saveUrl = resolveSaveUrl();
+          var body = JSON.stringify({ version: currentVersion, items: itemsPayload });
+          console.log("[DRAFT-SAVE] client POST version=", currentVersion, "bytes=", body.length);
+          var res = await fetch(saveUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: body,
+            cache: "no-store"
+          });
+          var text = await res.text().catch(function () {
+            return "";
+          });
+
+          if (res.status === 409) {
+            var j409 = {};
+            try {
+              j409 = JSON.parse(text);
+            } catch (_) {}
+            if (j409.error === "VERSION_CONFLICT") {
+              if (!isRetry) {
+                console.warn("[DRAFT-SAVE] VERSION_CONFLICT — auto recovery refetch");
+                await syncFromServer();
+                currentVersion = typeof serverDoc.version === "number" ? serverDoc.version : 1;
+                var items2 = deepCloneDoc(serverDoc.items);
+                var target2 = items2.find(function (it) {
+                  return it.slug === slug;
+                });
+                if (!target2 || target2.status !== "pending") {
+                  return { ok: false, error: "STALE", stale: true };
+                }
+                target2.status = nextStatus;
+                return persistVersionedItems(items2, slug, nextStatus, true);
+              }
+              return { ok: false, error: "VERSION_CONFLICT", conflictRetryExhausted: true };
             }
-            const j = await res.json().catch(() => ({}));
-            if (j && j.ok === false) throw new Error(j.error || "Save failed");
-            return true;
-          } catch (e) {
-            console.warn("[seo-dashboard] persist error", e);
-            return false;
+            return { ok: false, error: j409.error || "Save rejected" };
           }
+
+          if (!res.ok) {
+            console.warn("[DRAFT-SAVE] client http error", res.status, text);
+            return { ok: false, error: text || "Save failed" };
+          }
+          var j = {};
+          try {
+            j = JSON.parse(text);
+          } catch (_) {}
+          if (j && j.ok === false) {
+            console.warn("[DRAFT-SAVE] client server rejected", j.error);
+            return { ok: false, error: j.error || "Save failed" };
+          }
+          if (typeof j.version === "number" && Number.isFinite(j.version)) {
+            currentVersion = j.version;
+          }
+          return { ok: true };
+        }
+
+        function render() {
+          listEl.innerHTML = "";
+          var doc = serverDoc;
+          if (!doc || !Array.isArray(doc.items)) {
+            console.log("[DRAFT-RENDER] empty (no document)");
+            emptyEl.hidden = false;
+            return;
+          }
+
+          var pending = doc.items.filter(function (i) {
+            return i.status === "pending";
+          });
+
+          console.log("[DRAFT-RENDER] pending=", pending.length, "persistInFlight=", persistInFlight);
+
+          if (!pending.length) {
+            emptyEl.hidden = false;
+            return;
+          }
+          emptyEl.hidden = true;
+
+          pending.forEach(function (item) {
+            var card = document.createElement("article");
+            card.className = "seo-draft-card";
+            card.dataset.slug = item.slug;
+
+            var head = document.createElement("div");
+            head.className = "seo-draft-card__head";
+
+            var left = document.createElement("div");
+            var h = document.createElement("h3");
+            h.className = "seo-draft-card__title";
+            h.textContent = item.title || "(no title)";
+            var slugP = document.createElement("p");
+            slugP.className = "seo-draft-card__slug";
+            slugP.textContent = item.slug || "";
+
+            var badge = document.createElement("span");
+            badge.className = badgeClass(item.status);
+            badge.textContent = badgeLabel(item.status);
+
+            left.appendChild(h);
+            left.appendChild(slugP);
+            head.appendChild(left);
+            head.appendChild(badge);
+
+            var meta = document.createElement("p");
+            meta.className = "muted-note";
+            meta.style.margin = "0 0 0.5rem";
+            meta.textContent = item.meta_description || "";
+
+            var actions = document.createElement("div");
+            actions.className = "seo-draft-card__actions";
+
+            var disabled = persistInFlight;
+
+            var btnPreview = document.createElement("button");
+            btnPreview.type = "button";
+            btnPreview.className = "btn btn-ghost";
+            btnPreview.dataset.action = "preview";
+            btnPreview.textContent = "Preview";
+            btnPreview.disabled = disabled;
+
+            var btnApprove = document.createElement("button");
+            btnApprove.type = "button";
+            btnApprove.className = "btn btn-primary";
+            btnApprove.dataset.action = "approve";
+            btnApprove.textContent = "Approve";
+            btnApprove.disabled = disabled;
+
+            var btnReject = document.createElement("button");
+            btnReject.type = "button";
+            btnReject.className = "btn btn-ghost";
+            btnReject.dataset.action = "reject";
+            btnReject.textContent = "Reject";
+            btnReject.disabled = disabled;
+
+            actions.appendChild(btnPreview);
+            actions.appendChild(btnApprove);
+            actions.appendChild(btnReject);
+
+            card.appendChild(head);
+            card.appendChild(meta);
+            card.appendChild(actions);
+            listEl.appendChild(card);
+          });
+        }
+
+        async function syncFromServer() {
+          console.log("[DRAFT-SYNC] begin");
+          serverDoc = await fetchDrafts();
+          currentVersion = typeof serverDoc.version === "number" ? serverDoc.version : 1;
+          render();
+          console.log("[DRAFT-SYNC] done version=", currentVersion);
         }
 
         function openModal(jsonText) {
@@ -256,94 +439,20 @@
           modal.hidden = true;
         }
 
-        function render() {
-          listEl.innerHTML = "";
-          if (!fullDocument || !Array.isArray(fullDocument.items)) {
-            emptyEl.hidden = false;
-            return;
-          }
-          const pending = fullDocument.items.filter(function (it) {
-            return String(it.status || "").toLowerCase() === "pending";
-          });
-          if (!pending.length) {
-            emptyEl.hidden = false;
-            return;
-          }
-          emptyEl.hidden = true;
-
-          pending.forEach(function (item) {
-            const card = document.createElement("article");
-            card.className = "seo-draft-card";
-            card.dataset.slug = item.slug;
-
-            const head = document.createElement("div");
-            head.className = "seo-draft-card__head";
-
-            const left = document.createElement("div");
-            const h = document.createElement("h3");
-            h.className = "seo-draft-card__title";
-            h.textContent = item.title || "(no title)";
-            const slugP = document.createElement("p");
-            slugP.className = "seo-draft-card__slug";
-            slugP.textContent = item.slug || "";
-
-            const badge = document.createElement("span");
-            badge.className = badgeClass(item.status);
-            badge.textContent = badgeLabel(item.status);
-
-            left.appendChild(h);
-            left.appendChild(slugP);
-            head.appendChild(left);
-            head.appendChild(badge);
-
-            const meta = document.createElement("p");
-            meta.className = "muted-note";
-            meta.style.margin = "0 0 0.5rem";
-            meta.textContent = item.meta_description || "";
-
-            const actions = document.createElement("div");
-            actions.className = "seo-draft-card__actions";
-
-            const btnPreview = document.createElement("button");
-            btnPreview.type = "button";
-            btnPreview.className = "btn btn-ghost";
-            btnPreview.dataset.action = "preview";
-            btnPreview.textContent = "Preview";
-
-            const btnApprove = document.createElement("button");
-            btnApprove.type = "button";
-            btnApprove.className = "btn btn-primary";
-            btnApprove.dataset.action = "approve";
-            btnApprove.textContent = "Approve";
-
-            const btnReject = document.createElement("button");
-            btnReject.type = "button";
-            btnReject.className = "btn btn-ghost";
-            btnReject.dataset.action = "reject";
-            btnReject.textContent = "Reject";
-
-            actions.appendChild(btnPreview);
-            actions.appendChild(btnApprove);
-            actions.appendChild(btnReject);
-
-            card.appendChild(head);
-            card.appendChild(meta);
-            card.appendChild(actions);
-            listEl.appendChild(card);
-          });
-        }
-
         listEl.addEventListener("click", async function (ev) {
-          const btn = ev.target.closest("button[data-action]");
-          if (!btn) return;
-          const card = btn.closest(".seo-draft-card");
+          var btn = ev.target.closest("button[data-action]");
+          if (!btn || btn.disabled) return;
+          var card = btn.closest(".seo-draft-card");
           if (!card) return;
-          const slug = card.dataset.slug;
-          const action = btn.dataset.action;
+          var slug = card.dataset.slug;
+          var action = btn.dataset.action;
 
-          const item = fullDocument.items.find(function (it) {
-            return it.slug === slug;
-          });
+          var item =
+            serverDoc && serverDoc.items
+              ? serverDoc.items.find(function (it) {
+                  return it.slug === slug;
+                })
+              : null;
           if (!item) return;
 
           if (action === "preview") {
@@ -352,23 +461,56 @@
           }
 
           if (action === "approve" || action === "reject") {
-            const prev = item.status;
-            item.status = action === "approve" ? "approved" : "rejected";
-            const ok = await persistDocument(fullDocument);
-            if (!ok) {
-              item.status = prev;
-              showToast(
-                "Could not save file. Start: npm run seo-draft-server (listens on 127.0.0.1:38421).",
-                true
-              );
-              return;
+            if (persistInFlight) return;
+            var nextStatus = action === "approve" ? "approved" : "rejected";
+
+            persistInFlight = true;
+            render();
+
+            try {
+              console.log("[DRAFT-APPROVE]", slug, nextStatus);
+              var latest = await fetchDrafts();
+              normalizeDocVersion(latest);
+              serverDoc = latest;
+              currentVersion = latest.version;
+
+              var itemsClone = deepCloneDoc(latest.items);
+              var target = itemsClone.find(function (it) {
+                return it.slug === slug;
+              });
+              if (!target || target.status !== "pending") {
+                showToast("Draft list changed; synced from server.", true);
+                render();
+                return;
+              }
+              target.status = nextStatus;
+
+              var result = await persistVersionedItems(itemsClone, slug, nextStatus, false);
+              if (!result.ok) {
+                if (result.conflictRetryExhausted) {
+                  showToast("Could not save after conflict recovery.", true);
+                } else if (result.stale) {
+                  showToast("Draft list changed; synced from server.", true);
+                } else {
+                  showToast("Could not save. Is npm run seo-draft-server running?", true);
+                }
+                await syncFromServer();
+                return;
+              }
+              await syncFromServer();
+              showToast(action === "approve" ? "Draft approved" : "Draft rejected");
+            } catch (e) {
+              console.error("[DRAFT-APPROVE] error", e);
+              showToast("Operation failed.", true);
+              try {
+                await syncFromServer();
+              } catch (e2) {
+                console.error("[DRAFT-SYNC] recovery fetch failed", e2);
+              }
+            } finally {
+              persistInFlight = false;
+              render();
             }
-            card.remove();
-            showToast(action === "approve" ? "Draft approved" : "Draft rejected");
-            const stillPending = fullDocument.items.some(function (it) {
-              return String(it.status || "").toLowerCase() === "pending";
-            });
-            if (!stillPending) emptyEl.hidden = false;
           }
         });
 
@@ -382,13 +524,10 @@
 
         async function init() {
           try {
-            const res = await fetch(DRAFT_JSON_URL, { cache: "no-store" });
-            if (!res.ok) throw new Error("Could not load drafts");
-            fullDocument = await res.json();
-            render();
+            await syncFromServer();
           } catch (e) {
-            console.error(e);
-            showToast("Failed to load drafts/pending-seo-pages.json", true);
+            console.error("[DRAFT-FETCH] init error", e);
+            showToast("Failed to load drafts (check URL and server).", true);
             emptyEl.hidden = false;
             emptyEl.textContent = "Could not load draft file.";
           }
