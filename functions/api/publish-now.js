@@ -139,7 +139,7 @@ export async function onRequestPost(context) {
     }
     queue = [it];
   } else {
-    queue = doc.items.filter((i) => i && normalizeDraftStatus(i.status) === "approved");
+    queue = Array.isArray(doc.items) ? doc.items.filter(Boolean) : [];
   }
 
   if (!queue.length) {
