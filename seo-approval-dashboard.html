@@ -162,8 +162,8 @@
       <p class="eyebrow">Internal</p>
       <h1>SEO draft approval</h1>
       <p class="muted-note">
-        Versioned saves: POST sends <code>{ version, items }</code> (CAS). On conflict the dashboard refetches once and retries.
-        File on disk is authoritative; <code>version</code> increments on each successful save.
+        Reads default to the <strong>same host as POST /save</strong> (<code>127.0.0.1:38421/drafts/pending-seo-pages.json</code>) so the UI always sees the file the persist server writes
+        (<code>drafts/pending-seo-pages.json</code> in this repo). Override with <code>window.__SEO_DRAFT_READ_URL__</code> only if needed.
       </p>
 
       <section id="draft-list" aria-live="polite"></section>
@@ -192,24 +192,36 @@
             : "http://127.0.0.1:38421/save";
         }
 
-        function normalizeDocVersion(data) {
-          if (typeof data.version !== "number" || !Number.isFinite(data.version)) {
-            data.version = 1;
+        function resolveDraftReadBase() {
+          if (typeof window.__SEO_DRAFT_READ_URL__ === "string" && window.__SEO_DRAFT_READ_URL__) {
+            return window.__SEO_DRAFT_READ_URL__.replace(/?.*$/, "");
           }
-          return data;
+          try {
+            var save = resolveSaveUrl();
+            var u = new URL(save, window.location.href);
+            return u.origin + "/drafts/pending-seo-pages.json";
+          } catch (e) {
+            return "/drafts/pending-seo-pages.json";
+          }
         }
 
-        /**
-         * Single read model: default /drafts/pending-seo-pages.json?ts=… + cache: no-store.
-         * Set window.__SEO_DRAFT_READ_URL__ to full base when JSON is not on the page origin.
-         */
+        function normalizeServerSnapshot(raw) {
+          if (!raw || typeof raw !== "object") {
+            return { version: 1, items: [] };
+          }
+          var v = raw.version;
+          if (typeof v === "string" && v.trim() !== "" && !isNaN(Number(v))) {
+            v = Number(v);
+          }
+          if (typeof v !== "number" || !Number.isFinite(v)) {
+            v = 1;
+          }
+          return { version: v, items: Array.isArray(raw.items) ? raw.items : [] };
+        }
+
         async function fetchDrafts() {
-          var base =
-            typeof window.__SEO_DRAFT_READ_URL__ === "string" && window.__SEO_DRAFT_READ_URL__
-              ? window.__SEO_DRAFT_READ_URL__.replace(/\?.*$/, "")
-              : "/drafts/pending-seo-pages.json";
+          var base = resolveDraftReadBase();
           var url = (base.indexOf("?") === -1 ? base + "?" : base + "&") + "ts=" + Date.now();
-          console.log("[DRAFT-FETCH]", url);
           var r = await fetch(url, {
             cache: "no-store",
             headers: {
@@ -223,15 +235,19 @@
             });
             throw new Error(errText || "Fetch failed " + r.status);
           }
-          var data = await r.json();
-          normalizeDocVersion(data);
-          console.log("[DRAFT-FETCH] ok items=", Array.isArray(data.items) ? data.items.length : 0, "version=", data.version);
-          return data;
+          var rawText = await r.text();
+          var data;
+          try {
+            data = JSON.parse(rawText);
+          } catch (pe) {
+            console.error("[SEO-FETCH] JSON parse error", pe);
+            throw new Error("Invalid JSON from server");
+          }
+          var snap = normalizeServerSnapshot(data);
+          console.log("[SEO-FETCH] version", snap.version);
+          return snap;
         }
 
-        /** Authoritative CAS version from last successful fetch / sync. */
-        var currentVersion = 0;
-        /** Only replaced from fetchDrafts / syncFromServer — never mutated for persistence. */
         var serverDoc = null;
         var persistInFlight = false;
 
@@ -266,67 +282,89 @@
           return "Pending";
         }
 
-        function deepCloneDoc(doc) {
-          if (typeof structuredClone === "function") return structuredClone(doc);
-          return JSON.parse(JSON.stringify(doc));
+        function deepCloneDoc(obj) {
+          if (typeof structuredClone === "function") return structuredClone(obj);
+          return JSON.parse(JSON.stringify(obj));
         }
 
-        /**
-         * POST { version: currentVersion, items } — one automatic 409 retry after refetch + re-apply.
-         */
-        async function persistVersionedItems(itemsPayload, slug, nextStatus, isRetry) {
+        function isVersionConflictError(errStr) {
+          return /version[\s_]*conflict/i.test(String(errStr || ""));
+        }
+
+        async function syncFromServer() {
+          serverDoc = await fetchDrafts();
+        }
+
+        async function persistDraftSave(payloadVersion, items, slug, nextStatus, postAttempt) {
           var saveUrl = resolveSaveUrl();
-          var body = JSON.stringify({ version: currentVersion, items: itemsPayload });
-          console.log("[DRAFT-SAVE] client POST version=", currentVersion, "bytes=", body.length);
-          var res = await fetch(saveUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: body,
-            cache: "no-store"
-          });
-          var text = await res.text().catch(function () {
-            return "";
-          });
+          var body = JSON.stringify({ version: payloadVersion, items: items });
+          console.log("[SEO-SAVE]", slug, "version", payloadVersion, "attempt", postAttempt);
+
+          var res;
+          var text;
+          try {
+            res = await fetch(saveUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: body,
+              cache: "no-store"
+            });
+            text = await res.text().catch(function () {
+              return "";
+            });
+          } catch (e) {
+            console.error("[SEO-SAVE] network error", e);
+            return { ok: false, network: true };
+          }
 
           if (res.status === 409) {
             var j409 = {};
             try {
               j409 = JSON.parse(text);
             } catch (_) {}
-            if (j409.error === "VERSION_CONFLICT") {
-              if (!isRetry) {
-                console.warn("[DRAFT-SAVE] VERSION_CONFLICT — auto recovery refetch");
-                await syncFromServer();
-                currentVersion = typeof serverDoc.version === "number" ? serverDoc.version : 1;
-                var items2 = deepCloneDoc(serverDoc.items);
-                var target2 = items2.find(function (it) {
-                  return it.slug === slug;
-                });
-                if (!target2 || target2.status !== "pending") {
-                  return { ok: false, error: "STALE", stale: true };
-                }
-                target2.status = nextStatus;
-                return persistVersionedItems(items2, slug, nextStatus, true);
+            var err409 = j409.error;
+            if (isVersionConflictError(err409)) {
+              var actualV =
+                typeof j409.version === "number" && Number.isFinite(j409.version) ? j409.version : "?";
+              console.log("[SEO-CONFLICT] expected", payloadVersion, "actual", actualV);
+              if (postAttempt >= 2) {
+                return { ok: false, conflictRetryExhausted: true };
               }
-              return { ok: false, error: "VERSION_CONFLICT", conflictRetryExhausted: true };
+              showToast("Updated by server, retrying...", false);
+              await syncFromServer();
+              render();
+              var copy = deepCloneDoc(serverDoc);
+              var t2 = copy.items.find(function (it) {
+                return it.slug === slug;
+              });
+              if (!t2 || t2.status !== "pending") {
+                return { ok: false, stale: true };
+              }
+              t2.status = nextStatus;
+              console.log("[SEO-RETRY] attempt", postAttempt + 1);
+              return persistDraftSave(serverDoc.version, copy.items, slug, nextStatus, postAttempt + 1);
             }
-            return { ok: false, error: j409.error || "Save rejected" };
+            return { ok: false, error: err409 || "Save rejected", status: res.status };
           }
 
           if (!res.ok) {
-            console.warn("[DRAFT-SAVE] client http error", res.status, text);
-            return { ok: false, error: text || "Save failed" };
+            console.warn("[SEO-SAVE] HTTP", res.status, text);
+            return { ok: false, httpError: true, status: res.status };
           }
+
           var j = {};
           try {
             j = JSON.parse(text);
-          } catch (_) {}
-          if (j && j.ok === false) {
-            console.warn("[DRAFT-SAVE] client server rejected", j.error);
-            return { ok: false, error: j.error || "Save failed" };
+          } catch (pe) {
+            console.warn("[SEO-SAVE] invalid JSON body", pe);
+            return { ok: false, badResponse: true };
           }
-          if (typeof j.version === "number" && Number.isFinite(j.version)) {
-            currentVersion = j.version;
+          if (j.ok === false) {
+            return { ok: false, serverOkFalse: true, error: j.error || "save_failed" };
+          }
+          if (j.ok !== true || typeof j.version !== "number" || !Number.isFinite(j.version)) {
+            console.warn("[SEO-SAVE] unexpected success shape", j);
+            return { ok: false, badResponse: true };
           }
           return { ok: true };
         }
@@ -335,7 +373,7 @@
           listEl.innerHTML = "";
           var doc = serverDoc;
           if (!doc || !Array.isArray(doc.items)) {
-            console.log("[DRAFT-RENDER] empty (no document)");
+            console.log("[SEO-RENDER] pending count", 0);
             emptyEl.hidden = false;
             return;
           }
@@ -344,7 +382,7 @@
             return i.status === "pending";
           });
 
-          console.log("[DRAFT-RENDER] pending=", pending.length, "persistInFlight=", persistInFlight);
+          console.log("[SEO-RENDER] pending count", pending.length);
 
           if (!pending.length) {
             emptyEl.hidden = false;
@@ -419,14 +457,6 @@
           });
         }
 
-        async function syncFromServer() {
-          console.log("[DRAFT-SYNC] begin");
-          serverDoc = await fetchDrafts();
-          currentVersion = typeof serverDoc.version === "number" ? serverDoc.version : 1;
-          render();
-          console.log("[DRAFT-SYNC] done version=", currentVersion);
-        }
-
         function openModal(jsonText) {
           modalPre.textContent = jsonText;
           modal.hidden = false;
@@ -468,27 +498,28 @@
             render();
 
             try {
-              console.log("[DRAFT-APPROVE]", slug, nextStatus);
               var latest = await fetchDrafts();
-              normalizeDocVersion(latest);
               serverDoc = latest;
-              currentVersion = latest.version;
+              console.log("[SEO-APPROVE]", slug, nextStatus, "version", serverDoc.version);
 
-              var itemsClone = deepCloneDoc(latest.items);
-              var target = itemsClone.find(function (it) {
+              var updated = deepCloneDoc(serverDoc);
+              var target = updated.items.find(function (it) {
                 return it.slug === slug;
               });
               if (!target || target.status !== "pending") {
                 showToast("Draft list changed; synced from server.", true);
-                render();
                 return;
               }
               target.status = nextStatus;
 
-              var result = await persistVersionedItems(itemsClone, slug, nextStatus, false);
+              var result = await persistDraftSave(serverDoc.version, updated.items, slug, nextStatus, 1);
               if (!result.ok) {
-                if (result.conflictRetryExhausted) {
-                  showToast("Could not save after conflict recovery.", true);
+                if (result.network || result.conflictRetryExhausted) {
+                  showToast("Operation failed.", true);
+                } else if (result.serverOkFalse) {
+                  showToast("Save rejected: " + String(result.error || "unknown"), true);
+                } else if (result.badResponse) {
+                  showToast("Unexpected server response; reloading.", true);
                 } else if (result.stale) {
                   showToast("Draft list changed; synced from server.", true);
                 } else {
@@ -497,15 +528,24 @@
                 await syncFromServer();
                 return;
               }
+
               await syncFromServer();
               showToast(action === "approve" ? "Draft approved" : "Draft rejected");
             } catch (e) {
-              console.error("[DRAFT-APPROVE] error", e);
-              showToast("Operation failed.", true);
+              console.error("[SEO-APPROVE] error", e);
+              var msg = e && e.message ? String(e.message) : String(e);
+              var looksNetwork =
+                (e && e.name === "TypeError") ||
+                /failed to fetch|networkerror|load failed|network request failed/i.test(msg);
+              if (looksNetwork) {
+                showToast("Operation failed.", true);
+              } else {
+                showToast("Could not load drafts. Check the read URL and server.", true);
+              }
               try {
                 await syncFromServer();
               } catch (e2) {
-                console.error("[DRAFT-SYNC] recovery fetch failed", e2);
+                console.error("[SEO-FETCH] recovery failed", e2);
               }
             } finally {
               persistInFlight = false;
@@ -525,8 +565,9 @@
         async function init() {
           try {
             await syncFromServer();
+            render();
           } catch (e) {
-            console.error("[DRAFT-FETCH] init error", e);
+            console.error("[SEO-FETCH] init error", e);
             showToast("Failed to load drafts (check URL and server).", true);
             emptyEl.hidden = false;
             emptyEl.textContent = "Could not load draft file.";

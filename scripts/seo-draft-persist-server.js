@@ -1,10 +1,8 @@
 /**
- * Local SEO drafts API — single file on disk is the source of truth (versioned).
+ * SEO drafts persist API — single file, strict schema { version, items }.
  *
- * - GET /drafts/pending-seo-pages.json — no-store
- * - POST /save — body: { version (number), items (array) }; CAS against disk version, then full atomic replace
- *
- * Usage: npm run seo-draft-server
+ * POST /save — CAS on version; full atomic replace (no merge).
+ * GET /drafts/pending-seo-pages.json — same file as writes, no-store headers.
  */
 const http = require("http");
 const fs = require("fs");
@@ -63,7 +61,7 @@ async function acquireFileLock(timeoutMs = LOCK_TIMEOUT_MS) {
 
 function noStoreHeaders(extra) {
   return {
-    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+    "Cache-Control": "no-store, no-cache, must-revalidate",
     Pragma: "no-cache",
     Expires: "0",
     ...extra
@@ -74,9 +72,9 @@ function isDraftJsonPath(urlPath) {
   return urlPath === "/drafts/pending-seo-pages.json";
 }
 
-function formatSlugStatusLog(doc) {
-  if (!doc || !Array.isArray(doc.items)) return "(no items)";
-  return doc.items
+function formatSlugStatusLog(items) {
+  if (!Array.isArray(items)) return "(no items)";
+  return items
     .map(function (i) {
       return String(i.slug || "?") + ":" + String(i.status || "?");
     })
@@ -84,8 +82,7 @@ function formatSlugStatusLog(doc) {
 }
 
 /**
- * Read and normalize current document from disk (atomic read of whole file).
- * Ensures numeric version (default 1) and items array.
+ * Read disk file and return ONLY { version, items } (legacy roots ignored for CAS).
  */
 function readCurrentDocumentSync() {
   if (!fs.existsSync(TARGET)) {
@@ -93,13 +90,15 @@ function readCurrentDocumentSync() {
   }
   const raw = fs.readFileSync(TARGET, "utf8");
   const doc = JSON.parse(raw);
-  if (typeof doc.version !== "number" || !Number.isFinite(doc.version)) {
-    doc.version = 1;
+  const items = Array.isArray(doc.items) ? doc.items : [];
+  let v = doc.version;
+  if (typeof v === "string" && v.trim() !== "" && !isNaN(Number(v))) {
+    v = Number(v);
   }
-  if (!Array.isArray(doc.items)) {
-    doc.items = [];
+  if (typeof v !== "number" || !Number.isFinite(v)) {
+    v = 1;
   }
-  return doc;
+  return { version: v, items };
 }
 
 async function handlePostSave(body) {
@@ -108,7 +107,7 @@ async function handlePostSave(body) {
     incoming = JSON.parse(body);
   } catch (e) {
     const err = e && e.message ? e.message : String(e);
-    console.warn("[DRAFT-SAVE] parse failed:", err);
+    console.warn("[SEO-SAVE] parse failed:", err);
     throw Object.assign(new Error("Invalid JSON"), { status: 400, expose: err });
   }
 
@@ -120,7 +119,6 @@ async function handlePostSave(body) {
   }
 
   let outVersion;
-  let outDoc;
 
   await enqueueWrite(async () => {
     const release = await acquireFileLock(LOCK_TIMEOUT_MS);
@@ -129,35 +127,28 @@ async function handlePostSave(body) {
       const current = readCurrentDocumentSync();
 
       if (incoming.version !== current.version) {
-        const conflict = new Error("VERSION_CONFLICT");
+        const conflict = new Error("version_conflict");
         conflict.status = 409;
         conflict.payload = {
           ok: false,
-          error: "VERSION_CONFLICT",
-          currentVersion: current.version
+          error: "version_conflict",
+          version: current.version
         };
         throw conflict;
       }
 
-      outDoc = { ...current, items: incoming.items, version: current.version + 1 };
+      const outDoc = { version: current.version + 1, items: incoming.items };
       outVersion = outDoc.version;
       const normalized = JSON.stringify(outDoc, null, 2);
       const byteSize = Buffer.byteLength(normalized, "utf8");
       atomicWrite(TARGET, outDoc);
-      console.log(
-        "[DRAFT-SAVE]",
-        formatSlugStatusLog(outDoc),
-        "version=",
-        outVersion,
-        "bytes=",
-        byteSize
-      );
+      console.log("[SEO-SAVE]", formatSlugStatusLog(incoming.items), "version", outVersion, "bytes", byteSize);
     } finally {
       release();
     }
   });
 
-  return { ok: true, path: path.relative(ROOT, TARGET), version: outVersion };
+  return { ok: true, version: outVersion };
 }
 
 function handleGetDrafts(res) {
@@ -166,15 +157,8 @@ function handleGetDrafts(res) {
     res.end(JSON.stringify({ ok: false, error: "Draft file not found on disk" }));
     return;
   }
-  const raw = fs.readFileSync(TARGET, "utf8");
-  const doc = JSON.parse(raw);
-  if (typeof doc.version !== "number" || !Number.isFinite(doc.version)) {
-    doc.version = 1;
-  }
-  if (!Array.isArray(doc.items)) {
-    doc.items = [];
-  }
-  const body = JSON.stringify(doc, null, 2);
+  const current = readCurrentDocumentSync();
+  const body = JSON.stringify(current, null, 2);
   res.writeHead(200, {
     "Content-Type": "application/json; charset=utf-8",
     ...noStoreHeaders(cors)
@@ -195,7 +179,7 @@ const server = http.createServer((req, res) => {
     try {
       handleGetDrafts(res);
     } catch (e) {
-      console.error("[DRAFT-FETCH] read error", e);
+      console.error("[SEO-FETCH] read error", e);
       res.writeHead(500, { "Content-Type": "application/json", ...cors });
       res.end(JSON.stringify({ ok: false, error: String(e && e.message ? e.message : e) }));
     }
@@ -221,7 +205,7 @@ const server = http.createServer((req, res) => {
           }
           const status = e.status || 500;
           const msg = e.expose || (e && e.message) || String(e);
-          if (status >= 500) console.error("[DRAFT-SAVE] failed", e);
+          if (status >= 500) console.error("[SEO-SAVE] failed", e);
           res.writeHead(status, { "Content-Type": "application/json", ...cors });
           res.end(JSON.stringify({ ok: false, error: msg }));
         });
@@ -245,6 +229,6 @@ server.on("error", (err) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`[seo-draft-server] http://127.0.0.1:${PORT}/save (POST, versioned) → ${TARGET}`);
-  console.log(`[seo-draft-server] http://127.0.0.1:${PORT}/drafts/pending-seo-pages.json (GET, no-store)`);
+  console.log(`[seo-draft-server] POST /save → ${TARGET} (schema: version + items only)`);
+  console.log(`[seo-draft-server] GET /drafts/pending-seo-pages.json (same file)`);
 });
