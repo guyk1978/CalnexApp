@@ -165,7 +165,7 @@ export async function onRequestPost(context) {
   await env.SEO_KV.put(K_MANIFEST, JSON.stringify(manifest));
   await env.SEO_KV.put(K_DRAFTS, JSON.stringify(drafts));
 
-  return json(
+    return json(
     {
       ok: true,
       published,
@@ -175,8 +175,4 @@ export async function onRequestPost(context) {
     200,
     origin
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 666366c (fix: admin publish button fix)
