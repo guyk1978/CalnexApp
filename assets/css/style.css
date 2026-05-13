@@ -1177,14 +1177,14 @@ article.article-body a[href^="/tools/"] {
 article.article-body a[href^="/blog/"]:hover,
 article.article-body a[href^="/tools/"]:hover {
   color: #1f3a55;
-  border-bottom-color: rgba(31, 58, 85, 0.45);
+  border-bottom: 1px solid rgba(42, 77, 109, 0.45);
   text-decoration: none;
   opacity: 0.95;
 }
 
 .article-body a[href^="/blog/"]:focus-visible,
 .article-body a[href^="/tools/"]:focus-visible {
-  outline: 2px solid rgba(31, 58, 85, 0.35);
+  outline: 2px solid #1f3a55;
   outline-offset: 2px;
   border-radius: 2px;
 }
