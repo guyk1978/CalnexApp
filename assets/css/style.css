@@ -1148,3 +1148,43 @@ input[type="range"] {
 .financial-validator-badge.financial-validator-badge--visible {
   display: inline-block;
 }
+
+/* -----------------------------------------------------------------------------
+   Internal links inside blog articles
+   ---------------------------------------------------------------------------
+   Subtle, distinct styling for contextual internal links injected into article
+   bodies. Scoped to `.article-body` so it never affects site navigation,
+   the FAQ section, the "Recommended calculators" list, or the footer.
+   Both class-based (`.article-body`) and element-based (`article`) selectors
+   are listed so the rule also applies to any future template that uses just
+   the bare `<article>` tag.
+   ----------------------------------------------------------------------------- */
+.article-body a[href^="/blog/"],
+.article-body a[href^="/tools/"],
+article.article-body a[href^="/blog/"],
+article.article-body a[href^="/tools/"] {
+  color: #2a4d6d;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(42, 77, 109, 0.18);
+  transition: color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+.article-body a[href^="/blog/"]:hover,
+.article-body a[href^="/tools/"]:hover,
+.article-body a[href^="/blog/"]:focus-visible,
+.article-body a[href^="/tools/"]:focus-visible,
+article.article-body a[href^="/blog/"]:hover,
+article.article-body a[href^="/tools/"]:hover {
+  color: #1f3a55;
+  border-bottom-color: rgba(31, 58, 85, 0.45);
+  text-decoration: none;
+  opacity: 0.95;
+}
+
+.article-body a[href^="/blog/"]:focus-visible,
+.article-body a[href^="/tools/"]:focus-visible {
+  outline: 2px solid rgba(31, 58, 85, 0.35);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
