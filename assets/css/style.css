@@ -1216,3 +1216,25 @@ main.article-layout > article.card a[href^="/tools/"]:focus-visible {
   border-radius: 2px;
 }
 
+/* === FORCE INTERNAL LINKS VISIBILITY === */
+
+.article-body a[href^="/"],
+.article-body a[href^="/blog/"],
+.article-body a[href^="/tools/"] {
+  color: #2a4d6d !important;
+  font-weight: 500;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(42, 77, 109, 0.25);
+  transition: all 160ms ease;
+}
+
+.article-body a[href^="/"]:hover {
+  color: #1f3a55 !important;
+  border-bottom: 1px solid rgba(31, 58, 85, 0.55);
+  opacity: 0.95;
+}
+
+.article-body a:focus-visible {
+  outline: 2px solid rgba(42, 77, 109, 0.35);
+  outline-offset: 3px;
+}
