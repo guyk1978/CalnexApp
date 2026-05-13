@@ -1,37 +1,33 @@
 /**
  * =============================================================================
- * Publish approved SEO drafts → static blog (CalnexApp)
+ * Rebuild static blog HTML from ALL drafts (any status) — read-only on status
  * =============================================================================
  *
- * Pipeline (in order):
- *   1. Load `drafts/pending-seo-pages.json`
- *   2. Select items where normalized status === "approved"
- *   3. For each: normalize `internal_links`, inject links into `body_markdown`,
- *      convert markdown → HTML, wrap in full page template, write `blog/{slug}/index.html`
- *   4. Upsert each article into `data/blog.json` (no duplicate slugs; preserves `featured`)
- *   5. Flip published slugs to status "published" in the drafts file
- *   6. Bump `drafts.version` and save
+ * What this script does:
+ *   1. Reads every item in `drafts/pending-seo-pages.json` regardless of status
+ *      (pending, approved, published, rejected, anything).
+ *   2. For each item that has `body_markdown`, normalizes its `internal_links`,
+ *      injects them into the markdown (idempotently — never inside an existing
+ *      link, max one link per target), converts the markdown to HTML, and
+ *      writes/overwrites `blog/{slug}/index.html` using the same page template
+ *      as `publish-approved-blog-from-drafts.js`.
+ *   3. Upserts every processed slug into `data/blog.json` (no duplicates;
+ *      preserves the existing `featured` flag when a row already exists).
  *
- * Idempotent: re-running overwrites the same HTML paths and merges blog.json by slug.
+ * What this script DOES NOT do:
+ *   - It never mutates `status` in `drafts/pending-seo-pages.json`.
+ *   - It never bumps `version` or rewrites the drafts file.
+ *   - It never removes entries from `data/blog.json`.
  *
  * Usage:
- *   npm run publish-approved-blog
- *   node scripts/publish-approved-blog-from-drafts.js
- *   node scripts/publish-approved-blog-from-drafts.js --verbose   # detailed link debug
+ *   node scripts/rebuild-blog-from-drafts.js
+ *   node scripts/rebuild-blog-from-drafts.js --verbose      # full link debug
+ *   node scripts/rebuild-blog-from-drafts.js --dry-run      # don't touch disk
  *
- * Internal links (`internal_links`):
- *   Supported shapes (either works):
- *     { "title": "How Extra Payments Save Money", "slug": "how-extra-payments-save-money" }
- *     { "url": "https://calnexapp.com/blog/how-extra-payments-save-money/", "anchor_text": "extra payments" }
- *     { "url": "/tools/mortgage-calculator/", "anchor_text": "Mortgage Calculator" }
+ * Idempotent by design: rerunning produces byte-identical output for the same
+ * inputs (only the daily `updatedDate` / `dateModified` strings refresh).
  *
- * Injection rules:
- *   - Match phrases derived from title / anchor_text (case-insensitive), longest first.
- *   - Prefer whole phrase; then significant words (length > 2), longest first.
- *   - Never inject inside an existing Markdown link `[text](url)`.
- *   - At most ONE link per target key (blog slug or external href).
- *   - If no match: append a short "Related reading" line at end of markdown (fallback).
- *
+ * Dependencies: Node.js core only (`fs`, `path`).
  * =============================================================================
  */
 
@@ -39,7 +35,7 @@ const fs = require("fs");
 const path = require("path");
 
 // ---------------------------------------------------------------------------
-// Paths & site config
+// Paths & config
 // ---------------------------------------------------------------------------
 
 const ROOT = path.resolve(__dirname, "..");
@@ -47,18 +43,19 @@ const DRAFTS_PATH = path.join(ROOT, "drafts", "pending-seo-pages.json");
 const BLOG_JSON_PATH = path.join(ROOT, "data", "blog.json");
 const SITE_ORIGIN = "https://calnexapp.com";
 
-/** When true, prints original markdown (truncated), every injection, and counts */
 const DEBUG =
   process.argv.includes("--verbose") ||
   process.argv.includes("-v") ||
   process.env.PUBLISH_DEBUG === "1";
 
+const DRY_RUN = process.argv.includes("--dry-run");
+
 // ---------------------------------------------------------------------------
-// Draft status helpers
+// Utilities: string / regex / slug
 // ---------------------------------------------------------------------------
 
 /**
- * Normalize draft status for comparisons. Only "approved" rows are published.
+ * Lowercase, trimmed status; used only for logging here.
  */
 function normalizeDraftStatus(s) {
   return String(s == null ? "" : s)
@@ -67,7 +64,7 @@ function normalizeDraftStatus(s) {
 }
 
 /**
- * Slug from draft item (alphanumeric + hyphens only).
+ * Sanitize a slug from a draft item: alphanumerics + hyphens, lowercased.
  */
 function normSlug(item) {
   return String((item && item.slug) || "")
@@ -75,10 +72,9 @@ function normSlug(item) {
     .toLowerCase();
 }
 
-// ---------------------------------------------------------------------------
-// HTML escaping & regex helpers
-// ---------------------------------------------------------------------------
-
+/**
+ * Escape characters that have HTML meaning.
+ */
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -87,17 +83,21 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * Escape a literal string for use inside a RegExp.
+ */
 function escapeRegExp(str) {
   return String(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // ---------------------------------------------------------------------------
-// Markdown → HTML (body only)
+// Markdown → HTML
 // ---------------------------------------------------------------------------
 
 /**
- * Inline markdown within a paragraph block: **bold** and [label](href).
- * Relative URLs (/...) and http(s) URLs become real <a> tags; others render as plain text.
+ * Inline markdown inside a single block: **bold** and [label](href).
+ * Relative paths (/...) and absolute http(s) become <a> tags; anything else
+ * renders as plain (escaped) text so we never emit broken hrefs.
  */
 function inlineMarkdownToHtml(text) {
   let t = escapeHtml(text);
@@ -113,10 +113,10 @@ function inlineMarkdownToHtml(text) {
 }
 
 /**
- * Convert full article body markdown to HTML fragments:
- *   ## heading → <h2>
- *   ### heading → <h3>
- *   default blocks → <p> (multiple single newlines merged into one paragraph)
+ * Convert a markdown article body to HTML fragments.
+ *   ## heading       → <h2>
+ *   ### heading      → <h3>
+ *   anything else    → <p> (single newlines inside the block are joined with spaces)
  */
 function bodyMarkdownToHtml(md) {
   if (!md || typeof md !== "string") return "<p></p>";
@@ -143,11 +143,11 @@ function bodyMarkdownToHtml(md) {
 }
 
 // ---------------------------------------------------------------------------
-// Internal link: normalize draft shapes → canonical specs
+// Internal-link injection (idempotent, body-safe)
 // ---------------------------------------------------------------------------
 
 /**
- * Parse pathname from absolute URL or return path if already relative.
+ * Extract the pathname from an absolute or relative URL string.
  */
 function pathnameFromUrl(url, origin) {
   const u = String(url || "").trim();
@@ -155,7 +155,6 @@ function pathnameFromUrl(url, origin) {
   if (u.startsWith("/")) return u.split("?")[0].split("#")[0];
   try {
     const parsed = new URL(u);
-    if (parsed.origin === new URL(origin).origin) return parsed.pathname || "/";
     return parsed.pathname || "/";
   } catch {
     return u;
@@ -163,8 +162,9 @@ function pathnameFromUrl(url, origin) {
 }
 
 /**
- * Build ordered list of phrases to try matching in markdown (longest first).
- * @param {string} primary - full title or anchor text
+ * Produce a phrase list for matching in body markdown.
+ * Order: full phrase first, then significant words (length > 2),
+ * longest word first, deduplicated case-insensitively.
  */
 function buildMatchPhrases(primary) {
   const text = String(primary || "").trim();
@@ -193,41 +193,40 @@ function buildMatchPhrases(primary) {
 }
 
 /**
- * Normalize one raw internal_links entry to:
- *   { targetKey, href, displayLabel, phrases[] }
+ * Normalize one raw entry from draft.internal_links into a canonical spec.
+ * Supports both shapes the project uses:
+ *   { title, slug }                       (preferred / new)
+ *   { url, anchor_text }                  (legacy)
+ * Returns { targetKey, href, displayLabel, phrases[] } or null when unusable.
  *
- * targetKey: dedupe id — blog slug for /blog/{slug}/, else normalized href for tools etc.
+ * `targetKey` is the dedupe identity:
+ *   `blog:{slug}` for blog targets, `path:{href}` for other site paths.
  */
 function normalizeInternalLinkEntry(raw, origin) {
   if (!raw || typeof raw !== "object") return null;
 
-  const o = origin.replace(/\/$/, "");
-
-  // Shape A: { title, slug } (preferred by spec)
   if (raw.slug) {
     const slug = String(raw.slug).replace(/[^a-z0-9-]/gi, "").toLowerCase();
     if (!slug) return null;
-    const display = String(raw.title || raw.anchor_text || slug.replace(/-/g, " ")).trim() || slug;
-    const href = `/blog/${slug}/`;
+    const display =
+      String(raw.title || raw.anchor_text || slug.replace(/-/g, " ")).trim() || slug;
     return {
       targetKey: `blog:${slug}`,
-      href,
+      href: `/blog/${slug}/`,
       displayLabel: display,
       phrases: buildMatchPhrases(display)
     };
   }
 
-  // Shape B: { url, anchor_text } (legacy in this repo)
   if (raw.url) {
-    const pathname = pathnameFromUrl(raw.url, o);
+    const pathname = pathnameFromUrl(raw.url, origin);
     const display = String(raw.anchor_text || pathname).trim();
     const blogMatch = pathname.match(/^\/blog\/([^/]+)\/?$/i);
     if (blogMatch) {
       const slug = blogMatch[1].replace(/[^a-z0-9-]/gi, "").toLowerCase();
-      const href = `/blog/${slug}/`;
       return {
         targetKey: `blog:${slug}`,
-        href,
+        href: `/blog/${slug}/`,
         displayLabel: display || slug,
         phrases: buildMatchPhrases(display || slug.replace(/-/g, " "))
       };
@@ -245,8 +244,8 @@ function normalizeInternalLinkEntry(raw, origin) {
 }
 
 /**
- * Collect character ranges in markdown that are already inside `[text](url)` links.
- * Injections must not alter those spans (avoids nested/broken links).
+ * Character ranges already inside `[label](href)` markdown links.
+ * Used to guarantee we never re-link existing anchors (idempotent runs).
  */
 function getMarkdownLinkRanges(md) {
   const ranges = [];
@@ -267,31 +266,55 @@ function offsetInsideRanges(index, length, ranges) {
 }
 
 /**
- * Replace the first match of `regex` in `md` whose match index is NOT inside
- * an existing markdown link. Returns { text, replaced: boolean }.
+ * Find the first regex match in `md` that is NOT inside any existing markdown link.
  */
-function replaceFirstOutsideMarkdownLinks(md, regex) {
+function findFirstMatchOutsideLinks(md, regex) {
   const ranges = getMarkdownLinkRanges(md);
-  regex.lastIndex = 0;
+  // Always use a global clone so `lastIndex` advances between iterations and
+  // we don't infinite-loop on a non-global regex passed by the caller.
+  const flags = regex.flags.includes("g") ? regex.flags : regex.flags + "g";
+  const re = new RegExp(regex.source, flags);
   let m;
-  while ((m = regex.exec(md))) {
+  while ((m = re.exec(md))) {
     if (!offsetInsideRanges(m.index, m[0].length, ranges)) {
-      const before = md.slice(0, m.index);
-      const matched = m[0];
-      const after = md.slice(m.index + matched.length);
-      return { match: m, before, matched, after };
+      return {
+        match: m,
+        before: md.slice(0, m.index),
+        matched: m[0],
+        after: md.slice(m.index + m[0].length)
+      };
     }
+    if (m.index === re.lastIndex) re.lastIndex++; // zero-width safety
   }
-  return { match: null, before: "", matched: "", after: md };
+  return null;
 }
 
 /**
- * Core injection engine: mutates markdown string; returns stats for logging.
+ * Inject internal links into a markdown string.
+ *
+ * Rules:
+ *   - Deduplicate raw entries by targetKey (each destination linked at most once).
+ *   - For each target, try phrases longest-first using two regex modes:
+ *       1. `/(phrase)/i`                 (loose substring)
+ *       2. `/\b(phrase)\b/i`             (word boundary)
+ *   - Skip any match that lands inside an existing `[text](url)` span.
+ *   - If a target still has no match, append it under a `## Related reading`
+ *     list at the end of the markdown.
+ *
+ * Why this is idempotent on repeat runs:
+ *   After the first pass, every target phrase now appears inside `[...](...)`,
+ *   so `findFirstMatchOutsideLinks` skips it and the markdown is unchanged.
+ *   The "Related reading" fallback section is appended only on the first run
+ *   for any target that had no in-body match — and on subsequent runs the
+ *   same fallback items are still wrapped in markdown links, so they're not
+ *   re-appended.
+ *
+ * Returns { markdown, stats } where stats contains:
+ *   { targets, injectedInBody, fallbackAppended, totalLinked }
  */
-function injectInternalLinksIntoMarkdown(markdown, rawLinks) {
-  const origin = SITE_ORIGIN;
+function injectInternalLinks(markdown, rawLinks) {
   const linksRaw = (Array.isArray(rawLinks) ? rawLinks : [])
-    .map((r) => normalizeInternalLinkEntry(r, origin))
+    .map((r) => normalizeInternalLinkEntry(r, SITE_ORIGIN))
     .filter(Boolean);
 
   const seenKeys = new Set();
@@ -306,14 +329,10 @@ function injectInternalLinksIntoMarkdown(markdown, rawLinks) {
     targets: links.length,
     injectedInBody: 0,
     fallbackAppended: 0,
-    missing: 0,
-    details: []
+    totalLinked: 0
   };
 
-  if (!links.length) {
-    if (DEBUG) console.log("[internal-links] no internal_links array or empty after normalize");
-    return { markdown: markdown || "", stats };
-  }
+  if (!links.length) return { markdown: markdown || "", stats };
 
   let md = String(markdown || "");
 
@@ -321,44 +340,43 @@ function injectInternalLinksIntoMarkdown(markdown, rawLinks) {
     const preview = md.length > 1200 ? md.slice(0, 1200) + "\n… [truncated]" : md;
     console.log("\n========== INTERNAL LINK DEBUG ==========");
     console.log("[internal-links] original markdown (preview):\n", preview);
-    console.log("[internal-links] normalized targets:", links.map((l) => `${l.targetKey} → ${l.href}`));
+    console.log(
+      "[internal-links] targets:",
+      links.map((l) => `${l.targetKey} → ${l.href}`)
+    );
   }
 
-  const usedKeys = new Set();
   const fallbackLines = [];
 
   for (const L of links) {
-    if (usedKeys.has(L.targetKey)) continue;
-
     let linked = false;
 
     for (const phrase of L.phrases) {
       if (phrase.length < 2) continue;
 
       const esc = escapeRegExp(phrase);
-      const tryPatterns = [
+      const candidates = [
         new RegExp(`(${esc})`, "i"),
         new RegExp(`\\b(${esc})\\b`, "i")
       ];
 
-      for (const re of tryPatterns) {
-        const probe = replaceFirstOutsideMarkdownLinks(md, re);
-        if (!probe.match) continue;
+      for (const re of candidates) {
+        const probe = findFirstMatchOutsideLinks(md, re);
+        if (!probe) continue;
 
-        const full = probe.match[0];
-        const label = probe.match[1] != null ? probe.match[1] : full;
-        const replacement = `[${label}](${L.href})`;
-        const newMd = probe.before + replacement + probe.after;
+        const label = probe.match[1] != null ? probe.match[1] : probe.matched;
+        md = probe.before + `[${label}](${L.href})` + probe.after;
 
-        if (newMd !== md) {
-          md = newMd;
-          linked = true;
-          usedKeys.add(L.targetKey);
-          stats.injectedInBody++;
-          stats.details.push({ target: L.targetKey, phrase, mode: re.source.includes("\\b") ? "word-boundary" : "substring" });
-          if (DEBUG) console.log(`[internal-links] INJECTED ${L.targetKey} via phrase "${phrase}" → ${L.href}`);
-          break;
+        linked = true;
+        stats.injectedInBody++;
+        if (DEBUG) {
+          console.log(
+            `[internal-links] INJECTED ${L.targetKey} via phrase "${phrase}" (${
+              re.source.includes("\\b") ? "word-boundary" : "substring"
+            })`
+          );
         }
+        break;
       }
 
       if (linked) break;
@@ -366,10 +384,12 @@ function injectInternalLinksIntoMarkdown(markdown, rawLinks) {
 
     if (!linked) {
       fallbackLines.push(`- [${L.displayLabel}](${L.href})`);
-      usedKeys.add(L.targetKey);
       stats.fallbackAppended++;
-      stats.missing++;
-      if (DEBUG) console.log(`[internal-links] FALLBACK append for ${L.targetKey} (${L.href}) — no phrase matched`);
+      if (DEBUG) {
+        console.log(
+          `[internal-links] FALLBACK queued for ${L.targetKey} (${L.href}) — no in-body phrase matched`
+        );
+      }
     }
   }
 
@@ -377,15 +397,10 @@ function injectInternalLinksIntoMarkdown(markdown, rawLinks) {
     md += `\n\n## Related reading\n\n${fallbackLines.join("\n")}\n`;
   }
 
+  stats.totalLinked = stats.injectedInBody + stats.fallbackAppended;
+
   if (DEBUG) {
-    console.log("[internal-links] summary:", {
-      targets: stats.targets,
-      injectedInBody: stats.injectedInBody,
-      fallbackAppended: stats.fallbackAppended,
-      totalLinked: stats.injectedInBody + stats.fallbackAppended,
-      /** "missing" here counts targets that needed fallback (no in-body match), not broken URLs */
-      usedFallbackFor: stats.missing
-    });
+    console.log("[internal-links] summary:", stats);
     console.log("========== END INTERNAL LINK DEBUG ==========\n");
   }
 
@@ -393,7 +408,7 @@ function injectInternalLinksIntoMarkdown(markdown, rawLinks) {
 }
 
 // ---------------------------------------------------------------------------
-// FAQ: HTML block + JSON-LD
+// FAQ helpers (HTML + JSON-LD)
 // ---------------------------------------------------------------------------
 
 function faqSectionHtml(faq) {
@@ -437,19 +452,25 @@ ${JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEnt
 }
 
 // ---------------------------------------------------------------------------
-// Reading time & category
+// Metadata helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * Estimate read time as `${minutes} min read`, defaulting to 10 if no
+ * `word_count_estimate` is provided. 220 wpm is the standard reading rate.
+ */
 function readMinutesFromItem(item) {
-  const w = item.word_count_estimate;
-  if (typeof w === "number" && w > 0) {
-    return Math.max(1, Math.round(w / 220));
-  }
+  const w = item && item.word_count_estimate;
+  if (typeof w === "number" && w > 0) return Math.max(1, Math.round(w / 220));
   return 10;
 }
 
+/**
+ * Category inferred from `primary_keyword`. Mirrors the publish script so
+ * blog.json categories stay consistent across both pipelines.
+ */
 function inferCategory(item) {
-  const kw = (item.primary_keyword || "").toLowerCase();
+  const kw = (item && item.primary_keyword || "").toLowerCase();
   if (/automat|operation|business management|crm|follow[- ]?up|smb|workflow|small business/.test(kw)) {
     return "Business Operations";
   }
@@ -460,11 +481,13 @@ function inferCategory(item) {
 }
 
 // ---------------------------------------------------------------------------
-// Full HTML page template
+// HTML page template
 // ---------------------------------------------------------------------------
 
 /**
- * Assembles the final static HTML document for one post.
+ * Render a full static HTML document for a single blog post.
+ * Same layout (header, article, FAQ, recommended calculators, footer) as
+ * the production publish script so output files are interchangeable.
  */
 function buildArticleHtml(item, enrichedMarkdown) {
   const slug = normSlug(item);
@@ -569,10 +592,15 @@ ${JSON.stringify(
 }
 
 // ---------------------------------------------------------------------------
-// blog.json merge (idempotent upsert)
+// blog.json upsert (idempotent)
 // ---------------------------------------------------------------------------
 
-function buildBlogEntry(item, slug) {
+/**
+ * Build a manifest entry for `data/blog.json` from a draft item.
+ * `featured` is intentionally omitted here so upsert can preserve any
+ * existing flag without being overwritten.
+ */
+function buildManifestEntry(item, slug) {
   const title = item.title || item.h1 || slug;
   const excerpt =
     (item.meta_description && String(item.meta_description).slice(0, 220)) ||
@@ -585,18 +613,23 @@ function buildBlogEntry(item, slug) {
     excerpt,
     category: inferCategory(item),
     updatedDate: today,
-    readTime: `${readMinutesFromItem(item)} min read`,
-    featured: false
+    readTime: `${readMinutesFromItem(item)} min read`
   };
 }
 
-function upsertBlogPost(posts, entry) {
+/**
+ * Idempotent upsert: existing row is updated in place (preserving `featured`);
+ * new row is appended with `featured: false`. Never removes rows.
+ */
+function upsertManifest(posts, entry) {
   const idx = posts.findIndex((p) => p && p.slug === entry.slug);
   if (idx >= 0) {
-    posts[idx] = { ...posts[idx], ...entry, featured: Boolean(posts[idx].featured) };
-  } else {
-    posts.push(entry);
+    const existing = posts[idx];
+    posts[idx] = { ...existing, ...entry, featured: Boolean(existing.featured) };
+    return "updated";
   }
+  posts.push({ ...entry, featured: false });
+  return "inserted";
 }
 
 // ---------------------------------------------------------------------------
@@ -605,8 +638,7 @@ function upsertBlogPost(posts, entry) {
 
 function loadDrafts() {
   if (!fs.existsSync(DRAFTS_PATH)) {
-    console.warn("[publish-approved-blog] missing drafts file:", DRAFTS_PATH);
-    return { version: 1, items: [] };
+    throw new Error(`Drafts file not found: ${DRAFTS_PATH}`);
   }
   return JSON.parse(fs.readFileSync(DRAFTS_PATH, "utf8"));
 }
@@ -618,127 +650,104 @@ function loadBlogJson() {
 }
 
 function saveBlogJson(posts) {
+  if (DRY_RUN) {
+    console.log("[rebuild-blog][dry-run] would write", BLOG_JSON_PATH, "posts:", posts.length);
+    return;
+  }
   fs.writeFileSync(BLOG_JSON_PATH, JSON.stringify(posts, null, 2) + "\n", "utf8");
-  console.log("[publish-approved-blog] wrote", path.relative(ROOT, BLOG_JSON_PATH), "posts:", posts.length);
+  console.log("[rebuild-blog] wrote", path.relative(ROOT, BLOG_JSON_PATH), "posts:", posts.length);
 }
 
-function saveDraftsDoc(doc) {
-  if (typeof doc.version !== "number" || !Number.isFinite(doc.version)) doc.version = 1;
-  else doc.version += 1;
-  fs.writeFileSync(DRAFTS_PATH, JSON.stringify(doc, null, 2) + "\n", "utf8");
-  console.log("[publish-approved-blog] wrote drafts version", doc.version, path.relative(ROOT, DRAFTS_PATH));
+function writeArticleHtml(slug, html) {
+  const dir = path.join(ROOT, "blog", slug);
+  const outFile = path.join(dir, "index.html");
+  if (DRY_RUN) {
+    console.log("[rebuild-blog][dry-run] would write", path.relative(ROOT, outFile));
+    return;
+  }
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(outFile, html, "utf8");
+  console.log("[rebuild-blog] wrote", path.relative(ROOT, outFile));
 }
 
 // ---------------------------------------------------------------------------
-// main()
+// Entry point
 // ---------------------------------------------------------------------------
 
 function main() {
   const doc = loadDrafts();
   const items = Array.isArray(doc.items) ? doc.items : [];
 
-  const approved = items.filter((i) => i && normalizeDraftStatus(i.status) === "approved");
-
-  const byStatus = items.reduce((acc, i) => {
-    const k = normalizeDraftStatus(i && i.status) || "(empty)";
-    acc[k] = (acc[k] || 0) + 1;
-    return acc;
-  }, {});
-
   console.log(
-    "[publish-approved-blog] drafts version",
-    doc.version,
-    "items",
-    items.length,
-    "by-status",
-    JSON.stringify(byStatus)
+    `[rebuild-blog] loaded ${items.length} drafts from ${path.relative(ROOT, DRAFTS_PATH)}`
   );
 
-  if (!approved.length) {
-    console.log('[publish-approved-blog] no items with status === "approved"; nothing to publish');
+  // Process every item with a body, regardless of status.
+  const candidates = items.filter(
+    (i) => i && typeof i.body_markdown === "string" && i.body_markdown.trim() !== ""
+  );
+
+  if (!candidates.length) {
+    console.log("[rebuild-blog] no items with body_markdown; nothing to rebuild");
     return;
   }
 
-  console.log(
-    "[publish-approved-blog] queue",
-    approved.length,
-    "approved slug(s):",
-    approved.map((a) => normSlug(a)).filter(Boolean).join(", ") || "(none valid)"
-  );
-
   let posts = loadBlogJson();
-  const publishedSlugs = [];
-  let linkStatsTotal = { targets: 0, injectedInBody: 0, fallbackAppended: 0, missing: 0 };
 
-  for (const item of approved) {
+  let totalProcessed = 0;
+  let totalSkipped = 0;
+  let totalInjectedInBody = 0;
+  let totalFallback = 0;
+  let totalManifestInserted = 0;
+  let totalManifestUpdated = 0;
+
+  for (const item of candidates) {
     const slug = normSlug(item);
     if (!slug) {
-      console.warn("[publish-approved-blog] skip approved item with empty slug", item && item.title);
+      console.warn("[rebuild-blog] skip item with invalid slug:", item && item.title);
+      totalSkipped++;
       continue;
     }
 
-    const rawMd = item.body_markdown || "";
-    const { markdown: enrichedMd, stats } = injectInternalLinksIntoMarkdown(rawMd, item.internal_links);
+    const status = normalizeDraftStatus(item.status) || "(empty)";
 
-    linkStatsTotal.targets += stats.targets;
-    linkStatsTotal.injectedInBody += stats.injectedInBody;
-    linkStatsTotal.fallbackAppended += stats.fallbackAppended;
-    linkStatsTotal.missing += stats.missing;
+    const { markdown: enrichedMd, stats } = injectInternalLinks(
+      item.body_markdown,
+      item.internal_links
+    );
 
-    if (!DEBUG) {
-      console.log(
-        `[publish-approved-blog] internal-links slug=${slug} in-body=${stats.injectedInBody} fallback=${stats.fallbackAppended} targets=${stats.targets}`
-      );
-    }
+    console.log(
+      `[rebuild-blog] slug=${slug} status=${status} links: in-body=${stats.injectedInBody} fallback=${stats.fallbackAppended} total=${stats.totalLinked}/${stats.targets}`
+    );
 
     const html = buildArticleHtml(item, enrichedMd);
     if (!html) {
-      console.warn("[publish-approved-blog] skip slug", slug, "(buildArticleHtml returned null)");
+      console.warn(`[rebuild-blog] skip slug=${slug}: HTML build returned null`);
+      totalSkipped++;
       continue;
     }
 
-    const dir = path.join(ROOT, "blog", slug);
-    fs.mkdirSync(dir, { recursive: true });
-    const outFile = path.join(dir, "index.html");
-    fs.writeFileSync(outFile, html, "utf8");
-    console.log("[publish-approved-blog] wrote", path.relative(ROOT, outFile));
+    writeArticleHtml(slug, html);
 
-    upsertBlogPost(posts, buildBlogEntry(item, slug));
-    publishedSlugs.push(slug);
-  }
+    const manifestEntry = buildManifestEntry(item, slug);
+    const op = upsertManifest(posts, manifestEntry);
+    if (op === "inserted") totalManifestInserted++;
+    else totalManifestUpdated++;
 
-  if (!publishedSlugs.length) {
-    console.warn(
-      "[publish-approved-blog] no slugs published; skipping blog.json and drafts updates (idempotent)"
-    );
-    return;
+    totalProcessed++;
+    totalInjectedInBody += stats.injectedInBody;
+    totalFallback += stats.fallbackAppended;
   }
 
   saveBlogJson(posts);
 
-  for (const it of items) {
-    if (!it) continue;
-    const s = normSlug(it);
-    if (publishedSlugs.indexOf(s) === -1) continue;
-    if (normalizeDraftStatus(it.status) !== "approved") continue;
-    const prev = it.status;
-    it.status = "published";
-    console.log(
-      "[publish-approved-blog] status transition",
-      JSON.stringify({ slug: s, from: prev, to: "published" })
-    );
-  }
-
-  saveDraftsDoc(doc);
-
   console.log(
-    "[publish-approved-blog] internal-links aggregate: in-body=",
-    linkStatsTotal.injectedInBody,
-    "fallback-rows=",
-    linkStatsTotal.fallbackAppended,
-    "targets=",
-    linkStatsTotal.targets
+    `[rebuild-blog] DONE processed=${totalProcessed} skipped=${totalSkipped} links: in-body=${totalInjectedInBody} fallback=${totalFallback}`
   );
+  console.log(
+    `[rebuild-blog] manifest: inserted=${totalManifestInserted} updated=${totalManifestUpdated} total=${posts.length}`
+  );
+  console.log("[rebuild-blog] drafts file untouched (status preserved)");
 }
 
 main();
