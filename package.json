@@ -16,6 +16,10 @@
     "seo:scale": "npm run keywords:expand && npm run pages:expand",
     "ranking:build": "npm run intent:classify && npm run serp:gap && npm run rank:optimize",
     "publish-approved-blog": "node scripts/publish-approved-blog-from-drafts.js",
+    "validate:blog": "node scripts/validate-blog-integrity.js",
+    "validate:blog:probe": "node scripts/validate-blog-integrity.js --probe",
+    "simulate:routes": "node scripts/simulate-blog-routes.js",
+    "simulate:routes:all": "node scripts/simulate-blog-routes.js --all",
     "build": "npm run publish-approved-blog && npm run links:boost && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run generate-sitemap && npm run sitemap:ping"
   }
 }

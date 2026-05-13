@@ -29,4 +29,9 @@
 /calculator/ /tools/loan-calculator/ 301
 /calculator.html /tools/loan-calculator/ 301
 /blog/post.html /blog/ 301
-/blog/:slug /blog/ 302
+
+# IMPORTANT: do NOT add a parametric blog rewrite like `/blog/:slug /blog/ 302`
+# or `/blog/:slug /blog/:slug/index.html 200`. Cloudflare Pages serves
+# /blog/{slug}/index.html natively for /blog/{slug}/, and functions/blog/[slug].js
+# already handles both /blog/{slug} and /blog/{slug}/. Any parametric rule on
+# /blog/* short-circuits those handlers and causes production 404s.
