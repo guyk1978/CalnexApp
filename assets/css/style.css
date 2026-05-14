@@ -234,7 +234,22 @@ a {
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition:
+    background-color var(--cn-motion-fast) var(--cn-ease-out),
+    border-color var(--cn-motion-fast) var(--cn-ease-out),
+    color var(--cn-motion-fast) var(--cn-ease-out),
+    transform var(--cn-motion-fast) var(--cn-ease-out),
+    box-shadow var(--cn-motion-fast) var(--cn-ease-out);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active {
+    transform: none;
+  }
 }
 
 .btn-primary {
@@ -244,6 +259,12 @@ a {
 
 .btn-primary:hover {
   background: var(--primary-dark);
+  box-shadow: var(--cn-shadow-xs);
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--cn-border-focus);
+  outline-offset: 2px;
 }
 
 .btn-ghost {
@@ -346,6 +367,8 @@ select {
 
 input[type="range"] {
   width: 100%;
+  min-height: 28px;
+  accent-color: var(--primary);
 }
 
 .input-with-prefix {
@@ -531,6 +554,16 @@ input[type="range"] {
 .chart-wrap canvas {
   width: 100% !important;
   height: 260px !important;
+}
+
+.chart-wrap.cn-chart-wrap {
+  padding: var(--cn-space-2);
+  box-sizing: border-box;
+}
+
+.output-card .comparison-grid {
+  margin-top: var(--cn-space-2);
+  gap: var(--cn-space-3);
 }
 
 .amortization-header {
@@ -799,6 +832,14 @@ input[type="range"] {
   padding: 0.6rem 0.8rem;
   margin-bottom: 0.6rem;
   background: var(--cn-surface-solid);
+  transition:
+    border-color var(--cn-motion-base) var(--cn-ease-out),
+    box-shadow var(--cn-motion-base) var(--cn-ease-out);
+}
+
+.faq-list details[open] {
+  border-color: var(--cn-border-strong);
+  box-shadow: var(--cn-shadow-xs);
 }
 
 .faq-list summary {
@@ -858,7 +899,7 @@ input[type="range"] {
 .legal-disclaimer {
   margin-top: 0.35rem;
   padding-top: 0.65rem;
-  border-top: 1px solid #e8edf5;
+  border-top: 1px solid var(--border);
   max-width: 780px;
 }
 
@@ -875,6 +916,14 @@ input[type="range"] {
 }
 
 @media (max-width: 768px) {
+  input[type="range"] {
+    min-height: 40px;
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
   .container {
     width: min(1120px, 94%);
   }
@@ -1142,11 +1191,11 @@ input[type="range"] {
 }
 
 .financial-validation-panel {
-  margin: 0 0 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: rgba(27, 99, 240, 0.04);
+  margin: 0 0 var(--cn-space-4);
+  padding: var(--cn-space-4);
+  border-radius: var(--cn-radius-md);
+  border: 1px solid color-mix(in srgb, var(--cn-accent) 22%, var(--border));
+  background: color-mix(in srgb, var(--cn-accent-muted) 70%, var(--cn-bg-subtle));
 }
 
 .financial-validation-head {

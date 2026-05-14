@@ -7,7 +7,7 @@
     <title>CalnexApp - Financial Calculator Platform</title>
     <meta
       name="description"
-      content="CalnexApp is a SaaS-style financial tools platform with calculators for loans, mortgages, car finance, and interest planning."
+      content="CalnexApp: fast loan and mortgage calculators with amortization, exports, and guides—built for borrowers who want numbers they can trust."
     />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="CalnexApp - Financial Calculator Platform" />
@@ -48,36 +48,41 @@
       <section class="cn-hero">
         <div class="container cn-hero-grid">
           <div>
-            <p class="eyebrow">Borrowing intelligence</p>
-            <h1 class="cn-hero__title">Know your payment before you commit.</h1>
-            <p class="cn-hero__lead">
-              Model loans, mortgages, and interest in seconds—clear totals, amortization-ready outputs, and
-              scenarios you can share.
+            <p class="eyebrow">Repayment modeling</p>
+            <h1 class="cn-hero__title">The payment picture, without the spreadsheet slog.</h1>
+            <p class="cn-hero__kicker">
+              For anyone comparing a loan, a refi, or an extra payment—see the monthly cost, total interest, and payoff
+              date in one place, then drill into amortization when you need proof.
             </p>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="/tools/loan-calculator/">Open loan calculator</a>
-              <a class="btn btn-ghost" href="/blog/">Read guides</a>
+            <p class="cn-hero__lead">
+              Same standard amortization math lenders use for estimates—presented so you can scan, tweak, and share a
+              link that reproduces your scenario.
+            </p>
+            <div class="cn-hero-cta hero-actions">
+              <a class="btn btn-primary" href="/tools/loan-calculator/">Run the loan calculator</a>
+              <a class="btn btn-ghost" href="/blog/">How we think about debt</a>
+              <p class="cn-hero-cta__note">No account. Your inputs stay in the page unless you export or share.</p>
             </div>
           </div>
-          <aside class="cn-hero-panel card" aria-label="Product snapshot">
-            <h2>Built for clarity</h2>
+          <aside class="cn-hero-panel card" aria-label="Why CalnexApp">
+            <h2>Why people use this</h2>
             <div class="cn-stat-row">
               <div class="cn-stat">
-                <p class="cn-stat__label">Speed</p>
-                <p class="cn-stat__value">Instant</p>
+                <p class="cn-stat__label">Truth in numbers</p>
+                <p class="cn-stat__value">PMT + schedule</p>
               </div>
               <div class="cn-stat">
-                <p class="cn-stat__label">Depth</p>
-                <p class="cn-stat__value">Amortization</p>
+                <p class="cn-stat__label">Scenario depth</p>
+                <p class="cn-stat__value">Extras + CSV</p>
               </div>
               <div class="cn-stat">
-                <p class="cn-stat__label">Start</p>
-                <p class="cn-stat__value">No signup</p>
+                <p class="cn-stat__label">Friction</p>
+                <p class="cn-stat__value">Near zero</p>
               </div>
             </div>
             <p class="muted" style="margin: 1rem 0 0; font-size: 0.88rem; line-height: 1.45">
-              Estimates for planning—not tax, legal, or lending advice. Always confirm numbers with your lender or
-              advisor.
+              We publish tools and explainers—not personalized advice. Rates, fees, and underwriting rules from your
+              lender still win when they differ from a calculator.
             </p>
           </aside>
         </div>
@@ -85,9 +90,9 @@
 
       <section class="cn-strip">
         <div class="container cn-strip__inner">
-          <p class="cn-strip-item"><strong>Transparent math</strong> Standard amortization and clearly labeled inputs.</p>
-          <p class="cn-strip-item"><strong>Scenario-friendly</strong> Compare terms, rates, and extra payments.</p>
-          <p class="cn-strip-item"><strong>Export &amp; share</strong> Copy links, print schedules, and download CSV where available.</p>
+          <p class="cn-strip-item"><strong>Readable outputs</strong> Big totals first, then tables and charts only when you expand them.</p>
+          <p class="cn-strip-item"><strong>Comparable scenarios</strong> Change rate, term, or extra payment and watch the delta immediately.</p>
+          <p class="cn-strip-item"><strong>Portable results</strong> Print-friendly schedules, CSV where offered, and shareable URLs.</p>
         </div>
       </section>
 
@@ -95,48 +100,50 @@
         <div class="page-title">
           <p class="eyebrow">Calculators</p>
           <h2 class="cn-hero__title" style="font-size: clamp(1.35rem, 3vw, 1.85rem); margin: 0.3rem 0 0.5rem">
-            Tools for every major borrowing decision
+            One surface for the decisions that hit your cash flow
           </h2>
-          <p class="muted">Pick a calculator—each page is tuned for fast iteration and readable results.</p>
+          <p class="muted">Each tool is opinionated toward clarity: fewer mystery fields, more context around the numbers that matter.</p>
         </div>
         <div class="cn-bento tool-grid">
-          <article class="card tool-card cn-bento__cell cn-bento__cell--hero cn-tool-card-link">
-            <h2>Loan calculator</h2>
-            <p class="muted">Monthly payment, total interest, payoff timeline, and extra-payment impact.</p>
-            <a class="btn btn-primary" href="/tools/loan-calculator/">Open tool</a>
+          <article class="card tool-card cn-bento__cell cn-bento__cell--hero cn-tool-card-link cn-card-interactive">
+            <h2>Loan</h2>
+            <p class="muted">Installment loans: payment, interest weighting, payoff with optional extras.</p>
+            <a class="btn btn-primary" href="/tools/loan-calculator/">Open loan tool</a>
           </article>
-          <article class="card tool-card cn-bento__cell cn-bento__cell--wide cn-tool-card-link">
-            <h2>Mortgage calculator</h2>
-            <p class="muted">Long-term home loan estimates with cost components you can reason about.</p>
-            <a class="btn btn-ghost" href="/tools/mortgage-calculator/">Open tool</a>
+          <article class="card tool-card cn-bento__cell cn-bento__cell--wide cn-tool-card-link cn-card-interactive">
+            <h2>Mortgage</h2>
+            <p class="muted">Home loans with the long horizon broken into numbers you can reason about month by month.</p>
+            <a class="btn btn-ghost" href="/tools/mortgage-calculator/">Open mortgage tool</a>
           </article>
-          <article class="card tool-card cn-bento__cell cn-tool-card-link">
+          <article class="card tool-card cn-bento__cell cn-tool-card-link cn-card-interactive">
             <h2>Car loan</h2>
-            <p class="muted">Auto financing scenarios before you sign at the dealer.</p>
-            <a class="btn btn-ghost" href="/tools/car-loan-calculator/">Open tool</a>
+            <p class="muted">Dealer or credit union terms—see the true cost before you drive off the lot.</p>
+            <a class="btn btn-ghost" href="/tools/car-loan-calculator/">Open auto tool</a>
           </article>
-          <article class="card tool-card cn-bento__cell cn-tool-card-link">
+          <article class="card tool-card cn-bento__cell cn-tool-card-link cn-card-interactive">
             <h2>Interest</h2>
-            <p class="muted">Simple and compound growth models for savings and debt.</p>
-            <a class="btn btn-ghost" href="/tools/interest-calculator/">Open tool</a>
+            <p class="muted">Compound vs simple growth—useful for savings targets or understanding APR impact.</p>
+            <a class="btn btn-ghost" href="/tools/interest-calculator/">Open interest tool</a>
           </article>
-          <article class="card tool-card cn-bento__cell cn-tool-card-link">
+          <article class="card tool-card cn-bento__cell cn-tool-card-link cn-card-interactive">
             <h2>Retirement</h2>
-            <p class="muted">Funding trajectory, gap, and readiness signals.</p>
-            <a class="btn btn-ghost" href="/tools/retirement-calculator/">Open tool</a>
+            <p class="muted">Contribution-led projections with a clear read on gap vs goal.</p>
+            <a class="btn btn-ghost" href="/tools/retirement-calculator/">Open retirement tool</a>
           </article>
         </div>
       </section>
 
+      
       <!-- ILB_HOME_RECENT_START -->
       <section class="container section-space card">
         <h2>Recently updated</h2>
         <ul class="toc-list">
-          <li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-13)</span></li><li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-13)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-13)</span></li><li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-13)</span></li><li><a href="/blog/fixed-vs-variable-interest-rate/">Fixed vs Variable Interest Rate: What Borrowers Need to Know</a> <span class="muted">(2026-05-13)</span></li><li><a href="/blog/how-extra-payments-save-money/">How Extra Payments Save Money on Your Loan</a> <span class="muted">(2026-05-13)</span></li><li><a href="/blog/loan-vs-mortgage/">Loan vs Mortgage: Key Differences Explained</a> <span class="muted">(2026-05-13)</span></li><li><a href="/tools/loan-calculator/250000-loan-at-6-percent-for-15-years/">$250,000 loan at 6% for 15 years</a> <span class="muted">(2026-05-13)</span></li><li><a href="/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/">$250,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-13)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/">$300,000 loan at 3.5% for 15 years</a> <span class="muted">(2026-05-13)</span></li>
+          <li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-14)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-14)</span></li><li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-14)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-14)</span></li><li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a> <span class="muted">(2026-05-14)</span></li><li><a href="/blog/fixed-vs-variable-interest-rate/">Fixed vs Variable Interest Rate: What Borrowers Need to Know</a> <span class="muted">(2026-05-14)</span></li><li><a href="/blog/how-extra-payments-save-money/">How Extra Payments Save Money on Your Loan</a> <span class="muted">(2026-05-14)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/">$300,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-14)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/">$300,000 loan at 4% for 15 years</a> <span class="muted">(2026-05-14)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/">$300,000 loan at 4% for 30 years</a> <span class="muted">(2026-05-14)</span></li>
         </ul>
       </section>
       <!-- ILB_HOME_RECENT_END -->
 
+      
       <!-- RANK_FEATURED_START -->
       <section class="container section-space card">
         <h2>Featured pages</h2>
@@ -153,16 +160,16 @@
         </div>
         <div class="faq-list">
           <details>
-            <summary>Is CalnexApp a lender?</summary>
-            <p class="muted">No. We publish calculators and educational content. We do not originate loans or provide individualized financial advice.</p>
+            <summary>Are you a bank or a lender?</summary>
+            <p class="muted">No. CalnexApp is a publisher of calculators and articles. Nothing here is an offer of credit, and we do not pull your credit or talk to lenders on your behalf.</p>
           </details>
           <details>
-            <summary>How accurate are the estimates?</summary>
-            <p class="muted">Outputs depend on the numbers you enter and standard formulas. Lenders may apply fees, insurance, taxes, and underwriting rules not modeled here.</p>
+            <summary>Will my bank show the same numbers?</summary>
+            <p class="muted">Often close on the core payment math—differences usually come from day-count conventions, fees, escrow, insurance, rounding, or promotional rates. Use our output as a baseline, then validate against your Loan Estimate or disclosure.</p>
           </details>
           <details>
-            <summary>Do I need an account?</summary>
-            <p class="muted">You can use the calculators without signing up. If we add saved workspaces in the future, we will state it clearly on those flows.</p>
+            <summary>What do you do with my inputs?</summary>
+            <p class="muted">Calculations run in the page unless you explicitly share a link or export. We still recommend treating sensitive numbers like any other personal finance document.</p>
           </details>
         </div>
       </section>
@@ -174,7 +181,7 @@
           <div>
             <a href="/" class="brand" style="display: inline-block; margin-bottom: 0.5rem">CalnexApp</a>
             <p class="muted" style="margin: 0; max-width: 28rem; font-size: 0.9rem">
-              Financial estimation tools for planning—not a substitute for professional advice.
+              Built like infrastructure: boring where it should be, explicit where money is involved.
             </p>
           </div>
           <div>

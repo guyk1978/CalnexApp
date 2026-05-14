@@ -172,7 +172,7 @@
           ${related
             .map(
               (tool) => `
-            <article class="card tool-card">
+            <article class="card tool-card cn-card-interactive">
               <h3>${tool.name}</h3>
               <p class="muted">${tool.description}</p>
               <a class="btn btn-ghost" href="${tool.path}">Open Tool</a>
@@ -264,7 +264,7 @@
       grid.innerHTML = tools
         .map(
           (tool) => `
-        <article class="card tool-card cn-tool-card-link">
+        <article class="card tool-card cn-tool-card-link cn-card-interactive">
           <h2>${tool.name}</h2>
           <p class="muted">${tool.description}</p>
           <a class="btn btn-primary" href="${tool.path}">Open</a>

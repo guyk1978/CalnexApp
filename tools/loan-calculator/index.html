@@ -7,7 +7,7 @@
     <title>Loan Calculator - CalnexApp</title>
     <meta
       name="description"
-      content="Calculate monthly loan payments, total interest, and total repayment instantly with CalnexApp."
+      content="Loan calculator with amortization schedule, extra payments, charts, CSV export, and shareable links—built for borrowers who want clarity before signing."
     />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Loan Calculator - CalnexApp" />
@@ -106,6 +106,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -114,7 +115,7 @@
   "name": "Loan Calculator",
   "description": "Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/loan-calculator/",
-  "dateModified": "2026-05-13T09:55:57.603Z",
+  "dateModified": "2026-05-14T09:02:54.368Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -147,7 +148,7 @@
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
-        <nav class="menu">
+        <nav class="menu" id="siteMenu">
           <a href="/" data-nav-link>Home</a>
           <a href="/tools/" data-nav-link>Tools</a>
           <a href="/blog/" data-nav-link>Blog</a>
@@ -159,9 +160,9 @@
 
     <main class="container section-space">
       <section class="page-title">
-        <p class="eyebrow">Tool</p>
-        <h1>Loan Calculator</h1>
-        <p>Get precise repayment estimates in real time.</p>
+        <p class="eyebrow">Loan</p>
+        <h1>Loan calculator</h1>
+        <p class="muted">Work the payment, total interest, and payoff date—then open the schedule when you need line-by-line proof.</p>
       </section>
 
       <section class="card">
@@ -178,7 +179,12 @@
       <div class="cn-tool-shell">
       <section class="calculator-layout cn-calculator-layout">
         <form class="card input-card" id="loan-form" aria-label="Loan calculator form">
-          <div class="field">
+          <header class="cn-calc-form__head">
+            <h2 class="cn-calc-form__title">Loan parameters</h2>
+            <p class="cn-calc-form__lede muted">Adjust principal, APR, or term—the results column updates as you type.</p>
+          </header>
+          <fieldset class="cn-calc-fieldset">
+            <legend class="cn-calc-fieldset__legend">Basics</legend>
             <label for="loanAmount" data-currency-label="loan_amount">Loan Amount</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
@@ -204,9 +210,18 @@
             </div>
             <input id="loanTermSlider" type="range" min="1" max="30" step="1" value="5" />
           </div>
+          </fieldset>
 
-          <div class="advanced-payments">
-            <button id="toggleAdvanced" type="button" class="btn btn-ghost">Advanced: Extra Payments</button>
+          <div class="advanced-payments cn-calc-disclosure">
+            <button
+              id="toggleAdvanced"
+              type="button"
+              class="btn btn-ghost cn-calc-disclosure__btn"
+              aria-expanded="false"
+              aria-controls="advancedPanel"
+            >
+              Advanced: extra payments
+            </button>
             <div id="advancedPanel" class="advanced-panel" aria-hidden="true">
               <div class="field">
                 <label for="extraMonthlyPayment" data-currency-label="extra_monthly_payment">Extra Monthly Payment</label>
@@ -251,6 +266,14 @@
             </div>
             <p class="financial-validation-warnings muted" data-bind="financial_validation_warnings_text" data-format="text"></p>
           </div>
+          <div class="cn-trust-callout" role="note">
+            <h3>How to read “confidence”</h3>
+            <p>
+              The badge calls out impossible combinations (like a negative term). When it is quiet, your inputs pass
+              basic sanity checks—that is not a substitute for underwriting or legal advice.
+            </p>
+          </div>
+          <div class="cn-metric-deck">
           <dl class="result-grid">
             <div>
               <dt>Monthly Payment</dt>
@@ -265,6 +288,7 @@
               <dd id="totalRepayment" data-bind="loan_total_repayment">0.00</dd>
             </div>
           </dl>
+          </div>
 
           <div class="comparison-grid">
             <article class="comparison-card">
@@ -283,7 +307,7 @@
           </div>
 
           <div class="share-tools">
-            <h3>Share this calculation</h3>
+            <h3>Share &amp; export</h3>
             <div class="share-actions">
               <button type="button" class="btn btn-ghost share-btn" data-share="copy">Copy Link</button>
               <button type="button" class="btn btn-primary" id="shareResultsBtn">Share Results</button>
@@ -315,7 +339,7 @@
         interest.
       </section>
 
-      <section class="card charts-section">
+      <section class="card charts-section cn-chart-section">
         <div class="page-title">
           <p class="eyebrow">Insights</p>
           <h2>Loan Visual Breakdown</h2>
@@ -323,13 +347,13 @@
         <div class="chart-grid">
           <article class="card chart-card">
             <h3>Principal vs Interest</h3>
-            <div class="chart-wrap">
+            <div class="chart-wrap cn-chart-wrap">
               <canvas id="principalInterestChart"></canvas>
             </div>
           </article>
           <article class="card chart-card">
             <h3>Remaining Balance</h3>
-            <div class="chart-wrap">
+            <div class="chart-wrap cn-chart-wrap">
               <canvas id="balanceChart"></canvas>
             </div>
           </article>
@@ -399,6 +423,7 @@
         </div>
       </section>
     
+      
       
       
       
@@ -558,6 +583,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -566,6 +592,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       

@@ -115,42 +115,127 @@ const LoanCalculator = (() => {
       .join("");
   };
 
-  const getChartOptions = (yLabel) => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: {
-      mode: "index",
-      intersect: false
-    },
-    plugins: {
-      legend: {
-        position: "top"
-      },
-      tooltip: {
-        enabled: true
-      }
-    },
-    animation: {
-      duration: 420
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Month"
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: yLabel
-        },
-        ticks: {
-          callback: (value) => setCurrency(Number(value) || 0)
-        }
-      }
+  const cssVar = (name, fallback) => {
+    try {
+      const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return v || fallback;
+    } catch (_e) {
+      return fallback;
     }
+  };
+
+  const chartMotionOn = () =>
+    typeof window === "undefined" || !window.matchMedia
+      ? true
+      : !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const getChartPalette = () => ({
+    axis: cssVar("--cn-chart-axis", "rgba(0,0,0,0.12)"),
+    tick: cssVar("--cn-chart-tick", "#6a778a"),
+    legend: cssVar("--cn-chart-legend", "#9aa7b8"),
+    grid: cssVar("--cn-chart-grid", "rgba(0,0,0,0.06)"),
+    tooltipBg: cssVar("--cn-chart-tooltip-bg", "#141a24"),
+    tooltipFg: cssVar("--cn-chart-tooltip-fg", "#e7eef8"),
+    tooltipBorder: cssVar("--cn-chart-tooltip-border", "rgba(255,255,255,0.1)"),
+    s1: cssVar("--cn-series-baseline-a", "#8da8de"),
+    s2: cssVar("--cn-series-baseline-b", "#8899aa"),
+    s3: cssVar("--cn-series-accel-a", "#5b8cff"),
+    s4: cssVar("--cn-series-accel-b", "#9aa7b8"),
+    b1: cssVar("--cn-series-balance-base", "#8da8de"),
+    b2: cssVar("--cn-series-balance-accel", "#5b8cff"),
+    b3: cssVar("--cn-series-balance-delta", "#3ee08f")
   });
+
+  const chartFontFamily = () => {
+    const raw = cssVar("--cn-font-sans", "Inter, system-ui, sans-serif");
+    return raw.split(",")[0].replace(/['"]/g, "").trim() || "Inter";
+  };
+
+  const getChartOptions = (yLabel) => {
+    const p = getChartPalette();
+    const font = chartFontFamily();
+    const motion = chartMotionOn();
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: {
+          position: "top",
+          align: "end",
+          labels: {
+            color: p.legend,
+            boxWidth: 10,
+            boxHeight: 10,
+            padding: 14,
+            usePointStyle: true,
+            pointStyle: "line",
+            font: { size: 11, family: font }
+          }
+        },
+        tooltip: {
+          enabled: true,
+          backgroundColor: p.tooltipBg,
+          titleColor: p.tooltipFg,
+          bodyColor: p.tooltipFg,
+          borderColor: p.tooltipBorder,
+          borderWidth: 1,
+          cornerRadius: 8,
+          padding: 10,
+          caretSize: 0,
+          displayColors: true,
+          titleFont: { size: 12, weight: 600, family: font },
+          bodyFont: { size: 12, family: font }
+        }
+      },
+      animation: motion ? { duration: 340 } : false,
+      scales: {
+        x: {
+          offset: true,
+          grid: {
+            color: p.grid,
+            drawTicks: false,
+            tickLength: 0
+          },
+          ticks: {
+            color: p.tick,
+            maxRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 9,
+            font: { size: 11, family: font }
+          },
+          border: { display: false },
+          title: {
+            display: true,
+            text: "Month",
+            color: p.legend,
+            font: { size: 11, weight: 600, family: font },
+            padding: { top: 8, bottom: 0 }
+          }
+        },
+        y: {
+          grid: {
+            color: p.grid
+          },
+          ticks: {
+            color: p.tick,
+            maxTicksLimit: 7,
+            padding: 8,
+            font: { size: 11, family: font },
+            callback: (value) => setCurrency(Number(value) || 0)
+          },
+          border: { display: false },
+          title: {
+            display: true,
+            text: yLabel,
+            color: p.legend,
+            font: { size: 11, weight: 600, family: font },
+            padding: { bottom: 8, top: 0 }
+          }
+        }
+      }
+    };
+  };
 
   const buildSeries = (schedule, key, length, padWithZero = false) =>
     Array.from({ length }, (_, i) => {
@@ -167,6 +252,8 @@ const LoanCalculator = (() => {
     if (principalInterestChartInstance) principalInterestChartInstance.destroy();
     if (balanceChartInstance) balanceChartInstance.destroy();
 
+    const p = getChartPalette();
+
     principalInterestChartInstance = new window.Chart(selectors.principalInterestChart, {
       type: "line",
       data: {
@@ -175,34 +262,44 @@ const LoanCalculator = (() => {
           {
             label: "Principal (Original)",
             data: buildSeries(baselineSchedule, "principal", maxMonths),
-            borderColor: "#8da8de",
-            borderDash: [6, 6],
-            tension: 0.24,
-            pointRadius: 0
+            borderColor: p.s1,
+            borderDash: [5, 5],
+            borderWidth: 1.5,
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 2
           },
           {
             label: "Interest (Original)",
             data: buildSeries(baselineSchedule, "interest", maxMonths),
-            borderColor: "#b0bac8",
-            borderDash: [6, 6],
-            tension: 0.24,
-            pointRadius: 0
+            borderColor: p.s2,
+            borderDash: [5, 5],
+            borderWidth: 1.5,
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 2
           },
           {
             label: "Principal (With Extra)",
             data: buildSeries(acceleratedSchedule, "principal", maxMonths),
-            borderColor: "#1b63f0",
-            backgroundColor: "rgba(27, 99, 240, 0.1)",
-            tension: 0.24,
-            pointRadius: 0
+            borderColor: p.s3,
+            borderWidth: 2,
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 2
           },
           {
             label: "Interest (With Extra)",
             data: buildSeries(acceleratedSchedule, "interest", maxMonths),
-            borderColor: "#5f6b7a",
-            backgroundColor: "rgba(95, 107, 122, 0.1)",
-            tension: 0.24,
-            pointRadius: 0
+            borderColor: p.s4,
+            borderWidth: 2,
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 2
           }
         ]
       },
@@ -223,26 +320,33 @@ const LoanCalculator = (() => {
           {
             label: "Remaining Balance (Original)",
             data: originalBalance,
-            borderColor: "#8da8de",
-            borderDash: [6, 6],
-            tension: 0.24,
-            pointRadius: 0
+            borderColor: p.b1,
+            borderDash: [5, 5],
+            borderWidth: 1.5,
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 2
           },
           {
             label: "Remaining Balance (With Extra)",
             data: acceleratedBalance,
-            borderColor: "#144fc1",
-            backgroundColor: "rgba(20, 79, 193, 0.12)",
-            tension: 0.24,
-            pointRadius: 0
+            borderColor: p.b2,
+            borderWidth: 2,
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 2
           },
           {
             label: "Balance Reduction Difference",
             data: reductionDiff,
-            borderColor: "#1f8b4d",
-            backgroundColor: "rgba(31, 139, 77, 0.15)",
-            tension: 0.22,
-            pointRadius: 0
+            borderColor: p.b3,
+            borderWidth: 1.75,
+            tension: 0.32,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 2
           }
         ]
       },
@@ -440,6 +544,7 @@ const LoanCalculator = (() => {
   const togglePanel = (panel, button, closedText, openText) => {
     const isOpen = panel.classList.toggle("is-open");
     panel.setAttribute("aria-hidden", String(!isOpen));
+    button.setAttribute("aria-expanded", String(isOpen));
     button.textContent = isOpen ? openText : closedText;
   };
 
@@ -657,7 +762,7 @@ const LoanCalculator = (() => {
       });
     });
     selectors.toggleAdvanced.addEventListener("click", () => {
-      togglePanel(selectors.advancedPanel, selectors.toggleAdvanced, "Advanced: Extra Payments", "Hide Advanced: Extra Payments");
+      togglePanel(selectors.advancedPanel, selectors.toggleAdvanced, "Advanced: extra payments", "Hide advanced");
     });
     selectors.toggleSchedule.addEventListener("click", () => {
       togglePanel(selectors.schedulePanel, selectors.toggleSchedule, "Show full schedule", "Hide full schedule");
@@ -747,6 +852,14 @@ const LoanCalculator = (() => {
     });
     document.addEventListener("currency:changed", () => {
       if (window.AppEngine) AppEngine.runImmediate();
+    });
+    document.addEventListener("cn-themechange", () => {
+      if (!window.Chart) return;
+      try {
+        renderCharts();
+      } catch (_e) {
+        /* ignore */
+      }
     });
   };
 

@@ -50,10 +50,28 @@
   --cn-chart-grid: rgba(255, 255, 255, 0.06);
   --cn-chart-track: rgba(255, 255, 255, 0.1);
 
-  /* Elevation */
+  /* Elevation — restrained stack */
+  --cn-shadow-xs: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 4px 14px rgba(0, 0, 0, 0.35);
   --cn-shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 28px rgba(0, 0, 0, 0.45);
   --cn-shadow-md: 0 18px 55px rgba(0, 0, 0, 0.55);
+  --cn-shadow-lg: 0 28px 80px rgba(0, 0, 0, 0.58);
   --cn-shadow-glow: 0 0 0 1px rgba(91, 140, 255, 0.22), 0 22px 60px rgba(0, 0, 0, 0.5);
+  --cn-shadow-ring: 0 0 0 3px rgba(91, 140, 255, 0.18);
+
+  /* Chart series (read by loan.js via getComputedStyle) */
+  --cn-chart-axis: rgba(154, 167, 184, 0.55);
+  --cn-chart-tick: rgba(154, 167, 184, 0.85);
+  --cn-chart-legend: rgba(200, 210, 224, 0.92);
+  --cn-chart-tooltip-bg: rgba(20, 26, 36, 0.94);
+  --cn-chart-tooltip-fg: #e7eef8;
+  --cn-chart-tooltip-border: rgba(255, 255, 255, 0.1);
+  --cn-series-baseline-a: rgba(130, 148, 176, 0.65);
+  --cn-series-baseline-b: rgba(110, 124, 142, 0.55);
+  --cn-series-accel-a: #6d9fff;
+  --cn-series-accel-b: rgba(154, 167, 184, 0.75);
+  --cn-series-balance-base: rgba(130, 148, 176, 0.65);
+  --cn-series-balance-accel: #5b8cff;
+  --cn-series-balance-delta: #3ee08f;
 
   /* Radius */
   --cn-radius-sm: 10px;
@@ -135,9 +153,26 @@ html[data-theme="light"] {
   --cn-chart-grid: rgba(16, 33, 58, 0.08);
   --cn-chart-track: #e6edf7;
 
+  --cn-shadow-xs: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 2px 8px rgba(20, 40, 70, 0.06);
   --cn-shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 10px 24px rgba(20, 40, 70, 0.08);
   --cn-shadow-md: 0 10px 24px rgba(20, 40, 70, 0.1);
+  --cn-shadow-lg: 0 22px 50px rgba(20, 40, 70, 0.12);
   --cn-shadow-glow: 0 0 0 1px rgba(27, 99, 240, 0.15), 0 18px 40px rgba(20, 40, 70, 0.12);
+  --cn-shadow-ring: 0 0 0 3px rgba(27, 99, 240, 0.2);
+
+  --cn-chart-axis: rgba(16, 33, 58, 0.18);
+  --cn-chart-tick: rgba(16, 33, 58, 0.55);
+  --cn-chart-legend: rgba(16, 33, 58, 0.78);
+  --cn-chart-tooltip-bg: rgba(255, 255, 255, 0.98);
+  --cn-chart-tooltip-fg: #10213a;
+  --cn-chart-tooltip-border: rgba(16, 33, 58, 0.12);
+  --cn-series-baseline-a: rgba(90, 110, 140, 0.55);
+  --cn-series-baseline-b: rgba(110, 124, 142, 0.45);
+  --cn-series-accel-a: #1b63f0;
+  --cn-series-accel-b: rgba(79, 96, 119, 0.75);
+  --cn-series-balance-base: rgba(90, 110, 140, 0.55);
+  --cn-series-balance-accel: #144fc1;
+  --cn-series-balance-delta: #1f8b4d;
 
   --cn-overlay-scrim: rgba(16, 33, 58, 0.45);
 }
