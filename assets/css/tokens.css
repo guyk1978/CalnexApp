@@ -1,0 +1,151 @@
+/**
+ * CalnexApp design tokens — dark-first, semantic naming.
+ * Light theme: html[data-theme="light"] overrides (--cn-* only).
+ * Legacy aliases (--bg, --surface, …) are mapped in style.css from these tokens.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --cn-bg-app: #0b0f14;
+  --cn-bg-elevated: #0f141b;
+  --cn-bg-muted: #121826;
+  --cn-bg-subtle: rgba(255, 255, 255, 0.03);
+  --cn-bg-tint-blue: rgba(91, 140, 255, 0.08);
+  --cn-bg-tint-green: rgba(62, 224, 143, 0.1);
+  --cn-bg-tint-warm: rgba(245, 184, 74, 0.12);
+
+  /* Solid surface for inputs / buttons on elevated cards */
+  --cn-surface-solid: #141a24;
+
+  /* Borders */
+  --cn-border-subtle: rgba(255, 255, 255, 0.08);
+  --cn-border-strong: rgba(255, 255, 255, 0.14);
+  --cn-border-focus: #5b8cff;
+
+  /* Text */
+  --cn-text-primary: #e7eef8;
+  --cn-text-secondary: #9aa7b8;
+  --cn-text-tertiary: #7c8a9e;
+
+  /* Accent */
+  --cn-accent: #5b8cff;
+  --cn-accent-hover: #7aa3ff;
+  --cn-accent-pressed: #3d74f5;
+  --cn-accent-muted: rgba(91, 140, 255, 0.18);
+
+  /* Status */
+  --cn-success: #3ee08f;
+  --cn-success-muted: rgba(62, 224, 143, 0.14);
+  --cn-warning: #f5b84a;
+  --cn-danger: #ff5c5c;
+  --cn-info: #5bd6ff;
+
+  /* Charts */
+  --cn-chart-1: #5b8cff;
+  --cn-chart-2: #7c5cff;
+  --cn-chart-3: #3ee08f;
+  --cn-chart-4: #f5b84a;
+  --cn-chart-grid: rgba(255, 255, 255, 0.06);
+  --cn-chart-track: rgba(255, 255, 255, 0.1);
+
+  /* Elevation */
+  --cn-shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 28px rgba(0, 0, 0, 0.45);
+  --cn-shadow-md: 0 18px 55px rgba(0, 0, 0, 0.55);
+  --cn-shadow-glow: 0 0 0 1px rgba(91, 140, 255, 0.22), 0 22px 60px rgba(0, 0, 0, 0.5);
+
+  /* Radius */
+  --cn-radius-sm: 10px;
+  --cn-radius-md: 14px;
+  --cn-radius-lg: 18px;
+  --cn-radius-pill: 999px;
+
+  /* Typography */
+  --cn-font-sans: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --cn-text-xs: 0.75rem;
+  --cn-text-sm: 0.875rem;
+  --cn-text-md: 1rem;
+  --cn-text-lg: 1.125rem;
+  --cn-text-xl: 1.25rem;
+  --cn-text-2xl: 1.5rem;
+  --cn-text-3xl: clamp(1.75rem, 3.2vw, 2.5rem);
+  --cn-leading-tight: 1.2;
+  --cn-leading-snug: 1.35;
+  --cn-leading-normal: 1.55;
+
+  /* Motion */
+  --cn-motion-fast: 120ms;
+  --cn-motion-base: 180ms;
+  --cn-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Overlays */
+  --cn-overlay-scrim: rgba(6, 10, 16, 0.62);
+
+  /* Layout */
+  --cn-container: min(1120px, 92%);
+  --cn-space-1: 4px;
+  --cn-space-2: 8px;
+  --cn-space-3: 12px;
+  --cn-space-4: 16px;
+  --cn-space-5: 20px;
+  --cn-space-6: 24px;
+  --cn-space-8: 32px;
+  --cn-space-10: 40px;
+  --cn-space-12: 48px;
+  --cn-space-16: 64px;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --cn-bg-app: #f4f7fb;
+  --cn-bg-elevated: #ffffff;
+  --cn-bg-muted: #eef2f8;
+  --cn-bg-subtle: rgba(16, 33, 58, 0.04);
+  --cn-bg-tint-blue: #f4f8ff;
+  --cn-bg-tint-green: #f0faf4;
+  --cn-bg-tint-warm: #fff8ed;
+
+  --cn-surface-solid: #ffffff;
+
+  --cn-border-subtle: #dce4f0;
+  --cn-border-strong: #c5d0e2;
+  --cn-border-focus: #1b63f0;
+
+  --cn-text-primary: #10213a;
+  --cn-text-secondary: #5f6b7a;
+  --cn-text-tertiary: #6a778a;
+
+  --cn-accent: #1b63f0;
+  --cn-accent-hover: #144fc1;
+  --cn-accent-pressed: #103a9e;
+  --cn-accent-muted: rgba(27, 99, 240, 0.12);
+
+  --cn-success: #1f8b4d;
+  --cn-success-muted: rgba(31, 139, 77, 0.12);
+  --cn-warning: #9c6b00;
+  --cn-danger: #9b1c1c;
+  --cn-info: #1565a8;
+
+  --cn-chart-1: #1b63f0;
+  --cn-chart-2: #5b3fd9;
+  --cn-chart-3: #1f8b4d;
+  --cn-chart-4: #b7791f;
+  --cn-chart-grid: rgba(16, 33, 58, 0.08);
+  --cn-chart-track: #e6edf7;
+
+  --cn-shadow-sm: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 10px 24px rgba(20, 40, 70, 0.08);
+  --cn-shadow-md: 0 10px 24px rgba(20, 40, 70, 0.1);
+  --cn-shadow-glow: 0 0 0 1px rgba(27, 99, 240, 0.15), 0 18px 40px rgba(20, 40, 70, 0.12);
+
+  --cn-overlay-scrim: rgba(16, 33, 58, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --cn-motion-fast: 0.01ms;
+    --cn-motion-base: 0.01ms;
+    --cn-ease-out: linear;
+  }
+}

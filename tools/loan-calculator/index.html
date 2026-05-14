@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/assets/js/theme-init.js"></script>
     <title>Loan Calculator - CalnexApp</title>
     <meta
       name="description"
@@ -103,6 +104,8 @@
     
     
     
+    
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -111,7 +114,7 @@
   "name": "Loan Calculator",
   "description": "Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/loan-calculator/",
-  "dateModified": "2026-05-13T09:33:18.802Z",
+  "dateModified": "2026-05-13T09:55:57.603Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -146,7 +149,7 @@
         <a href="/" class="brand">CalnexApp</a>
         <nav class="menu">
           <a href="/" data-nav-link>Home</a>
-          <a href="/tools/loan-calculator/" data-nav-link>Tools</a>
+          <a href="/tools/" data-nav-link>Tools</a>
           <a href="/blog/" data-nav-link>Blog</a>
           <a href="/about/" data-nav-link>About</a>
           <a href="/contact/" data-nav-link>Contact</a>
@@ -162,7 +165,7 @@
       </section>
 
       <section class="card">
-        <h2>Cross-Tool Navigation</h2>
+        <h2>More tools</h2>
         <div class="share-actions">
           <a class="btn btn-ghost" data-shared-link data-target-path="/dashboard/" href="/dashboard/">Open Dashboard</a>
           <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Switch to Mortgage Calculator</a>
@@ -172,7 +175,8 @@
         </div>
       </section>
 
-      <section class="calculator-layout">
+      <div class="cn-tool-shell">
+      <section class="calculator-layout cn-calculator-layout">
         <form class="card input-card" id="loan-form" aria-label="Loan calculator form">
           <div class="field">
             <label for="loanAmount" data-currency-label="loan_amount">Loan Amount</label>
@@ -234,7 +238,7 @@
           </div>
         </form>
 
-        <aside class="card output-card" aria-live="polite">
+        <aside class="card output-card cn-tool-rail" aria-live="polite">
           <h2>Results</h2>
           <div class="financial-validation-panel" role="status">
             <div class="financial-validation-head">
@@ -292,6 +296,7 @@
           </div>
         </aside>
       </section>
+      </div>
 
       <div id="shareToast" class="share-toast" role="status" aria-live="polite" data-bind="loan_share_toast_message" data-format="text">Link copied</div>
       <div id="shareModal" class="share-modal" aria-hidden="true">
@@ -469,6 +474,8 @@
       
       
       
+      
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="card seo-related-block">
         <h2>Related tools/articles</h2>
@@ -549,6 +556,8 @@
       
       
       
+      
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -557,6 +566,8 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
+      
       
       
       

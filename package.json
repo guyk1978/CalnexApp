@@ -20,6 +20,7 @@
     "validate:blog:probe": "node scripts/validate-blog-integrity.js --probe",
     "simulate:routes": "node scripts/simulate-blog-routes.js",
     "simulate:routes:all": "node scripts/simulate-blog-routes.js --all",
-    "build": "npm run publish-approved-blog && npm run links:boost && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run generate-sitemap && npm run sitemap:ping"
+    "build": "npm run publish-approved-blog && npm run links:boost && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run generate-sitemap && npm run sitemap:ping",
+    "patch:html-head": "node scripts/patch-html-head.mjs"
   }
 }

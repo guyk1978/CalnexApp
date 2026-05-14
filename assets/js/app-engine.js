@@ -10,7 +10,10 @@ const AppEngine = (() => {
   const pipelines = new Map();
   const deferredPartials = [];
 
-  const logPhase = (name) => console.log(`[ENGINE] ${name} phase`);
+  const debug = typeof window !== "undefined" && window.__CALNEX_DEBUG__;
+  const logPhase = (name) => {
+    if (debug) console.log(`[ENGINE] ${name} phase`);
+  };
 
   const getPhase = () => phase;
   const isInputPhase = () => phase === PHASE.INPUT;
@@ -71,7 +74,7 @@ const AppEngine = (() => {
     phase = PHASE.COMPUTE;
     window.__calnexSanitizedInputs =
       typeof CalnexParse !== "undefined" ? CalnexParse.collectDataInputBindings() : {};
-    console.log("[COMPUTE] triggered", { page: document.body?.dataset?.page });
+    if (debug) console.log("[COMPUTE] triggered", { page: document.body?.dataset?.page });
     let snapshot = null;
     try {
       snapshot = runner();

@@ -4,6 +4,100 @@
     yearNode.textContent = new Date().getFullYear();
   }
 
+  const THEME_KEY = "cn_theme";
+
+  const getStoredTheme = () => {
+    try {
+      return localStorage.getItem(THEME_KEY);
+    } catch (_e) {
+      return null;
+    }
+  };
+
+  const resolveTheme = (stored) => {
+    if (stored === "light") return "light";
+    if (stored === "system") {
+      return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    return "dark";
+  };
+
+  const applyTheme = (resolved) => {
+    document.documentElement.setAttribute("data-theme", resolved);
+    document.documentElement.style.colorScheme = resolved === "light" ? "light" : "dark";
+    document.dispatchEvent(new CustomEvent("cn-themechange", { detail: { theme: resolved } }));
+  };
+
+  const cycleTheme = (currentStored) => {
+    if (currentStored === "dark" || currentStored === null || currentStored === "") return "light";
+    if (currentStored === "light") return "system";
+    return "dark";
+  };
+
+  const themeLabel = (stored) => {
+    if (stored === "system") return "System theme";
+    if (stored === "light") return "Light theme";
+    return "Dark theme";
+  };
+
+  const svgIcon = (stored) => {
+    if (stored === "light") {
+      return '<svg class="cn-theme-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+    }
+    if (stored === "system") {
+      return '<svg class="cn-theme-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4M21 5h-4"/></svg>';
+    }
+    return '<svg class="cn-theme-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  };
+
+  const initThemeToggle = () => {
+    const nav = document.querySelector(".site-header .nav");
+    const brand = nav?.querySelector(".brand");
+    if (!nav || !brand || document.getElementById("cn-theme-toggle")) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "cn-header-actions";
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.id = "cn-theme-toggle";
+    btn.className = "cn-theme-toggle";
+
+    const render = () => {
+      const stored = getStoredTheme();
+      const effectiveStored = stored === "light" || stored === "system" ? stored : "dark";
+      btn.setAttribute("aria-label", themeLabel(effectiveStored));
+      btn.setAttribute("title", themeLabel(effectiveStored));
+      btn.innerHTML = svgIcon(effectiveStored);
+    };
+
+    btn.addEventListener("click", () => {
+      const stored = getStoredTheme();
+      const nextStored = cycleTheme(stored);
+      try {
+        localStorage.setItem(THEME_KEY, nextStored);
+      } catch (_e) {
+        /* ignore */
+      }
+      applyTheme(resolveTheme(nextStored));
+      render();
+    });
+
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
+    const onOs = () => {
+      if (getStoredTheme() === "system") {
+        applyTheme(resolveTheme("system"));
+        render();
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener("change", onOs);
+    else mq.addListener(onOs);
+
+    brand.insertAdjacentElement("afterend", wrap);
+    wrap.appendChild(btn);
+    render();
+  };
+
   const markActiveNav = () => {
     const path = window.location.pathname.endsWith("/")
       ? window.location.pathname
@@ -162,6 +256,27 @@
     }
   };
 
+  const renderToolsHub = async () => {
+    const grid = document.getElementById("cn-tools-hub-grid");
+    if (!grid) return;
+    try {
+      const tools = await fetchJson("/data/tools.json");
+      grid.innerHTML = tools
+        .map(
+          (tool) => `
+        <article class="card tool-card cn-tool-card-link">
+          <h2>${tool.name}</h2>
+          <p class="muted">${tool.description}</p>
+          <a class="btn btn-primary" href="${tool.path}">Open</a>
+        </article>
+      `
+        )
+        .join("");
+    } catch (_e) {
+      grid.innerHTML = "<p class=\"muted\">Unable to load tools list.</p>";
+    }
+  };
+
   const injectLegalDisclaimer = () => {
     const footer = document.querySelector(".site-footer .footer-content");
     if (!footer || footer.querySelector(".legal-disclaimer")) return;
@@ -170,6 +285,11 @@
     disclaimer.textContent =
       "CalnexApp provides financial estimation tools for informational purposes only. We are not responsible for financial decisions made based on these calculations. Always consult a licensed financial advisor before making financial commitments.";
     footer.append(disclaimer);
+  };
+
+  const shouldLoadCalculatorStack = () => {
+    const page = document.body?.dataset?.page;
+    return typeof page === "string" && page.length > 0;
   };
 
   const ensureScriptLoaded = (src) =>
@@ -219,19 +339,19 @@
       if (window.InputSyncLayer?.init) {
         window.InputSyncLayer.init();
       }
-      console.log("[CalnexApp] Global layers active", {
-        currency: window.CurrencyLayer?.getSelectedCurrency?.(),
-        country: window.GeoFinance?.getSelectedCountry?.()
-      });
     } catch (error) {
       console.warn("[CalnexApp] Global layer bootstrap failed", error);
     }
   };
 
+  initThemeToggle();
   markActiveNav();
   initMobileMenu();
   renderRelatedTools();
   renderBlogIndex();
+  renderToolsHub();
   injectLegalDisclaimer();
-  bootstrapGlobalLayers();
+  if (shouldLoadCalculatorStack()) {
+    bootstrapGlobalLayers();
+  }
 })();

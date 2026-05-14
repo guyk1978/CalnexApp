@@ -366,5 +366,150 @@
     "updatedDate": "2026-05-13",
     "readTime": "6 min read",
     "featured": false
+  },
+  {
+    "slug": "mortgage-recast-vs-refinance-when-it-wins",
+    "title": "Mortgage Recast vs Refinance: When a Lower Payment Beats a Lower Rate",
+    "excerpt": "Compare recasting principal after a lump sum with a full refinance—closing costs, rate resets, break-even timing, and when each path preserves liquidity while still cutting monthly housing cost.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-13",
+    "readTime": "9 min read",
+    "featured": false,
+    "primary_keyword": "mortgage recast vs refinance when to choose",
+    "internal_links": [
+      {
+        "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
+        "slug": "mortgage-refinance-break-even-months"
+      },
+      {
+        "title": "Loan Origination Fees and Discount Points: Reading the Lines That Change True Borrowing Cost",
+        "slug": "loan-origination-fees-points-true-borrowing-cost"
+      },
+      {
+        "title": "Biweekly Mortgage Payments vs True Extra Principal: What Actually Shortens Your Loan",
+        "slug": "biweekly-mortgage-payments-extra-principal-truth"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "interest-rate-cap-structure-arm-borrower-playbook",
+    "title": "ARM Cap Structure Explained: Initial, Periodic, and Lifetime Limits Borrowers Actually Hit",
+    "excerpt": "Decode margin, index, and layered caps on adjustable loans—model worst-case payment stair-steps, stress-test against DTI, and time fixes or paydowns before the reset schedule outruns your budget.",
+    "category": "Interest Rates",
+    "updatedDate": "2026-05-13",
+    "readTime": "10 min read",
+    "featured": false,
+    "primary_keyword": "ARM interest rate cap structure borrower playbook",
+    "internal_links": [
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Debt-to-Income Ratio for Mortgage Qualification: What Lenders See and How to Prepare",
+        "slug": "debt-to-income-ratio-mortgage-qualification"
+      },
+      {
+        "title": "How Your Credit Score Moves Your Mortgage Rate (and by How Much)",
+        "slug": "credit-score-mortgage-rate-impact"
+      }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "mortgage-payoff-vs-investing-downside-risk-framework",
+    "title": "Mortgage Payoff vs Investing: A Downside-Risk Framework for Homeowners",
+    "excerpt": "Weigh guaranteed interest savings against market volatility, job-loss liquidity, and tax nuance—so prepayment, investing, or a barbell split matches your runway, not just average return assumptions.",
+    "category": "Repayment Strategy",
+    "updatedDate": "2026-05-13",
+    "readTime": "9 min read",
+    "featured": false,
+    "primary_keyword": "mortgage payoff versus investing downside risk framework",
+    "internal_links": [
+      {
+        "title": "How Extra Payments Save Money on Your Loan",
+        "slug": "how-extra-payments-save-money"
+      },
+      {
+        "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
+        "slug": "mortgage-refinance-break-even-months"
+      },
+      {
+        "title": "Best Loan Term: 15 vs 30 Years",
+        "slug": "best-loan-term-15-vs-30-years"
+      },
+      {
+        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "smb-working-capital-cycle-automation-playbook",
+    "title": "Working Capital Cycle Automation: How SMBs Tighten Cash Conversion Without Chasing Revenue Harder",
+    "excerpt": "Map inventory, receivables, and payables timing—then automate invoicing, collections nudges, and approval workflows so cash sits fewer idle days between sale and usable bank balance.",
+    "category": "Business Operations",
+    "updatedDate": "2026-05-13",
+    "readTime": "8 min read",
+    "featured": false,
+    "primary_keyword": "working capital cycle automation small business",
+    "internal_links": [
+      {
+        "title": "How Small Businesses Can Automate Daily Operations in 2026",
+        "slug": "automate-small-business-operations-2026"
+      },
+      {
+        "title": "Best All-in-One Business Management Software for Small Businesses",
+        "slug": "all-in-one-business-management-software"
+      },
+      {
+        "title": "Why Businesses Lose Customers Without Proper Follow-Up Systems",
+        "slug": "customer-follow-up-system"
+      },
+      {
+        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "slug": "how-to-calculate-loan-interest"
+      }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance",
+    "title": "Home Equity Loan vs HELOC vs Cash-Out Refinance: Total Cost, Flexibility, and Risk",
+    "excerpt": "Stack fixed-second payments against revolving draws and a full first-lien reset—compare blended rates, closing friction, foreclosure ordering, and how each option pairs with payoff timelines or projects.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-13",
+    "readTime": "10 min read",
+    "featured": false,
+    "primary_keyword": "home equity loan vs heloc vs cash out refinance comparison",
+    "internal_links": [
+      {
+        "title": "Loan vs Mortgage: Key Differences Explained",
+        "slug": "loan-vs-mortgage"
+      },
+      {
+        "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
+        "slug": "mortgage-refinance-break-even-months"
+      },
+      {
+        "title": "Loan Origination Fees and Discount Points: Reading the Lines That Change True Borrowing Cost",
+        "slug": "loan-origination-fees-points-true-borrowing-cost"
+      },
+      {
+        "title": "How to Remove PMI From Your Mortgage: Timing, Triggers, and Trade-Offs",
+        "slug": "how-to-remove-pmi-from-mortgage"
+      }
+    ],
+    "is_pillar": false
   }
 ]
