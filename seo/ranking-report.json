@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-14T09:09:17.956Z",
+  "generated_at": "2026-05-14T09:27:37.203Z",
   "summary": {
     "total_pages": 59,
     "pages_need_improvement": 0,
@@ -15,10 +15,10 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 25,
-        "content_depth_words": 277,
+        "content_depth_words": 333,
         "intent_match_score": 100
       },
-      "ranking_score": 83
+      "ranking_score": 84
     },
     {
       "url": "/tools/mortgage-calculator/",
@@ -475,10 +475,10 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 25,
-        "content_depth_words": 277,
+        "content_depth_words": 333,
         "intent_match_score": 100
       },
-      "ranking_score": 83
+      "ranking_score": 84
     },
     {
       "url": "/tools/interest-calculator/",
