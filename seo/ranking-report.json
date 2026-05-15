@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-14T09:27:37.203Z",
+  "generated_at": "2026-05-15T04:01:06.100Z",
   "summary": {
     "total_pages": 59,
     "pages_need_improvement": 0,
-    "pages_high_potential": 55,
-    "top_performing_pages": 4
+    "pages_high_potential": 56,
+    "top_performing_pages": 3
   },
   "pages_need_improvement": [],
   "pages_high_potential": [
@@ -57,16 +57,28 @@
       "ranking_score": 80
     },
     {
+      "url": "/blog/fixed-vs-variable-interest-rate/",
+      "type": "blog",
+      "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+      "metrics": {
+        "keyword_coverage": 50,
+        "internal_links_count": 34,
+        "content_depth_words": 1113,
+        "intent_match_score": 65
+      },
+      "ranking_score": 78
+    },
+    {
       "url": "/blog/how-extra-payments-save-money/",
       "type": "blog",
       "title": "How Extra Payments Save Money on Your Loan",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 24,
-        "content_depth_words": 1123,
+        "internal_links_count": 29,
+        "content_depth_words": 675,
         "intent_match_score": 65
       },
-      "ranking_score": 78
+      "ranking_score": 72
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/",
@@ -355,18 +367,6 @@
         "intent_match_score": 100
       },
       "ranking_score": 65
-    },
-    {
-      "url": "/tools/loan-calculator/200000-loan-at-4-5-percent-for-15-years/",
-      "type": "seo",
-      "title": "$200,000 loan at 4.5% for 15 years",
-      "metrics": {
-        "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
-        "intent_match_score": 100
-      },
-      "ranking_score": 65
     }
   ],
   "top_performing_pages": [
@@ -376,20 +376,8 @@
       "title": "How to Calculate Loan Interest: A Practical Guide",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 26,
-        "content_depth_words": 1134,
-        "intent_match_score": 65
-      },
-      "ranking_score": 93
-    },
-    {
-      "url": "/blog/fixed-vs-variable-interest-rate/",
-      "type": "blog",
-      "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 24,
-        "content_depth_words": 1390,
+        "internal_links_count": 29,
+        "content_depth_words": 1231,
         "intent_match_score": 65
       },
       "ranking_score": 93
@@ -400,23 +388,23 @@
       "title": "Loan vs Mortgage: Key Differences Explained",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 25,
-        "content_depth_words": 1202,
+        "internal_links_count": 27,
+        "content_depth_words": 612,
         "intent_match_score": 65
       },
-      "ranking_score": 93
+      "ranking_score": 85
     },
     {
       "url": "/blog/best-loan-term-15-vs-30-years/",
       "type": "blog",
       "title": "Best Loan Term: 15 vs 30 Years",
       "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 27,
-        "content_depth_words": 1091,
+        "keyword_coverage": 75,
+        "internal_links_count": 35,
+        "content_depth_words": 948,
         "intent_match_score": 65
       },
-      "ranking_score": 93
+      "ranking_score": 86
     }
   ],
   "ranking_scores": [
@@ -426,32 +414,8 @@
       "title": "How to Calculate Loan Interest: A Practical Guide",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 26,
-        "content_depth_words": 1134,
-        "intent_match_score": 65
-      },
-      "ranking_score": 93
-    },
-    {
-      "url": "/blog/fixed-vs-variable-interest-rate/",
-      "type": "blog",
-      "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 24,
-        "content_depth_words": 1390,
-        "intent_match_score": 65
-      },
-      "ranking_score": 93
-    },
-    {
-      "url": "/blog/loan-vs-mortgage/",
-      "type": "blog",
-      "title": "Loan vs Mortgage: Key Differences Explained",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 25,
-        "content_depth_words": 1202,
+        "internal_links_count": 29,
+        "content_depth_words": 1231,
         "intent_match_score": 65
       },
       "ranking_score": 93
@@ -461,12 +425,24 @@
       "type": "blog",
       "title": "Best Loan Term: 15 vs 30 Years",
       "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 27,
-        "content_depth_words": 1091,
+        "keyword_coverage": 75,
+        "internal_links_count": 35,
+        "content_depth_words": 948,
         "intent_match_score": 65
       },
-      "ranking_score": 93
+      "ranking_score": 86
+    },
+    {
+      "url": "/blog/loan-vs-mortgage/",
+      "type": "blog",
+      "title": "Loan vs Mortgage: Key Differences Explained",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 27,
+        "content_depth_words": 612,
+        "intent_match_score": 65
+      },
+      "ranking_score": 85
     },
     {
       "url": "/tools/loan-calculator/",
@@ -505,16 +481,28 @@
       "ranking_score": 79
     },
     {
+      "url": "/blog/fixed-vs-variable-interest-rate/",
+      "type": "blog",
+      "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+      "metrics": {
+        "keyword_coverage": 50,
+        "internal_links_count": 34,
+        "content_depth_words": 1113,
+        "intent_match_score": 65
+      },
+      "ranking_score": 78
+    },
+    {
       "url": "/blog/how-extra-payments-save-money/",
       "type": "blog",
       "title": "How Extra Payments Save Money on Your Loan",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 24,
-        "content_depth_words": 1123,
+        "internal_links_count": 29,
+        "content_depth_words": 675,
         "intent_match_score": 65
       },
-      "ranking_score": 78
+      "ranking_score": 72
     },
     {
       "url": "/tools/car-loan-calculator/",

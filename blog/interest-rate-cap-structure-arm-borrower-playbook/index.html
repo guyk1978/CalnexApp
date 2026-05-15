@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/assets/js/theme-init.js"></script>
-    <title>ARM Cap Structure Explained: Initial, Periodic, and Lifetime Limits Borrowers Actually Hit | CalnexApp Blog</title>
-    <meta name="description" content="Decode margin, index, and layered caps on adjustable loans—model worst-case payment stair-steps, stress-test against DTI, and time fixes or paydowns before the reset schedule outruns your budget." />
+    <title>ARM Caps Explained: Initial, Periodic &amp; Lifetime Limits (+ Payment Stair-Step Math) | CalnexApp Blog</title>
+    <meta name="description" content="How margin + index set the fully indexed ARM rate at each reset, what 2/2/5 caps actually bound, and how to translate caps into worst-case P&amp;I steps before you sign." />
     <link rel="canonical" href="https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="ARM Cap Structure Explained: Initial, Periodic, and Lifetime Limits Borrowers Actually Hit | CalnexApp Blog" />
@@ -16,20 +16,109 @@
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "ARM Cap Structure Explained: Initial, Periodic, and Lifetime Limits Borrowers Actually Hit",
-  "author": {
-    "@type": "Person",
-    "name": "CalnexApp Editorial Team"
-  },
-  "dateModified": "2026-05-13",
-  "datePublished": "2026-05-13",
-  "mainEntityOfPage": "https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CalnexApp"
-  }
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/#article",
+      "headline": "ARM caps: initial, periodic, and lifetime limits borrowers actually hit",
+      "description": "How margin + index set the fully indexed ARM rate at each reset, what 2/2/5 caps actually bound, and how to translate caps into worst-case P&amp;I steps before you sign.",
+      "url": "https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/",
+      "datePublished": "2026-05-14",
+      "dateModified": "2026-05-14",
+      "author": {
+        "@type": "Person",
+        "name": "Daniel Morris",
+        "url": "https://calnexapp.com/authors/daniel-morris/",
+        "jobTitle": "Senior Mortgage Analyst",
+        "description": "Writes on U.S. mortgage mechanics, amortization, and borrower decision frameworks."
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CalnexApp",
+        "url": "https://calnexapp.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://calnexapp.com/og-loan-calculator.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://calnexapp.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://calnexapp.com/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "ARM caps: initial, periodic, and lifetime limits borrowers actually hit",
+          "item": "https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://calnexapp.com/blog/interest-rate-cap-structure-arm-borrower-playbook/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do caps guarantee my payment can’t rise?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Caps bound the note rate subject to the contract; taxes, insurance, and MI still change. Payment caps (if any) are a different, rarer feature—verify which applies."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a “floor rate”?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A contractual minimum rate even if index + margin would be lower. Floors can matter when rates fall after you originated."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I refinance before the first reset?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Compare refinance break-even closing costs against the reset staircase you modeled here."
+          }
+        }
+      ]
+    }
+  ]
 }
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
     </script>
   </head>
   <body>
@@ -49,26 +138,75 @@
     <main class="container section-space article-layout">
       <section class="page-title">
         <p class="eyebrow">Interest Rates</p>
-        <h1>ARM Cap Structure Explained: Initial, Periodic, and Lifetime Limits Borrowers Actually Hit</h1>
+        <h1>ARM caps: initial, periodic, and lifetime limits borrowers actually hit</h1>
         <div class="article-meta">
-          <span>By CalnexApp Editorial Team</span>
-          <span>Updated 2026-05-13</span>
+          <span>By <a href="/authors/daniel-morris/">Daniel Morris</a></span>
+          <span>Updated 2026-05-14</span>
           <span>10 min read</span>
         </div>
       </section>
 
+      <section class="card">
+        <h2>Table of contents</h2>
+        <ol class="toc-list">
+          <li><a href="#indexed-rate">Fully indexed rate = index + margin</a></li>
+          <li><a href="#caps">What “2/2/5” caps constrain</a></li>
+          <li><a href="#staircase">Build a worst-case rate staircase</a></li>
+          <li><a href="#dti">Why DTI under stress matters more than teaser APR</a></li>
+          <li><a href="#docs">Where to read this in your loan paperwork</a></li>
+        </ol>
+      </section>
+
       <article class="card article-body">
-        <p class="lead">Decode margin, index, and layered caps on adjustable loans—model worst-case payment stair-steps, stress-test against DTI, and time fixes or paydowns before the reset schedule outruns your budget.</p>
-        <p>This page is a structured shell for the article: meta, layout, and internal links match the live manifest. Replace this block with the full long-form draft when editorial is ready.</p>
+        <p class="lead">Adjustable-rate mortgages reset to a <strong>fully indexed rate</strong> subject to <strong>caps</strong>. Caps are not “customer service limits”—they are contract math that bounds how fast your note rate can jump at each anniversary and over the life of the loan.</p>
+        <h2 id="indexed-rate">Fully indexed rate = index + margin</h2>
+        <p>At each reset, the note rate is typically rounded from <strong>index value + your fixed margin</strong>, subject to caps and floors. Common indices include SOFR-based ARM indices (replacing older LIBOR-based disclosures on legacy paper). Your margin is locked; the index moves.</p>
+        <h2 id="caps">What “2/2/5” caps constrain</h2>
+        <p>Caps are usually quoted as <strong>initial / periodic / lifetime</strong> (percentage points). A common 5/1 structure might read <strong>2/2/5</strong>:</p>
+        <ul>
+          <li><strong>Initial cap (2%):</strong> max change at the <em>first</em> adjustment after the fixed introductory period.</li>
+          <li><strong>Periodic cap (2%):</strong> max change at each subsequent adjustment.</li>
+          <li><strong>Lifetime cap (5%):</strong> max above the <em>start rate</em> for the life of the loan (verify your note—some disclosures phrase relative to start rate vs contract floor).</li>
+        </ul>
+        <h2 id="staircase">Build a worst-case rate staircase</h2>
+        <p>Example only (not your loan): start rate <strong>5.75%</strong>, first adjustment cap <strong>+2.00%</strong> → first reset ceiling <strong>7.75%</strong>. Second periodic cap <strong>+2.00%</strong> would imply <strong>9.75%</strong>, third step <strong>11.75%</strong>—but a <strong>+5.00% lifetime cap from the start rate</strong> would top out at <strong>10.75%</strong> and bind before the third full periodic step. Always read which base the lifetime cap references.</p>
+        <p><strong>Action:</strong> plug the stepped rates into the <a href="/tools/mortgage-calculator/">mortgage calculator</a> or <a href="/tools/loan-calculator/">loan calculator</a> with your remaining balance/term to see P&amp;I at each stair—not just the teaser payment.</p>
+        <h2 id="dti">Why DTI under stress matters more than teaser APR</h2>
+        <p>Lenders qualify you on documented income and debts (<a href="/blog/debt-to-income-ratio-mortgage-qualification/">DTI guide</a>). If a +2% reset pushes housing payment into a band where savings stops and revolving debt begins, the ARM’s “average case” return does not matter. Model <strong>first reset</strong> and <strong>second reset</strong> payments explicitly.</p>
+        <h2 id="docs">Where to read this in your loan paperwork</h2>
+        <p>Use your <strong>ARM disclosure</strong>, <strong>Note</strong>, and <strong>Adjustable Interest Rate (AIR) table</strong>. For consumer rules and disclosures, refer to the <a href="https://www.consumerfinance.gov/">CFPB</a> and your closing package—not blog summaries—as the source of truth.</p>
+        <p>Choosing between fixed and floating starts with product fit: read <a href="/blog/fixed-vs-variable-interest-rate/">fixed vs variable rate trade-offs</a> before optimizing cap arithmetic alone.</p>
       </article>
+
+      <section class="card">
+        <h2>Model payments at reset rates</h2>
+        <p class="muted">Use the same principal balance; change only the rate to simulate each cap step.</p>
+        <a class="btn btn-primary" href="/tools/mortgage-calculator/">Open mortgage calculator</a>
+      </section>
+
+      <section class="card faq-list">
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>Do caps guarantee my payment can’t rise?</summary>
+          <p>Caps bound the <strong>note rate</strong> subject to the contract; taxes, insurance, and MI still change. Payment caps (if any) are a different, rarer feature—verify which applies.</p>
+        </details>
+        <details>
+          <summary>What is a “floor rate”?</summary>
+          <p>A contractual minimum rate even if index + margin would be lower. Floors can matter when rates fall after you originated.</p>
+        </details>
+        <details>
+          <summary>Should I refinance before the first reset?</summary>
+          <p>Compare <a href="/blog/mortgage-refinance-break-even-months/">refinance break-even</a> closing costs against the reset staircase you modeled here.</p>
+        </details>
+      </section>
 
       <section class="card">
         <h2>Related on CalnexApp</h2>
         <ul class="toc-list">
-          <li><a href="/blog/fixed-vs-variable-interest-rate/">Fixed vs Variable Interest Rate: What Borrowers Need to Know</a></li>
-          <li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a></li>
-          <li><a href="/blog/debt-to-income-ratio-mortgage-qualification/">Debt-to-Income Ratio for Mortgage Qualification: What Lenders See and How to Prepare</a></li>
-          <li><a href="/blog/credit-score-mortgage-rate-impact/">How Your Credit Score Moves Your Mortgage Rate (and by How Much)</a></li>
+          <li><a href="/blog/fixed-vs-variable-interest-rate/">Fixed vs adjustable: when variable rate risk is worth it</a></li>
+          <li><a href="/blog/how-to-calculate-loan-interest/">How loan interest accrues on amortizing balances</a></li>
+          <li><a href="/blog/debt-to-income-ratio-mortgage-qualification/">DTI: what lenders count in mortgage qualification</a></li>
+          <li><a href="/blog/credit-score-mortgage-rate-impact/">Credit score and mortgage pricing tiers</a></li>
         </ul>
       </section>
     </main>

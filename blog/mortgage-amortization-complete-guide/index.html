@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/assets/js/theme-init.js"></script>
+    <title>Mortgage Amortization Explained: Schedule, Formula &amp; Equity Build | CalnexApp</title>
+    <meta name="description" content="How amortization splits P&amp;I each month, the payment formula, why early years are interest-heavy, and how prepayment shifts equity—reference hub links included." />
+    <link rel="canonical" href="https://calnexapp.com/blog/mortgage-amortization-complete-guide/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Mortgage Amortization Explained: Schedule, Formula &amp; Equity Build | CalnexApp Blog" />
+    <meta property="og:description" content="Level-payment math, sample row-level interest vs principal, and links to prepay and term guides." />
+    <meta property="og:url" content="https://calnexapp.com/blog/mortgage-amortization-complete-guide/" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://calnexapp.com/blog/mortgage-amortization-complete-guide/#article",
+      "headline": "Mortgage amortization: how every payment builds equity",
+      "description": "How amortization splits P&amp;I each month, the payment formula, why early years are interest-heavy, and how prepayment shifts equity—reference hub links included.",
+      "url": "https://calnexapp.com/blog/mortgage-amortization-complete-guide/",
+      "datePublished": "2026-05-14",
+      "dateModified": "2026-05-14",
+      "author": {
+        "@type": "Person",
+        "name": "Daniel Morris",
+        "url": "https://calnexapp.com/authors/daniel-morris/",
+        "jobTitle": "Senior Mortgage Analyst",
+        "description": "Writes on U.S. mortgage mechanics, amortization, and borrower decision frameworks."
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CalnexApp",
+        "url": "https://calnexapp.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://calnexapp.com/og-loan-calculator.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://calnexapp.com/blog/mortgage-amortization-complete-guide/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://calnexapp.com/blog/mortgage-amortization-complete-guide/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://calnexapp.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://calnexapp.com/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Mortgage amortization: how every payment builds equity",
+          "item": "https://calnexapp.com/blog/mortgage-amortization-complete-guide/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://calnexapp.com/blog/mortgage-amortization-complete-guide/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does amortization mean my interest rate drops over time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No—the note rate is fixed on FRM products; the interest dollars fall because the balance shrinks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my servicer show different principal than my spreadsheet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Per-diem interest, rounding, and payment posting dates can shift a few dollars—reconcile to the official schedule after closing."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+    
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/tools/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container section-space article-layout">
+      <nav class="muted" style="margin-bottom: 0.75rem"><a href="/blog/mortgage-strategy-hub/">← Mortgage strategy hub</a></nav>
+      <section class="page-title">
+        <p class="eyebrow">Pillar · Mortgage Mechanics</p>
+        <h1>Mortgage amortization: how every payment builds equity</h1>
+        <div class="article-meta">
+          <span>By <a href="/authors/daniel-morris/">Daniel Morris</a></span>
+          <span>Updated 2026-05-14</span>
+          <span>12 min read</span>
+        </div>
+      </section>
+      <article class="card article-body">
+        <p class="muted">Updated May 2026. Examples use fixed-rate, level-payment conventional framing; ARMs add index resets on top of this schedule logic.</p>
+        <p>
+          Amortization is the engine behind the mortgage: each month, interest accrues on the <strong>unpaid balance</strong>, and the remainder of your fixed payment applies to <strong>principal</strong>. Early months are interest-heavy because the balance is large; later months flip toward principal without any change in your contractual payment—unless you prepay, recast, or modify the note.
+        </p>
+        <h2>Level payment formula</h2>
+        <p>Let <em>P</em> = principal, <em>r</em> = annual note rate ÷ 12, <em>n</em> = months. Payment:</p>
+        <p><strong>M = P × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1)</strong></p>
+        <p>Month-<em>k</em> interest = balance<sub>k−1</sub> × <em>r</em>; principal<sub>k</sub> = <em>M</em> − interest. Repeat until balance ≈ 0. That recursion is what calculators and servicers implement—see also <a href="/blog/how-to-calculate-loan-interest/">how to calculate loan interest</a>.</p>
+        <h2>Snapshot: $320,000 @ 6.5%, month 1 vs month 120</h2>
+        <p>Illustrative P&amp;I only (taxes/insurance/MI excluded).</p>
+        <table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.95rem">
+          <thead>
+            <tr>
+              <th style="text-align:left;border:1px solid var(--border);padding:0.5rem 0.6rem">Month</th>
+              <th style="text-align:left;border:1px solid var(--border);padding:0.5rem 0.6rem">Start balance</th>
+              <th style="text-align:left;border:1px solid var(--border);padding:0.5rem 0.6rem">Interest portion</th>
+              <th style="text-align:left;border:1px solid var(--border);padding:0.5rem 0.6rem">Principal portion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">1</td>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">$320,000</td>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">~$1,733</td>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">~$290</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">120</td>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">~$271,700</td>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">~$1,472</td>
+              <td style="border:1px solid var(--border);padding:0.5rem 0.6rem">~$551</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Same contractual payment—different split. That is why “extra to principal” in year one saves more lifetime interest than the same dollars in year twenty.</p>
+        <h2>Equity vs amortization</h2>
+        <p><strong>Scheduled amortization</strong> is contract-driven paydown. <strong>Equity</strong> also includes home value changes and any prepayment. For PMI removal and LTV math, see <a href="/blog/how-to-remove-pmi-from-mortgage/">PMI removal</a> and the <a href="/blog/home-equity-hub/">home equity hub</a>.</p>
+        <h2>Where this connects in the cluster</h2>
+        <ul>
+          <li><a href="/blog/best-loan-term-15-vs-30-years/">15 vs 30-year term</a> reshapes <em>n</em> and total interest.</li>
+          <li><a href="/blog/how-extra-payments-save-money/">Extra payments</a> shorten the effective schedule.</li>
+          <li><a href="/blog/mortgage-refinance-break-even-months/">Refinance break-even</a> asks whether replacing the schedule clears fees.</li>
+        </ul>
+        <p><a class="btn btn-primary" href="/tools/mortgage-calculator/">Run the mortgage calculator</a></p>
+        <h2>Reference sources</h2>
+        <ul>
+          <li><a href="https://www.consumerfinance.gov/owning-a-home/loan-options/">CFPB — Loan options overview</a></li>
+          <li><a href="https://www.freddiemac.com/pmms">Freddie Mac — PMMS</a> (survey context for market rates, not a prediction)</li>
+        </ul>
+      </article>
+      <section class="card faq-list">
+        <h2>FAQ</h2>
+        <details>
+          <summary>Does amortization mean my interest rate drops over time?</summary>
+          <p>No—the <em>note rate</em> is fixed on FRM products; the <em>interest dollars</em> fall because the balance shrinks.</p>
+        </details>
+        <details>
+          <summary>Why does my servicer show different principal than my spreadsheet?</summary>
+          <p>Per-diem interest, rounding, and payment posting dates can shift a few dollars—reconcile to the official schedule after closing.</p>
+        </details>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp.</p>
+        <nav class="footer-links"><a href="/blog/">Blog</a></nav>
+      </div>
+    </footer>
+    <script src="/assets/js/app.js" defer></script>
+  </body>
+</html>

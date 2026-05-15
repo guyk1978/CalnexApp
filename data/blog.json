@@ -1,10 +1,10 @@
 [
   {
     "slug": "how-to-calculate-loan-interest",
-    "title": "How to Calculate Loan Interest: A Practical Guide",
-    "excerpt": "Learn the exact formulas behind monthly repayments, total interest, and amortization schedules.",
+    "title": "How to calculate loan interest on amortizing loans",
+    "excerpt": "Balance × periodic rate each month; level payment from the amortization formula. Quick answer up front, then deeper walkthroughs and calculator links.",
     "category": "Loan Basics",
-    "updatedDate": "2026-05-11",
+    "updatedDate": "2026-05-14",
     "readTime": "12 min read",
     "featured": true,
     "primary_keyword": "how to calculate loan interest",
@@ -26,10 +26,10 @@
   },
   {
     "slug": "fixed-vs-variable-interest-rate",
-    "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
-    "excerpt": "Compare stability, risk, and long-term costs before locking in your next loan.",
+    "title": "Fixed vs adjustable mortgage rate: payment stability vs reset risk",
+    "excerpt": "$400k example at 6.5% fixed vs 5.75% start rate, five-year cash savings math, DTI stress framing, and links to ARM cap + calculator tools.",
     "category": "Interest Rates",
-    "updatedDate": "2026-05-11",
+    "updatedDate": "2026-05-14",
     "readTime": "13 min read",
     "featured": true,
     "primary_keyword": "fixed vs variable interest rate",
@@ -47,10 +47,10 @@
   },
   {
     "slug": "how-extra-payments-save-money",
-    "title": "How Extra Payments Save Money on Your Loan",
-    "excerpt": "See how strategic extra payments can shorten payoff time and reduce total interest.",
+    "title": "How extra mortgage payments reduce interest and shorten amortization",
+    "excerpt": "$320k @ 6.5%: +$200/mo principal removes ~79 payments and ~$105k scheduled interest versus minimum pay—plus when to pay other debt first.",
     "category": "Repayment Strategy",
-    "updatedDate": "2026-05-11",
+    "updatedDate": "2026-05-14",
     "readTime": "12 min read",
     "featured": true,
     "primary_keyword": "how extra payments save money",
@@ -68,24 +68,20 @@
   },
   {
     "slug": "loan-vs-mortgage",
-    "title": "Loan vs Mortgage: Key Differences Explained",
-    "excerpt": "Understand how personal loans and mortgages differ in structure, risk, and affordability.",
+    "title": "Loan vs mortgage: same math, different collateral and time horizon",
+    "excerpt": "Collateral matrix plus $25k example: 12% five-year personal vs 6.5% thirty-year payment/total interest trap when you only look at monthly cash flow.",
     "category": "Loan Basics",
-    "updatedDate": "2026-05-11",
+    "updatedDate": "2026-05-14",
     "readTime": "11 min read",
     "featured": false,
     "primary_keyword": "loan vs mortgage",
     "internal_links": [
       {
-        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "title": "How to calculate loan interest on amortizing loans",
         "slug": "how-to-calculate-loan-interest"
       },
       {
-        "title": "How to Calculate Loan Interest: A Practical Guide",
-        "slug": "how-to-calculate-loan-interest"
-      },
-      {
-        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "title": "Fixed vs adjustable mortgage rate trade-offs",
         "slug": "fixed-vs-variable-interest-rate"
       }
     ],
@@ -93,10 +89,10 @@
   },
   {
     "slug": "best-loan-term-15-vs-30-years",
-    "title": "Best Loan Term: 15 vs 30 Years",
-    "excerpt": "Evaluate monthly budget impact and total borrowing cost when choosing loan duration.",
+    "title": "15-year vs 30-year mortgage: payment, total interest, and when each wins",
+    "excerpt": "Same-rate $400k table (~$956/mo payment gap, ~$283k interest delta), hybrid prepay strategy, DTI checklist—no generic flexibility filler.",
     "category": "Term Planning",
-    "updatedDate": "2026-05-11",
+    "updatedDate": "2026-05-14",
     "readTime": "12 min read",
     "featured": false,
     "primary_keyword": "best loan term 15 vs 30 years",
@@ -114,10 +110,10 @@
   },
   {
     "slug": "debt-to-income-ratio-mortgage-qualification",
-    "title": "Debt-to-Income Ratio for Mortgage Qualification: What Lenders See and How to Prepare",
-    "excerpt": "Learn how front-end and back-end DTI ratios affect mortgage approval, how to calculate yours, and practical steps to improve your profile before you apply.",
+    "title": "Mortgage DTI: front-end vs back-end ratios, formula & example",
+    "excerpt": "Worked $9,500 gross income example with 28% housing / 38% back-end, plus what counts in the numerator and how score + reserves interact.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "8 min read",
     "featured": false,
     "primary_keyword": "debt to income ratio mortgage qualification",
@@ -234,10 +230,10 @@
   },
   {
     "slug": "how-to-remove-pmi-from-mortgage",
-    "title": "How to Remove PMI From Your Mortgage: Timing, Triggers, and Trade-Offs",
-    "excerpt": "When and how to cancel private mortgage insurance: HPA triggers, request thresholds, appraisal strategy, and the cost-benefit math most borrowers skip.",
+    "title": "How to remove PMI from a conventional mortgage",
+    "excerpt": "80% LTV borrower requests, 78% HPA auto path, current-value appraisals, LPMI vs borrower-paid PMI—$300k / 10% down worked PMI dollars.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-12",
+    "updatedDate": "2026-05-14",
     "readTime": "9 min read",
     "featured": false,
     "primary_keyword": "how to remove pmi from mortgage",
@@ -267,10 +263,10 @@
   },
   {
     "slug": "mortgage-pre-approval-vs-pre-qualification",
-    "title": "Mortgage Pre-Approval vs Pre-Qualification: Which One Actually Counts",
-    "excerpt": "How mortgage pre-approval differs from pre-qualification, what documents lenders verify at each stage, and which letter sellers and listing agents take seriously.",
+    "title": "Mortgage pre-approval vs pre-qualification: what sellers actually trust",
+    "excerpt": "Verification table (credit pull, documents, offer strength), underwritten pre-approval tier, and what breaks a file before closing.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-12",
+    "updatedDate": "2026-05-14",
     "readTime": "8 min read",
     "featured": false,
     "primary_keyword": "mortgage pre approval vs pre qualification",
@@ -300,10 +296,10 @@
   },
   {
     "slug": "credit-score-mortgage-rate-impact",
-    "title": "How Your Credit Score Moves Your Mortgage Rate (and by How Much)",
-    "excerpt": "How FICO score ranges translate to mortgage rate buckets, the dollar impact across a 30-year loan, and the credit moves that actually shift your bucket.",
+    "title": "Credit score and mortgage pricing: tier cliffs and dollar impact",
+    "excerpt": "Why 740/720/700/680 breakpoints matter, $300k loan 50 bps gap math (~$100/mo, ~$36k interest), and 60-day levers that move tiers.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-12",
+    "updatedDate": "2026-05-14",
     "readTime": "9 min read",
     "featured": false,
     "primary_keyword": "credit score mortgage rate impact",
@@ -333,64 +329,64 @@
   },
   {
     "slug": "apr-vs-interest-rate-car-loan-explained",
-    "title": "APR vs Interest Rate on a Car Loan: What the Sticker Rate Leaves Out",
-    "excerpt": "Discover why car loan APR and nominal interest rate differ, which fees fold into APR, and how to compare dealer financing with pre-approval offers fairly.",
+    "title": "Car loan APR vs interest rate: fees, disclosure, and true cost",
+    "excerpt": "APR folds finance charges beyond pure interest—$35k / 72-month example shows how doc fees lift APR above the note rate, plus a five-line dealer checklist.",
     "category": "Auto Loans",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "7 min read",
     "featured": false
   },
   {
     "slug": "mortgage-refinance-break-even-months",
-    "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
-    "excerpt": "Step through refinance break-even math with closing costs, rate drops, and term resets—so you know when a refi pays back, not just when the payment looks smaller.",
+    "title": "Refinance break-even: when closing costs actually pay back",
+    "excerpt": "Net costs ÷ true monthly savings = months. $400k example moving 7.00% → 6.25% with $6,500 costs ≈ 33 months; term-reset warning paired with prepay links.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "6 min read",
     "featured": false
   },
   {
     "slug": "loan-origination-fees-points-true-borrowing-cost",
-    "title": "Loan Origination Fees and Discount Points: Reading the Lines That Change True Borrowing Cost",
-    "excerpt": "Understand origination charges, discount points, and lender credits on mortgage disclosures—so you compare offers on total cost, not teaser rates alone.",
+    "title": "Mortgage origination fees vs discount points: what each dollar buys",
+    "excerpt": "$400k example: 1 point ($4k) for ~$65/mo principal-and-interest drop → ~61-month simple payback; lender credits mirror trade; APR as comparator only.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "6 min read",
     "featured": false
   },
   {
     "slug": "biweekly-mortgage-payments-extra-principal-truth",
-    "title": "Biweekly Mortgage Payments vs True Extra Principal: What Actually Shortens Your Loan",
-    "excerpt": "Learn how biweekly half-payments, third-payment acceleration, and plain extra principal differ—so you pick a strategy that matches your cash flow and goals.",
+    "title": "Biweekly mortgage payments: the 13th payment math vs DIY extra principal",
+    "excerpt": "26 half-payments = 13 monthly equivalents—same as adding ~1/12 of a payment monthly. Posting rules determine whether third-party fees are worth it.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "6 min read",
     "featured": false
   },
   {
     "slug": "mortgage-recast-vs-refinance-when-it-wins",
-    "title": "Mortgage Recast vs Refinance: When a Lower Payment Beats a Lower Rate",
-    "excerpt": "Compare recasting principal after a lump sum with a full refinance—closing costs, rate resets, break-even timing, and when each path preserves liquidity while still cutting monthly housing cost.",
+    "title": "Mortgage recast vs refinance: when to re-amortize vs replace the loan",
+    "excerpt": "Recast applies a lump-sum principal cut plus a small fee to re-amortize the same note; refinance replaces the lien with new rate/terms and full closing costs. Side-by-side matrix, breakeven framing, and PMI caveats.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "9 min read",
     "featured": false,
     "primary_keyword": "mortgage recast vs refinance when to choose",
     "internal_links": [
       {
-        "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
+        "title": "Mortgage refinance break-even months",
         "slug": "mortgage-refinance-break-even-months"
       },
       {
-        "title": "Loan Origination Fees and Discount Points: Reading the Lines That Change True Borrowing Cost",
+        "title": "Loan origination fees and discount points",
         "slug": "loan-origination-fees-points-true-borrowing-cost"
       },
       {
-        "title": "Biweekly Mortgage Payments vs True Extra Principal: What Actually Shortens Your Loan",
+        "title": "Biweekly vs true extra principal",
         "slug": "biweekly-mortgage-payments-extra-principal-truth"
       },
       {
-        "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
+        "title": "Fixed vs variable rate trade-offs",
         "slug": "fixed-vs-variable-interest-rate"
       }
     ],
@@ -409,6 +405,10 @@
       {
         "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
         "slug": "fixed-vs-variable-interest-rate"
+      },
+      {
+        "title": "Fixed vs ARM: historical sources and payment-shock framing",
+        "slug": "fixed-vs-arm-historical-payment-risk"
       },
       {
         "title": "How to Calculate Loan Interest: A Practical Guide",
@@ -456,28 +456,28 @@
   },
   {
     "slug": "smb-working-capital-cycle-automation-playbook",
-    "title": "Working Capital Cycle Automation: How SMBs Tighten Cash Conversion Without Chasing Revenue Harder",
-    "excerpt": "Map inventory, receivables, and payables timing—then automate invoicing, collections nudges, and approval workflows so cash sits fewer idle days between sale and usable bank balance.",
+    "title": "Working capital automation: tighten the cash conversion cycle",
+    "excerpt": "DSO, DIO, DPO and CCC = DSO + DIO − DPO. Automate invoicing, collections cadence, AP approvals, and inventory signals—with a numeric bridge to revolver interest cost.",
     "category": "Business Operations",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "8 min read",
     "featured": false,
     "primary_keyword": "working capital cycle automation small business",
     "internal_links": [
       {
-        "title": "How Small Businesses Can Automate Daily Operations in 2026",
+        "title": "Automating daily SMB operations in 2026",
         "slug": "automate-small-business-operations-2026"
       },
       {
-        "title": "Best All-in-One Business Management Software for Small Businesses",
+        "title": "All-in-one business management software trade-offs",
         "slug": "all-in-one-business-management-software"
       },
       {
-        "title": "Why Businesses Lose Customers Without Proper Follow-Up Systems",
+        "title": "Follow-up systems that stop revenue leakage",
         "slug": "customer-follow-up-system"
       },
       {
-        "title": "How to Calculate Loan Interest: A Practical Guide",
+        "title": "Interest math for short-term financing",
         "slug": "how-to-calculate-loan-interest"
       }
     ],
@@ -485,31 +485,162 @@
   },
   {
     "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance",
-    "title": "Home Equity Loan vs HELOC vs Cash-Out Refinance: Total Cost, Flexibility, and Risk",
-    "excerpt": "Stack fixed-second payments against revolving draws and a full first-lien reset—compare blended rates, closing friction, foreclosure ordering, and how each option pairs with payoff timelines or projects.",
+    "title": "Home equity loan vs HELOC vs cash-out refinance: how to pick",
+    "excerpt": "First-lien reset vs fixed second vs revolving HELOC: rate type, payment shape, closing friction, and hold-period APR—not headline rate alone.",
     "category": "Mortgage",
-    "updatedDate": "2026-05-13",
+    "updatedDate": "2026-05-14",
     "readTime": "10 min read",
     "featured": false,
     "primary_keyword": "home equity loan vs heloc vs cash out refinance comparison",
     "internal_links": [
       {
-        "title": "Loan vs Mortgage: Key Differences Explained",
+        "title": "Complete guide to home equity borrowing (pillar)",
+        "slug": "home-equity-borrowing-complete-guide"
+      },
+      {
+        "title": "Home equity hub",
+        "slug": "home-equity-hub"
+      },
+      {
+        "title": "Loan vs mortgage: collateral and cost structure",
         "slug": "loan-vs-mortgage"
       },
       {
-        "title": "Mortgage Refinance Break-Even: How Many Months Until Real Savings Cover Closing Costs",
+        "title": "Refinance break-even when resetting the first",
         "slug": "mortgage-refinance-break-even-months"
       },
       {
-        "title": "Loan Origination Fees and Discount Points: Reading the Lines That Change True Borrowing Cost",
+        "title": "Origination fees and points on disclosures",
         "slug": "loan-origination-fees-points-true-borrowing-cost"
       },
       {
-        "title": "How to Remove PMI From Your Mortgage: Timing, Triggers, and Trade-Offs",
+        "title": "PMI removal and LTV",
         "slug": "how-to-remove-pmi-from-mortgage"
       }
     ],
     "is_pillar": false
+  },
+  {
+    "slug": "mortgage-strategy-hub",
+    "title": "Mortgage strategy hub: ARM, refi, PMI, DTI & prepay",
+    "excerpt": "Cluster map from rate structure through qualification, ongoing costs, and optimization—with links into amortization, underwriting, and ARM cap playbooks.",
+    "category": "Mortgage Strategy",
+    "updatedDate": "2026-05-14",
+    "readTime": "6 min read",
+    "featured": true,
+    "primary_keyword": "mortgage strategy hub",
+    "internal_links": [
+      { "title": "Mortgage amortization complete guide", "slug": "mortgage-amortization-complete-guide" },
+      { "title": "Fixed vs ARM historical payment-risk lens", "slug": "fixed-vs-arm-historical-payment-risk" },
+      { "title": "Mortgage underwriting explained", "slug": "mortgage-underwriting-process-explained" }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "home-equity-hub",
+    "title": "Home equity hub: HELOC, HEL, cash-out & second liens",
+    "excerpt": "Lien position, draw rules, and when to reset the first versus add a second—cross-linked to PMI/LTV and cost disclosures.",
+    "category": "Home Equity",
+    "updatedDate": "2026-05-14",
+    "readTime": "5 min read",
+    "featured": true,
+    "primary_keyword": "home equity borrowing hub",
+    "internal_links": [
+      { "title": "Complete guide to home equity borrowing", "slug": "home-equity-borrowing-complete-guide" },
+      { "title": "HEL vs HELOC vs cash-out refinance", "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance" },
+      { "title": "Mortgage cost hub", "slug": "mortgage-costs-hub" }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "mortgage-costs-hub",
+    "title": "Mortgage cost hub: APR, points, PMI & closing",
+    "excerpt": "How note rate, APR, mortgage insurance, and settlement charges combine into hold-period borrowing cost—not teaser payment alone.",
+    "category": "Mortgage Costs",
+    "updatedDate": "2026-05-14",
+    "readTime": "5 min read",
+    "featured": true,
+    "primary_keyword": "mortgage costs explained hub",
+    "internal_links": [
+      { "title": "Mortgage costs pillar (APR, PMI, points)", "slug": "mortgage-costs-explained-apr-pmi-points-closing" },
+      { "title": "Origination fees and points", "slug": "loan-origination-fees-points-true-borrowing-cost" },
+      { "title": "Mortgage strategy hub", "slug": "mortgage-strategy-hub" }
+    ],
+    "is_pillar": false
+  },
+  {
+    "slug": "mortgage-amortization-complete-guide",
+    "title": "Complete guide to mortgage amortization",
+    "excerpt": "Payment identity, balance dynamics, and month-level schedule intuition with formulas and calculator bridges—reference depth without filler.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-14",
+    "readTime": "14 min read",
+    "featured": false,
+    "primary_keyword": "mortgage amortization guide",
+    "internal_links": [
+      { "title": "Mortgage strategy hub", "slug": "mortgage-strategy-hub" },
+      { "title": "How extra payments save interest", "slug": "how-extra-payments-save-money" }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "mortgage-costs-explained-apr-pmi-points-closing",
+    "title": "Mortgage costs explained: APR, PMI, points & closing",
+    "excerpt": "Taxonomy of note vs APR, when PMI hits cash flow, how points trade upfront dollars for rate, and where closing costs enter break-even.",
+    "category": "Mortgage Costs",
+    "updatedDate": "2026-05-14",
+    "readTime": "12 min read",
+    "featured": false,
+    "primary_keyword": "mortgage apr pmi points closing costs",
+    "internal_links": [
+      { "title": "Mortgage cost hub", "slug": "mortgage-costs-hub" },
+      { "title": "Refinance break-even", "slug": "mortgage-refinance-break-even-months" }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "mortgage-underwriting-process-explained",
+    "title": "How mortgage underwriting actually works",
+    "excerpt": "AUS vs human underwriter, capacity/credit/collateral checks, and common conditions—aligned with borrower paperwork reality.",
+    "category": "Mortgage",
+    "updatedDate": "2026-05-14",
+    "readTime": "11 min read",
+    "featured": false,
+    "primary_keyword": "mortgage underwriting process",
+    "internal_links": [
+      { "title": "Mortgage strategy hub", "slug": "mortgage-strategy-hub" },
+      { "title": "DTI qualification", "slug": "debt-to-income-ratio-mortgage-qualification" }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "fixed-vs-arm-historical-payment-risk",
+    "title": "Fixed vs ARM: historical sources & payment-shock framing",
+    "excerpt": "Using Freddie Mac PMMS and Fed H.15 as public context (not forecasts), plus DTI stress pairing with ARM cap mechanics.",
+    "category": "Interest Rates",
+    "updatedDate": "2026-05-14",
+    "readTime": "9 min read",
+    "featured": false,
+    "primary_keyword": "fixed vs arm historical risk",
+    "internal_links": [
+      { "title": "ARM cap structure playbook", "slug": "interest-rate-cap-structure-arm-borrower-playbook" },
+      { "title": "Fixed vs adjustable trade-offs", "slug": "fixed-vs-variable-interest-rate" }
+    ],
+    "is_pillar": true
+  },
+  {
+    "slug": "home-equity-borrowing-complete-guide",
+    "title": "Complete guide to home equity borrowing",
+    "excerpt": "Cash-out first lien vs fixed second vs HELOC: CLTV guardrails, payment-path risk, and links into product comparisons and cost disclosures.",
+    "category": "Home Equity",
+    "updatedDate": "2026-05-14",
+    "readTime": "11 min read",
+    "featured": false,
+    "primary_keyword": "home equity borrowing guide",
+    "internal_links": [
+      { "title": "Home equity hub", "slug": "home-equity-hub" },
+      { "title": "HEL vs HELOC vs cash-out", "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance" }
+    ],
+    "is_pillar": true
   }
 ]

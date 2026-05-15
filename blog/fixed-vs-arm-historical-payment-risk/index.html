@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/assets/js/theme-init.js"></script>
+    <title>Fixed vs ARM: Historical Sources &amp; Payment-Shock Framing | CalnexApp</title>
+    <meta name="description" content="No rate predictions—how to read Freddie Mac PMMS and Federal Reserve H.15 data responsibly, plus payment-shock DTI framing for ARM borrowers." />
+    <link rel="canonical" href="https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Fixed vs ARM: Historical Sources &amp; Payment Risk | CalnexApp Blog" />
+    <meta property="og:description" content="Use published surveys and indexes as context, not fortune-telling—pair with cap-structure modeling." />
+    <meta property="og:url" content="https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/#article",
+      "headline": "Fixed vs ARM: historical sources and payment-shock framing",
+      "description": "No rate predictions—how to read Freddie Mac PMMS and Federal Reserve H.15 data responsibly, plus payment-shock DTI framing for ARM borrowers.",
+      "url": "https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/",
+      "datePublished": "2026-05-14",
+      "dateModified": "2026-05-14",
+      "author": {
+        "@type": "Person",
+        "name": "Daniel Morris",
+        "url": "https://calnexapp.com/authors/daniel-morris/",
+        "jobTitle": "Senior Mortgage Analyst",
+        "description": "Writes on U.S. mortgage mechanics, amortization, and borrower decision frameworks."
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CalnexApp",
+        "url": "https://calnexapp.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://calnexapp.com/og-loan-calculator.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://calnexapp.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://calnexapp.com/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Fixed vs ARM: historical sources and payment-shock framing",
+          "item": "https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://calnexapp.com/blog/fixed-vs-arm-historical-payment-risk/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Should I pick an ARM because PMMS shows lower start quotes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use start quotes to seed a stress model, not a decision—caps and your runway determine survivability."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+    
+    
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu">
+          <a href="/" data-nav-link>Home</a>
+          <a href="/tools/" data-nav-link>Tools</a>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container section-space article-layout">
+      <section class="page-title">
+        <p class="eyebrow">Pillar · Rates</p>
+        <h1>Fixed vs ARM: historical sources and payment-shock framing</h1>
+        <div class="article-meta">
+          <span>By <a href="/authors/daniel-morris/">Daniel Morris</a></span>
+          <span>Updated 2026-05-14</span>
+          <span>9 min read</span>
+        </div>
+      </section>
+      <article class="card article-body">
+        <p class="muted">Updated May 2026. This page does <strong>not</strong> forecast rates; it explains <strong>where public data lives</strong> and how to use it in household stress tests.</p>
+        <h2>Why “history” matters for ARMs</h2>
+        <p>ARM economics are path-dependent: the relevant risk is not “average rates over decades,” but <strong>your</strong> reset schedule, caps, margin, and whether a higher fully indexed payment clears <a href="/blog/debt-to-income-ratio-mortgage-qualification/">DTI</a> and reserves after life shocks.</p>
+        <h2>Authoritative public series (interpretation, not trading advice)</h2>
+        <ul>
+          <li><strong>Freddie Mac PMMS</strong> — weekly primary mortgage market <em>survey</em> of lenders; useful for long-run <strong>fixed-rate</strong> context. <a href="https://www.freddiemac.com/pmms">freddiemac.com/pmms</a></li>
+          <li><strong>Federal Reserve H.15</strong> — selected Treasury and policy-sensitive yields; helps explain <strong>index</strong> environments that feed many ARM formulas. <a href="https://www.federalreserve.gov/releases/h15/">federalreserve.gov/releases/h15</a></li>
+        </ul>
+        <table style="width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.95rem">
+          <caption class="muted" style="caption-side: bottom; text-align: left; padding-top: 0.5rem">Use published series for <strong>context</strong>; your note’s index + caps determine cash flow.</caption>
+          <thead>
+            <tr><th scope="col">Series</th><th scope="col">What it approximates</th><th scope="col">Typical use in household modeling</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>PMMS</td><td>Surveyed <strong>offered</strong> rates on common fixed products</td><td>Benchmarking fixed quotes vs “headline” market</td></tr>
+            <tr><td>H.15</td><td>Benchmark <strong>yields</strong> (e.g., Treasuries)</td><td>Reasoning about index direction for ARMs tied to published indexes</td></tr>
+          </tbody>
+        </table>
+        <h2>Translate an index move into “payment shock” language</h2>
+        <p>Work from your <strong>note disclosures</strong>: index + margin, first adjustment cap, periodic cap, lifetime cap. The operational article is <a href="/blog/interest-rate-cap-structure-arm-borrower-playbook/">ARM cap structure</a>; the product comparison is <a href="/blog/fixed-vs-variable-interest-rate/">fixed vs adjustable trade-offs</a>.</p>
+        <h2>Fixed-rate “historical regret” is refinance-shaped</h2>
+        <p>Fixed borrowers who want market-downside capture usually need a <strong>refinance</strong> or aggressive <a href="/blog/how-extra-payments-save-money/">prepay</a>—there is no in-note coupon reset. Price that path with <a href="/blog/mortgage-refinance-break-even-months/">break-even</a> math.</p>
+        <p><a href="/blog/mortgage-strategy-hub/">← Strategy hub</a></p>
+        <h2>Reference sources</h2>
+        <ul>
+          <li><a href="https://www.consumerfinance.gov/ask-cfpb/what-is-an-adjustable-rate-mortgage-en-195/">CFPB — What is an adjustable-rate mortgage?</a></li>
+          <li><a href="https://www.freddiemac.com/pmms">Freddie Mac PMMS</a></li>
+        </ul>
+      </article>
+      <section class="card faq-list">
+        <h2>FAQ</h2>
+        <details>
+          <summary>Should I pick an ARM because PMMS shows lower start quotes?</summary>
+          <p>Use start quotes to seed a <strong>stress model</strong>, not a decision—caps and your runway determine survivability.</p>
+        </details>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp.</p>
+        <nav class="footer-links"><a href="/blog/">Blog</a></nav>
+      </div>
+    </footer>
+    <script src="/assets/js/app.js" defer></script>
+  </body>
+</html>
