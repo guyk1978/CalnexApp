@@ -1,0 +1,26 @@
+{
+  "siteUrl": "https://calnexapp.com",
+  "legacyBasePath": "/seo/generated/",
+  "futureBasePath": "/loan-scenarios/",
+  "emitFutureUrls": false,
+  "author": {
+    "name": "Daniel Morris",
+    "url": "https://calnexapp.com/authors/daniel-morris/"
+  },
+  "qualityThreshold": {
+    "minWordCount": 700,
+    "minUniqueSectionCount": 6,
+    "requireCharts": true,
+    "requireFaq": true
+  },
+  "indexing": {
+    "noindexBelowWordCount": 500,
+    "excludeNoindexFromSitemap": true
+  },
+  "extraPaymentByPrincipal": [
+    { "maxPrincipal": 150000, "extraMonthly": 100 },
+    { "maxPrincipal": 300000, "extraMonthly": 200 },
+    { "maxPrincipal": 999999999, "extraMonthly": 300 }
+  ],
+  "rateShockBumpPercent": 1.5
+}

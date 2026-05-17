@@ -13,6 +13,8 @@
     "serp:gap": "node scripts/serp-gap-analyzer.js",
     "rank:optimize": "node scripts/ranking-optimizer.js",
     "pages:expand": "node scripts/page-expander.js",
+    "guides:generate": "node scripts/generate-loan-scenario-guides.mjs",
+    "guides:validate": "node scripts/validate-loan-scenario-guides.mjs",
     "seo:scale": "npm run keywords:expand && npm run pages:expand",
     "ranking:build": "npm run intent:classify && npm run serp:gap && npm run rank:optimize",
     "publish-approved-blog": "node scripts/publish-approved-blog-from-drafts.js",

@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { renderGuidePage, parseKeyword, parseGuideSlug, toGuideSlug, toToolSlug } = require("./loan-scenario-core.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const REGISTRY_PATH = path.join(ROOT, "data", "seo-registry.json");
@@ -129,7 +130,23 @@ const run = () => {
   topCandidates.forEach((candidate) => {
     const folder = path.join(ROOT, candidate.url.slice(1));
     ensureDir(folder);
-    fs.writeFileSync(path.join(folder, "index.html"), buildHtmlPage(candidate), "utf8");
+
+    const slugFromUrl = candidate.url.replace(/^\/seo\/generated\//, "").replace(/\/$/, "");
+    let entry = parseKeyword(candidate.keyword) || parseGuideSlug(slugFromUrl);
+    if (entry) {
+      const guideSlug = toGuideSlug(toToolSlug(entry.loan_amount, entry.interest_rate, entry.loan_term));
+      const out = renderGuidePage(entry, { forceNoindex: false });
+      if (out.quality.pass) {
+        fs.writeFileSync(path.join(folder, "index.html"), out.html, "utf8");
+        return;
+      }
+    }
+    // Non-loan keywords: thin stub with noindex to avoid polluting index
+    const thin = buildHtmlPage(candidate).replace(
+      "</head>",
+      '    <meta name="robots" content="noindex,follow" />\n  </head>'
+    );
+    fs.writeFileSync(path.join(folder, "index.html"), thin, "utf8");
   });
 
   const report = {

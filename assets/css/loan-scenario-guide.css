@@ -1,0 +1,83 @@
+/* Loan scenario guide pages — charts and CTA callouts */
+.loan-chart-grid {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .loan-chart-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.loan-chart-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  background: var(--cn-bg-tint-blue);
+}
+
+.loan-chart-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.loan-scenario-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.loan-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  margin-top: 0.45rem;
+  color: var(--muted, #64748b);
+}
+
+.loan-chart-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 2px;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+.legend-principal::before {
+  background: var(--cn-accent, #2563eb);
+}
+
+.legend-interest::before {
+  background: color-mix(in srgb, var(--cn-warning, #d97706) 85%, transparent);
+}
+
+.legend-balance::before {
+  background: var(--cn-success, #146c43);
+}
+
+.guide-cta-card {
+  border: 1px solid color-mix(in srgb, var(--cn-accent, #2563eb) 35%, var(--border));
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem;
+  background: linear-gradient(
+    135deg,
+    var(--cn-bg-tint-blue) 0%,
+    color-mix(in srgb, var(--cn-bg-tint-blue) 60%, var(--cn-surface-solid, #fff)) 100%
+  );
+}
+
+.guide-cta-card h2 {
+  margin-top: 0;
+}
+
+.borrower-example-card {
+  border-left: 4px solid var(--cn-accent, #2563eb);
+  padding-left: 1rem;
+  margin: 1rem 0;
+}

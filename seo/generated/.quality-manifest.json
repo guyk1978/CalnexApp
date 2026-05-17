@@ -1,0 +1,506 @@
+{
+  "generated_at": "2026-05-17T12:02:19.599Z",
+  "config_future_path": "/loan-scenarios/",
+  "pages": [
+    {
+      "guideSlug": "100000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-3-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-3-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 971,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-3-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-3-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 962,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-4-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-4-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-4-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-4-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-4-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-4-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-4-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-4-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-4-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-4-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 975,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-4-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-4-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 958,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-6-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-6-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-6-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-6-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "100000-loan-at-6-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "100000-loan-at-6-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/100000-loan-at-6-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/100000-loan-at-6-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-3-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-3-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-3-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-3-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-4-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-4-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-4-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-4-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 975,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-4-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-4-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-4-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-4-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-4-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-4-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 975,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-4-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-4-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 975,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-6-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-6-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-6-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-6-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 975,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "150000-loan-at-6-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "150000-loan-at-6-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/150000-loan-at-6-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/150000-loan-at-6-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-3-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-3-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 975,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-3-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-3-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 958,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-4-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-4-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-4-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-4-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-4-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-4-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-4-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-4-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-4-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-4-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 971,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-4-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-4-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 962,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-6-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-6-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-6-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-6-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "200000-loan-at-6-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "200000-loan-at-6-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/200000-loan-at-6-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/200000-loan-at-6-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-3-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-3-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-3-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-3-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-4-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-4-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-4-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-4-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 971,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-4-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-4-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-4-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-4-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-4-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-4-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 971,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-4-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-4-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 962,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 971,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-6-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-6-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-6-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-6-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 971,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "250000-loan-at-6-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "250000-loan-at-6-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/250000-loan-at-6-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/250000-loan-at-6-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-3-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-3-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-3-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 971,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-3-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-3-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-3-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 962,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-4-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-4-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-4-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-4-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-4-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-4-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-4-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-4-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-4-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-4-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-4-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 975,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-4-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-4-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-4-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 958,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-5-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-5-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-5-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-5-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-5-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-5-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-5-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-5-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-6-percent-for-15-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-6-percent-for-15-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-6-percent-for-15-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-6-percent-for-15-years/",
+      "shouldIndex": true,
+      "wordCount": 980,
+      "qualityPass": true,
+      "issues": []
+    },
+    {
+      "guideSlug": "300000-loan-at-6-percent-for-30-years-monthly-payment-calculator",
+      "toolSlug": "300000-loan-at-6-percent-for-30-years",
+      "legacyUrl": "https://calnexapp.com/seo/generated/300000-loan-at-6-percent-for-30-years-monthly-payment-calculator/",
+      "futureUrl": "https://calnexapp.com/loan-scenarios/300000-loan-at-6-percent-for-30-years/",
+      "shouldIndex": true,
+      "wordCount": 967,
+      "qualityPass": true,
+      "issues": []
+    }
+  ]
+}

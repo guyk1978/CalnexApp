@@ -75,12 +75,35 @@ const buildEntries = () => {
     changefreq: page.relativeDir === "blog" ? "weekly" : "monthly"
   }));
 
-  const seoGeneratedPages = collectIndexPages(path.join("seo", "generated")).map((page) => ({
-    path: normalizeDirUrl(page.relativeDir),
-    lastmod: page.lastmod,
-    priority: "0.65",
-    changefreq: "monthly"
-  }));
+  const manifestPath = path.join(ROOT, "seo", "generated", ".quality-manifest.json");
+  let indexableGuides = null;
+  if (fs.existsSync(manifestPath)) {
+    try {
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+      indexableGuides = new Set(
+        (manifest.pages || []).filter((p) => p.shouldIndex).map((p) => `/seo/generated/${p.guideSlug}/`)
+      );
+    } catch {
+      indexableGuides = null;
+    }
+  }
+
+  const seoGeneratedPages = collectIndexPages(path.join("seo", "generated"))
+    .filter((page) => {
+      const urlPath = normalizeDirUrl(page.relativeDir);
+      const html = fs.readFileSync(page.absPath, "utf8");
+      if (html.includes('name="robots" content="noindex')) return false;
+      if (indexableGuides && urlPath.startsWith("/seo/generated/") && urlPath.includes("-loan-at-")) {
+        return indexableGuides.has(urlPath);
+      }
+      return true;
+    })
+    .map((page) => ({
+      path: normalizeDirUrl(page.relativeDir),
+      lastmod: page.lastmod,
+      priority: "0.75",
+      changefreq: "monthly"
+    }));
 
   const all = uniqueBy([...staticPages, ...toolPages, ...blogPages, ...seoGeneratedPages], (item) => item.path);
   return all.sort((a, b) => a.path.localeCompare(b.path));
