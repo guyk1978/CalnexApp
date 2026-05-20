@@ -662,6 +662,22 @@
     "is_pillar": false
   },
   {
+    "slug": "how-to-negotiate-car-loan",
+    "title": "How to negotiate a car loan: tips for getting the best interest rate",
+    "excerpt": "Pre-approval, credit-union leverage, OTD price negotiation, and APR pushback—plus a worked $32k example showing how 1.5 points changes total interest.",
+    "category": "Auto Loans",
+    "updatedDate": "2026-05-20",
+    "readTime": "10 min read",
+    "featured": true,
+    "primary_keyword": "how to negotiate car loan interest rate",
+    "internal_links": [
+      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
+      { "title": "Car leasing vs buying", "slug": "car-leasing-vs-buying" },
+      { "title": "Car loan APR vs interest rate", "slug": "apr-vs-interest-rate-car-loan-explained" }
+    ],
+    "is_pillar": false
+  },
+  {
     "slug": "home-equity-borrowing-complete-guide",
     "title": "Complete guide to home equity borrowing",
     "excerpt": "Cash-out first lien vs fixed second vs HELOC: CLTV guardrails, payment-path risk, and links into product comparisons and cost disclosures.",

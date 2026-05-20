@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-20T16:29:57.252Z",
+  "generated_at": "2026-05-20T16:46:40.705Z",
   "totals": {
-    "keywords": 387,
-    "informational": 132,
-    "commercial": 155,
-    "transactional": 100
+    "keywords": 422,
+    "informational": 139,
+    "commercial": 173,
+    "transactional": 110
   },
   "samples": {
     "informational": [
@@ -34,14 +34,14 @@
     "transactional": [
       "loan calculator",
       "interest calculator",
+      "car lease calculator",
       "100000 loan at 3 5 percent for 15 years monthly payment calculator",
       "100000 loan at 3 5 percent for 30 years monthly payment calculator",
       "100000 loan at 4 5 percent for 15 years monthly payment calculator",
       "100000 loan at 4 5 percent for 30 years monthly payment calculator",
       "100000 loan at 4 percent for 15 years monthly payment calculator",
       "100000 loan at 4 percent for 30 years monthly payment calculator",
-      "100000 loan at 5 percent for 15 years monthly payment calculator",
-      "100000 loan at 5 percent for 30 years monthly payment calculator"
+      "100000 loan at 5 percent for 15 years monthly payment calculator"
     ]
   },
   "classified_keywords": [
@@ -160,6 +160,26 @@
     {
       "keyword": "auto loan affordability",
       "intent": "commercial"
+    },
+    {
+      "keyword": "car leasing vs buying",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "lease vs buy car",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "residual value",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "total cost of ownership",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car lease calculator",
+      "intent": "transactional"
     },
     {
       "keyword": "100000 loan",
@@ -606,6 +626,30 @@
       "intent": "commercial"
     },
     {
+      "keyword": "car lease calculator calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "car lease calculator for beginners",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "car lease calculator with extra payments",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "car leasing vs buying calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "car leasing vs buying for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car leasing vs buying with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "car loan calculator",
       "intent": "transactional"
     },
@@ -778,6 +822,14 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does car lease calculator work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does car leasing vs buying work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does car loan work",
       "intent": "informational"
     },
@@ -830,6 +882,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does lease vs buy car work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does loan calculator work",
       "intent": "informational"
     },
@@ -858,6 +914,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does residual value work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does risk work",
       "intent": "informational"
     },
@@ -867,6 +927,10 @@
     },
     {
       "keyword": "how does term work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does total cost of ownership work",
       "intent": "informational"
     },
     {
@@ -1154,6 +1218,14 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce car lease calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "how to reduce car leasing vs buying",
+      "intent": "commercial"
+    },
+    {
       "keyword": "how to reduce car loan",
       "intent": "informational"
     },
@@ -1206,6 +1278,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce lease vs buy car",
+      "intent": "commercial"
+    },
+    {
       "keyword": "how to reduce loan calculator",
       "intent": "transactional"
     },
@@ -1234,6 +1310,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce residual value",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce risk",
       "intent": "informational"
     },
@@ -1243,6 +1323,10 @@
     },
     {
       "keyword": "how to reduce term",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce total cost of ownership",
       "intent": "informational"
     },
     {
@@ -1350,6 +1434,14 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is car lease calculator worth it",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "is car leasing vs buying worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is car loan worth it",
       "intent": "commercial"
     },
@@ -1402,6 +1494,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is lease vs buy car worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is loan calculator worth it",
       "intent": "transactional"
     },
@@ -1430,6 +1526,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is residual value worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is risk worth it",
       "intent": "commercial"
     },
@@ -1442,11 +1542,27 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is total cost of ownership worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is total interest worth it",
       "intent": "commercial"
     },
     {
       "keyword": "is variable rate worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "lease vs buy car calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "lease vs buy car for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "lease vs buy car with extra payments",
       "intent": "commercial"
     },
     {
@@ -1534,6 +1650,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "residual value calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "residual value for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "residual value with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "risk calculator",
       "intent": "transactional"
     },
@@ -1567,6 +1695,18 @@
     },
     {
       "keyword": "term with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "total cost of ownership calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "total cost of ownership for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "total cost of ownership with extra payments",
       "intent": "commercial"
     },
     {
