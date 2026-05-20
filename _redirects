@@ -1,28 +1,21 @@
-/ /index.html 200
+# Cloudflare Pages Pretty URLs — do NOT add 200 rewrites from /path/ to /path/index.html.
+# Pages serves folder index.html automatically; those rules cause infinite loops (HTTP 500).
+# Keep only real 301/302 redirects here. See: npm run validate:redirects
+
+# Canonical: bare /index.html → site root
 /index.html / 301
 
-# Explicit SEO assets (bypass any rewrites)
-/sitemap.xml /sitemap.xml 200
-/robots.txt /robots.txt 200
-
-# Core directory routes
+# Trailing-slash canonicalization
 /about /about/ 301
-/about/ /about/index.html 200
 /contact /contact/ 301
-/contact/ /contact/index.html 200
 /blog /blog/ 301
-/blog/ /blog/index.html 200
 /tools /tools/loan-calculator/ 302
 
-# Tool directories
+# Tool directories (slash form only — no 200 rewrites to index.html)
 /tools/loan-calculator /tools/loan-calculator/ 301
-/tools/loan-calculator/ /tools/loan-calculator/index.html 200
 /tools/mortgage-calculator /tools/mortgage-calculator/ 301
-/tools/mortgage-calculator/ /tools/mortgage-calculator/index.html 200
 /tools/car-loan-calculator /tools/car-loan-calculator/ 301
-/tools/car-loan-calculator/ /tools/car-loan-calculator/index.html 200
 /tools/interest-calculator /tools/interest-calculator/ 301
-/tools/interest-calculator/ /tools/interest-calculator/index.html 200
 
 # Legacy route support
 /calculator /tools/loan-calculator/ 301
@@ -30,8 +23,19 @@
 /calculator.html /tools/loan-calculator/ 301
 /blog/post.html /blog/ 301
 
-# IMPORTANT: do NOT add a parametric blog rewrite like `/blog/:slug /blog/ 302`
+# DISABLED — Pretty URL loops on Cloudflare Pages:
+# / /index.html 200
+# /sitemap.xml /sitemap.xml 200
+# /robots.txt /robots.txt 200
+# /about/ /about/index.html 200
+# /contact/ /contact/index.html 200
+# /blog/ /blog/index.html 200
+# /tools/loan-calculator/ /tools/loan-calculator/index.html 200
+# /tools/mortgage-calculator/ /tools/mortgage-calculator/index.html 200
+# /tools/car-loan-calculator/ /tools/car-loan-calculator/index.html 200
+# /tools/interest-calculator/ /tools/interest-calculator/index.html 200
+
+# IMPORTANT: do NOT add parametric blog rules like `/blog/:slug /blog/ 302`
 # or `/blog/:slug /blog/:slug/index.html 200`. Cloudflare Pages serves
 # /blog/{slug}/index.html natively for /blog/{slug}/, and functions/blog/[slug].js
-# already handles both /blog/{slug} and /blog/{slug}/. Any parametric rule on
-# /blog/* short-circuits those handlers and causes production 404s.
+# already handles both /blog/{slug} and /blog/{slug}/.

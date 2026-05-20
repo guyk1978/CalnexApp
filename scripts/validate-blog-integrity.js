@@ -71,6 +71,7 @@ const ORIGIN = (readArg("--origin", "https://calnexapp.com") || "").replace(/\/+
 const ROOT = path.resolve(__dirname, "..");
 const BLOG_JSON_PATH = path.join(ROOT, "data", "blog.json");
 const REDIRECTS_PATH = path.join(ROOT, "_redirects");
+const { findRedirectViolations } = require("./validate-redirects");
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 const BLOG_DIR = path.join(ROOT, "blog");
 
@@ -512,7 +513,7 @@ function check3_consistency(manifest, redirects, sitemapUrls) {
     const targetSlug = normSlug(m[1]);
     if (NON_POST_SLUGS.has(targetSlug)) continue;
     // Skip target paths that are not real slugs (the bare blog index serves
-    // /blog/index.html through `_redirects` line 14 — that's not a dead slug).
+    // /blog/index.html hub — not a post slug; skip dead-target check for /blog/ only).
     if (targetSlug === "index.html" || targetSlug.endsWith(".html") || targetSlug.endsWith(".xml")) continue;
     if (!diskSlugs.has(targetSlug) && !manifestSlugs.has(targetSlug)) {
       errors.push({
@@ -534,6 +535,30 @@ function check3_consistency(manifest, redirects, sitemapUrls) {
 }
 
 // ---------------------------------------------------------------------------
+// CHECK 0 — Cloudflare Pages Pretty URL loop rules (must never ship)
+// ---------------------------------------------------------------------------
+
+function check0_redirectLoops(rawRules) {
+  log("CHECK 0 — _redirects Pretty URL 200 loops");
+  const violations = findRedirectViolations(rawRules);
+  const errors = violations.map((v) => ({
+    type: "redirect-pretty-url-loop",
+    line: v.line,
+    message: `${v.reason}: _redirects:${v.line} "${v.raw}"`,
+    fix: "Comment out or remove the rule. Cloudflare Pages serves folder index.html without a 200 rewrite."
+  }));
+  if (violations.length === 0) {
+    log(`  ${paint(C.green, "OK ")} no 200 index.html or identity rewrites`);
+  } else {
+    for (const v of violations) {
+      log(`  ${paint(C.red, "ERR")} line ${v.line}: ${v.raw}`);
+      log(`      ${v.reason}`);
+    }
+  }
+  return { errors };
+}
+
+// ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
 
@@ -549,11 +574,12 @@ async function main() {
   const rawRedirects = loadRedirects();
   const sitemapUrls = loadSitemapBlogUrls();
 
+  const r0 = check0_redirectLoops(rawRedirects);
   const r1 = check1_filesystem(manifest);
   const r2 = await check2_routing(manifest, rawRedirects);
   const r3 = check3_consistency(manifest, rawRedirects, sitemapUrls);
 
-  const allErrors = [...r1.errors, ...r2.errors, ...r3.errors];
+  const allErrors = [...r0.errors, ...r1.errors, ...r2.errors, ...r3.errors];
 
   // Summary
   if (FLAG_JSON) {
@@ -562,6 +588,7 @@ async function main() {
       counts: {
         manifest: manifest.length,
         errors: allErrors.length,
+        check0: r0.errors.length,
         check1: r1.errors.length,
         check2: r2.errors.length,
         check3: r3.errors.length
