@@ -629,6 +629,23 @@
     "is_pillar": true
   },
   {
+    "slug": "how-much-car-can-i-afford",
+    "title": "How much car can you afford: payment, income, and DTI rules",
+    "excerpt": "10–15% transport caps on gross income, a $7,500/month worked example, lender DTI vs household budget—and why dealer approval is not affordability.",
+    "category": "Auto Loans",
+    "updatedDate": "2026-05-17",
+    "readTime": "10 min read",
+    "featured": true,
+    "primary_keyword": "how much car can i afford",
+    "internal_links": [
+      { "title": "Car loan APR vs interest rate", "slug": "apr-vs-interest-rate-car-loan-explained" },
+      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" },
+      { "title": "Mortgage DTI qualification", "slug": "debt-to-income-ratio-mortgage-qualification" },
+      { "title": "Loan vs mortgage", "slug": "loan-vs-mortgage" }
+    ],
+    "is_pillar": false
+  },
+  {
     "slug": "home-equity-borrowing-complete-guide",
     "title": "Complete guide to home equity borrowing",
     "excerpt": "Cash-out first lien vs fixed second vs HELOC: CLTV guardrails, payment-path risk, and links into product comparisons and cost disclosures.",
