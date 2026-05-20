@@ -354,15 +354,8 @@ async function check2_routing(manifest, rawRules) {
       // Allowed: trailing-slash normalization (e.g. /blog/foo -> /blog/foo/ 301).
       if (m.rule.status >= 300 && m.rule.status < 400 && to === p + "/") return false;
       if (m.rule.status >= 300 && m.rule.status < 400 && to === p.replace(/\/$/, "")) return false;
-      // Allowed: parametric blog trailing-slash rule (Cloudflare expands :slug at runtime).
-      if (
-        m.rule.status === 301 &&
-        m.rule.from === "/blog/:slug" &&
-        m.rule.to === "/blog/:slug/" &&
-        /^\/blog\/[^/]+$/.test(p)
-      ) {
-        return false;
-      }
+      // Allowed: per-post trailing-slash 301 from sync-blog-redirects (e.g. /blog/foo -> /blog/foo/).
+      if (m.rule.status === 301 && to === p + "/" && /^\/blog\/[^/]+$/.test(p)) return false;
       return true;
     });
 

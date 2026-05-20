@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-20T15:24:54.877Z",
+  "generated_at": "2026-05-20T15:42:07.277Z",
   "summary": {
-    "total_pages": 59,
+    "total_pages": 60,
     "pages_need_improvement": 0,
-    "pages_high_potential": 56,
+    "pages_high_potential": 57,
     "top_performing_pages": 3
   },
   "pages_need_improvement": [],
@@ -79,6 +79,18 @@
         "intent_match_score": 65
       },
       "ranking_score": 72
+    },
+    {
+      "url": "/blog/how-much-car-can-i-afford/",
+      "type": "blog",
+      "title": "How much car can you afford: payment, income, and DTI rules",
+      "metrics": {
+        "keyword_coverage": 25,
+        "internal_links_count": 28,
+        "content_depth_words": 1075,
+        "intent_match_score": 100
+      },
+      "ranking_score": 78
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/",
@@ -355,18 +367,6 @@
         "intent_match_score": 100
       },
       "ranking_score": 65
-    },
-    {
-      "url": "/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/",
-      "type": "seo",
-      "title": "$200,000 loan at 4% for 30 years",
-      "metrics": {
-        "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
-        "intent_match_score": 100
-      },
-      "ranking_score": 65
     }
   ],
   "top_performing_pages": [
@@ -489,6 +489,18 @@
         "internal_links_count": 34,
         "content_depth_words": 1113,
         "intent_match_score": 65
+      },
+      "ranking_score": 78
+    },
+    {
+      "url": "/blog/how-much-car-can-i-afford/",
+      "type": "blog",
+      "title": "How much car can you afford: payment, income, and DTI rules",
+      "metrics": {
+        "keyword_coverage": 25,
+        "internal_links_count": 28,
+        "content_depth_words": 1075,
+        "intent_match_score": 100
       },
       "ranking_score": 78
     },

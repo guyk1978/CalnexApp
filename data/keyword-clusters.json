@@ -42,14 +42,19 @@
       "interest",
       "15 vs 30 years",
       "loan term",
-      "total interest"
+      "total interest",
+      "how much car can i afford",
+      "car payment",
+      "debt to income",
+      "auto loan affordability"
     ],
     "related_pages": [
       "/blog/how-to-calculate-loan-interest/",
       "/blog/fixed-vs-variable-interest-rate/",
       "/blog/how-extra-payments-save-money/",
       "/blog/loan-vs-mortgage/",
-      "/blog/best-loan-term-15-vs-30-years/"
+      "/blog/best-loan-term-15-vs-30-years/",
+      "/blog/how-much-car-can-i-afford/"
     ],
     "search_intent": "informational"
   },

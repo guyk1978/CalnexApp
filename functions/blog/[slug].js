@@ -1,11 +1,10 @@
 /**
- * GET|HEAD /blog/:slug (and /blog/:slug/) — HTML from KV first, then static assets.
+ * GET|HEAD /blog/:slug (and /blog/:slug/) — HTML from KV first, else static deploy.
  *
  * Single-segment dynamic route (`[slug].js`), so `/blog/` still resolves to the
- * static blog index. Production 404s happen when `blog:html:{slug}` is missing
- * in KV but the post exists as `blog/{slug}/index.html` in the deployment bundle.
- * After a KV miss we fetch static assets via explicit index.html paths (Pretty URLs
- * do not always apply when a Function handles the route first).
+ * static blog index. When KV has no `blog:html:{slug}`, delegate to the static
+ * asset pipeline via `next()` so Cloudflare Pretty URLs serve
+ * `blog/{slug}/index.html` without ASSETS.fetch edge cases or 200 rewrite loops.
  */
 function notFound() {
   return new Response("404 - Page Not Found", {
@@ -17,6 +16,7 @@ function notFound() {
   });
 }
 
+/** Fallback when `next` is unavailable (local tooling). */
 async function fetchBlogStatic(env, request, slug, method) {
   if (!env.ASSETS) return null;
 
@@ -25,10 +25,7 @@ async function fetchBlogStatic(env, request, slug, method) {
 
   for (const pathname of candidates) {
     const url = new URL(pathname, base);
-    const assetRequest = new Request(url.toString(), {
-      method,
-      headers: request.headers
-    });
+    const assetRequest = new Request(url.toString(), { method });
     const res = await env.ASSETS.fetch(assetRequest);
     if (res && res.status !== 404) return res;
   }
@@ -37,7 +34,7 @@ async function fetchBlogStatic(env, request, slug, method) {
 }
 
 export async function onRequest(context) {
-  const { request, env, params } = context;
+  const { request, env, params, next } = context;
   const method = request.method;
 
   if (method !== "GET" && method !== "HEAD") {
@@ -60,6 +57,10 @@ export async function onRequest(context) {
         }
       });
     }
+  }
+
+  if (typeof next === "function") {
+    return next();
   }
 
   const assetRes = await fetchBlogStatic(env, request, slug, method);
