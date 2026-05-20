@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-20T16:54:57.326Z",
+  "generated_at": "2026-05-20T17:04:41.508Z",
   "summary": {
-    "total_pages": 62,
-    "pages_need_improvement": 1,
+    "total_pages": 63,
+    "pages_need_improvement": 2,
     "pages_high_potential": 58,
     "top_performing_pages": 3
   },
@@ -15,6 +15,18 @@
         "keyword_coverage": 0,
         "internal_links_count": 25,
         "content_depth_words": 1267,
+        "intent_match_score": 65
+      },
+      "ranking_score": 63
+    },
+    {
+      "url": "/blog/how-credit-score-affects-car-loan/",
+      "type": "blog",
+      "title": "How your credit score affects your car loan rate (and how to lower it)",
+      "metrics": {
+        "keyword_coverage": 0,
+        "internal_links_count": 27,
+        "content_depth_words": 1249,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -1161,6 +1173,18 @@
         "keyword_coverage": 0,
         "internal_links_count": 25,
         "content_depth_words": 1267,
+        "intent_match_score": 65
+      },
+      "ranking_score": 63
+    },
+    {
+      "url": "/blog/how-credit-score-affects-car-loan/",
+      "type": "blog",
+      "title": "How your credit score affects your car loan rate (and how to lower it)",
+      "metrics": {
+        "keyword_coverage": 0,
+        "internal_links_count": 27,
+        "content_depth_words": 1249,
         "intent_match_score": 65
       },
       "ranking_score": 63

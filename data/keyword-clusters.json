@@ -56,7 +56,12 @@
       "car loan interest rate",
       "auto loan pre approval",
       "out the door price",
-      "dealer financing"
+      "dealer financing",
+      "credit score car loan rate",
+      "auto loan apr by credit tier",
+      "subprime car loan",
+      "improve credit before car purchase",
+      "refinance auto loan"
     ],
     "related_pages": [
       "/blog/how-to-calculate-loan-interest/",
@@ -66,7 +71,8 @@
       "/blog/best-loan-term-15-vs-30-years/",
       "/blog/how-much-car-can-i-afford/",
       "/blog/car-leasing-vs-buying/",
-      "/blog/how-to-negotiate-car-loan/"
+      "/blog/how-to-negotiate-car-loan/",
+      "/blog/how-credit-score-affects-car-loan/"
     ],
     "search_intent": "informational"
   },
