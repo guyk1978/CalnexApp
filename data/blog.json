@@ -646,6 +646,22 @@
     "is_pillar": false
   },
   {
+    "slug": "car-leasing-vs-buying",
+    "title": "Car leasing vs buying: pros, cons, and the real math",
+    "excerpt": "Lease vs buy on the same $36k vehicle: residual value, money factor, mileage traps, and why a lower monthly payment does not always mean lower total cost.",
+    "category": "Auto Loans",
+    "updatedDate": "2026-05-20",
+    "readTime": "11 min read",
+    "featured": true,
+    "primary_keyword": "car leasing vs buying",
+    "internal_links": [
+      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
+      { "title": "Car loan APR vs interest rate", "slug": "apr-vs-interest-rate-car-loan-explained" },
+      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" }
+    ],
+    "is_pillar": false
+  },
+  {
     "slug": "home-equity-borrowing-complete-guide",
     "title": "Complete guide to home equity borrowing",
     "excerpt": "Cash-out first lien vs fixed second vs HELOC: CLTV guardrails, payment-path risk, and links into product comparisons and cost disclosures.",

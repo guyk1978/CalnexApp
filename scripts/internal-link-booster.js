@@ -32,6 +32,52 @@ const injectByMarkers = (html, start, end, block, before = "</main>") => {
   return `${html.slice(0, insertIdx)}${block}\n${html.slice(insertIdx)}`;
 };
 
+const stripBlogManifestScripts = (html) =>
+  html.replace(/<script type="application\/json" id="calnex-blog-manifest">[\s\S]*?<\/script>\s*/gi, "");
+
+const injectBlogManifest = (html, manifestScript) => {
+  let next = stripBlogManifestScripts(html);
+  const block = `    <!-- BLOG_INDEX_MANIFEST_START -->\n${manifestScript}\n    <!-- BLOG_INDEX_MANIFEST_END -->`;
+  if (next.includes("<!-- BLOG_INDEX_MANIFEST_START -->")) {
+    return injectByMarkers(next, "<!-- BLOG_INDEX_MANIFEST_START -->", "<!-- BLOG_INDEX_MANIFEST_END -->", block);
+  }
+  return next.replace("</head>", `${block}\n  </head>`);
+};
+
+/** Replace featured / all-article grids using markers or stable section boundaries. */
+const replaceBlogGrid = (html, divId, innerHtml) => {
+  const kind = divId === "featuredBlogList" ? "FEATURED" : "ALL";
+  const start = `<!-- BLOG_INDEX_${kind}_START -->`;
+  const end = `<!-- BLOG_INDEX_${kind}_END -->`;
+  const block = `\n${innerHtml}\n          `;
+
+  if (html.includes(start) && html.includes(end)) {
+    return injectByMarkers(html, start, end, block);
+  }
+
+  const boundary =
+    divId === "featuredBlogList"
+      ? /(<div id="featuredBlogList"[^>]*>)[\s\S]*?(<\/div>\s*<\/section>\s*<section>\s*<h2>All Articles<\/h2>)/i
+      : /(<div id="blogList"[^>]*>)[\s\S]*?(<\/div>\s*<\/section>\s*<section id="seoApprovedSection")/i;
+
+  if (!boundary.test(html)) return html;
+  return html.replace(
+    boundary,
+    `$1\n          ${start}${block}${end}\n        $2`
+  );
+};
+
+/** Remove stray article cards injected outside blog grids (bad fallback inserts). */
+const pruneOrphanBlogCards = (html) => {
+  const latestEnd = html.indexOf("<!-- ILB_BLOG_LATEST_END -->");
+  const mainEnd = html.indexOf("</main>");
+  if (latestEnd === -1 || mainEnd === -1 || latestEnd >= mainEnd) return html;
+  const tail = html.slice(latestEnd + "<!-- ILB_BLOG_LATEST_END -->".length, mainEnd);
+  if (!tail.includes('class="card blog-card"')) return html;
+  const cleanedTail = tail.replace(/<article class="card blog-card">[\s\S]*?<\/article>\s*/gi, "");
+  return html.slice(0, latestEnd + "<!-- ILB_BLOG_LATEST_END -->".length) + cleanedTail + html.slice(mainEnd);
+};
+
 const renderLinks = (items) =>
   items.map((item) => `<li><a href="${item.url}">${item.title}</a> <span class="muted">(${item.lastmod})</span></li>`).join("");
 
@@ -232,25 +278,10 @@ const run = () => {
   let blogHtml = fs.readFileSync(blogPath, "utf8");
   const catalog = buildBlogIndexCatalog(blogManifestPosts);
 
-  blogHtml = injectByMarkers(
-    blogHtml,
-    "<!-- BLOG_INDEX_MANIFEST_START -->",
-    "<!-- BLOG_INDEX_MANIFEST_END -->",
-    catalog.manifestScript,
-    "</head>"
-  );
-  blogHtml = injectByMarkers(
-    blogHtml,
-    "<!-- BLOG_INDEX_FEATURED_START -->",
-    "<!-- BLOG_INDEX_FEATURED_END -->",
-    catalog.featuredHtml
-  );
-  blogHtml = injectByMarkers(
-    blogHtml,
-    "<!-- BLOG_INDEX_ALL_START -->",
-    "<!-- BLOG_INDEX_ALL_END -->",
-    catalog.allHtml
-  );
+  blogHtml = injectBlogManifest(blogHtml, catalog.manifestScript);
+  blogHtml = replaceBlogGrid(blogHtml, "featuredBlogList", catalog.featuredHtml);
+  blogHtml = replaceBlogGrid(blogHtml, "blogList", catalog.allHtml);
+  blogHtml = pruneOrphanBlogCards(blogHtml);
 
   const blogLatestBlock = `
       <!-- ILB_BLOG_LATEST_START -->
