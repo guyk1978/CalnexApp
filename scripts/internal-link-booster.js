@@ -4,6 +4,9 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const SITE_URL = "https://calnexapp.com";
 const REGISTRY_PATH = path.join(ROOT, "data", "seo-registry.json");
+const BLOG_JSON_PATH = path.join(ROOT, "data", "blog.json");
+const BLOG_DIR = path.join(ROOT, "blog");
+const NON_BLOG_SLUGS = new Set(["latest"]);
 
 const normalizeUrl = (url) => {
   if (!url.startsWith("/")) return `/${url}`;
@@ -31,6 +34,70 @@ const injectByMarkers = (html, start, end, block, before = "</main>") => {
 
 const renderLinks = (items) =>
   items.map((item) => `<li><a href="${item.url}">${item.title}</a> <span class="muted">(${item.lastmod})</span></li>`).join("");
+
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+/** All published posts from data/blog.json that exist on disk (source of truth for /blog/). */
+const loadBlogManifestPosts = () => {
+  if (!fs.existsSync(BLOG_JSON_PATH)) return [];
+  const raw = JSON.parse(fs.readFileSync(BLOG_JSON_PATH, "utf8"));
+  return raw
+    .filter((post) => post && post.slug && !NON_BLOG_SLUGS.has(String(post.slug)))
+    .filter((post) => fs.existsSync(path.join(BLOG_DIR, post.slug, "index.html")))
+    .map((post) => {
+      const pagePath = path.join(BLOG_DIR, post.slug, "index.html");
+      const mtime = fs.statSync(pagePath).mtime.toISOString().slice(0, 10);
+      return {
+        slug: String(post.slug),
+        title: post.title || post.slug.replaceAll("-", " "),
+        excerpt: post.excerpt || "",
+        category: post.category || "Blog",
+        updatedDate: post.updatedDate || mtime,
+        readTime: post.readTime || "",
+        featured: Boolean(post.featured),
+        url: `/blog/${post.slug}/`,
+        lastmod: post.updatedDate || mtime
+      };
+    })
+    .sort((a, b) => new Date(b.updatedDate) - new Date(a.updatedDate));
+};
+
+const renderBlogCard = (post) => `
+        <article class="card blog-card">
+          <p class="blog-meta">${escapeHtml(post.updatedDate)} • ${escapeHtml(post.readTime)} • ${escapeHtml(post.category)}</p>
+          <h3>${escapeHtml(post.title)}</h3>
+          <p>${escapeHtml(post.excerpt)}</p>
+          <a class="btn btn-ghost" href="/blog/${escapeHtml(post.slug)}/">Read Article</a>
+        </article>`;
+
+const buildBlogIndexCatalog = (posts) => {
+  const featured = posts.filter((p) => p.featured);
+  const nonFeatured = posts.filter((p) => !p.featured);
+  const clientManifest = posts.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    excerpt: p.excerpt,
+    category: p.category,
+    updatedDate: p.updatedDate,
+    readTime: p.readTime,
+    featured: p.featured
+  }));
+  const manifestScript = `<script type="application/json" id="calnex-blog-manifest">${JSON.stringify(clientManifest)}</script>`;
+  return {
+    manifestScript,
+    featuredHtml: featured.length
+      ? featured.map(renderBlogCard).join("")
+      : '<p class="muted">No featured articles yet.</p>',
+    allHtml: nonFeatured.length
+      ? nonFeatured.map(renderBlogCard).join("")
+      : '<p class="muted">No articles published yet.</p>'
+  };
+};
 
 const buildLatestPage = (title, description, items, type) => `<!doctype html>
 <html lang="en">
@@ -93,8 +160,9 @@ const run = () => {
     .filter(Boolean)
     .sort((a, b) => b.mtime - a.mtime);
 
+  const blogManifestPosts = loadBlogManifestPosts();
   const latestTools = registry.filter((item) => item.type === "tool").slice(0, 10);
-  const latestBlogs = registry.filter((item) => item.type === "blog").slice(0, 10);
+  const latestBlogs = blogManifestPosts.slice(0, 15);
   const latestSeo = registry.filter((item) => item.type === "seo").slice(0, 10);
   const latestOverall = [...latestTools.slice(0, 4), ...latestBlogs.slice(0, 3), ...latestSeo.slice(0, 3)];
 
@@ -162,6 +230,28 @@ const run = () => {
 
   const blogPath = path.join(ROOT, "blog", "index.html");
   let blogHtml = fs.readFileSync(blogPath, "utf8");
+  const catalog = buildBlogIndexCatalog(blogManifestPosts);
+
+  blogHtml = injectByMarkers(
+    blogHtml,
+    "<!-- BLOG_INDEX_MANIFEST_START -->",
+    "<!-- BLOG_INDEX_MANIFEST_END -->",
+    catalog.manifestScript,
+    "</head>"
+  );
+  blogHtml = injectByMarkers(
+    blogHtml,
+    "<!-- BLOG_INDEX_FEATURED_START -->",
+    "<!-- BLOG_INDEX_FEATURED_END -->",
+    catalog.featuredHtml
+  );
+  blogHtml = injectByMarkers(
+    blogHtml,
+    "<!-- BLOG_INDEX_ALL_START -->",
+    "<!-- BLOG_INDEX_ALL_END -->",
+    catalog.allHtml
+  );
+
   const blogLatestBlock = `
       <!-- ILB_BLOG_LATEST_START -->
       <section class="card">
@@ -194,7 +284,7 @@ const run = () => {
   );
 
   console.log(
-    `Internal link booster complete. Linked ${latestOverall.length} recent pages and generated latest hub pages.`
+    `Internal link booster complete. Blog index: ${blogManifestPosts.length} posts (${blogManifestPosts.filter((p) => p.featured).length} featured). Linked ${latestOverall.length} recent pages on home.`
   );
 };
 

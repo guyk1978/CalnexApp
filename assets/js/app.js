@@ -194,7 +194,13 @@
     const searchInput = document.getElementById("blogSearchInput");
     if (!blogList || !featuredBlogList || !filtersHolder || !searchInput) return;
     try {
-      const posts = await fetchJson("/data/blog.json");
+      const embedded = document.getElementById("calnex-blog-manifest");
+      let posts = [];
+      if (embedded && embedded.textContent.trim()) {
+        posts = JSON.parse(embedded.textContent);
+      } else {
+        posts = await fetchJson("/data/blog.json");
+      }
       const categories = ["All", ...new Set(posts.map((post) => post.category))];
       let activeCategory = "All";
       let activeQuery = "";
