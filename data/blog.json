@@ -678,6 +678,22 @@
     "is_pillar": false
   },
   {
+    "slug": "how-credit-score-affects-car-loan",
+    "title": "How your credit score affects your car loan rate (and how to lower it)",
+    "excerpt": "Excellent vs Good vs Fair vs Poor tiers on a $30k / 60-month loan—up to ~$9,400 more interest at subprime APRs—and 30–60 day steps to improve before you shop.",
+    "category": "Auto Loans",
+    "updatedDate": "2026-05-20",
+    "readTime": "11 min read",
+    "featured": true,
+    "primary_keyword": "credit score car loan rate",
+    "internal_links": [
+      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
+      { "title": "How to negotiate a car loan", "slug": "how-to-negotiate-car-loan" },
+      { "title": "Car leasing vs buying", "slug": "car-leasing-vs-buying" }
+    ],
+    "is_pillar": false
+  },
+  {
     "slug": "home-equity-borrowing-complete-guide",
     "title": "Complete guide to home equity borrowing",
     "excerpt": "Cash-out first lien vs fixed second vs HELOC: CLTV guardrails, payment-path risk, and links into product comparisons and cost disclosures.",

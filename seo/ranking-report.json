@@ -1,12 +1,25 @@
 {
-  "generated_at": "2026-05-20T16:46:41.599Z",
+  "generated_at": "2026-05-20T16:54:57.326Z",
   "summary": {
-    "total_pages": 61,
-    "pages_need_improvement": 0,
+    "total_pages": 62,
+    "pages_need_improvement": 1,
     "pages_high_potential": 58,
     "top_performing_pages": 3
   },
-  "pages_need_improvement": [],
+  "pages_need_improvement": [
+    {
+      "url": "/blog/how-to-negotiate-car-loan/",
+      "type": "blog",
+      "title": "How to negotiate a car loan: tips for getting the best interest rate",
+      "metrics": {
+        "keyword_coverage": 0,
+        "internal_links_count": 25,
+        "content_depth_words": 1267,
+        "intent_match_score": 65
+      },
+      "ranking_score": 63
+    }
+  ],
   "pages_high_potential": [
     {
       "url": "/tools/loan-calculator/",
@@ -1139,6 +1152,18 @@
         "intent_match_score": 100
       },
       "ranking_score": 65
+    },
+    {
+      "url": "/blog/how-to-negotiate-car-loan/",
+      "type": "blog",
+      "title": "How to negotiate a car loan: tips for getting the best interest rate",
+      "metrics": {
+        "keyword_coverage": 0,
+        "internal_links_count": 25,
+        "content_depth_words": 1267,
+        "intent_match_score": 65
+      },
+      "ranking_score": 63
     }
   ],
   "missing_keyword_opportunities": [

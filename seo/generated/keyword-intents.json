@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-20T16:46:40.705Z",
+  "generated_at": "2026-05-20T16:54:56.308Z",
   "totals": {
-    "keywords": 422,
-    "informational": 139,
-    "commercial": 173,
-    "transactional": 110
+    "keywords": 457,
+    "informational": 149,
+    "commercial": 193,
+    "transactional": 115
   },
   "samples": {
     "informational": [
@@ -180,6 +180,26 @@
     {
       "keyword": "car lease calculator",
       "intent": "transactional"
+    },
+    {
+      "keyword": "negotiate car loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan interest rate",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "auto loan pre approval",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "out the door price",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "dealer financing",
+      "intent": "commercial"
     },
     {
       "keyword": "100000 loan",
@@ -626,6 +646,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "auto loan pre approval calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "auto loan pre approval for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "auto loan pre approval with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "car lease calculator calculator",
       "intent": "transactional"
     },
@@ -655,6 +687,18 @@
     },
     {
       "keyword": "car loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan interest rate calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "car loan interest rate for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan interest rate with extra payments",
       "intent": "commercial"
     },
     {
@@ -695,6 +739,18 @@
     },
     {
       "keyword": "compound interest with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "dealer financing calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "dealer financing for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "dealer financing with extra payments",
       "intent": "commercial"
     },
     {
@@ -822,11 +878,19 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does auto loan pre approval work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does car lease calculator work",
       "intent": "informational"
     },
     {
       "keyword": "how does car leasing vs buying work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does car loan interest rate work",
       "intent": "informational"
     },
     {
@@ -843,6 +907,10 @@
     },
     {
       "keyword": "how does compound interest work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does dealer financing work",
       "intent": "informational"
     },
     {
@@ -911,6 +979,14 @@
     },
     {
       "keyword": "how does mortgage work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does negotiate car loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does out the door price work",
       "intent": "informational"
     },
     {
@@ -1218,6 +1294,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce auto loan pre approval",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce car lease calculator",
       "intent": "transactional"
     },
@@ -1230,6 +1310,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce car loan interest rate",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce car payment",
       "intent": "informational"
     },
@@ -1239,6 +1323,10 @@
     },
     {
       "keyword": "how to reduce compound interest",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce dealer financing",
       "intent": "informational"
     },
     {
@@ -1307,6 +1395,14 @@
     },
     {
       "keyword": "how to reduce mortgage",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce negotiate car loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce out the door price",
       "intent": "informational"
     },
     {
@@ -1434,11 +1530,19 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is auto loan pre approval worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is car lease calculator worth it",
       "intent": "transactional"
     },
     {
       "keyword": "is car leasing vs buying worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is car loan interest rate worth it",
       "intent": "commercial"
     },
     {
@@ -1455,6 +1559,10 @@
     },
     {
       "keyword": "is compound interest worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is dealer financing worth it",
       "intent": "commercial"
     },
     {
@@ -1523,6 +1631,14 @@
     },
     {
       "keyword": "is mortgage worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is negotiate car loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is out the door price worth it",
       "intent": "commercial"
     },
     {
@@ -1647,6 +1763,30 @@
     },
     {
       "keyword": "mortgage with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "negotiate car loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "negotiate car loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "negotiate car loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "out the door price calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "out the door price for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "out the door price with extra payments",
       "intent": "commercial"
     },
     {
