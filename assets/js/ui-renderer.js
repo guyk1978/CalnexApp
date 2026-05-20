@@ -5,6 +5,24 @@ const UiRenderer = (() => {
     (typeof CurrencyLayer !== "undefined" ? CurrencyLayer.getCurrentCurrency() : "USD");
   const getSymbol = () => (typeof CurrencyLayer !== "undefined" ? CurrencyLayer.getCurrencySymbol() : "$");
 
+  const inferFormatType = (key, explicit) => {
+    if (explicit) return explicit;
+    if (!key) return "";
+    const k = String(key).toLowerCase();
+    if (/_status$|_warning$|_feedback$|_toast|_date$|_label$|_badge$|_text$|insight_/.test(k)) return "text";
+    if (k.includes("readiness")) return "percent";
+    if (/_months_saved$|_loan_count$|confidence_score$|years_to_retirement$/.test(k)) return "number";
+    if (
+      /(?:^|_)(?:monthly_payment|total_interest|total_cost|total_repayment|computed_loan|principal_interest|tax_insurance|recommended_payment|actual_payment|interest_saved|total_paid|final_amount|simple_total|compound_total|safe_min|safe_max|current_payment|funding_gap|projected_balance|inflation_adjusted|estimated_monthly|growth_projection|summary_total)/.test(
+        k
+      ) ||
+      /(?:payment|interest|cost|amount|repayment|saved|balance|gap|income|projection|diff|principal|paid|financed|compare_)/.test(k)
+    ) {
+      return "currency";
+    }
+    return "";
+  };
+
   const formatFinancial = (value, formatType) => {
     if (value === null || value === undefined || value === "") return "";
 
@@ -111,7 +129,7 @@ const UiRenderer = (() => {
     document.querySelectorAll("[data-bind]").forEach((node) => {
       const key = node.getAttribute("data-bind");
       if (!key) return;
-      const formatType = node.getAttribute("data-format") || "";
+      const formatType = inferFormatType(key, node.getAttribute("data-format") || "");
       const value = getBindingValue(state, derived, key);
       node.textContent = formatFinancial(value, formatType);
       boundCount += 1;

@@ -354,6 +354,15 @@ async function check2_routing(manifest, rawRules) {
       // Allowed: trailing-slash normalization (e.g. /blog/foo -> /blog/foo/ 301).
       if (m.rule.status >= 300 && m.rule.status < 400 && to === p + "/") return false;
       if (m.rule.status >= 300 && m.rule.status < 400 && to === p.replace(/\/$/, "")) return false;
+      // Allowed: parametric blog trailing-slash rule (Cloudflare expands :slug at runtime).
+      if (
+        m.rule.status === 301 &&
+        m.rule.from === "/blog/:slug" &&
+        m.rule.to === "/blog/:slug/" &&
+        /^\/blog\/[^/]+$/.test(p)
+      ) {
+        return false;
+      }
       return true;
     });
 
@@ -511,6 +520,7 @@ function check3_consistency(manifest, redirects, sitemapUrls) {
     const m = rule.to.match(/^\/blog\/([^/]+)\/?(?:index\.html)?$/i);
     if (!m) continue;
     const targetSlug = normSlug(m[1]);
+    if (targetSlug.includes(":") || rule.from.includes(":") || rule.to.includes(":")) continue;
     if (NON_POST_SLUGS.has(targetSlug)) continue;
     // Skip target paths that are not real slugs (the bare blog index serves
     // /blog/index.html hub — not a post slug; skip dead-target check for /blog/ only).

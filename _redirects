@@ -9,6 +9,8 @@
 /about /about/ 301
 /contact /contact/ 301
 /blog /blog/ 301
+# Blog posts: enforce trailing slash (301 only — never 200 → index.html rewrites)
+/blog/:slug /blog/:slug/ 301
 /tools /tools/loan-calculator/ 302
 
 # Tool directories (slash form only — no 200 rewrites to index.html)

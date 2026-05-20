@@ -16,12 +16,20 @@ export async function onRequest(context) {
     return new Response("Method Not Allowed", { status: 405 });
   }
 
-  if (!env.SEO_KV) {
-    return new Response(method === "HEAD" ? null : "[]", { headers: HEADERS });
+  let body = "[]";
+
+  if (env.SEO_KV) {
+    const raw = await env.SEO_KV.get("blog:manifest");
+    if (raw) body = raw;
   }
 
-  const raw = await env.SEO_KV.get("blog:manifest");
-  const body = raw || "[]";
+  if ((!body || body === "[]") && env.ASSETS) {
+    const assetUrl = new URL("/data/blog.json", request.url);
+    const assetRes = await env.ASSETS.fetch(new Request(assetUrl.toString(), { method, headers: request.headers }));
+    if (assetRes && assetRes.ok) {
+      body = await assetRes.text();
+    }
+  }
 
   return new Response(method === "HEAD" ? null : body, { headers: HEADERS });
 }

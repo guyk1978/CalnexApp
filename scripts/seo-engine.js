@@ -32,6 +32,41 @@ const urlToFilePath = (url) => {
   return path.join(ROOT, clean.slice(1), "index.html");
 };
 
+const BLOG_JSON_PATH = path.join(ROOT, "data", "blog.json");
+const NON_BLOG_SLUGS = new Set(["latest"]);
+
+const collectBlogEntries = () => {
+  if (!fs.existsSync(BLOG_JSON_PATH)) return [];
+  let posts = [];
+  try {
+    posts = JSON.parse(fs.readFileSync(BLOG_JSON_PATH, "utf8"));
+  } catch {
+    return [];
+  }
+  return posts
+    .filter((post) => post && post.slug && !NON_BLOG_SLUGS.has(post.slug))
+    .filter((post) => fs.existsSync(path.join(ROOT, "blog", post.slug, "index.html")))
+    .map((post) => ({
+      url: `/blog/${post.slug}/`,
+      type: "blog",
+      title: post.title || post.slug.replaceAll("-", " "),
+      description: post.excerpt || "",
+      category: post.category || "blog",
+      keywords: post.primary_keyword ? [post.primary_keyword] : []
+    }));
+};
+
+const mergeEntries = (registryEntries, extraEntries) => {
+  const merged = [...registryEntries];
+  extraEntries.forEach((entry) => {
+    const url = normalizeUrl(entry.url);
+    if (!merged.some((item) => normalizeUrl(item.url) === url)) {
+      merged.push({ ...entry, url });
+    }
+  });
+  return merged;
+};
+
 const collectGeneratedSeoEntries = () => {
   const base = path.join(ROOT, "seo", "generated");
   if (!fs.existsSync(base)) return [];
@@ -198,6 +233,11 @@ const generateSitemap = (entries) => {
       knownEntries.push(item);
     }
   });
+  collectBlogEntries().forEach((item) => {
+    if (!knownEntries.some((entry) => normalizeUrl(entry.url) === normalizeUrl(item.url))) {
+      knownEntries.push(item);
+    }
+  });
   const urls = knownEntries
     .map((entry) => {
       const pagePath = urlToFilePath(entry.url);
@@ -231,14 +271,17 @@ Sitemap: ${SITE_URL}/sitemap.xml
 };
 
 const run = () => {
-  const entries = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8")).map((entry) => ({
+  const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8")).map((entry) => ({
     ...entry,
     url: normalizeUrl(entry.url)
   }));
+  const entries = mergeEntries(registry, collectBlogEntries());
   entries.forEach((entry) => updatePage(entry, entries));
   generateSitemap(entries);
   updateRobots();
-  console.log(`SEO engine complete. Processed ${entries.length} registry pages.`);
+  console.log(
+    `SEO engine complete. Processed ${entries.length} pages (${registry.length} registry + ${entries.length - registry.length} from blog manifest).`
+  );
 };
 
 run();

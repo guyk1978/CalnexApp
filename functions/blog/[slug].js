@@ -4,7 +4,8 @@
  * Single-segment dynamic route (`[slug].js`), so `/blog/` still resolves to the
  * static blog index. Production 404s happen when `blog:html:{slug}` is missing
  * in KV but the post exists as `blog/{slug}/index.html` in the deployment bundle.
- * After a KV miss we delegate to `env.ASSETS.fetch(request)` so those pages load.
+ * After a KV miss we fetch static assets via explicit index.html paths (Pretty URLs
+ * do not always apply when a Function handles the route first).
  */
 function notFound() {
   return new Response("404 - Page Not Found", {
@@ -14,6 +15,25 @@ function notFound() {
       "Cache-Control": "no-store"
     }
   });
+}
+
+async function fetchBlogStatic(env, request, slug, method) {
+  if (!env.ASSETS) return null;
+
+  const base = new URL(request.url);
+  const candidates = [`/blog/${slug}/index.html`, `/blog/${slug}/`, `/blog/${slug}`];
+
+  for (const pathname of candidates) {
+    const url = new URL(pathname, base);
+    const assetRequest = new Request(url.toString(), {
+      method,
+      headers: request.headers
+    });
+    const res = await env.ASSETS.fetch(assetRequest);
+    if (res && res.status !== 404) return res;
+  }
+
+  return null;
 }
 
 export async function onRequest(context) {
@@ -42,10 +62,8 @@ export async function onRequest(context) {
     }
   }
 
-  if (env.ASSETS) {
-    const assetRes = await env.ASSETS.fetch(request);
-    if (assetRes && assetRes.status !== 404) return assetRes;
-  }
+  const assetRes = await fetchBlogStatic(env, request, slug, method);
+  if (assetRes) return assetRes;
 
   return notFound();
 }

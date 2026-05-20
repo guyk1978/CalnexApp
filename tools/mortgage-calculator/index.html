@@ -114,6 +114,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -122,7 +123,7 @@
   "name": "Mortgage Calculator",
   "description": "Mortgage Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/mortgage-calculator/",
-  "dateModified": "2026-05-17T12:05:46.271Z",
+  "dateModified": "2026-05-20T15:13:19.255Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -290,23 +291,23 @@
           <dl class="result-grid">
             <div>
               <dt>Monthly Mortgage Payment</dt>
-              <dd id="monthlyMortgagePayment" data-bind="mortgage_monthly_payment">0.00</dd>
+              <dd id="monthlyMortgagePayment" data-bind="mortgage_monthly_payment" data-format="currency">0.00</dd>
             </div>
             <div>
               <dt>Total Interest Paid</dt>
-              <dd id="totalInterestPaid" data-bind="mortgage_total_interest">0.00</dd>
+              <dd id="totalInterestPaid" data-bind="mortgage_total_interest" data-format="currency">0.00</dd>
             </div>
             <div>
               <dt>Total Cost of Home</dt>
-              <dd id="totalHomeCost" data-bind="mortgage_total_cost">0.00</dd>
+              <dd id="totalHomeCost" data-bind="mortgage_total_cost" data-format="currency">0.00</dd>
             </div>
           </dl>
 
           <div class="comparison-grid">
             <article class="comparison-card">
               <p class="eyebrow">Loan Breakdown</p>
-              <p class="muted">Principal + Interest: <strong id="principalInterestMonthly" data-bind="mortgage_principal_interest_monthly">0.00</strong></p>
-              <p class="muted">Tax + Insurance: <strong id="taxInsuranceMonthly" data-bind="mortgage_tax_insurance_monthly">0.00</strong></p>
+              <p class="muted">Principal + Interest: <strong id="principalInterestMonthly" data-bind="mortgage_principal_interest_monthly" data-format="currency">0.00</strong></p>
+              <p class="muted">Tax + Insurance: <strong id="taxInsuranceMonthly" data-bind="mortgage_tax_insurance_monthly" data-format="currency">0.00</strong></p>
               <p class="muted">Payoff Date: <strong id="payoffDate" data-bind="mortgage_payoff_date" data-format="text">-</strong></p>
             </article>
             <article class="comparison-card">
@@ -327,8 +328,8 @@
             <input id="annualIncome" data-input-bind="income" type="number" min="0" step="1000" value="120000" />
           </div>
         </div>
-        <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment" data-bind="mortgage_recommended_payment">0.00</strong></p>
-        <p class="muted">Your estimated monthly payment: <strong id="actualPayment" data-bind="mortgage_actual_payment">0.00</strong></p>
+        <p class="muted">Recommended monthly housing payment: <strong id="recommendedPayment" data-bind="mortgage_recommended_payment" data-format="currency">0.00</strong></p>
+        <p class="muted">Your estimated monthly payment: <strong id="actualPayment" data-bind="mortgage_actual_payment" data-format="currency">0.00</strong></p>
         <p id="affordabilityWarning" class="muted" data-bind="mortgage_affordability_warning" data-format="text">Enter annual income to get an affordability signal.</p>
       </section>
 
@@ -337,16 +338,16 @@
         <div class="comparison-grid">
           <article class="comparison-card">
             <p class="eyebrow">15-Year</p>
-            <p class="muted">Monthly: <strong id="compare15Monthly" data-bind="mortgage_compare_15_monthly">0.00</strong></p>
-            <p class="muted">Total Interest: <strong id="compare15Interest" data-bind="mortgage_compare_15_interest">0.00</strong></p>
+            <p class="muted">Monthly: <strong id="compare15Monthly" data-bind="mortgage_compare_15_monthly" data-format="currency">0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare15Interest" data-bind="mortgage_compare_15_interest" data-format="currency">0.00</strong></p>
           </article>
           <article class="comparison-card">
             <p class="eyebrow">30-Year</p>
-            <p class="muted">Monthly: <strong id="compare30Monthly" data-bind="mortgage_compare_30_monthly">0.00</strong></p>
-            <p class="muted">Total Interest: <strong id="compare30Interest" data-bind="mortgage_compare_30_interest">0.00</strong></p>
+            <p class="muted">Monthly: <strong id="compare30Monthly" data-bind="mortgage_compare_30_monthly" data-format="currency">0.00</strong></p>
+            <p class="muted">Total Interest: <strong id="compare30Interest" data-bind="mortgage_compare_30_interest" data-format="currency">0.00</strong></p>
           </article>
         </div>
-        <p class="muted">Interest difference: <strong id="compareInterestDifference" data-bind="mortgage_compare_interest_diff">0.00</strong></p>
+        <p class="muted">Interest difference: <strong id="compareInterestDifference" data-bind="mortgage_compare_interest_diff" data-format="currency">0.00</strong></p>
         <div id="comparisonBars"></div>
       </section>
 
@@ -380,11 +381,11 @@
           <div class="amortization-summary">
             <div class="summary-item">
               <span>Total Payments</span>
-              <strong id="mortgageSummaryTotalPayments" data-bind="mortgage_summary_total_payments">0.00</strong>
+              <strong id="mortgageSummaryTotalPayments" data-bind="mortgage_summary_total_payments" data-format="currency">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Total Interest</span>
-              <strong id="mortgageSummaryTotalInterest" data-bind="mortgage_summary_total_interest">0.00</strong>
+              <strong id="mortgageSummaryTotalInterest" data-bind="mortgage_summary_total_interest" data-format="currency">0.00</strong>
             </div>
             <div class="summary-item">
               <span>Payoff Date</span>
@@ -446,6 +447,7 @@
 
       <section class="card" data-related-tools data-current-tool="mortgage-calculator"></section>
     
+      
       
       
       
@@ -623,6 +625,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -631,6 +634,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
