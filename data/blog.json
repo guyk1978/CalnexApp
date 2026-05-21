@@ -723,9 +723,26 @@
     "internal_links": [
       { "title": "Loan vs mortgage", "slug": "loan-vs-mortgage" },
       { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" },
-      { "title": "How extra payments save money", "slug": "how-extra-payments-save-money" }
+      { "title": "How extra payments save money", "slug": "how-extra-payments-save-money" },
+      { "title": "Fixed vs variable personal loans", "slug": "fixed-vs-variable-personal-loans" }
     ],
     "is_pillar": true
+  },
+  {
+    "slug": "fixed-vs-variable-personal-loans",
+    "title": "Fixed-rate vs. variable-rate personal loans: how to choose the right one",
+    "excerpt": "Prime + margin mechanics, predictability vs teaser savings, a $15k / 48-month worked example, risk checklist, and when to refinance variable to fixed.",
+    "category": "Personal Loans",
+    "updatedDate": "2026-05-21",
+    "readTime": "12 min read",
+    "featured": true,
+    "primary_keyword": "fixed vs variable personal loan",
+    "internal_links": [
+      { "title": "Ultimate guide to debt consolidation", "slug": "ultimate-guide-debt-consolidation" },
+      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" },
+      { "title": "Fixed vs adjustable mortgage rate", "slug": "fixed-vs-variable-interest-rate" }
+    ],
+    "is_pillar": false
   },
   {
     "slug": "home-equity-borrowing-complete-guide",
