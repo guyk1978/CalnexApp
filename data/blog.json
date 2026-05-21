@@ -695,6 +695,23 @@
     "is_pillar": false
   },
   {
+    "slug": "how-to-refinance-car-loan",
+    "title": "How to refinance a car loan: when it makes sense and how much you can save",
+    "excerpt": "Credit-tier wins, rate drops, and payment vs term trade-offs—plus a $22k / 48-month break-even example, hidden fees, and when upside-down loans block a deal.",
+    "category": "Auto Loans",
+    "updatedDate": "2026-05-21",
+    "readTime": "12 min read",
+    "featured": true,
+    "primary_keyword": "how to refinance car loan",
+    "internal_links": [
+      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
+      { "title": "Car leasing vs buying", "slug": "car-leasing-vs-buying" },
+      { "title": "How to negotiate a car loan", "slug": "how-to-negotiate-car-loan" },
+      { "title": "How your credit score affects your car loan rate", "slug": "how-credit-score-affects-car-loan" }
+    ],
+    "is_pillar": false
+  },
+  {
     "slug": "home-equity-borrowing-complete-guide",
     "title": "Complete guide to home equity borrowing",
     "excerpt": "Cash-out first lien vs fixed second vs HELOC: CLTV guardrails, payment-path risk, and links into product comparisons and cost disclosures.",
