@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-21T04:52:27.091Z",
+  "generated_at": "2026-05-21T06:04:44.026Z",
   "totals": {
-    "keywords": 562,
-    "informational": 182,
-    "commercial": 250,
-    "transactional": 130
+    "keywords": 597,
+    "informational": 191,
+    "commercial": 271,
+    "transactional": 135
   },
   "samples": {
     "informational": [
@@ -930,11 +930,43 @@
       "intent": "transactional"
     },
     {
+      "keyword": "fixed rate debt consolidation loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed rate debt consolidation loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "fixed rate debt consolidation loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed rate debt consolidation loan with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "fixed rate for beginners",
       "intent": "commercial"
     },
     {
       "keyword": "fixed rate with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed vs variable personal loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed vs variable personal loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "fixed vs variable personal loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "fixed vs variable personal loan with extra payments",
       "intent": "commercial"
     },
     {
@@ -1102,7 +1134,15 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does fixed rate debt consolidation loan work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does fixed rate work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does fixed vs variable personal loan work",
       "intent": "informational"
     },
     {
@@ -1182,6 +1222,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does prime rate personal loan work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does refinance auto loan work",
       "intent": "informational"
     },
@@ -1191,6 +1235,10 @@
     },
     {
       "keyword": "how does refinance upside down car loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does refinance variable personal loan work",
       "intent": "informational"
     },
     {
@@ -1219,6 +1267,10 @@
     },
     {
       "keyword": "how does total interest work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does variable rate personal loan work",
       "intent": "informational"
     },
     {
@@ -1582,6 +1634,14 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce fixed rate debt consolidation loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce fixed vs variable personal loan",
+      "intent": "commercial"
+    },
+    {
       "keyword": "how to reduce growth",
       "intent": "informational"
     },
@@ -1658,6 +1718,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce prime rate personal loan",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce refinance auto loan",
       "intent": "informational"
     },
@@ -1667,6 +1731,10 @@
     },
     {
       "keyword": "how to reduce refinance upside down car loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce refinance variable personal loan",
       "intent": "informational"
     },
     {
@@ -1699,6 +1767,10 @@
     },
     {
       "keyword": "how to reduce variable rate",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce variable rate personal loan",
       "intent": "informational"
     },
     {
@@ -1886,7 +1958,15 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is fixed rate debt consolidation loan worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is fixed rate worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is fixed vs variable personal loan worth it",
       "intent": "commercial"
     },
     {
@@ -1966,6 +2046,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is prime rate personal loan worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is refinance auto loan worth it",
       "intent": "commercial"
     },
@@ -1975,6 +2059,10 @@
     },
     {
       "keyword": "is refinance upside down car loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is refinance variable personal loan worth it",
       "intent": "commercial"
     },
     {
@@ -2003,6 +2091,10 @@
     },
     {
       "keyword": "is total interest worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is variable rate personal loan worth it",
       "intent": "commercial"
     },
     {
@@ -2158,6 +2250,22 @@
       "intent": "commercial"
     },
     {
+      "keyword": "prime rate personal loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "prime rate personal loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "prime rate personal loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "prime rate personal loan with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "refinance auto loan calculator",
       "intent": "transactional"
     },
@@ -2195,6 +2303,22 @@
     },
     {
       "keyword": "refinance upside down car loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance variable personal loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance variable personal loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "refinance variable personal loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance variable personal loan with extra payments",
       "intent": "commercial"
     },
     {
@@ -2287,6 +2411,22 @@
     },
     {
       "keyword": "variable rate for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "variable rate personal loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "variable rate personal loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "variable rate personal loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "variable rate personal loan with extra payments",
       "intent": "commercial"
     },
     {
