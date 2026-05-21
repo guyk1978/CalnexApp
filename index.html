@@ -45,7 +45,7 @@
     </header>
 
     <main>
-      <section class="cn-hero">
+      <section class="cn-hero cn-hero--with-panel">
         <div class="container cn-hero-grid">
           <div>
             <p class="eyebrow">Repayment modeling</p>
@@ -80,20 +80,16 @@
                 <p class="cn-stat__value">Near zero</p>
               </div>
             </div>
-            <div
-              class="cn-partner-mapdiagram"
-              data-partner="mapdiagram"
-              style="margin-top: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: rgba(255, 255, 255, 0.02);"
-            >
-              <p style="margin: 0 0 8px 0; color: #cbd5e1; font-size: 0.9rem">
+            <div class="cn-partner-mapdiagram" role="note" data-partner="mapdiagram">
+              <p>
                 Visualize your financial strategy. Draw out your business milestones and debt payoff workflows using
                 <strong>MapDiagram</strong>.
               </p>
               <a
+                class="cn-partner-mapdiagram__cta"
                 href="https://mapdiagram.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                style="color: #60a5fa; text-decoration: none; font-size: 0.9rem; font-weight: bold"
                 >Map your workflow visually →</a
               >
             </div>
@@ -222,15 +218,17 @@
       
       
       
+      
       <!-- ILB_HOME_RECENT_START -->
       <section class="container section-space card">
         <h2>Recently updated</h2>
         <ul class="toc-list">
-          <li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/how-to-refinance-car-loan/">How to refinance a car loan: when it makes sense and how much you can save</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/ultimate-guide-debt-consolidation/">The ultimate guide to debt consolidation: how to combine loans and save money</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/fixed-vs-variable-personal-loans/">Fixed-rate vs. variable-rate personal loans: how to choose the right one</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/">$300,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/">$300,000 loan at 5% for 30 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/">$300,000 loan at 6% for 15 years</a> <span class="muted">(2026-05-21)</span></li>
+          <li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/how-to-refinance-car-loan/">How to refinance a car loan: when it makes sense and how much you can save</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/ultimate-guide-debt-consolidation/">The ultimate guide to debt consolidation: how to combine loans and save money</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/fixed-vs-variable-personal-loans/">Fixed-rate vs. variable-rate personal loans: how to choose the right one</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/">$300,000 loan at 4.5% for 30 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/">$300,000 loan at 5% for 15 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/">$300,000 loan at 5% for 30 years</a> <span class="muted">(2026-05-21)</span></li>
         </ul>
       </section>
       <!-- ILB_HOME_RECENT_END -->
 
+      
       
       
       
@@ -322,13 +320,31 @@
               <li><a href="/contact/">Privacy &amp; terms</a></li>
             </ul>
           </div>
+          <div>
+            <h3>Partners</h3>
+            <ul>
+              <li>
+                <a href="https://mapdiagram.com/" target="_blank" rel="noopener noreferrer">MapDiagram</a>
+              </li>
+              <li>
+                <a href="https://joinmypdf.com/" target="_blank" rel="noopener noreferrer">JoinMyPDF</a>
+              </li>
+            </ul>
+          </div>
         </div>
         <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
         <nav class="footer-links" aria-label="Footer">
           <a href="/about/">About</a>
           <a href="/contact/">Contact</a>
           <a href="/blog/">Blog</a>
+          <a href="https://mapdiagram.com/" target="_blank" rel="noopener noreferrer">MapDiagram</a>
+          <a href="https://joinmypdf.com/" target="_blank" rel="noopener noreferrer">JoinMyPDF</a>
         </nav>
+        <div class="cn-footer-partners" aria-label="Partner utilities">
+          <span>Planning tools:</span>
+          <a href="https://mapdiagram.com/" target="_blank" rel="noopener noreferrer">MapDiagram</a>
+          <a href="https://joinmypdf.com/" target="_blank" rel="noopener noreferrer">JoinMyPDF</a>
+        </div>
       </div>
     </footer>
 

@@ -406,7 +406,7 @@
 
 @media (min-width: 900px) {
   .cn-footer-grid {
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr repeat(4, 1fr);
   }
 }
 
@@ -640,6 +640,88 @@
     width: auto;
     max-width: 100%;
   }
+}
+
+/* MapDiagram strategy callout — theme-safe, never clipped by hero overflow */
+.cn-feature-panel,
+.cn-hero-panel {
+  position: relative;
+  z-index: 1;
+}
+
+.cn-hero-panel .cn-stat-row + .cn-partner-mapdiagram {
+  margin-top: var(--cn-space-5);
+}
+
+.cn-partner-mapdiagram {
+  display: block;
+  margin-top: var(--cn-space-5);
+  padding: var(--cn-space-4) var(--cn-space-5);
+  border-radius: var(--cn-radius-md);
+  border: 1px solid var(--cn-border-strong);
+  background: color-mix(in srgb, var(--cn-accent-muted) 22%, var(--cn-bg-muted));
+  box-shadow: var(--cn-shadow-xs);
+}
+
+.cn-partner-mapdiagram p {
+  margin: 0 0 var(--cn-space-2);
+  font-size: var(--cn-text-sm);
+  line-height: var(--cn-leading-normal);
+  color: var(--cn-text-secondary);
+}
+
+.cn-partner-mapdiagram strong {
+  color: var(--cn-text-primary);
+  font-weight: 600;
+}
+
+.cn-partner-mapdiagram__cta {
+  display: inline-block;
+  font-size: var(--cn-text-sm);
+  font-weight: 600;
+  color: var(--cn-accent);
+  text-decoration: none;
+}
+
+.cn-partner-mapdiagram__cta:hover {
+  color: var(--cn-text-primary);
+  text-decoration: underline;
+}
+
+.cn-partner-mapdiagram__cta:focus-visible {
+  outline: 2px solid var(--cn-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--cn-radius-xs);
+}
+
+.cn-hero.cn-hero--with-panel {
+  overflow: visible;
+}
+
+.cn-footer-partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.85rem;
+  margin: 0.75rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.cn-footer-partners span {
+  color: var(--cn-text-tertiary, #6b7280);
+  font-size: 0.85rem;
+}
+
+.cn-footer-partners a {
+  color: var(--cn-accent, #3b82f6);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cn-footer-partners a:hover {
+  text-decoration: underline;
 }
 
 /* Charts — calmer frame */
