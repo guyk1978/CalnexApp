@@ -609,6 +609,7 @@ const LoanCalculator = (() => {
     }
   };
 
+  /** Portable results (#shareUrlInline) + share modal — keep URLs in sync. */
   const syncShareUrlFields = (url) => {
     if (selectors.shareModalInput) selectors.shareModalInput.value = url;
     if (selectors.shareUrlInline) selectors.shareUrlInline.value = url;
@@ -839,6 +840,7 @@ const LoanCalculator = (() => {
     applyGeoDefaults(false);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     bindEvents();
+    syncShareUrlFields(getShareUrl());
     if (window.AppEngine) {
       AppEngine.runImmediate();
     } else if (typeof SharedState !== "undefined") {
