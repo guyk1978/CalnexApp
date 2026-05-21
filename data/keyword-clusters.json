@@ -82,6 +82,27 @@
     "search_intent": "informational"
   },
   {
+    "main_topic": "Debt Consolidation & Personal Loans",
+    "supporting_keywords": [
+      "debt consolidation",
+      "consolidate credit card debt",
+      "personal loan debt consolidation",
+      "debt consolidation loan",
+      "balance transfer vs personal loan",
+      "debt consolidation break even",
+      "origination fee personal loan",
+      "credit card to personal loan",
+      "debt consolidation credit score",
+      "when debt consolidation is bad"
+    ],
+    "related_pages": [
+      "/blog/ultimate-guide-debt-consolidation/",
+      "/tools/loan-calculator/",
+      "/tools/interest-calculator/"
+    ],
+    "search_intent": "informational"
+  },
+  {
     "main_topic": "Programmatic Loan Scenarios",
     "supporting_keywords": [
       "100000 loan",

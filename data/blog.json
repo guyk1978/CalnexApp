@@ -712,6 +712,22 @@
     "is_pillar": false
   },
   {
+    "slug": "ultimate-guide-debt-consolidation",
+    "title": "The ultimate guide to debt consolidation: how to combine loans and save money",
+    "excerpt": "Credit cards into fixed personal loans, break-even after origination fees, when consolidation fails, and the re-spend trap—plus a worked $18k savings example.",
+    "category": "Personal Loans",
+    "updatedDate": "2026-05-21",
+    "readTime": "14 min read",
+    "featured": true,
+    "primary_keyword": "debt consolidation",
+    "internal_links": [
+      { "title": "Loan vs mortgage", "slug": "loan-vs-mortgage" },
+      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" },
+      { "title": "How extra payments save money", "slug": "how-extra-payments-save-money" }
+    ],
+    "is_pillar": true
+  },
+  {
     "slug": "home-equity-borrowing-complete-guide",
     "title": "Complete guide to home equity borrowing",
     "excerpt": "Cash-out first lien vs fixed second vs HELOC: CLTV guardrails, payment-path risk, and links into product comparisons and cost disclosures.",
