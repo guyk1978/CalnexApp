@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-20T17:12:52.011Z",
+  "generated_at": "2026-05-21T04:40:19.051Z",
   "totals": {
-    "keywords": 492,
-    "informational": 163,
-    "commercial": 209,
-    "transactional": 120
+    "keywords": 527,
+    "informational": 173,
+    "commercial": 229,
+    "transactional": 125
   },
   "samples": {
     "informational": [
@@ -219,6 +219,22 @@
     },
     {
       "keyword": "refinance auto loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance car loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "auto loan refinance",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "lower car payment refinance",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan break even",
       "intent": "commercial"
     },
     {
@@ -690,6 +706,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "auto loan refinance calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "auto loan refinance for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "auto loan refinance with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "car lease calculator calculator",
       "intent": "transactional"
     },
@@ -711,6 +739,18 @@
     },
     {
       "keyword": "car leasing vs buying with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan break even calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "car loan break even for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "car loan break even with extra payments",
       "intent": "commercial"
     },
     {
@@ -930,11 +970,19 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does auto loan refinance work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does car lease calculator work",
       "intent": "informational"
     },
     {
       "keyword": "how does car leasing vs buying work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does car loan break even work",
       "intent": "informational"
     },
     {
@@ -1030,6 +1078,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does lower car payment refinance work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does monthly payment work",
       "intent": "informational"
     },
@@ -1047,6 +1099,14 @@
     },
     {
       "keyword": "how does refinance auto loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does refinance car loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does refinance upside down car loan work",
       "intent": "informational"
     },
     {
@@ -1366,6 +1426,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce auto loan refinance",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce car lease calculator",
       "intent": "transactional"
     },
@@ -1375,6 +1439,10 @@
     },
     {
       "keyword": "how to reduce car loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce car loan break even",
       "intent": "informational"
     },
     {
@@ -1466,6 +1534,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "how to reduce lower car payment refinance",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce monthly payment",
       "intent": "informational"
     },
@@ -1483,6 +1555,14 @@
     },
     {
       "keyword": "how to reduce refinance auto loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce refinance car loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce refinance upside down car loan",
       "intent": "informational"
     },
     {
@@ -1634,11 +1714,19 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is auto loan refinance worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is car lease calculator worth it",
       "intent": "transactional"
     },
     {
       "keyword": "is car leasing vs buying worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is car loan break even worth it",
       "intent": "commercial"
     },
     {
@@ -1734,6 +1822,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is lower car payment refinance worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is monthly payment worth it",
       "intent": "commercial"
     },
@@ -1751,6 +1843,14 @@
     },
     {
       "keyword": "is refinance auto loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is refinance car loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is refinance upside down car loan worth it",
       "intent": "commercial"
     },
     {
@@ -1858,6 +1958,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "lower car payment refinance calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "lower car payment refinance for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "lower car payment refinance with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "monthly payment calculator",
       "intent": "transactional"
     },
@@ -1915,6 +2027,34 @@
     },
     {
       "keyword": "refinance auto loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance car loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "refinance car loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance car loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance upside down car loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance upside down car loan calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "refinance upside down car loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "refinance upside down car loan with extra payments",
       "intent": "commercial"
     },
     {

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-20T17:12:52.869Z",
+  "generated_at": "2026-05-21T04:40:19.944Z",
   "summary": {
-    "total_pages": 63,
-    "pages_need_improvement": 2,
+    "total_pages": 64,
+    "pages_need_improvement": 3,
     "pages_high_potential": 58,
     "top_performing_pages": 3
   },
@@ -27,6 +27,18 @@
         "keyword_coverage": 0,
         "internal_links_count": 27,
         "content_depth_words": 1249,
+        "intent_match_score": 65
+      },
+      "ranking_score": 63
+    },
+    {
+      "url": "/blog/how-to-refinance-car-loan/",
+      "type": "blog",
+      "title": "How to refinance a car loan: when it makes sense and how much you can save",
+      "metrics": {
+        "keyword_coverage": 0,
+        "internal_links_count": 29,
+        "content_depth_words": 1607,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -1185,6 +1197,18 @@
         "keyword_coverage": 0,
         "internal_links_count": 27,
         "content_depth_words": 1249,
+        "intent_match_score": 65
+      },
+      "ranking_score": 63
+    },
+    {
+      "url": "/blog/how-to-refinance-car-loan/",
+      "type": "blog",
+      "title": "How to refinance a car loan: when it makes sense and how much you can save",
+      "metrics": {
+        "keyword_coverage": 0,
+        "internal_links_count": 29,
+        "content_depth_words": 1607,
         "intent_match_score": 65
       },
       "ranking_score": 63
