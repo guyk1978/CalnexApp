@@ -132,6 +132,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -140,7 +141,7 @@
   "name": "Loan Calculator",
   "description": "Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/loan-calculator/",
-  "dateModified": "2026-05-21T04:52:27.982Z",
+  "dateModified": "2026-05-21T09:10:28.289Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -188,6 +189,43 @@
         <p class="eyebrow">Loan</p>
         <h1>Loan calculator</h1>
         <p class="muted">Work the payment, total interest, and payoff date—then open the schedule when you need line-by-line proof.</p>
+      </section>
+
+      <section class="cn-hero" style="padding: 0; margin-bottom: 1.25rem">
+        <div class="cn-hero-grid" style="display: grid; gap: 1.25rem; align-items: start">
+          <aside class="cn-hero-panel card" aria-label="Why CalnexApp" style="max-width: none">
+            <h2>Why people use this</h2>
+            <div class="cn-stat-row">
+              <div class="cn-stat">
+                <p class="cn-stat__label">Truth in numbers</p>
+                <p class="cn-stat__value">PMT + schedule</p>
+              </div>
+              <div class="cn-stat">
+                <p class="cn-stat__label">Scenario depth</p>
+                <p class="cn-stat__value">Extras + CSV</p>
+              </div>
+              <div class="cn-stat">
+                <p class="cn-stat__label">Friction</p>
+                <p class="cn-stat__value">Near zero</p>
+              </div>
+            </div>
+            <div
+              style="margin-top: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: rgba(255, 255, 255, 0.02);"
+            >
+              <p style="margin: 0 0 8px 0; color: #cbd5e1; font-size: 0.9rem">
+                Visualize your financial strategy. Draw out your business milestones and debt payoff workflows using
+                <strong>MapDiagram</strong>.
+              </p>
+              <a
+                href="https://mapdiagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: #60a5fa; text-decoration: none; font-size: 0.9rem; font-weight: bold"
+                >Map your workflow visually →</a
+              >
+            </div>
+          </aside>
+        </div>
       </section>
 
       <section class="card">
@@ -331,9 +369,23 @@
             </article>
           </div>
 
-          <div class="share-tools">
-            <h3>Share &amp; export</h3>
+          <div class="share-tools cn-portable-results-box" id="portableResults">
+            <h3>Portable results</h3>
+            <p class="muted" style="margin: 0 0 0.85rem; font-size: 0.88rem; line-height: 1.45">
+              Print-friendly schedules, CSV export, shareable URLs, and secure PDF handoff.
+            </p>
+            <label class="muted" for="shareUrlInline" style="display: block; margin-bottom: 0.35rem; font-size: 0.85rem"
+              >Shareable URL</label
+            >
+            <input
+              id="shareUrlInline"
+              type="text"
+              readonly
+              aria-label="Shareable calculator URL"
+              style="width: 100%; margin-bottom: 0.85rem; padding: 0.55rem 0.65rem; border-radius: 8px; border: 1px solid var(--border); background: var(--cn-bg-subtle, rgba(255, 255, 255, 0.04)); color: inherit; font-size: 0.88rem"
+            />
             <div class="share-actions">
+              <button id="downloadCsv" type="button" class="btn btn-ghost">Download CSV</button>
               <button type="button" class="btn btn-ghost share-btn" data-share="copy">Copy Link</button>
               <button type="button" class="btn btn-primary" id="shareResultsBtn">Share Results</button>
               <button type="button" class="btn btn-ghost" id="openShareModalBtn">Open Share Link</button>
@@ -341,15 +393,14 @@
               <a class="btn btn-ghost share-btn" data-share="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
               <a class="btn btn-ghost share-btn" data-share="twitter" href="#" target="_blank" rel="noopener">Twitter/X</a>
             </div>
-            <div class="cn-partner-export">
-              <a
-                class="btn btn-primary"
-                href="https://joinmypdf.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Export Amortization Schedule to PDF (Secure via JoinMyPDF)</a
-              >
-            </div>
+            <a
+              href="https://joinmypdf.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+              style="margin-top: 10px; display: inline-block; background-color: #3b82f6; color: #fff; text-decoration: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; text-align: center"
+              >Export Schedule to PDF (Secure via JoinMyPDF)</a
+            >
             <p id="copyFeedback" class="copy-feedback" role="status" aria-live="polite" data-bind="loan_copy_feedback" data-format="text"></p>
           </div>
         </aside>
@@ -415,17 +466,9 @@
             </div>
           </div>
           <div class="schedule-actions">
-            <button id="downloadCsv" type="button" class="btn btn-ghost">Download CSV</button>
             <button id="printSchedule" type="button" class="btn btn-ghost">Print Schedule</button>
             <button id="downloadPdfReport" type="button" class="btn btn-primary">Download PDF Report</button>
             <button id="printReport" type="button" class="btn btn-ghost">Print</button>
-            <a
-              class="btn btn-primary"
-              href="https://joinmypdf.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Export Amortization Schedule to PDF (Secure via JoinMyPDF)</a
-            >
           </div>
           <div class="schedule-table-wrap">
             <table class="schedule-table">
@@ -464,6 +507,7 @@
         </div>
       </section>
     
+      
       
       
       
@@ -675,6 +719,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -683,6 +728,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       

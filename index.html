@@ -80,23 +80,25 @@
                 <p class="cn-stat__value">Near zero</p>
               </div>
             </div>
+            <div
+              style="margin-top: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; background: rgba(255, 255, 255, 0.02);"
+            >
+              <p style="margin: 0 0 8px 0; color: #cbd5e1; font-size: 0.9rem">
+                Visualize your financial strategy. Draw out your business milestones and debt payoff workflows using
+                <strong>MapDiagram</strong>.
+              </p>
+              <a
+                href="https://mapdiagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: #60a5fa; text-decoration: none; font-size: 0.9rem; font-weight: bold"
+                >Map your workflow visually →</a
+              >
+            </div>
             <p class="muted" style="margin: 1rem 0 0; font-size: 0.88rem; line-height: 1.45">
               We publish tools and explainers—not personalized advice. Rates, fees, and underwriting rules from your
               lender still win when they differ from a calculator.
             </p>
-            <div class="cn-partner-notice" role="note">
-              <p>
-                Visualize your financial strategy. Draw out your business milestones and debt payoff workflows using
-                MapDiagram.
-              </p>
-              <a
-                class="cn-partner-notice__cta"
-                href="https://mapdiagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Map your workflow visually →</a
-              >
-            </div>
           </aside>
         </div>
       </section>
@@ -105,7 +107,41 @@
         <div class="container cn-strip__inner">
           <p class="cn-strip-item"><strong>Readable outputs</strong> Big totals first, then tables and charts only when you expand them.</p>
           <p class="cn-strip-item"><strong>Comparable scenarios</strong> Change rate, term, or extra payment and watch the delta immediately.</p>
-          <p class="cn-strip-item"><strong>Portable results</strong> Print-friendly schedules, CSV where offered, shareable URLs, and PDF export via JoinMyPDF.</p>
+          <p class="cn-strip-item"><strong>Portable results</strong> CSV export, shareable URLs, and PDF handoff—see the panel below.</p>
+        </div>
+      </section>
+
+      <section class="container" style="margin-top: 0; margin-bottom: 2rem">
+        <div
+          class="card cn-portable-results-box"
+          id="portableResults"
+          style="padding: 1.25rem 1.35rem; border: 1px solid var(--border); border-radius: 12px"
+        >
+          <h2 style="margin: 0 0 0.5rem; font-size: 1.15rem">Portable results</h2>
+          <p class="muted" style="margin: 0 0 1rem; font-size: 0.9rem">
+            Print-friendly schedules, CSV export, shareable scenario links, and secure PDF export.
+          </p>
+          <label class="muted" for="homeShareUrl" style="display: block; margin-bottom: 0.35rem; font-size: 0.85rem"
+            >Shareable URL</label
+          >
+          <input
+            id="homeShareUrl"
+            type="text"
+            readonly
+            value="https://calnexapp.com/tools/loan-calculator/"
+            style="width: 100%; margin-bottom: 0.85rem; padding: 0.55rem 0.65rem; border-radius: 8px; border: 1px solid var(--border); background: var(--cn-bg-subtle, rgba(255, 255, 255, 0.04)); color: inherit; font-size: 0.88rem"
+          />
+          <div class="share-actions" style="display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center">
+            <a class="btn btn-ghost" href="/tools/loan-calculator/">Download CSV</a>
+            <a
+              href="https://joinmypdf.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary"
+              style="margin-top: 0; display: inline-block; background-color: #3b82f6; color: #fff; text-decoration: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; text-align: center"
+              >Export Schedule to PDF (Secure via JoinMyPDF)</a
+            >
+          </div>
         </div>
       </section>
 
@@ -181,11 +217,12 @@
       
       
       
+      
       <!-- ILB_HOME_RECENT_START -->
       <section class="container section-space card">
         <h2>Recently updated</h2>
         <ul class="toc-list">
-          <li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/how-to-refinance-car-loan/">How to refinance a car loan: when it makes sense and how much you can save</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/ultimate-guide-debt-consolidation/">The ultimate guide to debt consolidation: how to combine loans and save money</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/fixed-vs-variable-personal-loans/">Fixed-rate vs. variable-rate personal loans: how to choose the right one</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/250000-loan-at-4-5-percent-for-30-years/">$250,000 loan at 4.5% for 30 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/250000-loan-at-5-percent-for-15-years/">$250,000 loan at 5% for 15 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/250000-loan-at-5-percent-for-30-years/">$250,000 loan at 5% for 30 years</a> <span class="muted">(2026-05-21)</span></li>
+          <li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/how-to-refinance-car-loan/">How to refinance a car loan: when it makes sense and how much you can save</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/ultimate-guide-debt-consolidation/">The ultimate guide to debt consolidation: how to combine loans and save money</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/fixed-vs-variable-personal-loans/">Fixed-rate vs. variable-rate personal loans: how to choose the right one</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/">$300,000 loan at 6% for 15 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/">$300,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/">$300,000 loan at 5% for 30 years</a> <span class="muted">(2026-05-21)</span></li>
         </ul>
       </section>
       <!-- ILB_HOME_RECENT_END -->
@@ -216,11 +253,12 @@
       
       
       
+      
       <!-- RANK_FEATURED_START -->
       <section class="container section-space card">
         <h2>Featured pages</h2>
         <ul class="toc-list">
-          <li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a></li><li><a href="/blog/best-loan-term-15-vs-30-years/">Best Loan Term: 15 vs 30 Years</a></li><li><a href="/blog/loan-vs-mortgage/">Loan vs Mortgage: Key Differences Explained</a></li><li><a href="/tools/loan-calculator/">Loan Calculator</a></li><li><a href="/blog/car-leasing-vs-buying/">Car leasing vs buying: pros, cons, and the real math</a></li><li><a href="/tools/interest-calculator/">Interest Calculator</a></li>
+          <li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a></li><li><a href="/blog/best-loan-term-15-vs-30-years/">Best Loan Term: 15 vs 30 Years</a></li><li><a href="/tools/loan-calculator/">Loan Calculator</a></li><li><a href="/blog/loan-vs-mortgage/">Loan vs Mortgage: Key Differences Explained</a></li><li><a href="/blog/car-leasing-vs-buying/">Car leasing vs buying: pros, cons, and the real math</a></li><li><a href="/tools/interest-calculator/">Interest Calculator</a></li>
         </ul>
       </section>
       <!-- RANK_FEATURED_END -->

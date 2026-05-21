@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-21T06:04:45.106Z",
+  "generated_at": "2026-05-21T09:11:33.352Z",
   "summary": {
     "total_pages": 66,
     "pages_need_improvement": 3,
-    "pages_high_potential": 60,
-    "top_performing_pages": 3
+    "pages_high_potential": 59,
+    "top_performing_pages": 4
   },
   "pages_need_improvement": [
     {
@@ -45,18 +45,6 @@
     }
   ],
   "pages_high_potential": [
-    {
-      "url": "/tools/loan-calculator/",
-      "type": "tool",
-      "title": "Loan Calculator",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 25,
-        "content_depth_words": 333,
-        "intent_match_score": 100
-      },
-      "ranking_score": 84
-    },
     {
       "url": "/tools/mortgage-calculator/",
       "type": "tool",
@@ -404,9 +392,33 @@
         "intent_match_score": 100
       },
       "ranking_score": 65
+    },
+    {
+      "url": "/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/",
+      "type": "seo",
+      "title": "$200,000 loan at 3.5% for 15 years",
+      "metrics": {
+        "keyword_coverage": 50,
+        "internal_links_count": 19,
+        "content_depth_words": 173,
+        "intent_match_score": 100
+      },
+      "ranking_score": 65
     }
   ],
   "top_performing_pages": [
+    {
+      "url": "/tools/loan-calculator/",
+      "type": "tool",
+      "title": "Loan Calculator",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 25,
+        "content_depth_words": 349,
+        "intent_match_score": 100
+      },
+      "ranking_score": 85
+    },
     {
       "url": "/blog/how-to-calculate-loan-interest/",
       "type": "blog",
@@ -470,6 +482,18 @@
       "ranking_score": 86
     },
     {
+      "url": "/tools/loan-calculator/",
+      "type": "tool",
+      "title": "Loan Calculator",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 25,
+        "content_depth_words": 349,
+        "intent_match_score": 100
+      },
+      "ranking_score": 85
+    },
+    {
       "url": "/blog/loan-vs-mortgage/",
       "type": "blog",
       "title": "Loan vs Mortgage: Key Differences Explained",
@@ -480,18 +504,6 @@
         "intent_match_score": 65
       },
       "ranking_score": 85
-    },
-    {
-      "url": "/tools/loan-calculator/",
-      "type": "tool",
-      "title": "Loan Calculator",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 25,
-        "content_depth_words": 333,
-        "intent_match_score": 100
-      },
-      "ranking_score": 84
     },
     {
       "url": "/blog/car-leasing-vs-buying/",

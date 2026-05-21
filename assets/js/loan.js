@@ -16,6 +16,7 @@ const LoanCalculator = (() => {
     openShareModalBtn: document.getElementById("openShareModalBtn"),
     shareModal: document.getElementById("shareModal"),
     shareModalInput: document.getElementById("shareModalInput"),
+    shareUrlInline: document.getElementById("shareUrlInline"),
     copyShareModalBtn: document.getElementById("copyShareModalBtn"),
     closeShareModalBtn: document.getElementById("closeShareModalBtn"),
     shareToast: document.getElementById("shareToast"),
@@ -583,7 +584,7 @@ const LoanCalculator = (() => {
 
   const openShareModal = () => {
     const shareUrl = getShareUrl();
-    selectors.shareModalInput.value = shareUrl;
+    syncShareUrlFields(shareUrl);
     selectors.shareModal.classList.add("is-open");
     selectors.shareModal.setAttribute("aria-hidden", "false");
   };
@@ -608,8 +609,14 @@ const LoanCalculator = (() => {
     }
   };
 
+  const syncShareUrlFields = (url) => {
+    if (selectors.shareModalInput) selectors.shareModalInput.value = url;
+    if (selectors.shareUrlInline) selectors.shareUrlInline.value = url;
+  };
+
   const updateShareLinks = () => {
     const url = getShareUrl();
+    syncShareUrlFields(url);
     const text = encodeURIComponent(document.title);
     const encodedUrl = encodeURIComponent(url);
     document.querySelector('[data-share="whatsapp"]').href = `https://wa.me/?text=${text}%20${encodedUrl}`;
