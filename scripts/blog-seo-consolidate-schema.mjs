@@ -1,5 +1,5 @@
 /**
- * One-pass blog SEO: remove duplicate JSON-LD, emit single @graph (Article + BreadcrumbList + optional FAQPage),
+ * One-pass blog SEO: remove duplicate JSON-LD, emit single @graph (Article + BreadcrumbList),
  * strip generic RANK FAQ schema and SEO_ENGINE duplicate Article blocks.
  * Preserves canonical URLs and article body.
  *
@@ -144,17 +144,6 @@ function buildGraph({ canonical, headline, description, datePublished, dateModif
       ]
     }
   ];
-  if (faqs.length) {
-    graph.push({
-      "@type": "FAQPage",
-      "@id": `${canonical}#faq`,
-      "mainEntity": faqs.map((f) => ({
-        "@type": "Question",
-        "name": f.question,
-        acceptedAnswer: { "@type": "Answer", "text": f.answer }
-      }))
-    });
-  }
   return { "@context": "https://schema.org", "@graph": graph };
 }
 

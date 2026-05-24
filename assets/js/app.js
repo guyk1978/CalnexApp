@@ -50,6 +50,23 @@
     return '<svg class="cn-theme-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
   };
 
+  const initHeaderChart = () => {
+    document.querySelectorAll(".site-header .brand").forEach((brand) => {
+      if (brand.querySelector(".header-chart-mini")) return;
+      const chart = document.createElement("span");
+      chart.className = "header-chart-mini";
+      chart.setAttribute("aria-hidden", "true");
+      chart.title = "CalnexApp Analytics";
+      chart.innerHTML = `
+        <span class="header-chart-mini__bar"></span>
+        <span class="header-chart-mini__bar"></span>
+        <span class="header-chart-mini__bar"></span>
+        <span class="header-chart-mini__bar"></span>
+      `;
+      brand.appendChild(chart);
+    });
+  };
+
   const initThemeToggle = () => {
     const nav = document.querySelector(".site-header .nav");
     const brand = nav?.querySelector(".brand");
@@ -350,6 +367,7 @@
     }
   };
 
+  initHeaderChart();
   initThemeToggle();
   markActiveNav();
   initMobileMenu();

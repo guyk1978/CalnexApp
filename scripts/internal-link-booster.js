@@ -158,7 +158,15 @@ const buildLatestPage = (title, description, items, type) => `<!doctype html>
   <body>
     <header class="site-header">
       <div class="container nav">
-        <a href="/" class="brand">CalnexApp</a>
+        <a href="/" class="brand">
+          CalnexApp
+          <span class="header-chart-mini" aria-hidden="true" title="CalnexApp Analytics">
+            <span class="header-chart-mini__bar"></span>
+            <span class="header-chart-mini__bar"></span>
+            <span class="header-chart-mini__bar"></span>
+            <span class="header-chart-mini__bar"></span>
+          </span>
+        </a>
         <nav class="menu">
           <a href="/" data-nav-link>Home</a>
           <a href="/tools/" data-nav-link>Tools</a>
@@ -229,7 +237,7 @@ const run = () => {
     <link rel="stylesheet" href="/assets/css/style.css" />
   </head>
   <body>
-    <header class="site-header"><div class="container nav"><a href="/" class="brand">CalnexApp</a></div></header>
+    <header class="site-header"><div class="container nav"><a href="/" class="brand">CalnexApp<span class="header-chart-mini" aria-hidden="true" title="CalnexApp Analytics"><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span></span></a></div></header>
     <main class="container section-space">
       <section class="page-title"><p class="eyebrow">Tools</p><h1>All Financial Tools</h1><p>Explore calculators and latest updates.</p></section>
     </main>

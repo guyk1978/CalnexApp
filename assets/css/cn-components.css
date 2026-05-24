@@ -60,6 +60,63 @@
   pointer-events: none;
 }
 
+/* Header brand — mini financial chart */
+.header-chart-mini {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  width: 16px;
+  height: 12px;
+  margin-left: 8px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.header-chart-mini__bar {
+  width: 2.5px;
+  height: 100%;
+  border-radius: 0.5px;
+  transform-origin: bottom;
+  animation: cn-bar-bounce 1.2s infinite ease-in-out;
+}
+
+.header-chart-mini__bar:nth-child(1) {
+  background-color: var(--cn-chart-1);
+  animation-delay: 0.1s;
+}
+
+.header-chart-mini__bar:nth-child(2) {
+  background-color: var(--cn-accent-hover);
+  animation-delay: 0.4s;
+}
+
+.header-chart-mini__bar:nth-child(3) {
+  background-color: var(--cn-accent-pressed);
+  animation-delay: 0.2s;
+}
+
+.header-chart-mini__bar:nth-child(4) {
+  background-color: color-mix(in srgb, var(--cn-chart-1) 55%, var(--cn-text-secondary));
+  animation-delay: 0.6s;
+}
+
+@keyframes cn-bar-bounce {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-chart-mini__bar {
+    animation: none;
+    transform: scaleY(0.65);
+  }
+}
+
 /* Hero (marketing) */
 .cn-hero {
   position: relative;

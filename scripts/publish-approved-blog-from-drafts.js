@@ -418,22 +418,8 @@ function faqSectionHtml(faq) {
       </section>`;
 }
 
-function faqJsonLd(faq) {
-  if (!Array.isArray(faq) || !faq.length) return "";
-
-  const mainEntity = faq
-    .filter((f) => f && f.question)
-    .map((f) => ({
-      "@type": "Question",
-      name: f.question,
-      acceptedAnswer: { "@type": "Answer", text: f.answer || "" }
-    }));
-
-  if (!mainEntity.length) return "";
-
-  return `<script type="application/ld+json">
-${JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity }, null, 2)}
-    </script>`;
+function faqJsonLd(_faq) {
+  return "";
 }
 
 // ---------------------------------------------------------------------------
@@ -515,7 +501,15 @@ ${JSON.stringify(
   <body>
     <header class="site-header">
       <div class="container nav">
-        <a href="/" class="brand">CalnexApp</a>
+        <a href="/" class="brand">
+          CalnexApp
+          <span class="header-chart-mini" aria-hidden="true" title="CalnexApp Analytics">
+            <span class="header-chart-mini__bar"></span>
+            <span class="header-chart-mini__bar"></span>
+            <span class="header-chart-mini__bar"></span>
+            <span class="header-chart-mini__bar"></span>
+          </span>
+        </a>
         <nav class="menu">
           <a href="/" data-nav-link>Home</a>
           <a href="/tools/loan-calculator/" data-nav-link>Tools</a>

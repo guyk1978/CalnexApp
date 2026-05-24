@@ -13,38 +13,7 @@
     <meta property="og:url" content="{{canonical_url}}" />
     <meta property="og:site_name" content="CalnexApp" />
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is the monthly payment for a {{loan_amount}} loan at {{interest_rate}}% over {{loan_term}} years?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The estimated monthly payment is {{monthly_payment}} based on a fixed-rate repayment model."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How much interest will be paid over the full term?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Estimated total interest is {{total_interest}} over {{loan_term}} years."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I change assumptions like extra payments or term?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Use the CalnexApp Loan Calculator to customize loan amount, rate, term, and extra payment strategies."
-            }
-          }
-        ]
-      }
-    </script>
+    
       <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
 <script>
@@ -57,7 +26,15 @@
   <body>
     <header class="site-header">
       <div class="container nav">
-        <a href="/" class="brand">CalnexApp</a>
+        <a href="/" class="brand">
+      CalnexApp
+      <span class="header-chart-mini" aria-hidden="true" title="CalnexApp Analytics">
+        <span class="header-chart-mini__bar"></span>
+        <span class="header-chart-mini__bar"></span>
+        <span class="header-chart-mini__bar"></span>
+        <span class="header-chart-mini__bar"></span>
+      </span>
+    </a>
         <nav class="menu">
           <a href="/" data-nav-link>Home</a>
           <a href="/tools/" data-nav-link>Tools</a>

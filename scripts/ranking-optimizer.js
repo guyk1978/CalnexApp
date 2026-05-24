@@ -128,30 +128,8 @@ const run = () => {
         </ul>
       </section>
       <!-- RANK_BLOG_TOOLS_END -->`;
-      const faqSchema = `
-    <!-- RANK_BLOG_FAQ_SCHEMA_START -->
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How can I use this guide to improve loan decisions?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Use the guide with calculator scenarios and compare total interest outcomes." }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I compare this topic across loan types?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Cross-compare mortgage, personal, and auto loan assumptions." }
-    }
-  ]
-}
-    </script>
-    <!-- RANK_BLOG_FAQ_SCHEMA_END -->`;
       html = injectSection(html, "<!-- RANK_BLOG_CTA_START -->", "<!-- RANK_BLOG_CTA_END -->", ctaBlock);
       html = injectSection(html, "<!-- RANK_BLOG_TOOLS_START -->", "<!-- RANK_BLOG_TOOLS_END -->", linksBlock);
-      html = injectHeadSection(html, "<!-- RANK_BLOG_FAQ_SCHEMA_START -->", "<!-- RANK_BLOG_FAQ_SCHEMA_END -->", faqSchema);
     }
 
     if (entry.type === "seo") {

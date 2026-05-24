@@ -1,31 +1,41 @@
 {
-  "name": "calnexapp",
-  "private": true,
   "scripts": {
     "test": "node --test tests/financial-core.test.cjs",
+
     "seo-draft-server": "node scripts/seo-draft-persist-server.js",
+
     "generate-sitemap": "node scripts/generate-sitemap.js",
+
     "seo:build": "node scripts/seo-engine.js",
     "links:boost": "node scripts/internal-link-booster.js",
     "build:blog-index": "node scripts/internal-link-booster.js",
-    "sitemap:ping": "node scripts/ping-sitemap.js",
+
     "keywords:expand": "node scripts/keyword-expander.js",
     "intent:classify": "node scripts/intent-classifier.js",
     "serp:gap": "node scripts/serp-gap-analyzer.js",
     "rank:optimize": "node scripts/ranking-optimizer.js",
     "pages:expand": "node scripts/page-expander.js",
+
     "guides:generate": "node scripts/generate-loan-scenario-guides.mjs",
     "guides:validate": "node scripts/validate-loan-scenario-guides.mjs",
+
     "seo:scale": "npm run keywords:expand && npm run pages:expand",
+
     "ranking:build": "npm run intent:classify && npm run serp:gap && npm run rank:optimize",
+
     "publish-approved-blog": "node scripts/publish-approved-blog-from-drafts.js",
+
     "redirects:blog": "node scripts/sync-blog-redirects.js",
+
     "validate:redirects": "node scripts/validate-redirects.js",
     "validate:blog": "node scripts/validate-blog-integrity.js",
     "validate:blog:probe": "node scripts/validate-blog-integrity.js --probe",
+
     "simulate:routes": "node scripts/simulate-blog-routes.js",
     "simulate:routes:all": "node scripts/simulate-blog-routes.js --all",
-    "build": "npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run generate-sitemap && npm run sitemap:ping && npm run validate:redirects",
-    "patch:html-head": "node scripts/patch-html-head.mjs"
+
+    "patch:html-head": "node scripts/patch-html-head.mjs",
+
+    "build": "npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run generate-sitemap && npm run validate:redirects"
   }
 }

@@ -249,15 +249,6 @@ const buildSchemaGraph = (meta, s, config, faqs) => {
           { "@type": "ListItem", position: 2, name: "Tools", item: `${config.siteUrl}/tools/` },
           { "@type": "ListItem", position: 3, name: meta.h1.slice(0, 60), item: meta.legacyUrl }
         ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": `${meta.legacyUrl}#faq`,
-        mainEntity: faqs.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a }
-        }))
       }
     ]
   };
@@ -416,7 +407,7 @@ const renderGuidePage = (entry, options = {}) => {
 </head>
 <body>
   <header class="site-header"><div class="container nav">
-    <a href="/" class="brand">CalnexApp</a>
+    <a href="/" class="brand">CalnexApp<span class="header-chart-mini" aria-hidden="true" title="CalnexApp Analytics"><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span></span></a>
     <nav class="menu"><a href="/" data-nav-link>Home</a><a href="/tools/" data-nav-link>Tools</a><a href="/blog/" data-nav-link>Blog</a><a href="/about/" data-nav-link>About</a><a href="/contact/" data-nav-link>Contact</a></nav>
   </div></header>
   <main class="container section-space article-layout">
