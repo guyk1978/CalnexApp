@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-21T09:28:43.537Z",
+  "generated_at": "2026-05-21T09:37:27.482Z",
   "summary": {
     "total_pages": 66,
     "pages_need_improvement": 3,
@@ -414,7 +414,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 25,
-        "content_depth_words": 390,
+        "content_depth_words": 396,
         "intent_match_score": 100
       },
       "ranking_score": 86
@@ -476,7 +476,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 25,
-        "content_depth_words": 390,
+        "content_depth_words": 396,
         "intent_match_score": 100
       },
       "ranking_score": 86
