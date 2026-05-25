@@ -367,8 +367,20 @@
     }
   };
 
+  const initSiteSearch = async () => {
+    try {
+      await ensureScriptLoaded("/assets/js/site-search.js");
+      if (window.CalnexSiteSearch?.init) {
+        await window.CalnexSiteSearch.init();
+      }
+    } catch (err) {
+      console.warn("[CalnexApp] Site search init failed", err);
+    }
+  };
+
   initHeaderChart();
   initThemeToggle();
+  initSiteSearch();
   markActiveNav();
   initMobileMenu();
   renderRelatedTools();
