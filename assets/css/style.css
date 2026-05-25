@@ -1,6 +1,7 @@
 @import url("./tokens.css");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @import url("./cn-components.css");
+@import url("./header-wide.css");
 @import url("./site-search.css");
 
 .sr-only {
@@ -58,9 +59,6 @@ a {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(12px) saturate(160%);
-  border-bottom: 1px solid var(--border);
 }
 
 .nav {

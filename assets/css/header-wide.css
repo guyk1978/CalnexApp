@@ -1,0 +1,101 @@
+/**
+ * Wide header layout — full-bleed bar, spacious inner track.
+ * Layout and color only; does not alter header contents or behavior.
+ */
+
+.site-header {
+  width: 100%;
+  max-width: none;
+  background: #161b26;
+  border-bottom: 1px solid var(--cn-border-subtle);
+}
+
+html[data-theme="light"] .site-header {
+  background: #f1f5f9;
+  border-bottom-color: rgba(15, 23, 42, 0.1);
+}
+
+.site-header > .container,
+.site-header .container.nav {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 60px;
+  padding-right: 60px;
+  box-sizing: border-box;
+}
+
+.site-header .nav {
+  gap: 30px;
+  min-height: 72px;
+}
+
+.site-header .menu {
+  gap: 30px;
+}
+
+.site-header .cn-header-actions {
+  gap: 30px;
+  margin-right: 0;
+}
+
+.site-header .currency-selector-wrap,
+.site-header .country-selector-wrap {
+  gap: 0.65rem;
+}
+
+@media (max-width: 1200px) {
+  .site-header > .container,
+  .site-header .container.nav {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .site-header .nav {
+    gap: 24px;
+  }
+
+  .site-header .menu,
+  .site-header .cn-header-actions {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header > .container,
+  .site-header .container.nav {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .site-header .nav {
+    gap: 18px;
+  }
+
+  .site-header .menu,
+  .site-header .cn-header-actions {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header > .container,
+  .site-header .container.nav {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .site-header .nav {
+    gap: 0.75rem;
+    min-height: 56px;
+  }
+
+  .site-header .menu {
+    gap: 0.4rem;
+  }
+
+  .site-header .cn-header-actions {
+    gap: var(--cn-space-3);
+  }
+}
