@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-26T06:08:10.667Z",
+  "generated_at": "2026-05-26T06:17:51.541Z",
   "summary": {
     "total_pages": 67,
     "pages_need_improvement": 3,
@@ -63,11 +63,11 @@
       "title": "Rent vs. Buy Calculator",
       "metrics": {
         "keyword_coverage": 60,
-        "internal_links_count": 21,
-        "content_depth_words": 336,
+        "internal_links_count": 23,
+        "content_depth_words": 389,
         "intent_match_score": 65
       },
-      "ranking_score": 65
+      "ranking_score": 67
     },
     {
       "url": "/tools/car-loan-calculator/",
@@ -612,6 +612,18 @@
         "intent_match_score": 65
       },
       "ranking_score": 69
+    },
+    {
+      "url": "/tools/rent-vs-buy/",
+      "type": "tool",
+      "title": "Rent vs. Buy Calculator",
+      "metrics": {
+        "keyword_coverage": 60,
+        "internal_links_count": 23,
+        "content_depth_words": 389,
+        "intent_match_score": 65
+      },
+      "ranking_score": 67
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/",
@@ -1212,18 +1224,6 @@
         "intent_match_score": 100
       },
       "ranking_score": 66
-    },
-    {
-      "url": "/tools/rent-vs-buy/",
-      "type": "tool",
-      "title": "Rent vs. Buy Calculator",
-      "metrics": {
-        "keyword_coverage": 60,
-        "internal_links_count": 21,
-        "content_depth_words": 336,
-        "intent_match_score": 65
-      },
-      "ranking_score": 65
     },
     {
       "url": "/blog/how-to-negotiate-car-loan/",

@@ -630,11 +630,29 @@ input[type="range"] {
   gap: 0.6rem;
 }
 
-.schedule-table-wrap {
+.schedule-table-wrap,
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
   margin-top: 1rem;
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--border);
   border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--cn-border-strong) transparent;
+}
+
+.schedule-table-wrap::-webkit-scrollbar,
+.table-wrap::-webkit-scrollbar {
+  height: 6px;
+}
+
+.schedule-table-wrap::-webkit-scrollbar-thumb,
+.table-wrap::-webkit-scrollbar-thumb {
+  background: var(--cn-border-strong);
+  border-radius: 999px;
 }
 
 .schedule-table {
@@ -642,6 +660,10 @@ input[type="range"] {
   min-width: 760px;
   border-collapse: collapse;
   background: var(--cn-surface-solid);
+}
+
+.schedule-table.cn-rvb-trajectory-table {
+  min-width: 600px;
 }
 
 .schedule-table th,

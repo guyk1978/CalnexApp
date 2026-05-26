@@ -536,6 +536,8 @@
   position: sticky;
   top: calc(4.5rem + env(safe-area-inset-top, 0px));
   align-self: start;
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (max-width: 959px) {

@@ -149,32 +149,35 @@ export function ResultsPanel({ result }: ResultsPanelProps) {
         </div>
       ) : null}
 
-      <div className={styles.tableWrap}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th scope="col">Year</th>
-              <th scope="col">Rent net worth</th>
-              <th scope="col">Buy net worth</th>
-              <th scope="col">Home equity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visibleRows.map((row) => (
-              <tr
-                key={row.year}
-                className={
-                  row.year === breakEvenYear || row.year === horizonYear ? styles.highlight : undefined
-                }
-              >
-                <td>{row.year}</td>
-                <td>{formatMoney(row.renterNetWorth)}</td>
-                <td>{formatMoney(row.buyerNetWorth)}</td>
-                <td>{formatMoney(row.homeEquity)}</td>
+      <div className={styles.tableSection}>
+        <h3 className={styles.tableSectionTitle}>Yearly net worth trajectory</h3>
+        <div className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th scope="col">Year</th>
+                <th scope="col">Rent net worth</th>
+                <th scope="col">Buy net worth</th>
+                <th scope="col">Home equity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {visibleRows.map((row) => (
+                <tr
+                  key={row.year}
+                  className={
+                    row.year === breakEvenYear || row.year === horizonYear ? styles.highlight : undefined
+                  }
+                >
+                  <td>{row.year}</td>
+                  <td>{formatMoney(row.renterNetWorth)}</td>
+                  <td>{formatMoney(row.buyerNetWorth)}</td>
+                  <td>{formatMoney(row.homeEquity)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </aside>
   );
