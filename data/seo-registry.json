@@ -14,6 +14,13 @@
     "keywords": ["mortgage", "home loan", "monthly payment", "interest"]
   },
   {
+    "url": "/tools/rent-vs-buy/",
+    "type": "tool",
+    "title": "Rent vs. Buy Calculator",
+    "category": "tools",
+    "keywords": ["rent vs buy", "home buying", "renting", "break even", "housing"]
+  },
+  {
     "url": "/tools/car-loan-calculator/",
     "type": "tool",
     "title": "Car Loan Calculator",

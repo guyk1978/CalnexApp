@@ -57,6 +57,30 @@ describe("FinancialCore deterministic outputs", () => {
     assert.ok(f.monthlyMortgagePayment > f.monthlyPrincipalInterest);
   });
 
+  test("rent vs buy snapshot produces timeline and break-even", () => {
+    const r = FC.computeRentVsBuySnapshot({
+      monthlyRent: 1200,
+      rentInsurance: 15,
+      annualRentIncreasePct: 3,
+      investmentReturnPct: 7,
+      homePrice: 350_000,
+      downPaymentPct: 20,
+      interestRatePct: 6.5,
+      loanTermYears: 30,
+      propertyTaxPct: 1.2,
+      maintenancePct: 1,
+      annualAppreciationPct: 3,
+      horizonYears: 15
+    });
+    assert.equal(r.timeline.length, 30);
+    assert.equal(r.downPayment, 70_000);
+    assert.equal(r.loanAmount, 280_000);
+    assert.ok(r.monthlyMortgagePayment > 1500);
+    assert.ok(typeof r.breakEvenYear === "number" || r.breakEvenYear === null);
+    assert.ok(r.rentNetWorthAtHorizon !== undefined);
+    assert.ok(r.buyNetWorthAtHorizon !== undefined);
+  });
+
   test("retirement FV increases with horizon and matches toolkit", () => {
     const fv10 = FC.calculateReferenceRetirement({
       initial: 10_000,

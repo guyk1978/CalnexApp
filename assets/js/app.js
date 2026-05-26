@@ -150,6 +150,7 @@
       });
 
       dropdown.addEventListener("focusout", (event) => {
+        if (window.innerWidth > 768) return;
         if (!dropdown.contains(event.relatedTarget)) setOpen(false);
       });
 

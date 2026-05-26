@@ -1,0 +1,7 @@
+{
+  "housing": { "label": "Housing", "order": 1 },
+  "lending": { "label": "Loans & credit", "order": 2 },
+  "auto": { "label": "Auto", "order": 3 },
+  "growth": { "label": "Interest & growth", "order": 4 },
+  "planning": { "label": "Retirement & planning", "order": 5 }
+}

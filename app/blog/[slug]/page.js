@@ -1,4 +1,4 @@
-import posts from "../../../../data/blog.json";
+import posts from "../../../data/blog.json";
 
 export async function generateStaticParams() {
   return posts.map(post => ({

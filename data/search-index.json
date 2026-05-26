@@ -32,31 +32,43 @@
   {
     "title": "Car Loan Calculator",
     "category": "Tools",
-    "description": "Compare vehicle financing scenarios before committing.",
+    "description": "Auto financing with affordability bands, term comparisons, and total cost of ownership signals.",
+    "keywords": "car loan auto vehicle dealer financing monthly payment",
     "url": "/tools/car-loan-calculator/"
   },
   {
     "title": "Interest Calculator",
     "category": "Tools",
-    "description": "Explore simple and compound growth over time.",
+    "description": "Simple vs compound interest—model savings growth or the cost of carrying a balance.",
+    "keywords": "interest compound savings growth apr",
     "url": "/tools/interest-calculator/"
   },
   {
     "title": "Loan Calculator",
     "category": "Tools",
-    "description": "Calculate monthly payment, interest, and total repayment.",
+    "description": "Installment loans: monthly payment, total interest, payoff date, and amortization with optional extra payments.",
+    "keywords": "loan personal loan amortization monthly payment interest payoff",
     "url": "/tools/loan-calculator/"
   },
   {
     "title": "Mortgage Calculator",
     "category": "Tools",
-    "description": "Estimate mortgage repayments and long-term borrowing costs.",
+    "description": "Home loans with escrow, affordability signals, 15 vs 30 year comparison, and full amortization.",
+    "keywords": "mortgage home loan house housing pmi escrow monthly payment",
     "url": "/tools/mortgage-calculator/"
+  },
+  {
+    "title": "Rent vs. Buy Calculator",
+    "category": "Tools",
+    "description": "Compare the long-term net worth of renting vs. buying a home. Factor in mortgage rates, property appreciation, inflation, and investment opportunity costs.",
+    "keywords": "rent buy rent vs buy housing home break even appreciation opportunity cost renter homeowner",
+    "url": "/tools/rent-vs-buy/"
   },
   {
     "title": "Retirement Calculator",
     "category": "Tools",
-    "description": "Project retirement balance, funding gap, and readiness.",
+    "description": "Contribution-led retirement projections with inflation-adjusted goals and funding gap readouts.",
+    "keywords": "retirement 401k nest egg savings pension",
     "url": "/tools/retirement-calculator/"
   },
   {

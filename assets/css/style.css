@@ -83,13 +83,21 @@ a {
   gap: 0.9rem;
 }
 
-.menu a {
+.menu > a,
+.menu > .cn-nav-dropdown > .cn-nav-dropdown__trigger {
   color: var(--muted);
   font-weight: 500;
 }
 
-.menu a[aria-current="page"] {
+.menu > a[aria-current="page"],
+.menu > .cn-nav-dropdown > .cn-nav-dropdown__trigger[aria-current="page"] {
   color: var(--primary);
+}
+
+/* Keep dropdown panel out of the horizontal flex row */
+.menu > .cn-nav-dropdown {
+  position: relative;
+  align-self: center;
 }
 
 .mobile-menu-toggle {
@@ -963,7 +971,8 @@ input[type="range"] {
     display: flex;
   }
 
-  .menu a {
+  .menu > a,
+  .menu > .cn-nav-dropdown > .cn-nav-dropdown__trigger {
     display: block;
     padding: 0.58rem 0.2rem;
     font-size: 0.95rem;

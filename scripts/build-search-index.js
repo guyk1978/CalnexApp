@@ -45,7 +45,8 @@ const staticPages = [
 const tools = readJson("data/tools.json").map((tool) => ({
   title: tool.name,
   category: "Tools",
-  description: tool.description,
+  description: tool.hubDescription || tool.description,
+  keywords: Array.isArray(tool.keywords) ? tool.keywords.join(" ") : "",
   url: tool.path,
 }));
 

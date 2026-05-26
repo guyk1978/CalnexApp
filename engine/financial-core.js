@@ -561,6 +561,154 @@ const FinancialCore = (() => {
       };
     });
 
+  const buildRentVsBuyLoanSchedule = (principal, annualRatePct, termMonths) => {
+    const P = clampNonNeg(principal);
+    const n = Math.max(0, Math.round(termMonths));
+    const monthlyRate = clampNonNeg(annualRatePct) / 100 / 12;
+    let monthlyPayment = 0;
+    if (P > 0 && n > 0) {
+      if (monthlyRate <= 0) monthlyPayment = P / n;
+      else {
+        const pow = (1 + monthlyRate) ** n;
+        monthlyPayment = (P * monthlyRate * pow) / (pow - 1);
+      }
+    }
+    const balanceAfterMonth = [];
+    let balance = P;
+    for (let month = 1; month <= n; month += 1) {
+      const interest = balance * monthlyRate;
+      const principalPaid = Math.min(balance, monthlyPayment - interest);
+      balance = Math.max(0, balance - principalPaid);
+      balanceAfterMonth.push(balance);
+    }
+    return { monthlyPayment, balanceAfterMonth };
+  };
+
+  const loanBalanceAtYearRentBuy = (balanceAfterMonth, year, termMonths) => {
+    const monthsElapsed = year * 12;
+    if (monthsElapsed >= termMonths) return 0;
+    return balanceAfterMonth[monthsElapsed - 1] ?? 0;
+  };
+
+  const computeRentVsBuySnapshot = (raw) =>
+    cacheGetOrSet("computeRentVsBuySnapshot", raw, () => {
+      const MAX_YEARS = 30;
+      const homePrice = clampNonNeg(raw.homePrice);
+      const downPaymentPct = clampNonNeg(raw.downPaymentPct);
+      const downPayment = (homePrice * downPaymentPct) / 100;
+      const loanAmount = Math.max(0, homePrice - downPayment);
+      const termMonths = Math.max(0, Math.round(clampNonNeg(raw.loanTermYears) * 12));
+      const horizonYear = Math.min(
+        MAX_YEARS,
+        Math.max(1, Math.round(clampNonNeg(raw.horizonYears)) || 1)
+      );
+
+      const monthlyRent = clampNonNeg(raw.monthlyRent);
+      const rentInsurance = clampNonNeg(raw.rentInsurance);
+      const annualRentIncreasePct = clampNonNeg(raw.annualRentIncreasePct);
+      const investmentReturnPct = clampNonNeg(raw.investmentReturnPct);
+      const interestRatePct = clampNonNeg(raw.interestRatePct);
+      const propertyTaxPct = clampNonNeg(raw.propertyTaxPct);
+      const maintenancePct = clampNonNeg(raw.maintenancePct);
+      const annualAppreciationPct = clampNonNeg(raw.annualAppreciationPct);
+
+      const investRate = investmentReturnPct / 100;
+      const rentGrowth = annualRentIncreasePct / 100;
+      const appreciation = annualAppreciationPct / 100;
+
+      const { monthlyPayment, balanceAfterMonth } = buildRentVsBuyLoanSchedule(
+        loanAmount,
+        interestRatePct,
+        termMonths
+      );
+
+      const timeline = [];
+      let cumulativeRentPaid = 0;
+      let cumulativeBuyCashOut = downPayment;
+      let breakEvenYear = null;
+
+      for (let year = 1; year <= MAX_YEARS; year += 1) {
+        const rentMultiplier = (1 + rentGrowth) ** (year - 1);
+        const annualRent = monthlyRent * 12 * rentMultiplier + rentInsurance * 12 * rentMultiplier;
+        cumulativeRentPaid += annualRent;
+
+        const renterInvestmentValue = downPayment * (1 + investRate) ** year;
+        const renterNetWorth = renterInvestmentValue - cumulativeRentPaid;
+
+        const homeValue = homePrice * (1 + appreciation) ** year;
+        const loanBalance = loanBalanceAtYearRentBuy(balanceAfterMonth, year, termMonths);
+        const homeEquity = homeValue - loanBalance;
+
+        const monthsRemaining = Math.max(0, termMonths - (year - 1) * 12);
+        const monthsThisYear = Math.min(12, monthsRemaining);
+        const annualMortgage = monthlyPayment * monthsThisYear;
+        const annualTax = (homeValue * propertyTaxPct) / 100;
+        const annualMaintenance = (homeValue * maintenancePct) / 100;
+        const annualBuyCosts = annualMortgage + annualTax + annualMaintenance;
+        cumulativeBuyCashOut += annualBuyCosts;
+
+        const buyerNetWorth = homeEquity;
+
+        timeline.push({
+          year,
+          cumulativeRentPaid,
+          renterInvestmentValue,
+          renterNetWorth,
+          homeValue,
+          loanBalance,
+          homeEquity,
+          cumulativeBuyCashOut,
+          buyerNetWorth,
+          annualRent,
+          annualBuyCosts
+        });
+
+        if (breakEvenYear === null && buyerNetWorth > renterNetWorth) {
+          breakEvenYear = year;
+        }
+      }
+
+      const rowAtHorizon = timeline[horizonYear - 1] || timeline[0];
+      const rentNetWorthAtHorizon = rowAtHorizon?.renterNetWorth ?? 0;
+      const buyNetWorthAtHorizon = rowAtHorizon?.buyerNetWorth ?? 0;
+      const diff = buyNetWorthAtHorizon - rentNetWorthAtHorizon;
+      let winnerAtHorizon = "tie";
+      if (Math.abs(diff) > 1) winnerAtHorizon = diff > 0 ? "buy" : "rent";
+
+      let rvb_banner_title = "Adjust inputs to compare rent vs buy";
+      let rvb_banner_detail = "";
+      if (breakEvenYear === null) {
+        if (winnerAtHorizon === "rent") {
+          rvb_banner_title = `Renting stays ahead through ${horizonYear} years`;
+        } else {
+          rvb_banner_title = "Buying is ahead from year one";
+        }
+      } else if (breakEvenYear <= horizonYear) {
+        rvb_banner_title = `Buying becomes more profitable after ${breakEvenYear} year${breakEvenYear === 1 ? "" : "s"}`;
+        rvb_banner_detail = `Break-even at year ${breakEvenYear}.`;
+      } else {
+        rvb_banner_title = `Renting stays ahead through ${horizonYear} years`;
+        rvb_banner_detail = `Break-even would occur after year ${breakEvenYear}.`;
+      }
+
+      return {
+        timeline,
+        breakEvenYear,
+        winnerAtHorizon,
+        horizonYear,
+        rentNetWorthAtHorizon,
+        buyNetWorthAtHorizon,
+        downPayment,
+        loanAmount,
+        monthlyMortgagePayment: monthlyPayment,
+        rvb_banner_title,
+        rvb_banner_detail,
+        rvb_rent_net_worth: rentNetWorthAtHorizon,
+        rvb_buy_net_worth: buyNetWorthAtHorizon,
+        rvb_break_even_year: breakEvenYear != null ? String(breakEvenYear) : "—"
+      };
+    });
+
   const computeCarLoanSnapshot = (raw) =>
     cacheGetOrSet("computeCarLoanSnapshot", raw, () => {
       const carPrice = clampNonNeg(raw.carPrice);
@@ -815,6 +963,7 @@ const FinancialCore = (() => {
     computeRetirementToolkit,
     computeLoanSnapshot,
     computeMortgageSnapshot,
+    computeRentVsBuySnapshot,
     computeCarLoanSnapshot,
     computeDashboardFinancialSlice,
     buildScenarioTimelineSeries,

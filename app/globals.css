@@ -1,0 +1,157 @@
+/**
+ * CalnexApp design tokens — dark-first (mirrors assets/css/tokens.css)
+ */
+:root {
+  color-scheme: dark;
+
+  --cn-bg-app: #0b0f14;
+  --cn-bg-elevated: #0f141b;
+  --cn-bg-muted: #121826;
+  --cn-bg-subtle: rgba(255, 255, 255, 0.03);
+  --cn-bg-tint-blue: rgba(91, 140, 255, 0.08);
+  --cn-bg-tint-green: rgba(62, 224, 143, 0.1);
+
+  --cn-surface-solid: #141a24;
+  --cn-border-subtle: rgba(255, 255, 255, 0.08);
+  --cn-border-strong: rgba(255, 255, 255, 0.14);
+  --cn-border-focus: #5b8cff;
+
+  --cn-text-primary: #e7eef8;
+  --cn-text-secondary: #9aa7b8;
+  --cn-text-tertiary: #7c8a9e;
+
+  --cn-accent: #5b8cff;
+  --cn-accent-muted: rgba(91, 140, 255, 0.18);
+
+  --cn-success: #3ee08f;
+  --cn-chart-1: #5b8cff;
+  --cn-chart-3: #3ee08f;
+  --cn-chart-track: rgba(255, 255, 255, 0.1);
+
+  --cn-shadow-xs: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 4px 14px rgba(0, 0, 0, 0.35);
+  --cn-shadow-ring: 0 0 0 3px rgba(91, 140, 255, 0.18);
+
+  --cn-radius-sm: 10px;
+  --cn-radius-md: 14px;
+  --cn-radius-pill: 999px;
+
+  --cn-space-2: 0.5rem;
+  --cn-space-3: 0.75rem;
+  --cn-space-4: 1rem;
+  --cn-space-5: 1.25rem;
+
+  --cn-text-xs: 0.75rem;
+  --cn-text-sm: 0.875rem;
+  --cn-text-md: 1rem;
+
+  --cn-leading-snug: 1.45;
+  --cn-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --cn-motion-base: 0.2s;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--cn-text-primary);
+  background: var(--cn-bg-app);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--cn-accent);
+}
+
+.muted {
+  color: var(--cn-text-secondary);
+}
+
+.eyebrow {
+  margin: 0 0 var(--cn-space-2);
+  font-size: var(--cn-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cn-accent);
+}
+
+.page-title h1 {
+  margin: 0 0 var(--cn-space-3);
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.container {
+  width: min(1120px, 100% - 2rem);
+  margin-inline: auto;
+}
+
+.section-space {
+  padding-block: var(--cn-space-5);
+}
+
+.content-section {
+  margin-top: 2.5rem;
+  padding: var(--cn-space-5);
+  border-radius: var(--cn-radius-md);
+  border: 1px solid var(--cn-border-subtle);
+  background: var(--cn-bg-elevated);
+}
+
+.content-section h2 {
+  margin: 0 0 var(--cn-space-4);
+  font-size: 1.2rem;
+}
+
+.content-section h3 {
+  margin: var(--cn-space-4) 0 var(--cn-space-2);
+  font-size: 1rem;
+}
+
+.content-section p,
+.content-section li {
+  color: var(--cn-text-secondary);
+  line-height: 1.6;
+}
+
+.content-section ul {
+  padding-left: 1.25rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 960px) {
+  .cn-tools-grid-static {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--cn-space-4);
+  }
+}

@@ -58,9 +58,10 @@
       if (typeof Fuse !== "undefined") {
         fuse = new Fuse(index, {
           keys: [
-            { name: "title", weight: 0.55 },
-            { name: "description", weight: 0.3 },
-            { name: "category", weight: 0.15 },
+            { name: "title", weight: 0.5 },
+            { name: "description", weight: 0.28 },
+            { name: "keywords", weight: 0.22 },
+            { name: "category", weight: 0.12 },
           ],
           threshold: 0.38,
           ignoreLocation: true,

@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/assets/js/theme-init.js"></script>
+    <title>Rent vs. Buy Calculator — Long-Term Housing Comparison | CalnexApp</title>
+    <meta
+      name="description"
+      content="Compare renting versus buying a home over 10–30 years. Factor in rent inflation, mortgage costs, taxes, maintenance, appreciation, and investment opportunity cost."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rent vs. Buy Calculator — Long-Term Housing Comparison | CalnexApp" />
+    <meta
+      property="og:description"
+      content="Model break-even timing and net worth when renting vs buying with CalnexApp's interactive calculator."
+    />
+    <meta property="og:url" content="https://calnexapp.com/tools/rent-vs-buy/" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <link rel="canonical" href="https://calnexapp.com/tools/rent-vs-buy/" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
+    </script>
+
+    <!-- SEO_ENGINE_SCHEMA_START -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rent vs. Buy Calculator",
+  "description": "Rent vs. Buy Calculator - CalnexApp",
+  "url": "https://calnexapp.com/tools/rent-vs-buy/",
+  "dateModified": "2026-05-26T06:01:37.452Z",
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://calnexapp.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "tools",
+        "item": "https://calnexapp.com/tools/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Rent vs. Buy Calculator",
+        "item": "https://calnexapp.com/tools/rent-vs-buy/"
+      }
+    ]
+  }
+}
+    </script>
+    <!-- SEO_ENGINE_SCHEMA_END -->
+  </head>
+  <body data-page="rent-vs-buy-calculator">
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu" id="siteMenu">
+          <a href="/" data-nav-link>Home</a>
+          <div class="cn-nav-dropdown">
+            <a href="/tools/" class="cn-nav-dropdown__trigger" data-nav-link aria-haspopup="true" aria-expanded="false" id="cnToolsNavTrigger">Tools</a>
+            <div class="cn-nav-dropdown__panel" role="menu" aria-labelledby="cnToolsNavTrigger">
+              <a href="/tools/" class="cn-nav-dropdown__hub" role="menuitem">All calculators</a>
+              <div class="cn-nav-dropdown__group">
+                <p class="cn-nav-dropdown__label">Housing</p>
+                <a href="/tools/mortgage-calculator/" class="cn-nav-dropdown__link" role="menuitem">Mortgage Calculator</a>
+                <a href="/tools/rent-vs-buy/" class="cn-nav-dropdown__link" role="menuitem">Rent vs. Buy Calculator</a>
+              </div>
+              <div class="cn-nav-dropdown__group">
+                <p class="cn-nav-dropdown__label">Loans &amp; credit</p>
+                <a href="/tools/loan-calculator/" class="cn-nav-dropdown__link" role="menuitem">Loan Calculator</a>
+              </div>
+              <div class="cn-nav-dropdown__group">
+                <p class="cn-nav-dropdown__label">Auto</p>
+                <a href="/tools/car-loan-calculator/" class="cn-nav-dropdown__link" role="menuitem">Car Loan Calculator</a>
+              </div>
+              <div class="cn-nav-dropdown__group">
+                <p class="cn-nav-dropdown__label">Interest &amp; growth</p>
+                <a href="/tools/interest-calculator/" class="cn-nav-dropdown__link" role="menuitem">Interest Calculator</a>
+              </div>
+              <div class="cn-nav-dropdown__group">
+                <p class="cn-nav-dropdown__label">Retirement &amp; planning</p>
+                <a href="/tools/retirement-calculator/" class="cn-nav-dropdown__link" role="menuitem">Retirement Calculator</a>
+              </div>
+            </div>
+          </div>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section-space">
+      <section class="page-title">
+        <p class="eyebrow">Housing</p>
+        <h1>Rent vs. buy calculator</h1>
+        <p class="muted">
+          Compare the long-term net worth of renting vs. buying a home. Factor in mortgage rates, property appreciation,
+          inflation, and investment opportunity costs—then see when buying pulls ahead.
+        </p>
+      </section>
+
+      <section class="card cn-feature-panel" aria-label="Why CalnexApp" style="margin-bottom: 1.25rem">
+        <h2 style="margin: 0 0 1rem; font-size: 1.1rem">Why people use this</h2>
+        <div class="cn-stat-row">
+          <div class="cn-stat">
+            <p class="cn-stat__label">Parallel paths</p>
+            <p class="cn-stat__value">Rent vs buy</p>
+          </div>
+          <div class="cn-stat">
+            <p class="cn-stat__label">Break-even</p>
+            <p class="cn-stat__value">Year-by-year</p>
+          </div>
+          <div class="cn-stat">
+            <p class="cn-stat__label">Opportunity cost</p>
+            <p class="cn-stat__value">Invested down payment</p>
+          </div>
+        </div>
+        <div class="cn-partner-mapdiagram" role="note" data-partner="mapdiagram">
+          <p>
+            Visualize your financial strategy. Draw out your business milestones and debt payoff workflows using
+            <strong>MapDiagram</strong>.
+          </p>
+          <a
+            class="cn-partner-mapdiagram__cta"
+            href="https://mapdiagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Map your workflow visually →</a
+          >
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>More tools</h2>
+        <div class="share-actions">
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Mortgage calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Loan calculator</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/rent-vs-buy/" href="/tools/rent-vs-buy/">Rent vs. buy</a>
+          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/" href="/tools/">All calculators</a>
+        </div>
+      </section>
+
+      <div class="cn-tool-shell">
+        <section class="calculator-layout cn-calculator-layout">
+          <form class="card input-card" id="rvb-form" aria-label="Rent vs buy calculator form">
+            <header class="cn-calc-form__head">
+              <h2 class="cn-calc-form__title">Scenario inputs</h2>
+              <p class="cn-calc-form__lede muted">Adjust rent, purchase, and macro assumptions—the results update as you type.</p>
+            </header>
+
+            <fieldset class="cn-calc-fieldset">
+              <legend class="cn-calc-fieldset__legend">Renting variables</legend>
+              <div class="field">
+                <label for="rvbMonthlyRent" data-currency-label="rvb_monthly_rent">Monthly rent</label>
+                <div class="input-with-prefix">
+                  <span data-currency-symbol>¤</span>
+                  <input id="rvbMonthlyRent" name="rvbMonthlyRent" data-input-bind="rvb_monthly_rent" type="number" min="0" step="50" value="1200" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="rvbRentInsurance" data-currency-label="rvb_rent_insurance">Renter insurance (monthly)</label>
+                <div class="input-with-prefix">
+                  <span data-currency-symbol>¤</span>
+                  <input id="rvbRentInsurance" name="rvbRentInsurance" data-input-bind="rvb_rent_insurance" type="number" min="0" step="5" value="15" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="rvbRentIncrease">Expected annual rent increase (%)</label>
+                <input id="rvbRentIncrease" name="rvbRentIncrease" data-input-bind="rvb_rent_increase" type="number" min="0" max="20" step="0.1" value="3" />
+              </div>
+            </fieldset>
+
+            <fieldset class="cn-calc-fieldset">
+              <legend class="cn-calc-fieldset__legend">Buying variables</legend>
+              <div class="field">
+                <label for="rvbHomePrice" data-currency-label="rvb_home_price">Home price</label>
+                <div class="input-with-prefix">
+                  <span data-currency-symbol>¤</span>
+                  <input id="rvbHomePrice" name="rvbHomePrice" data-input-bind="rvb_home_price" type="number" min="0" step="5000" value="350000" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="rvbDownPaymentPct">Down payment (%)</label>
+                <input id="rvbDownPaymentPct" name="rvbDownPaymentPct" data-input-bind="rvb_down_payment_pct" type="number" min="0" max="100" step="0.5" value="20" />
+              </div>
+              <div class="field">
+                <label for="rvbInterestRate">Mortgage interest rate (% APR)</label>
+                <input id="rvbInterestRate" name="rvbInterestRate" data-input-bind="rvb_interest_rate" type="number" min="0" max="25" step="0.01" value="6.5" />
+              </div>
+              <div class="field">
+                <label for="rvbLoanTerm">Loan term (years)</label>
+                <input id="rvbLoanTerm" name="rvbLoanTerm" data-input-bind="rvb_loan_term" type="number" min="5" max="40" step="1" value="30" />
+              </div>
+              <div class="field">
+                <label for="rvbPropertyTaxPct">Property tax (% of home value / year)</label>
+                <input id="rvbPropertyTaxPct" name="rvbPropertyTaxPct" data-input-bind="rvb_property_tax_pct" type="number" min="0" max="10" step="0.1" value="1.2" />
+              </div>
+              <div class="field">
+                <label for="rvbMaintenancePct">Maintenance (% of home value / year)</label>
+                <input id="rvbMaintenancePct" name="rvbMaintenancePct" data-input-bind="rvb_maintenance_pct" type="number" min="0" max="10" step="0.1" value="1" />
+              </div>
+              <div class="field">
+                <label for="rvbAppreciation">Expected home appreciation (% / year)</label>
+                <input id="rvbAppreciation" name="rvbAppreciation" data-input-bind="rvb_appreciation" type="number" min="-5" max="20" step="0.1" value="3" />
+              </div>
+            </fieldset>
+
+            <fieldset class="cn-calc-fieldset">
+              <legend class="cn-calc-fieldset__legend">Macro variables</legend>
+              <div class="field">
+                <label for="rvbHorizon">Comparison timeline (years)</label>
+                <input id="rvbHorizon" name="rvbHorizon" data-input-bind="rvb_horizon" type="number" min="10" max="30" step="1" value="15" />
+              </div>
+              <div class="field">
+                <label for="rvbInvestmentReturn">Investment return if renting (% / year)</label>
+                <input id="rvbInvestmentReturn" name="rvbInvestmentReturn" data-input-bind="rvb_investment_return" type="number" min="0" max="20" step="0.1" value="7" />
+              </div>
+            </fieldset>
+          </form>
+
+          <aside class="card output-card cn-tool-rail" aria-live="polite">
+            <h2>Results</h2>
+            <div class="cn-output-highlight">
+              <h3 data-bind="rvb_banner_title" data-format="text" style="margin: 0 0 0.5rem; font-size: 1.1rem">
+                Adjust inputs to compare rent vs buy
+              </h3>
+              <p class="muted" style="margin: 0" data-bind="rvb_banner_detail" data-format="text"></p>
+            </div>
+
+            <div class="cn-metric-deck">
+              <dl class="result-grid">
+                <div>
+                  <dt>Net worth renting</dt>
+                  <dd data-bind="rvb_rent_net_worth" data-format="currency">0</dd>
+                </div>
+                <div>
+                  <dt>Net worth buying</dt>
+                  <dd data-bind="rvb_buy_net_worth" data-format="currency">0</dd>
+                </div>
+                <div>
+                  <dt>Break-even year</dt>
+                  <dd data-bind="rvb_break_even_year" data-format="text">—</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div id="rvbComparisonBars" class="cn-rvb-bars" aria-hidden="true"></div>
+
+            <div class="amortization-card">
+              <h3 style="margin: 0 0 0.75rem; font-size: 1rem">Yearly net worth trajectory</h3>
+              <div class="table-wrap">
+                <table class="schedule-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Year</th>
+                      <th scope="col">Rent net worth</th>
+                      <th scope="col">Buy net worth</th>
+                      <th scope="col">Home equity</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rvbTimelineBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </div>
+
+      <section class="card cn-trust-callout" aria-labelledby="rvb-how">
+        <h2 id="rvb-how" style="margin: 0 0 1rem; font-size: 1.15rem">How it works</h2>
+        <p class="muted" style="margin: 0 0 1rem">
+          Each year, we compare renter net worth (down payment invested minus cumulative rent) with buyer net worth (home
+          equity after appreciation and amortization). The break-even year is when buying first shows higher net worth.
+        </p>
+        <h3 style="font-size: 1rem; margin: 1rem 0 0.5rem">Factors considered</h3>
+        <ul class="muted" style="line-height: 1.6; margin: 0; padding-left: 1.25rem">
+          <li>Rent and renter insurance with annual increases</li>
+          <li>Mortgage P&amp;I, property tax, and maintenance on the buy path</li>
+          <li>Home price appreciation and remaining loan balance</li>
+          <li>Opportunity cost: compound growth on the down payment if you rent</li>
+        </ul>
+        <p class="muted" style="margin: 1rem 0 0; font-size: 0.9rem">
+          Closing costs, HOA, tax deductions, and sale transaction costs are not included. For directional planning only.
+        </p>
+      </section>
+
+      <section class="card" data-related-tools data-current-tool="rent-vs-buy-calculator" aria-live="polite"></section>
+
+      <!-- SEO_ENGINE_RELATED_START -->
+      <section class="card seo-related-block">
+        <h2>Related tools/articles</h2>
+        <ul class="toc-list"></ul>
+      </section>
+      <!-- SEO_ENGINE_RELATED_END -->
+
+      <!-- RANK_TOOL_FAQ_START -->
+      <section class="card">
+        <h2>Rent vs. buy FAQ</h2>
+        <details>
+          <summary>What does break-even year mean?</summary>
+          <p class="muted">It is the first year where buyer net worth exceeds renter net worth at your assumptions—not when monthly rent equals a mortgage payment.</p>
+        </details>
+        <details>
+          <summary>How is renter net worth calculated?</summary>
+          <p class="muted">We grow your would-be down payment at your investment return rate, then subtract cumulative rent and renter insurance paid over time.</p>
+        </details>
+        <details>
+          <summary>How is buyer net worth calculated?</summary>
+          <p class="muted">Buyer net worth equals home equity: appreciated home value minus the remaining mortgage balance after scheduled payments.</p>
+        </details>
+      </section>
+      <!-- RANK_TOOL_FAQ_END -->
+
+      <!-- RANK_TOOL_COMPARISON_START -->
+      <section class="card">
+        <h2>Comparison section</h2>
+        <p class="muted">Compare this calculator with related tools for different housing scenarios.</p>
+        <ul class="toc-list">
+          <li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a></li>
+          <li><a href="/tools/loan-calculator/">Loan Calculator</a></li>
+          <li><a href="/tools/rent-vs-buy/">Rent vs. Buy Calculator</a></li>
+        </ul>
+      </section>
+      <!-- RANK_TOOL_COMPARISON_END -->
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/blog/">Blog</a>
+          <a href="https://mapdiagram.com/" target="_blank" rel="noopener noreferrer">MapDiagram</a>
+          <a href="https://joinmypdf.com/" target="_blank" rel="noopener noreferrer">JoinMyPDF</a>
+        </nav>
+        <div class="cn-footer-partners" aria-label="Partner utilities">
+          <span>Planning tools:</span>
+          <a href="https://mapdiagram.com/" target="_blank" rel="noopener noreferrer">MapDiagram</a>
+          <a href="https://joinmypdf.com/" target="_blank" rel="noopener noreferrer">JoinMyPDF</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- CalnexApp calculator stack (client-side only) -->
+    <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/parse-utils.js" defer></script>
+    <script src="/engine/financial-core.js" defer></script>
+    <script src="/engine/financial-validator.js" defer></script>
+    <script src="/assets/js/shared-state.js" defer></script>
+    <script src="/assets/js/ui-renderer.js" defer></script>
+    <script src="/assets/js/app-render.js" defer></script>
+    <script src="/assets/js/app-engine.js" defer></script>
+    <script src="/assets/js/input-sync.js" defer></script>
+    <script src="/assets/js/scenario-engine.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
+    <script src="/assets/js/rent-vs-buy.js" defer></script>
+  </body>
+</html>
