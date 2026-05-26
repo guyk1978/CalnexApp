@@ -9,6 +9,15 @@
     "keywords": ["loan", "personal loan", "amortization", "monthly payment", "interest", "payoff"]
   },
   {
+    "slug": "debt-payoff",
+    "name": "Debt Snowball & Avalanche Calculator",
+    "path": "/tools/debt-payoff/",
+    "description": "Map out an accelerated payment plan to crush credit card, car, and personal debts. Choose between Snowball or Avalanche strategies and visualize your debt-free date.",
+    "hubDescription": "Snowball vs. avalanche payoff planner with debt-free date, interest saved vs. minimums, and balance timeline chart.",
+    "navGroup": "lending",
+    "keywords": ["debt snowball", "debt avalanche", "debt payoff", "credit card", "pay off debt", "minimum payment", "debt free"]
+  },
+  {
     "slug": "loan-comparison",
     "name": "Loan Offer Comparison Tool",
     "path": "/tools/loan-comparison/",

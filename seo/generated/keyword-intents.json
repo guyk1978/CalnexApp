@@ -1,35 +1,35 @@
 {
-  "generated_at": "2026-05-26T06:43:19.567Z",
+  "generated_at": "2026-05-26T07:03:19.495Z",
   "totals": {
-    "keywords": 632,
-    "informational": 200,
-    "commercial": 292,
-    "transactional": 140
+    "keywords": 667,
+    "informational": 212,
+    "commercial": 310,
+    "transactional": 145
   },
   "samples": {
     "informational": [
+      "effective apr",
       "how much car can i afford",
       "auto loan apr by credit tier",
       "auto loan apr by credit tier for beginners",
       "auto loan apr by credit tier with extra payments",
+      "effective apr for beginners",
+      "effective apr with extra payments",
       "how does 100000 loan work",
       "how does 15 vs 30 years work",
-      "how does 15 years work",
-      "how does 150000 loan work",
-      "how does 200000 loan work",
-      "how does 250000 loan work"
+      "how does 15 years work"
     ],
     "commercial": [
       "amortization",
       "monthly payment",
       "interest",
+      "loan comparison",
+      "compare loan offers",
+      "closing costs",
+      "personal loan",
       "mortgage",
       "home loan",
-      "rent vs buy",
-      "home buying",
-      "renting",
-      "break even",
-      "housing"
+      "rent vs buy"
     ],
     "transactional": [
       "loan calculator",
@@ -59,6 +59,26 @@
     },
     {
       "keyword": "interest",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan comparison",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "compare loan offers",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "effective apr",
+      "intent": "informational"
+    },
+    {
+      "keyword": "closing costs",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "personal loan",
       "intent": "commercial"
     },
     {
@@ -838,6 +858,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "closing costs calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "closing costs for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "closing costs with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "collateral calculator",
       "intent": "transactional"
     },
@@ -847,6 +879,18 @@
     },
     {
       "keyword": "collateral with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "compare loan offers calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "compare loan offers for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "compare loan offers with extra payments",
       "intent": "commercial"
     },
     {
@@ -944,6 +988,18 @@
     {
       "keyword": "debt to income with extra payments",
       "intent": "commercial"
+    },
+    {
+      "keyword": "effective apr calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "effective apr for beginners",
+      "intent": "informational"
+    },
+    {
+      "keyword": "effective apr with extra payments",
+      "intent": "informational"
     },
     {
       "keyword": "extra payments calculator",
@@ -1158,7 +1214,15 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does closing costs work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does collateral work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does compare loan offers work",
       "intent": "informational"
     },
     {
@@ -1187,6 +1251,10 @@
     },
     {
       "keyword": "how does debt to income work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does effective apr work",
       "intent": "informational"
     },
     {
@@ -1250,6 +1318,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does loan comparison work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does loan interest work",
       "intent": "informational"
     },
@@ -1287,6 +1359,10 @@
     },
     {
       "keyword": "how does personal loan debt consolidation work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does personal loan work",
       "intent": "informational"
     },
     {
@@ -1674,8 +1750,16 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce closing costs",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce collateral",
       "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce compare loan offers",
+      "intent": "commercial"
     },
     {
       "keyword": "how to reduce compound interest",
@@ -1703,6 +1787,10 @@
     },
     {
       "keyword": "how to reduce debt to income",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce effective apr",
       "intent": "informational"
     },
     {
@@ -1766,6 +1854,10 @@
       "intent": "transactional"
     },
     {
+      "keyword": "how to reduce loan comparison",
+      "intent": "commercial"
+    },
+    {
       "keyword": "how to reduce loan interest",
       "intent": "informational"
     },
@@ -1799,6 +1891,10 @@
     },
     {
       "keyword": "how to reduce out the door price",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce personal loan",
       "intent": "informational"
     },
     {
@@ -2022,7 +2118,15 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is closing costs worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is collateral worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is compare loan offers worth it",
       "intent": "commercial"
     },
     {
@@ -2052,6 +2156,10 @@
     {
       "keyword": "is debt to income worth it",
       "intent": "commercial"
+    },
+    {
+      "keyword": "is effective apr worth it",
+      "intent": "informational"
     },
     {
       "keyword": "is extra payments worth it",
@@ -2114,6 +2222,10 @@
       "intent": "transactional"
     },
     {
+      "keyword": "is loan comparison worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is loan interest worth it",
       "intent": "commercial"
     },
@@ -2151,6 +2263,10 @@
     },
     {
       "keyword": "is personal loan debt consolidation worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is personal loan worth it",
       "intent": "commercial"
     },
     {
@@ -2240,6 +2356,18 @@
     {
       "keyword": "loan calculator with extra payments",
       "intent": "transactional"
+    },
+    {
+      "keyword": "loan comparison calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "loan comparison for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "loan comparison with extra payments",
+      "intent": "commercial"
     },
     {
       "keyword": "loan interest calculator",
@@ -2350,6 +2478,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "personal loan calculator",
+      "intent": "transactional"
+    },
+    {
       "keyword": "personal loan debt consolidation",
       "intent": "commercial"
     },
@@ -2363,6 +2495,14 @@
     },
     {
       "keyword": "personal loan debt consolidation with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "personal loan for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "personal loan with extra payments",
       "intent": "commercial"
     },
     {

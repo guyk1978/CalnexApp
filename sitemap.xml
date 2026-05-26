@@ -565,6 +565,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calnexapp.com/tools/debt-payoff/</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calnexapp.com/tools/interest-calculator/</loc>
     <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>

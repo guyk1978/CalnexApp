@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/assets/js/theme-init.js"></script>
+    <title>Debt Snowball &amp; Avalanche Calculator — Payoff Planner | CalnexApp</title>
+    <meta
+      name="description"
+      content="Map an accelerated debt payoff plan with snowball or avalanche strategies. Compare debt-free dates, total interest, and balance timelines for credit cards and loans."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Debt Snowball &amp; Avalanche Calculator | CalnexApp" />
+    <meta
+      property="og:description"
+      content="Choose snowball or avalanche, visualize your declining balance, and see your debt-free target date."
+    />
+    <meta property="og:url" content="https://calnexapp.com/tools/debt-payoff/" />
+    <meta property="og:site_name" content="CalnexApp" />
+    <link rel="canonical" href="https://calnexapp.com/tools/debt-payoff/" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-MMLPFGBR27");
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Debt Snowball & Avalanche Calculator",
+  "description": "Accelerated debt payoff planner with snowball and avalanche strategies.",
+  "url": "https://calnexapp.com/tools/debt-payoff/",
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calnexapp.com/" },
+      { "@type": "ListItem", "position": 2, "name": "tools", "item": "https://calnexapp.com/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "Debt Snowball & Avalanche Calculator", "item": "https://calnexapp.com/tools/debt-payoff/" }
+    ]
+  }
+}
+    </script>
+  </head>
+  <body data-page="debt-payoff">
+    <header class="site-header">
+      <div class="container nav">
+        <a href="/" class="brand">CalnexApp</a>
+        <nav class="menu" id="siteMenu">
+          <a href="/" data-nav-link>Home</a>
+          <div class="cn-nav-dropdown">
+            <a href="/tools/" class="cn-nav-dropdown__trigger" data-nav-link aria-haspopup="true" aria-expanded="false" id="cnToolsNavTrigger">Tools</a>
+            <div class="cn-nav-dropdown__panel" role="menu" aria-labelledby="cnToolsNavTrigger">
+              <a href="/tools/" class="cn-nav-dropdown__hub" role="menuitem">All calculators</a>
+            <div class="cn-nav-dropdown__group">
+              <p class="cn-nav-dropdown__label">Housing</p>
+              <a href="/tools/mortgage-calculator/" class="cn-nav-dropdown__link" role="menuitem">Mortgage Calculator</a>
+              <a href="/tools/rent-vs-buy/" class="cn-nav-dropdown__link" role="menuitem">Rent vs. Buy Calculator</a>
+            </div>
+            <div class="cn-nav-dropdown__group">
+              <p class="cn-nav-dropdown__label">Loans &amp; credit</p>
+              <a href="/tools/loan-calculator/" class="cn-nav-dropdown__link" role="menuitem">Loan Calculator</a>
+              <a href="/tools/debt-payoff/" class="cn-nav-dropdown__link" role="menuitem">Debt Snowball &amp; Avalanche Calculator</a>
+              <a href="/tools/loan-comparison/" class="cn-nav-dropdown__link" role="menuitem">Loan Offer Comparison Tool</a>
+            </div>
+            <div class="cn-nav-dropdown__group">
+              <p class="cn-nav-dropdown__label">Auto</p>
+              <a href="/tools/car-loan-calculator/" class="cn-nav-dropdown__link" role="menuitem">Car Loan Calculator</a>
+            </div>
+            <div class="cn-nav-dropdown__group">
+              <p class="cn-nav-dropdown__label">Interest &amp; growth</p>
+              <a href="/tools/interest-calculator/" class="cn-nav-dropdown__link" role="menuitem">Interest Calculator</a>
+            </div>
+            <div class="cn-nav-dropdown__group">
+              <p class="cn-nav-dropdown__label">Retirement &amp; planning</p>
+              <a href="/tools/retirement-calculator/" class="cn-nav-dropdown__link" role="menuitem">Retirement Calculator</a>
+            </div>
+            </div>
+          </div>
+          <a href="/blog/" data-nav-link>Blog</a>
+          <a href="/about/" data-nav-link>About</a>
+          <a href="/contact/" data-nav-link>Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section-space">
+      <section class="page-title">
+        <p class="eyebrow">Loans &amp; credit</p>
+        <h1>Debt snowball &amp; avalanche calculator</h1>
+        <p class="muted">
+          Enter your debts and monthly payoff budget. Compare snowball (smallest balance first) vs. avalanche (highest
+          APR first), see your debt-free date, and chart declining balances against paying minimums only.
+        </p>
+      </section>
+
+      <section class="card cn-feature-panel" aria-label="Why CalnexApp" style="margin-bottom: 1.25rem">
+        <h2 style="margin: 0 0 1rem; font-size: 1.1rem">Why people use this</h2>
+        <div class="cn-stat-row">
+          <div class="cn-stat">
+            <p class="cn-stat__label">Strategies</p>
+            <p class="cn-stat__value">Snowball + Avalanche</p>
+          </div>
+          <div class="cn-stat">
+            <p class="cn-stat__label">Timeline</p>
+            <p class="cn-stat__value">Month-by-month</p>
+          </div>
+          <div class="cn-stat">
+            <p class="cn-stat__label">Savings</p>
+            <p class="cn-stat__value">vs. minimums only</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Related tools</h2>
+        <div class="share-actions">
+          <a class="btn btn-ghost" href="/tools/loan-calculator/">Loan calculator</a>
+          <a class="btn btn-ghost" href="/tools/loan-comparison/">Loan offer comparison</a>
+          <a class="btn btn-ghost" href="/tools/car-loan-calculator/">Car loan calculator</a>
+          <a class="btn btn-ghost" href="/tools/">All calculators</a>
+        </div>
+      </section>
+
+      <div class="cn-tool-shell">
+        <section class="cn-debt-payoff-layout">
+          <form class="cn-debt-payoff-layout__inputs card input-card" id="dp-form" aria-label="Debt payoff planner">
+            <header class="cn-calc-form__head">
+              <h2 class="cn-calc-form__title">Your payoff budget</h2>
+              <p class="cn-calc-form__lede muted">Monthly budget must cover every minimum payment—extra goes to your active strategy target.</p>
+            </header>
+
+            <div class="field">
+              <label for="dpMonthlyBudget" data-currency-label="dp_monthly_budget">Monthly snowball / avalanche budget</label>
+              <div class="input-with-prefix">
+                <span data-currency-symbol>¤</span>
+                <input id="dpMonthlyBudget" type="number" min="0" step="25" value="650" required />
+              </div>
+              <p class="muted" style="margin: 0.35rem 0 0; font-size: 0.85rem">Total you can put toward all debts each month.</p>
+            </div>
+
+            <h3 style="margin: var(--cn-space-4) 0 var(--cn-space-3); font-size: 1rem">Your debts</h3>
+            <div id="dpDebtRows">
+              <fieldset class="cn-debt-row card" data-debt-id="debt-1" style="margin-bottom: var(--cn-space-3); padding: var(--cn-space-3)">
+                <div class="cn-debt-row__head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--cn-space-3)">
+                  <legend class="cn-debt-row__title" style="font-weight: 600; font-size: 0.95rem; margin: 0">Debt</legend>
+                  <button type="button" class="btn btn-ghost cn-debt-row__remove" data-remove-debt aria-label="Remove debt" disabled>Remove</button>
+                </div>
+                <div class="field">
+                  <label>Debt name</label>
+                  <input type="text" data-debt-name value="Credit Card" />
+                </div>
+                <div class="field">
+                  <label data-currency-label="debt_balance">Remaining balance</label>
+                  <div class="input-with-prefix">
+                    <span data-currency-symbol>¤</span>
+                    <input type="number" data-debt-balance min="0" step="50" value="8200" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Interest rate (% APR)</label>
+                  <input type="number" data-debt-rate min="0" max="100" step="0.01" value="22.99" />
+                </div>
+                <div class="field">
+                  <label data-currency-label="debt_minimum">Minimum monthly payment</label>
+                  <div class="input-with-prefix">
+                    <span data-currency-symbol>¤</span>
+                    <input type="number" data-debt-minimum min="0" step="10" value="165" />
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="cn-debt-row card" data-debt-id="debt-2" style="margin-bottom: var(--cn-space-3); padding: var(--cn-space-3)">
+                <div class="cn-debt-row__head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--cn-space-3)">
+                  <legend class="cn-debt-row__title" style="font-weight: 600; font-size: 0.95rem; margin: 0">Debt</legend>
+                  <button type="button" class="btn btn-ghost cn-debt-row__remove" data-remove-debt aria-label="Remove debt">Remove</button>
+                </div>
+                <div class="field">
+                  <label>Debt name</label>
+                  <input type="text" data-debt-name value="Auto Loan" />
+                </div>
+                <div class="field">
+                  <label data-currency-label="debt_balance">Remaining balance</label>
+                  <div class="input-with-prefix">
+                    <span data-currency-symbol>¤</span>
+                    <input type="number" data-debt-balance min="0" step="50" value="12400" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Interest rate (% APR)</label>
+                  <input type="number" data-debt-rate min="0" max="100" step="0.01" value="6.9" />
+                </div>
+                <div class="field">
+                  <label data-currency-label="debt_minimum">Minimum monthly payment</label>
+                  <div class="input-with-prefix">
+                    <span data-currency-symbol>¤</span>
+                    <input type="number" data-debt-minimum min="0" step="10" value="285" />
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
+            <button type="button" class="btn btn-ghost" id="dpAddDebt">+ Add debt</button>
+          </form>
+
+          <div class="cn-debt-payoff-layout__results">
+            <aside class="card output-card cn-debt-payoff-rail" aria-live="polite">
+              <h2>Payoff plan</h2>
+
+              <div class="cn-debt-strategy-toggle" role="tablist" aria-label="Payoff strategy">
+                <button type="button" role="tab" class="is-active" data-dp-strategy="snowball" aria-selected="true">Debt Snowball</button>
+                <button type="button" role="tab" data-dp-strategy="avalanche" aria-selected="false">Debt Avalanche</button>
+              </div>
+
+              <p id="dpValidation" class="cn-debt-payoff-validation is-ok" role="status"></p>
+
+              <div class="cn-debt-free-card">
+                <p class="eyebrow" id="dpActivePlanLabel">Debt Snowball Plan</p>
+                <p class="muted" style="margin: 0 0 0.25rem; font-size: 0.88rem">Debt-free target date</p>
+                <p class="cn-debt-free-card__date" id="dpDebtFreeDate">—</p>
+              </div>
+
+              <div class="cn-debt-metric-deck">
+                <article class="cn-debt-metric-card">
+                  <dl>
+                    <dt>Months to debt-free</dt>
+                    <dd id="dpMonthsToFree">—</dd>
+                  </dl>
+                </article>
+                <article class="cn-debt-metric-card">
+                  <dl>
+                    <dt>Total interest paid</dt>
+                    <dd id="dpTotalInterest">—</dd>
+                  </dl>
+                </article>
+                <article class="cn-debt-metric-card">
+                  <dl>
+                    <dt>Interest saved vs. minimums</dt>
+                    <dd id="dpInterestSavings">—</dd>
+                  </dl>
+                </article>
+              </div>
+
+              <section class="charts-section cn-chart-section" aria-label="Balance over time">
+                <div class="page-title" style="margin-bottom: 0.75rem">
+                  <p class="eyebrow">Timeline</p>
+                  <h3 style="margin: 0.2rem 0 0; font-size: 1.05rem">Total balance until $0</h3>
+                </div>
+                <p class="muted" style="margin: 0 0 0.75rem; font-size: 0.88rem">Snowball and avalanche tracks shown together.</p>
+                <div class="cn-debt-payoff-chart-wrap chart-wrap cn-chart-wrap">
+                  <canvas id="dpBalanceChart" aria-label="Line chart of declining total debt balance"></canvas>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" data-related-tools data-current-tool="debt-payoff"></section>
+
+      <section class="card">
+        <h2>How snowball vs. avalanche works</h2>
+        <p class="muted">
+          <strong>Snowball</strong> pays extra toward the smallest balance first for quick psychological wins.
+          <strong>Avalanche</strong> attacks the highest APR first to minimize interest mathematically. Both assume you pay
+          at least every minimum and roll freed payments forward as debts are eliminated.
+        </p>
+        <a class="btn btn-primary" href="/tools/loan-calculator/">Open loan calculator</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/blog/">Blog</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="/assets/js/geo-finance.js" defer></script>
+    <script src="/assets/js/currency.js" defer></script>
+    <script src="/assets/js/app.js" defer></script>
+    <script src="/assets/js/seo.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script src="/assets/js/debt-payoff.js" defer></script>
+  </body>
+</html>

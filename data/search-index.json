@@ -37,6 +37,13 @@
     "url": "/tools/car-loan-calculator/"
   },
   {
+    "title": "Debt Snowball & Avalanche Calculator",
+    "category": "Tools",
+    "description": "Snowball vs. avalanche payoff planner with debt-free date, interest saved vs. minimums, and balance timeline chart.",
+    "keywords": "debt snowball debt avalanche debt payoff credit card pay off debt minimum payment debt free",
+    "url": "/tools/debt-payoff/"
+  },
+  {
     "title": "Interest Calculator",
     "category": "Tools",
     "description": "Simple vs compound interest—model savings growth or the cost of carrying a balance.",

@@ -14,6 +14,13 @@
     "keywords": ["loan comparison", "compare loan offers", "effective apr", "closing costs", "personal loan"]
   },
   {
+    "url": "/tools/debt-payoff/",
+    "type": "tool",
+    "title": "Debt Snowball & Avalanche Calculator",
+    "category": "tools",
+    "keywords": ["debt snowball", "debt avalanche", "debt payoff calculator", "credit card payoff", "debt free"]
+  },
+  {
     "url": "/tools/mortgage-calculator/",
     "type": "tool",
     "title": "Mortgage Calculator",
