@@ -91,16 +91,28 @@
 .cn-nav-dropdown__panel {
   display: none;
   position: absolute;
-  top: calc(100% + 0.45rem);
+  top: 100%;
   left: 0;
   z-index: 120;
   min-width: min(18rem, 88vw);
-  padding: var(--cn-space-3);
+  margin-top: 0;
+  /* Visual gap lives inside the panel so the pointer never leaves the hover zone */
+  padding: 0.5rem var(--cn-space-3) var(--cn-space-3);
   border-radius: var(--cn-radius-md);
   border: 1px solid var(--cn-border-subtle);
   background: var(--cn-bg-elevated);
   box-shadow: var(--cn-shadow-md);
   pointer-events: none;
+}
+
+/* Invisible bridge from trigger to panel (covers top padding band) */
+.cn-nav-dropdown__panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0.5rem;
 }
 
 .cn-nav-dropdown__hub {

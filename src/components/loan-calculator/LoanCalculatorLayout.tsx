@@ -3,26 +3,22 @@ import styles from "./loan-calculator-layout.module.css";
 
 type LoanCalculatorLayoutProps = {
   inputs: ReactNode;
-  /** Metrics, charts, and quick results — wrapped in sticky container on desktop */
-  resultsSticky: ReactNode;
-  /** Amortization schedule, savings banner, etc. — scrolls below sticky block */
-  resultsBelow?: ReactNode;
+  results: ReactNode;
+  /** Charts, savings banner, amortization — full-width below the 2-column grid */
+  belowGrid?: ReactNode;
 };
 
 /**
- * Layout-only wrapper for the loan calculator (5/12 inputs, 7/12 results).
- * Does not own form state or calculation logic.
+ * Layout-only wrapper matching the static Mortgage Calculator shell.
  */
-export function LoanCalculatorLayout({ inputs, resultsSticky, resultsBelow }: LoanCalculatorLayoutProps) {
+export function LoanCalculatorLayout({ inputs, results, belowGrid }: LoanCalculatorLayoutProps) {
   return (
     <div className={styles.shell}>
       <section className={styles.layout}>
-        <div className={styles.inputs}>{inputs}</div>
-        <div className={styles.resultsTrack}>
-          <div className={styles.resultsSticky}>{resultsSticky}</div>
-          {resultsBelow ? <div className={styles.belowSticky}>{resultsBelow}</div> : null}
-        </div>
+        {inputs}
+        <div className={styles.resultsPanel}>{results}</div>
       </section>
+      {belowGrid ? <div className={styles.belowGrid}>{belowGrid}</div> : null}
     </div>
   );
 }

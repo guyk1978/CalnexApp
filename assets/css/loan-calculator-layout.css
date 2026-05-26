@@ -1,114 +1,105 @@
 /**
- * Loan calculator — 12-column split layout & scoped sticky charts.
- * Inputs: 5 cols | Results: 7 cols (desktop). Matches Rent vs. Buy shell rhythm.
+ * Loan calculator layout — mirrors Mortgage Calculator shell.
+ * Natural document flow only: no inner scrollbars or fixed heights.
  */
 
-.cn-loan-layout,
-.cn-loan-layout.cn-calculator-layout {
+body[data-page="loan-calculator"] .calculator-layout.cn-calculator-layout {
   display: grid;
   gap: var(--cn-space-4);
   align-items: start;
 }
 
-@media (min-width: 960px) {
-  .cn-loan-layout,
-  .cn-loan-layout.cn-calculator-layout {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+@media (min-width: 768px) {
+  body[data-page="loan-calculator"] .calculator-layout.cn-calculator-layout {
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.1fr);
     gap: 2rem;
   }
-
-  .cn-loan-layout__inputs {
-    grid-column: span 5;
-    min-width: 0;
-  }
-
-  .cn-loan-layout__results {
-    grid-column: span 7;
-    position: relative;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--cn-space-4);
-  }
 }
 
-/* Loan results column is the scroll track — not the whole aside */
-.cn-loan-layout__results .output-card {
+/* Never clip or scroll the results column */
+body[data-page="loan-calculator"] .output-card,
+body[data-page="loan-calculator"] .cn-loan-results-sticky,
+body[data-page="loan-calculator"] .cn-loan-layout__results {
   position: relative;
   top: auto;
+  max-height: none;
+  height: auto;
+  overflow: visible;
   min-width: 0;
-  max-width: 100%;
 }
 
-.cn-loan-results-sticky {
-  display: flex;
-  flex-direction: column;
-  gap: var(--cn-space-4);
+body[data-page="loan-calculator"] .output-card.cn-tool-rail {
+  position: relative;
+  top: auto;
 }
 
-@media (min-width: 960px) {
-  .cn-loan-results-sticky {
-    position: sticky;
-    top: 6rem;
-    z-index: 2;
-    align-self: start;
-    max-height: calc(100vh - 7rem);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding-bottom: var(--cn-space-2);
-  }
+/* Metrics & comparison cards — native block flow */
+body[data-page="loan-calculator"] .cn-metric-deck {
+  margin: var(--cn-space-4) 0;
 }
 
-/* Charts live inside sticky block — contained, no absolute positioning */
-.cn-loan-charts.charts-section {
-  margin-top: 0;
-  padding: 0;
-}
-
-.cn-loan-charts .page-title {
-  margin-bottom: var(--cn-space-3);
-}
-
-.cn-loan-charts .page-title h2 {
-  margin: 0.25rem 0 0;
-  font-size: 1.1rem;
-}
-
-.cn-loan-charts .chart-grid {
+body[data-page="loan-calculator"] .comparison-grid {
   display: grid;
   gap: var(--cn-space-3);
+  margin-top: var(--cn-space-4);
 }
 
 @media (min-width: 640px) {
-  .cn-loan-charts .chart-grid {
+  body[data-page="loan-calculator"] .comparison-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.cn-loan-charts .chart-wrap {
+body[data-page="loan-calculator"] .comparison-card {
+  position: relative;
+  min-width: 0;
+}
+
+body[data-page="loan-calculator"] .comparison-card p {
+  margin: 0.35rem 0;
+  line-height: 1.45;
+}
+
+/* Portable results / share block */
+body[data-page="loan-calculator"] .share-tools.cn-portable-results-box {
+  position: relative;
+  margin-top: var(--cn-space-4);
+  padding-top: var(--cn-space-4);
+  border-top: 1px solid var(--cn-border-subtle);
+  clear: both;
+}
+
+body[data-page="loan-calculator"] .share-tools input[type="text"] {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: var(--cn-space-3);
+}
+
+body[data-page="loan-calculator"] .share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+body[data-page="loan-calculator"] .share-actions .btn,
+body[data-page="loan-calculator"] .share-actions a.btn {
+  position: relative;
+  flex: 0 1 auto;
+}
+
+/* Charts below the grid — same as mortgage */
+body[data-page="loan-calculator"] .charts-section {
+  margin-top: var(--cn-space-4);
+}
+
+body[data-page="loan-calculator"] .chart-wrap {
   position: relative;
   min-height: 220px;
 }
 
-.cn-loan-charts .chart-wrap canvas {
+body[data-page="loan-calculator"] .chart-wrap canvas {
   position: relative !important;
   width: 100% !important;
-  height: 220px !important;
-}
-
-/* Below sticky: schedule & banners scroll in document flow */
-.cn-loan-layout__below-sticky {
-  display: flex;
-  flex-direction: column;
-  gap: var(--cn-space-4);
-  min-width: 0;
-}
-
-@media (max-width: 959px) {
-  .cn-loan-results-sticky {
-    position: relative;
-    top: auto;
-    max-height: none;
-    overflow: visible;
-  }
+  height: 260px !important;
 }
