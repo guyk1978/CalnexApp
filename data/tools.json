@@ -3,30 +3,54 @@
     "slug": "loan-calculator",
     "name": "Loan Calculator",
     "path": "/tools/loan-calculator/",
-    "description": "Calculate monthly payment, interest, and total repayment."
+    "description": "Calculate monthly payment, interest, and total repayment.",
+    "hubDescription": "Installment loans: monthly payment, total interest, payoff date, and amortization with optional extra payments.",
+    "navGroup": "lending",
+    "keywords": ["loan", "personal loan", "amortization", "monthly payment", "interest", "payoff"]
   },
   {
     "slug": "mortgage-calculator",
     "name": "Mortgage Calculator",
     "path": "/tools/mortgage-calculator/",
-    "description": "Estimate mortgage repayments and long-term borrowing costs."
+    "description": "Estimate mortgage repayments and long-term borrowing costs.",
+    "hubDescription": "Home loans with escrow, affordability signals, 15 vs 30 year comparison, and full amortization.",
+    "navGroup": "housing",
+    "keywords": ["mortgage", "home loan", "house", "housing", "pmi", "escrow", "monthly payment"]
+  },
+  {
+    "slug": "rent-vs-buy-calculator",
+    "name": "Rent vs. Buy Calculator",
+    "path": "/tools/rent-vs-buy/",
+    "description": "Compare long-term net worth when renting versus buying a home.",
+    "hubDescription": "Compare the long-term net worth of renting vs. buying a home. Factor in mortgage rates, property appreciation, inflation, and investment opportunity costs.",
+    "navGroup": "housing",
+    "keywords": ["rent", "buy", "rent vs buy", "housing", "home", "break even", "appreciation", "opportunity cost", "renter", "homeowner"]
   },
   {
     "slug": "car-loan-calculator",
     "name": "Car Loan Calculator",
     "path": "/tools/car-loan-calculator/",
-    "description": "Compare vehicle financing scenarios before committing."
+    "description": "Compare vehicle financing scenarios before committing.",
+    "hubDescription": "Auto financing with affordability bands, term comparisons, and total cost of ownership signals.",
+    "navGroup": "auto",
+    "keywords": ["car loan", "auto", "vehicle", "dealer financing", "monthly payment"]
   },
   {
     "slug": "interest-calculator",
     "name": "Interest Calculator",
     "path": "/tools/interest-calculator/",
-    "description": "Explore simple and compound growth over time."
+    "description": "Explore simple and compound growth over time.",
+    "hubDescription": "Simple vs compound interest—model savings growth or the cost of carrying a balance.",
+    "navGroup": "growth",
+    "keywords": ["interest", "compound", "savings", "growth", "apr"]
   },
   {
     "slug": "retirement-calculator",
     "name": "Retirement Calculator",
     "path": "/tools/retirement-calculator/",
-    "description": "Project retirement balance, funding gap, and readiness."
+    "description": "Project retirement balance, funding gap, and readiness.",
+    "hubDescription": "Contribution-led retirement projections with inflation-adjusted goals and funding gap readouts.",
+    "navGroup": "planning",
+    "keywords": ["retirement", "401k", "nest egg", "savings", "pension"]
   }
 ]

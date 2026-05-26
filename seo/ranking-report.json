@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-25T08:14:38.955Z",
+  "generated_at": "2026-05-26T06:01:37.523Z",
   "summary": {
-    "total_pages": 66,
+    "total_pages": 67,
     "pages_need_improvement": 3,
-    "pages_high_potential": 59,
+    "pages_high_potential": 60,
     "top_performing_pages": 4
   },
   "pages_need_improvement": [
@@ -13,8 +13,8 @@
       "title": "How to negotiate a car loan: tips for getting the best interest rate",
       "metrics": {
         "keyword_coverage": 0,
-        "internal_links_count": 25,
-        "content_depth_words": 1267,
+        "internal_links_count": 32,
+        "content_depth_words": 1296,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -25,8 +25,8 @@
       "title": "How your credit score affects your car loan rate (and how to lower it)",
       "metrics": {
         "keyword_coverage": 0,
-        "internal_links_count": 27,
-        "content_depth_words": 1249,
+        "internal_links_count": 34,
+        "content_depth_words": 1278,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -37,8 +37,8 @@
       "title": "How to refinance a car loan: when it makes sense and how much you can save",
       "metrics": {
         "keyword_coverage": 0,
-        "internal_links_count": 29,
-        "content_depth_words": 1607,
+        "internal_links_count": 36,
+        "content_depth_words": 1636,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -51,11 +51,23 @@
       "title": "Mortgage Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 30,
-        "content_depth_words": 383,
+        "internal_links_count": 37,
+        "content_depth_words": 412,
         "intent_match_score": 65
       },
-      "ranking_score": 79
+      "ranking_score": 80
+    },
+    {
+      "url": "/tools/rent-vs-buy/",
+      "type": "tool",
+      "title": "Rent vs. Buy Calculator",
+      "metrics": {
+        "keyword_coverage": 60,
+        "internal_links_count": 21,
+        "content_depth_words": 336,
+        "intent_match_score": 65
+      },
+      "ranking_score": 65
     },
     {
       "url": "/tools/car-loan-calculator/",
@@ -63,11 +75,11 @@
       "title": "Car Loan Calculator",
       "metrics": {
         "keyword_coverage": 75,
-        "internal_links_count": 22,
-        "content_depth_words": 347,
+        "internal_links_count": 29,
+        "content_depth_words": 375,
         "intent_match_score": 65
       },
-      "ranking_score": 70
+      "ranking_score": 71
     },
     {
       "url": "/tools/interest-calculator/",
@@ -75,8 +87,8 @@
       "title": "Interest Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 16,
-        "content_depth_words": 160,
+        "internal_links_count": 23,
+        "content_depth_words": 188,
         "intent_match_score": 100
       },
       "ranking_score": 80
@@ -87,8 +99,8 @@
       "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 34,
-        "content_depth_words": 1113,
+        "internal_links_count": 41,
+        "content_depth_words": 1142,
         "intent_match_score": 65
       },
       "ranking_score": 78
@@ -99,11 +111,11 @@
       "title": "How Extra Payments Save Money on Your Loan",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 28,
-        "content_depth_words": 675,
+        "internal_links_count": 35,
+        "content_depth_words": 704,
         "intent_match_score": 65
       },
-      "ranking_score": 72
+      "ranking_score": 73
     },
     {
       "url": "/blog/how-much-car-can-i-afford/",
@@ -111,8 +123,8 @@
       "title": "How much car can you afford: payment, income, and DTI rules",
       "metrics": {
         "keyword_coverage": 25,
-        "internal_links_count": 28,
-        "content_depth_words": 1075,
+        "internal_links_count": 35,
+        "content_depth_words": 1104,
         "intent_match_score": 100
       },
       "ranking_score": 78
@@ -123,8 +135,8 @@
       "title": "Car leasing vs buying: pros, cons, and the real math",
       "metrics": {
         "keyword_coverage": 60,
-        "internal_links_count": 27,
-        "content_depth_words": 1332,
+        "internal_links_count": 34,
+        "content_depth_words": 1361,
         "intent_match_score": 65
       },
       "ranking_score": 81
@@ -135,8 +147,8 @@
       "title": "The ultimate guide to debt consolidation: how to combine loans and save money",
       "metrics": {
         "keyword_coverage": 20,
-        "internal_links_count": 25,
-        "content_depth_words": 1546,
+        "internal_links_count": 32,
+        "content_depth_words": 1575,
         "intent_match_score": 65
       },
       "ranking_score": 69
@@ -147,8 +159,8 @@
       "title": "Fixed-rate vs. variable-rate personal loans: how to choose the right one",
       "metrics": {
         "keyword_coverage": 20,
-        "internal_links_count": 25,
-        "content_depth_words": 1301,
+        "internal_links_count": 32,
+        "content_depth_words": 1330,
         "intent_match_score": 65
       },
       "ranking_score": 69
@@ -159,11 +171,11 @@
       "title": "$100,000 loan at 3.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-30-years/",
@@ -171,11 +183,11 @@
       "title": "$100,000 loan at 3.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/",
@@ -183,11 +195,11 @@
       "title": "$100,000 loan at 4% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/",
@@ -195,11 +207,11 @@
       "title": "$100,000 loan at 4% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-5-percent-for-15-years/",
@@ -207,11 +219,11 @@
       "title": "$100,000 loan at 4.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-5-percent-for-30-years/",
@@ -219,11 +231,11 @@
       "title": "$100,000 loan at 4.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-5-percent-for-15-years/",
@@ -231,11 +243,11 @@
       "title": "$100,000 loan at 5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-5-percent-for-30-years/",
@@ -243,11 +255,11 @@
       "title": "$100,000 loan at 5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-6-percent-for-15-years/",
@@ -255,11 +267,11 @@
       "title": "$100,000 loan at 6% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-6-percent-for-30-years/",
@@ -267,11 +279,11 @@
       "title": "$100,000 loan at 6% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-3-5-percent-for-15-years/",
@@ -279,11 +291,11 @@
       "title": "$150,000 loan at 3.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-3-5-percent-for-30-years/",
@@ -291,11 +303,11 @@
       "title": "$150,000 loan at 3.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/",
@@ -303,11 +315,11 @@
       "title": "$150,000 loan at 4% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/",
@@ -315,11 +327,11 @@
       "title": "$150,000 loan at 4% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-5-percent-for-15-years/",
@@ -327,11 +339,11 @@
       "title": "$150,000 loan at 4.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-5-percent-for-30-years/",
@@ -339,11 +351,11 @@
       "title": "$150,000 loan at 4.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-5-percent-for-15-years/",
@@ -351,11 +363,11 @@
       "title": "$150,000 loan at 5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-5-percent-for-30-years/",
@@ -363,11 +375,11 @@
       "title": "$150,000 loan at 5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-6-percent-for-15-years/",
@@ -375,11 +387,11 @@
       "title": "$150,000 loan at 6% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/",
@@ -387,23 +399,11 @@
       "title": "$150,000 loan at 6% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
-    },
-    {
-      "url": "/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/",
-      "type": "seo",
-      "title": "$200,000 loan at 3.5% for 15 years",
-      "metrics": {
-        "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
-        "intent_match_score": 100
-      },
-      "ranking_score": 65
+      "ranking_score": 66
     }
   ],
   "top_performing_pages": [
@@ -413,11 +413,11 @@
       "title": "Loan Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 25,
-        "content_depth_words": 396,
+        "internal_links_count": 32,
+        "content_depth_words": 425,
         "intent_match_score": 100
       },
-      "ranking_score": 86
+      "ranking_score": 87
     },
     {
       "url": "/blog/how-to-calculate-loan-interest/",
@@ -425,8 +425,8 @@
       "title": "How to Calculate Loan Interest: A Practical Guide",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 29,
-        "content_depth_words": 1231,
+        "internal_links_count": 36,
+        "content_depth_words": 1260,
         "intent_match_score": 65
       },
       "ranking_score": 93
@@ -437,11 +437,11 @@
       "title": "Loan vs Mortgage: Key Differences Explained",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 27,
-        "content_depth_words": 612,
+        "internal_links_count": 34,
+        "content_depth_words": 641,
         "intent_match_score": 65
       },
-      "ranking_score": 85
+      "ranking_score": 86
     },
     {
       "url": "/blog/best-loan-term-15-vs-30-years/",
@@ -449,8 +449,8 @@
       "title": "Best Loan Term: 15 vs 30 Years",
       "metrics": {
         "keyword_coverage": 75,
-        "internal_links_count": 35,
-        "content_depth_words": 948,
+        "internal_links_count": 42,
+        "content_depth_words": 977,
         "intent_match_score": 65
       },
       "ranking_score": 86
@@ -463,8 +463,8 @@
       "title": "How to Calculate Loan Interest: A Practical Guide",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 29,
-        "content_depth_words": 1231,
+        "internal_links_count": 36,
+        "content_depth_words": 1260,
         "intent_match_score": 65
       },
       "ranking_score": 93
@@ -475,9 +475,21 @@
       "title": "Loan Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 25,
-        "content_depth_words": 396,
+        "internal_links_count": 32,
+        "content_depth_words": 425,
         "intent_match_score": 100
+      },
+      "ranking_score": 87
+    },
+    {
+      "url": "/blog/loan-vs-mortgage/",
+      "type": "blog",
+      "title": "Loan vs Mortgage: Key Differences Explained",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 34,
+        "content_depth_words": 641,
+        "intent_match_score": 65
       },
       "ranking_score": 86
     },
@@ -487,23 +499,11 @@
       "title": "Best Loan Term: 15 vs 30 Years",
       "metrics": {
         "keyword_coverage": 75,
-        "internal_links_count": 35,
-        "content_depth_words": 948,
+        "internal_links_count": 42,
+        "content_depth_words": 977,
         "intent_match_score": 65
       },
       "ranking_score": 86
-    },
-    {
-      "url": "/blog/loan-vs-mortgage/",
-      "type": "blog",
-      "title": "Loan vs Mortgage: Key Differences Explained",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 27,
-        "content_depth_words": 612,
-        "intent_match_score": 65
-      },
-      "ranking_score": 85
     },
     {
       "url": "/blog/car-leasing-vs-buying/",
@@ -511,23 +511,11 @@
       "title": "Car leasing vs buying: pros, cons, and the real math",
       "metrics": {
         "keyword_coverage": 60,
-        "internal_links_count": 27,
-        "content_depth_words": 1332,
+        "internal_links_count": 34,
+        "content_depth_words": 1361,
         "intent_match_score": 65
       },
       "ranking_score": 81
-    },
-    {
-      "url": "/tools/interest-calculator/",
-      "type": "tool",
-      "title": "Interest Calculator",
-      "metrics": {
-        "keyword_coverage": 100,
-        "internal_links_count": 16,
-        "content_depth_words": 160,
-        "intent_match_score": 100
-      },
-      "ranking_score": 80
     },
     {
       "url": "/tools/mortgage-calculator/",
@@ -535,11 +523,23 @@
       "title": "Mortgage Calculator",
       "metrics": {
         "keyword_coverage": 100,
-        "internal_links_count": 30,
-        "content_depth_words": 383,
+        "internal_links_count": 37,
+        "content_depth_words": 412,
         "intent_match_score": 65
       },
-      "ranking_score": 79
+      "ranking_score": 80
+    },
+    {
+      "url": "/tools/interest-calculator/",
+      "type": "tool",
+      "title": "Interest Calculator",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 23,
+        "content_depth_words": 188,
+        "intent_match_score": 100
+      },
+      "ranking_score": 80
     },
     {
       "url": "/blog/fixed-vs-variable-interest-rate/",
@@ -547,8 +547,8 @@
       "title": "Fixed vs Variable Interest Rate: What Borrowers Need to Know",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 34,
-        "content_depth_words": 1113,
+        "internal_links_count": 41,
+        "content_depth_words": 1142,
         "intent_match_score": 65
       },
       "ranking_score": 78
@@ -559,8 +559,8 @@
       "title": "How much car can you afford: payment, income, and DTI rules",
       "metrics": {
         "keyword_coverage": 25,
-        "internal_links_count": 28,
-        "content_depth_words": 1075,
+        "internal_links_count": 35,
+        "content_depth_words": 1104,
         "intent_match_score": 100
       },
       "ranking_score": 78
@@ -571,11 +571,11 @@
       "title": "How Extra Payments Save Money on Your Loan",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 28,
-        "content_depth_words": 675,
+        "internal_links_count": 35,
+        "content_depth_words": 704,
         "intent_match_score": 65
       },
-      "ranking_score": 72
+      "ranking_score": 73
     },
     {
       "url": "/tools/car-loan-calculator/",
@@ -583,11 +583,11 @@
       "title": "Car Loan Calculator",
       "metrics": {
         "keyword_coverage": 75,
-        "internal_links_count": 22,
-        "content_depth_words": 347,
+        "internal_links_count": 29,
+        "content_depth_words": 375,
         "intent_match_score": 65
       },
-      "ranking_score": 70
+      "ranking_score": 71
     },
     {
       "url": "/blog/ultimate-guide-debt-consolidation/",
@@ -595,8 +595,8 @@
       "title": "The ultimate guide to debt consolidation: how to combine loans and save money",
       "metrics": {
         "keyword_coverage": 20,
-        "internal_links_count": 25,
-        "content_depth_words": 1546,
+        "internal_links_count": 32,
+        "content_depth_words": 1575,
         "intent_match_score": 65
       },
       "ranking_score": 69
@@ -607,8 +607,8 @@
       "title": "Fixed-rate vs. variable-rate personal loans: how to choose the right one",
       "metrics": {
         "keyword_coverage": 20,
-        "internal_links_count": 25,
-        "content_depth_words": 1301,
+        "internal_links_count": 32,
+        "content_depth_words": 1330,
         "intent_match_score": 65
       },
       "ranking_score": 69
@@ -619,11 +619,11 @@
       "title": "$100,000 loan at 3.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-3-5-percent-for-30-years/",
@@ -631,11 +631,11 @@
       "title": "$100,000 loan at 3.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/",
@@ -643,11 +643,11 @@
       "title": "$100,000 loan at 4% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/",
@@ -655,11 +655,11 @@
       "title": "$100,000 loan at 4% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-5-percent-for-15-years/",
@@ -667,11 +667,11 @@
       "title": "$100,000 loan at 4.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-4-5-percent-for-30-years/",
@@ -679,11 +679,11 @@
       "title": "$100,000 loan at 4.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-5-percent-for-15-years/",
@@ -691,11 +691,11 @@
       "title": "$100,000 loan at 5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-5-percent-for-30-years/",
@@ -703,11 +703,11 @@
       "title": "$100,000 loan at 5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-6-percent-for-15-years/",
@@ -715,11 +715,11 @@
       "title": "$100,000 loan at 6% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/100000-loan-at-6-percent-for-30-years/",
@@ -727,11 +727,11 @@
       "title": "$100,000 loan at 6% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-3-5-percent-for-15-years/",
@@ -739,11 +739,11 @@
       "title": "$150,000 loan at 3.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-3-5-percent-for-30-years/",
@@ -751,11 +751,11 @@
       "title": "$150,000 loan at 3.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/",
@@ -763,11 +763,11 @@
       "title": "$150,000 loan at 4% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/",
@@ -775,11 +775,11 @@
       "title": "$150,000 loan at 4% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-5-percent-for-15-years/",
@@ -787,11 +787,11 @@
       "title": "$150,000 loan at 4.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-4-5-percent-for-30-years/",
@@ -799,11 +799,11 @@
       "title": "$150,000 loan at 4.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-5-percent-for-15-years/",
@@ -811,11 +811,11 @@
       "title": "$150,000 loan at 5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-5-percent-for-30-years/",
@@ -823,11 +823,11 @@
       "title": "$150,000 loan at 5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-6-percent-for-15-years/",
@@ -835,11 +835,11 @@
       "title": "$150,000 loan at 6% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/",
@@ -847,11 +847,11 @@
       "title": "$150,000 loan at 6% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/",
@@ -859,11 +859,11 @@
       "title": "$200,000 loan at 3.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-3-5-percent-for-30-years/",
@@ -871,11 +871,11 @@
       "title": "$200,000 loan at 3.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-4-percent-for-15-years/",
@@ -883,11 +883,11 @@
       "title": "$200,000 loan at 4% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/",
@@ -895,11 +895,11 @@
       "title": "$200,000 loan at 4% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-4-5-percent-for-15-years/",
@@ -907,11 +907,11 @@
       "title": "$200,000 loan at 4.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-4-5-percent-for-30-years/",
@@ -919,11 +919,11 @@
       "title": "$200,000 loan at 4.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-5-percent-for-15-years/",
@@ -931,11 +931,11 @@
       "title": "$200,000 loan at 5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-5-percent-for-30-years/",
@@ -943,11 +943,11 @@
       "title": "$200,000 loan at 5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-6-percent-for-15-years/",
@@ -955,11 +955,11 @@
       "title": "$200,000 loan at 6% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/200000-loan-at-6-percent-for-30-years/",
@@ -967,11 +967,11 @@
       "title": "$200,000 loan at 6% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-3-5-percent-for-15-years/",
@@ -979,11 +979,11 @@
       "title": "$250,000 loan at 3.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-3-5-percent-for-30-years/",
@@ -991,11 +991,11 @@
       "title": "$250,000 loan at 3.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-4-percent-for-15-years/",
@@ -1003,11 +1003,11 @@
       "title": "$250,000 loan at 4% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-4-percent-for-30-years/",
@@ -1015,11 +1015,11 @@
       "title": "$250,000 loan at 4% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-4-5-percent-for-15-years/",
@@ -1027,11 +1027,11 @@
       "title": "$250,000 loan at 4.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-4-5-percent-for-30-years/",
@@ -1039,11 +1039,11 @@
       "title": "$250,000 loan at 4.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-5-percent-for-15-years/",
@@ -1051,11 +1051,11 @@
       "title": "$250,000 loan at 5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-5-percent-for-30-years/",
@@ -1063,11 +1063,11 @@
       "title": "$250,000 loan at 5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-6-percent-for-15-years/",
@@ -1075,11 +1075,11 @@
       "title": "$250,000 loan at 6% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/",
@@ -1087,11 +1087,11 @@
       "title": "$250,000 loan at 6% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/",
@@ -1099,11 +1099,11 @@
       "title": "$300,000 loan at 3.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/",
@@ -1111,11 +1111,11 @@
       "title": "$300,000 loan at 3.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/",
@@ -1123,11 +1123,11 @@
       "title": "$300,000 loan at 4% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/",
@@ -1135,11 +1135,11 @@
       "title": "$300,000 loan at 4% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/",
@@ -1147,11 +1147,11 @@
       "title": "$300,000 loan at 4.5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/",
@@ -1159,11 +1159,11 @@
       "title": "$300,000 loan at 4.5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/",
@@ -1171,11 +1171,11 @@
       "title": "$300,000 loan at 5% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/",
@@ -1183,11 +1183,11 @@
       "title": "$300,000 loan at 5% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/",
@@ -1195,11 +1195,11 @@
       "title": "$300,000 loan at 6% for 15 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
       },
-      "ranking_score": 65
+      "ranking_score": 66
     },
     {
       "url": "/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/",
@@ -1207,9 +1207,21 @@
       "title": "$300,000 loan at 6% for 30 years",
       "metrics": {
         "keyword_coverage": 50,
-        "internal_links_count": 19,
-        "content_depth_words": 173,
+        "internal_links_count": 26,
+        "content_depth_words": 201,
         "intent_match_score": 100
+      },
+      "ranking_score": 66
+    },
+    {
+      "url": "/tools/rent-vs-buy/",
+      "type": "tool",
+      "title": "Rent vs. Buy Calculator",
+      "metrics": {
+        "keyword_coverage": 60,
+        "internal_links_count": 21,
+        "content_depth_words": 336,
+        "intent_match_score": 65
       },
       "ranking_score": 65
     },
@@ -1219,8 +1231,8 @@
       "title": "How to negotiate a car loan: tips for getting the best interest rate",
       "metrics": {
         "keyword_coverage": 0,
-        "internal_links_count": 25,
-        "content_depth_words": 1267,
+        "internal_links_count": 32,
+        "content_depth_words": 1296,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -1231,8 +1243,8 @@
       "title": "How your credit score affects your car loan rate (and how to lower it)",
       "metrics": {
         "keyword_coverage": 0,
-        "internal_links_count": 27,
-        "content_depth_words": 1249,
+        "internal_links_count": 34,
+        "content_depth_words": 1278,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -1243,8 +1255,8 @@
       "title": "How to refinance a car loan: when it makes sense and how much you can save",
       "metrics": {
         "keyword_coverage": 0,
-        "internal_links_count": 29,
-        "content_depth_words": 1607,
+        "internal_links_count": 36,
+        "content_depth_words": 1636,
         "intent_match_score": 65
       },
       "ranking_score": 63
@@ -1253,6 +1265,13 @@
   "missing_keyword_opportunities": [
     {
       "keyword": "amortization vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "amortization vs break even",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -1273,14 +1292,7 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "amortization vs growth",
+      "keyword": "amortization vs home buying",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -1288,6 +1300,13 @@
     },
     {
       "keyword": "amortization vs home loan",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "amortization vs housing",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -1308,13 +1327,6 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "amortization vs monthly payment",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
@@ -1329,7 +1341,14 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs risk",
+      "keyword": "amortization vs rent vs buy",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "amortization vs renting",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -1343,28 +1362,7 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs variable rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "auto finance vs compound interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "auto finance vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "auto finance vs growth",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -1378,20 +1376,6 @@
       "score": 88
     },
     {
-      "keyword": "auto finance vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "auto finance vs risk",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "auto finance vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
@@ -1399,7 +1383,42 @@
       "score": 88
     },
     {
-      "keyword": "auto finance vs variable rate",
+      "keyword": "break even vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs car loan",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs compound interest",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs housing",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs interest calculator",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -1420,20 +1439,6 @@
       "score": 88
     },
     {
-      "keyword": "car loan vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "car loan vs growth",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "car loan vs interest calculator",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
@@ -1441,21 +1446,28 @@
       "score": 88
     },
     {
-      "keyword": "car loan vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "car loan vs risk",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "car loan vs simple interest",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "compound interest vs simple interest",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "home buying vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "home buying vs break even",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",

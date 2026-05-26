@@ -27,7 +27,33 @@
         <a href="/" class="brand">CalnexApp</a>
         <nav class="menu" id="siteMenu">
           <a href="/" data-nav-link>Home</a>
-          <a href="/tools/" data-nav-link>Tools</a>
+          <div class="cn-nav-dropdown">
+            <a href="/tools/" class="cn-nav-dropdown__trigger" data-nav-link aria-haspopup="true" aria-expanded="false" id="cnToolsNavTrigger">Tools</a>
+            <div class="cn-nav-dropdown__panel" role="menu" aria-labelledby="cnToolsNavTrigger">
+              <a href="/tools/" class="cn-nav-dropdown__hub" role="menuitem" data-nav-link>All calculators</a>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Housing</p>
+        <a href="/tools/mortgage-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Mortgage Calculator</a>
+        <a href="/tools/rent-vs-buy/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Rent vs. Buy Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Loans &amp; credit</p>
+        <a href="/tools/loan-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Loan Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Auto</p>
+        <a href="/tools/car-loan-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Car Loan Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Interest &amp; growth</p>
+        <a href="/tools/interest-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Interest Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Retirement &amp; planning</p>
+        <a href="/tools/retirement-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Retirement Calculator</a>
+      </div>
+            </div>
+          </div>
           <a href="/blog/" data-nav-link>Blog</a>
           <a href="/about/" data-nav-link>About</a>
           <a href="/contact/" data-nav-link>Contact</a>
@@ -47,9 +73,46 @@
 
       <section class="section-space" style="padding-top: 0">
         <h2 class="sr-only">All calculators</h2>
-        <div id="cn-tools-hub-grid" class="cn-tools-grid-static" aria-live="polite"></div>
+        <div id="cn-tools-hub-grid" class="cn-tools-grid-static" aria-live="polite">
+        <!-- CN_TOOLS_HUB_GRID_START -->
+          <article class="card tool-card cn-tool-card-link cn-card-interactive">
+            <h2>Loan Calculator</h2>
+            <p class="muted">Installment loans: monthly payment, total interest, payoff date, and amortization with optional extra payments.</p>
+            <a class="btn btn-primary" href="/tools/loan-calculator/">Open</a>
+          </article>
+          <article class="card tool-card cn-tool-card-link cn-card-interactive">
+            <h2>Mortgage Calculator</h2>
+            <p class="muted">Home loans with escrow, affordability signals, 15 vs 30 year comparison, and full amortization.</p>
+            <a class="btn btn-primary" href="/tools/mortgage-calculator/">Open</a>
+          </article>
+          <article class="card tool-card cn-tool-card-link cn-card-interactive">
+            <h2>Rent vs. Buy Calculator</h2>
+            <p class="muted">Compare the long-term net worth of renting vs. buying a home. Factor in mortgage rates, property appreciation, inflation, and investment opportunity costs.</p>
+            <a class="btn btn-primary" href="/tools/rent-vs-buy/">Open</a>
+          </article>
+          <article class="card tool-card cn-tool-card-link cn-card-interactive">
+            <h2>Car Loan Calculator</h2>
+            <p class="muted">Auto financing with affordability bands, term comparisons, and total cost of ownership signals.</p>
+            <a class="btn btn-primary" href="/tools/car-loan-calculator/">Open</a>
+          </article>
+          <article class="card tool-card cn-tool-card-link cn-card-interactive">
+            <h2>Interest Calculator</h2>
+            <p class="muted">Simple vs compound interest—model savings growth or the cost of carrying a balance.</p>
+            <a class="btn btn-primary" href="/tools/interest-calculator/">Open</a>
+          </article>
+          <article class="card tool-card cn-tool-card-link cn-card-interactive">
+            <h2>Retirement Calculator</h2>
+            <p class="muted">Contribution-led retirement projections with inflation-adjusted goals and funding gap readouts.</p>
+            <a class="btn btn-primary" href="/tools/retirement-calculator/">Open</a>
+          </article>
+        <!-- CN_TOOLS_HUB_GRID_END -->
+        </div>
       </section>
 
+      
+      
+      
+      
       
       
       
@@ -97,13 +160,13 @@
       <section class="card">
         <h2>Latest Tools</h2>
         <ul class="toc-list">
-          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-25)</span></li>
+          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/rent-vs-buy/">Rent vs. Buy Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-26)</span></li>
         </ul>
       </section>
       <section class="card">
         <h2>Latest SEO Scenarios</h2>
         <ul class="toc-list">
-          <li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/">$300,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/">$300,000 loan at 3.5% for 15 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/">$300,000 loan at 3.5% for 30 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/">$300,000 loan at 4% for 15 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/">$300,000 loan at 4% for 30 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/">$300,000 loan at 4.5% for 15 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/">$300,000 loan at 4.5% for 30 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/">$300,000 loan at 5% for 15 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/">$300,000 loan at 5% for 30 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/">$300,000 loan at 6% for 15 years</a> <span class="muted">(2026-05-25)</span></li>
+          <li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/">$300,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/">$300,000 loan at 6% for 15 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/">$300,000 loan at 5% for 15 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/">$300,000 loan at 5% for 30 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/">$300,000 loan at 4% for 30 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/">$300,000 loan at 4.5% for 15 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/">$300,000 loan at 4.5% for 30 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/">$300,000 loan at 4% for 15 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/">$300,000 loan at 3.5% for 30 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/">$250,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-26)</span></li>
         </ul>
       </section>
       <!-- ILB_TOOLS_LATEST_END -->

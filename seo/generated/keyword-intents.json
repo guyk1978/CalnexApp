@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-25T08:14:38.040Z",
+  "generated_at": "2026-05-26T06:01:36.559Z",
   "totals": {
-    "keywords": 597,
-    "informational": 191,
-    "commercial": 271,
-    "transactional": 135
+    "keywords": 632,
+    "informational": 200,
+    "commercial": 292,
+    "transactional": 140
   },
   "samples": {
     "informational": [
@@ -25,11 +25,11 @@
       "interest",
       "mortgage",
       "home loan",
-      "car loan",
-      "auto finance",
-      "compound interest",
-      "simple interest",
-      "growth"
+      "rent vs buy",
+      "home buying",
+      "renting",
+      "break even",
+      "housing"
     ],
     "transactional": [
       "loan calculator",
@@ -67,6 +67,26 @@
     },
     {
       "keyword": "home loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "rent vs buy",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "home buying",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "renting",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "break even",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "housing",
       "intent": "commercial"
     },
     {
@@ -734,6 +754,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "break even calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "break even for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "break even with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "car lease calculator calculator",
       "intent": "transactional"
     },
@@ -982,6 +1014,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "home buying calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "home buying for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "home buying with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "home loan calculator",
       "intent": "transactional"
     },
@@ -991,6 +1035,18 @@
     },
     {
       "keyword": "home loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "housing calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "housing for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "housing with extra payments",
       "intent": "commercial"
     },
     {
@@ -1074,6 +1130,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does break even work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does car lease calculator work",
       "intent": "informational"
     },
@@ -1150,7 +1210,15 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does home buying work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does home loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does housing work",
       "intent": "informational"
     },
     {
@@ -1239,6 +1307,14 @@
     },
     {
       "keyword": "how does refinance variable personal loan work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does rent vs buy work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does renting work",
       "intent": "informational"
     },
     {
@@ -1570,6 +1646,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "how to reduce break even",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce car lease calculator",
       "intent": "transactional"
     },
@@ -1646,7 +1726,15 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce home buying",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce home loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce housing",
       "intent": "informational"
     },
     {
@@ -1735,6 +1823,14 @@
     },
     {
       "keyword": "how to reduce refinance variable personal loan",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce rent vs buy",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "how to reduce renting",
       "intent": "informational"
     },
     {
@@ -1898,6 +1994,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is break even worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is car lease calculator worth it",
       "intent": "transactional"
     },
@@ -1974,7 +2074,15 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is home buying worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is home loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is housing worth it",
       "intent": "commercial"
     },
     {
@@ -2063,6 +2171,14 @@
     },
     {
       "keyword": "is refinance variable personal loan worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is rent vs buy worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is renting worth it",
       "intent": "commercial"
     },
     {
@@ -2319,6 +2435,30 @@
     },
     {
       "keyword": "refinance variable personal loan with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "rent vs buy calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "rent vs buy for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "rent vs buy with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "renting calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "renting for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "renting with extra payments",
       "intent": "commercial"
     },
     {

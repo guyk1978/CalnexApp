@@ -1,5 +1,11 @@
 {
   "scripts": {
+    "dev:rent-vs-buy": "next dev",
+    "build:rent-vs-buy": "next build",
+    "sync-nav": "node scripts/sync-nav.mjs",
+    "sync-tools-hub": "node scripts/sync-tools-hub.mjs",
+    "search:build": "node scripts/build-search-index.js",
+    "typecheck": "tsc --noEmit",
     "test": "node --test tests/financial-core.test.cjs",
 
     "seo-draft-server": "node scripts/seo-draft-persist-server.js",
@@ -36,8 +42,17 @@
 
     "patch:html-head": "node scripts/patch-html-head.mjs",
 
-    "search:build": "node scripts/build-search-index.js",
-
-    "build": "npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
+    "build": "npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run sync-tools-hub && npm run sync-nav && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
+  },
+  "dependencies": {
+    "next": "^15.3.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "typescript": "^5.8.3"
   }
 }

@@ -1,12 +1,19 @@
 {
-  "generated_at": "2026-05-25T08:14:38.458Z",
+  "generated_at": "2026-05-26T06:01:37.011Z",
   "basis": {
-    "covered_keywords_count": 135,
+    "covered_keywords_count": 141,
     "analyzed_seed_keywords_count": 16
   },
   "high_value_page_suggestions": [
     {
       "keyword": "amortization vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "amortization vs break even",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -27,14 +34,7 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "amortization vs growth",
+      "keyword": "amortization vs home buying",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -42,6 +42,13 @@
     },
     {
       "keyword": "amortization vs home loan",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "amortization vs housing",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -62,13 +69,6 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "amortization vs monthly payment",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
@@ -83,7 +83,14 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs risk",
+      "keyword": "amortization vs rent vs buy",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "amortization vs renting",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -97,28 +104,7 @@
       "score": 88
     },
     {
-      "keyword": "amortization vs variable rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "auto finance vs compound interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "auto finance vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "auto finance vs growth",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -132,20 +118,6 @@
       "score": 88
     },
     {
-      "keyword": "auto finance vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "auto finance vs risk",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "auto finance vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
@@ -153,7 +125,42 @@
       "score": 88
     },
     {
-      "keyword": "auto finance vs variable rate",
+      "keyword": "break even vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs car loan",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs compound interest",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs housing",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs interest calculator",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "break even vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -174,35 +181,7 @@
       "score": 88
     },
     {
-      "keyword": "car loan vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "car loan vs growth",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "car loan vs interest calculator",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "car loan vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "car loan vs risk",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -216,41 +195,6 @@
       "score": 88
     },
     {
-      "keyword": "car loan vs variable rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "compound interest vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "compound interest vs growth",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "compound interest vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "compound interest vs risk",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "compound interest vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
@@ -258,49 +202,56 @@
       "score": 88
     },
     {
-      "keyword": "compound interest vs variable rate",
+      "keyword": "home buying vs auto finance",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "fixed rate vs risk",
+      "keyword": "home buying vs break even",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "fixed rate vs variable rate",
+      "keyword": "home buying vs car loan",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "growth vs fixed rate",
+      "keyword": "home buying vs compound interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "growth vs loan interest",
+      "keyword": "home buying vs housing",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "growth vs risk",
+      "keyword": "home buying vs interest calculator",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "growth vs variable rate",
+      "keyword": "home buying vs renting",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "home buying vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -308,6 +259,13 @@
     },
     {
       "keyword": "home loan vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "home loan vs break even",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -328,14 +286,14 @@
       "score": 88
     },
     {
-      "keyword": "home loan vs fixed rate",
+      "keyword": "home loan vs home buying",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "home loan vs growth",
+      "keyword": "home loan vs housing",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -349,14 +307,14 @@
       "score": 88
     },
     {
-      "keyword": "home loan vs loan interest",
+      "keyword": "home loan vs rent vs buy",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
       "score": 88
     },
     {
-      "keyword": "home loan vs risk",
+      "keyword": "home loan vs renting",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -370,7 +328,35 @@
       "score": 88
     },
     {
-      "keyword": "home loan vs variable rate",
+      "keyword": "housing vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "housing vs car loan",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "housing vs compound interest",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "housing vs interest calculator",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "housing vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -384,34 +370,6 @@
       "score": 88
     },
     {
-      "keyword": "interest calculator vs fixed rate",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "interest calculator vs growth",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "interest calculator vs loan interest",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
-      "keyword": "interest calculator vs risk",
-      "suggestion_type": "missing_comparisons",
-      "recommended_intent": "commercial",
-      "reason": "Comparison query cluster opportunity.",
-      "score": 88
-    },
-    {
       "keyword": "interest calculator vs simple interest",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
@@ -419,7 +377,49 @@
       "score": 88
     },
     {
-      "keyword": "interest calculator vs variable rate",
+      "keyword": "interest vs auto finance",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "interest vs break even",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "interest vs car loan",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "interest vs compound interest",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "interest vs home buying",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "interest vs home loan",
+      "suggestion_type": "missing_comparisons",
+      "recommended_intent": "commercial",
+      "reason": "Comparison query cluster opportunity.",
+      "score": 88
+    },
+    {
+      "keyword": "interest vs housing",
       "suggestion_type": "missing_comparisons",
       "recommended_intent": "commercial",
       "reason": "Comparison query cluster opportunity.",
@@ -430,6 +430,13 @@
     "missing_comparisons": [
       {
         "keyword": "amortization vs auto finance",
+        "suggestion_type": "missing_comparisons",
+        "recommended_intent": "commercial",
+        "reason": "Comparison query cluster opportunity.",
+        "score": 88
+      },
+      {
+        "keyword": "amortization vs break even",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
         "reason": "Comparison query cluster opportunity.",
@@ -450,14 +457,7 @@
         "score": 88
       },
       {
-        "keyword": "amortization vs fixed rate",
-        "suggestion_type": "missing_comparisons",
-        "recommended_intent": "commercial",
-        "reason": "Comparison query cluster opportunity.",
-        "score": 88
-      },
-      {
-        "keyword": "amortization vs growth",
+        "keyword": "amortization vs home buying",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
         "reason": "Comparison query cluster opportunity.",
@@ -465,6 +465,13 @@
       },
       {
         "keyword": "amortization vs home loan",
+        "suggestion_type": "missing_comparisons",
+        "recommended_intent": "commercial",
+        "reason": "Comparison query cluster opportunity.",
+        "score": 88
+      },
+      {
+        "keyword": "amortization vs housing",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
         "reason": "Comparison query cluster opportunity.",
@@ -485,13 +492,6 @@
         "score": 88
       },
       {
-        "keyword": "amortization vs loan interest",
-        "suggestion_type": "missing_comparisons",
-        "recommended_intent": "commercial",
-        "reason": "Comparison query cluster opportunity.",
-        "score": 88
-      },
-      {
         "keyword": "amortization vs monthly payment",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
@@ -506,7 +506,14 @@
         "score": 88
       },
       {
-        "keyword": "amortization vs risk",
+        "keyword": "amortization vs rent vs buy",
+        "suggestion_type": "missing_comparisons",
+        "recommended_intent": "commercial",
+        "reason": "Comparison query cluster opportunity.",
+        "score": 88
+      },
+      {
+        "keyword": "amortization vs renting",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
         "reason": "Comparison query cluster opportunity.",
@@ -520,28 +527,7 @@
         "score": 88
       },
       {
-        "keyword": "amortization vs variable rate",
-        "suggestion_type": "missing_comparisons",
-        "recommended_intent": "commercial",
-        "reason": "Comparison query cluster opportunity.",
-        "score": 88
-      },
-      {
         "keyword": "auto finance vs compound interest",
-        "suggestion_type": "missing_comparisons",
-        "recommended_intent": "commercial",
-        "reason": "Comparison query cluster opportunity.",
-        "score": 88
-      },
-      {
-        "keyword": "auto finance vs fixed rate",
-        "suggestion_type": "missing_comparisons",
-        "recommended_intent": "commercial",
-        "reason": "Comparison query cluster opportunity.",
-        "score": 88
-      },
-      {
-        "keyword": "auto finance vs growth",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
         "reason": "Comparison query cluster opportunity.",
@@ -555,14 +541,28 @@
         "score": 88
       },
       {
-        "keyword": "auto finance vs loan interest",
+        "keyword": "auto finance vs simple interest",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
         "reason": "Comparison query cluster opportunity.",
         "score": 88
       },
       {
-        "keyword": "auto finance vs risk",
+        "keyword": "break even vs auto finance",
+        "suggestion_type": "missing_comparisons",
+        "recommended_intent": "commercial",
+        "reason": "Comparison query cluster opportunity.",
+        "score": 88
+      },
+      {
+        "keyword": "break even vs car loan",
+        "suggestion_type": "missing_comparisons",
+        "recommended_intent": "commercial",
+        "reason": "Comparison query cluster opportunity.",
+        "score": 88
+      },
+      {
+        "keyword": "break even vs compound interest",
         "suggestion_type": "missing_comparisons",
         "recommended_intent": "commercial",
         "reason": "Comparison query cluster opportunity.",

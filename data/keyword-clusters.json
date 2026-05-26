@@ -8,6 +8,11 @@
       "interest",
       "mortgage",
       "home loan",
+      "rent vs buy",
+      "home buying",
+      "renting",
+      "break even",
+      "housing",
       "car loan",
       "auto finance",
       "interest calculator",
@@ -18,6 +23,7 @@
     "related_pages": [
       "/tools/loan-calculator/",
       "/tools/mortgage-calculator/",
+      "/tools/rent-vs-buy/",
       "/tools/car-loan-calculator/",
       "/tools/interest-calculator/"
     ],

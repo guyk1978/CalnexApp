@@ -44,7 +44,33 @@
         </a>
         <nav class="menu" id="siteMenu">
           <a href="/" data-nav-link>Home</a>
-          <a href="/tools/" data-nav-link>Tools</a>
+          <div class="cn-nav-dropdown">
+            <a href="/tools/" class="cn-nav-dropdown__trigger" data-nav-link aria-haspopup="true" aria-expanded="false" id="cnToolsNavTrigger">Tools</a>
+            <div class="cn-nav-dropdown__panel" role="menu" aria-labelledby="cnToolsNavTrigger">
+              <a href="/tools/" class="cn-nav-dropdown__hub" role="menuitem" data-nav-link>All calculators</a>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Housing</p>
+        <a href="/tools/mortgage-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Mortgage Calculator</a>
+        <a href="/tools/rent-vs-buy/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Rent vs. Buy Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Loans &amp; credit</p>
+        <a href="/tools/loan-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Loan Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Auto</p>
+        <a href="/tools/car-loan-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Car Loan Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Interest &amp; growth</p>
+        <a href="/tools/interest-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Interest Calculator</a>
+      </div>
+      <div class="cn-nav-dropdown__group">
+        <p class="cn-nav-dropdown__label">Retirement &amp; planning</p>
+        <a href="/tools/retirement-calculator/" class="cn-nav-dropdown__link" role="menuitem" data-nav-link>Retirement Calculator</a>
+      </div>
+            </div>
+          </div>
           <a href="/blog/" data-nav-link>Blog</a>
           <a href="/about/" data-nav-link>About</a>
           <a href="/contact/" data-nav-link>Contact</a>
@@ -171,6 +197,11 @@
             <p class="muted">Home loans with the long horizon broken into numbers you can reason about month by month.</p>
             <a class="btn btn-ghost" href="/tools/mortgage-calculator/">Open mortgage tool</a>
           </article>
+          <article class="card tool-card cn-bento__cell cn-bento__cell--wide cn-tool-card-link cn-card-interactive">
+            <h2>Rent vs. buy</h2>
+            <p class="muted">Compare the long-term net worth of renting vs. buying a home. Factor in mortgage rates, property appreciation, inflation, and investment opportunity costs.</p>
+            <a class="btn btn-ghost" href="/tools/rent-vs-buy/">Open rent vs. buy tool</a>
+          </article>
           <article class="card tool-card cn-bento__cell cn-tool-card-link cn-card-interactive">
             <h2>Car loan</h2>
             <p class="muted">Dealer or credit union terms—see the true cost before you drive off the lot.</p>
@@ -232,11 +263,15 @@
       
       
       
+      
+      
+      
+      
       <!-- ILB_HOME_RECENT_START -->
       <section class="container section-space card">
         <h2>Recently updated</h2>
         <ul class="toc-list">
-          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/">Loan Calculator</a> <span class="muted">(2026-05-25)</span></li><li><a href="/blog/how-to-refinance-car-loan/">How to refinance a car loan: when it makes sense and how much you can save</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/ultimate-guide-debt-consolidation/">The ultimate guide to debt consolidation: how to combine loans and save money</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/fixed-vs-variable-personal-loans/">Fixed-rate vs. variable-rate personal loans: how to choose the right one</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/">$300,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/">$300,000 loan at 3.5% for 15 years</a> <span class="muted">(2026-05-25)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/">$300,000 loan at 3.5% for 30 years</a> <span class="muted">(2026-05-25)</span></li>
+          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/interest-calculator/">Interest Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/rent-vs-buy/">Rent vs. Buy Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a> <span class="muted">(2026-05-26)</span></li><li><a href="/blog/how-to-refinance-car-loan/">How to refinance a car loan: when it makes sense and how much you can save</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/ultimate-guide-debt-consolidation/">The ultimate guide to debt consolidation: how to combine loans and save money</a> <span class="muted">(2026-05-21)</span></li><li><a href="/blog/fixed-vs-variable-personal-loans/">Fixed-rate vs. variable-rate personal loans: how to choose the right one</a> <span class="muted">(2026-05-21)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/">$300,000 loan at 6% for 30 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/">$300,000 loan at 6% for 15 years</a> <span class="muted">(2026-05-26)</span></li><li><a href="/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/">$300,000 loan at 5% for 15 years</a> <span class="muted">(2026-05-26)</span></li>
         </ul>
       </section>
       <!-- ILB_HOME_RECENT_END -->
@@ -275,11 +310,15 @@
       
       
       
+      
+      
+      
+      
       <!-- RANK_FEATURED_START -->
       <section class="container section-space card">
         <h2>Featured pages</h2>
         <ul class="toc-list">
-          <li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a></li><li><a href="/tools/loan-calculator/">Loan Calculator</a></li><li><a href="/blog/best-loan-term-15-vs-30-years/">Best Loan Term: 15 vs 30 Years</a></li><li><a href="/blog/loan-vs-mortgage/">Loan vs Mortgage: Key Differences Explained</a></li><li><a href="/blog/car-leasing-vs-buying/">Car leasing vs buying: pros, cons, and the real math</a></li><li><a href="/tools/interest-calculator/">Interest Calculator</a></li>
+          <li><a href="/blog/how-to-calculate-loan-interest/">How to Calculate Loan Interest: A Practical Guide</a></li><li><a href="/tools/loan-calculator/">Loan Calculator</a></li><li><a href="/blog/loan-vs-mortgage/">Loan vs Mortgage: Key Differences Explained</a></li><li><a href="/blog/best-loan-term-15-vs-30-years/">Best Loan Term: 15 vs 30 Years</a></li><li><a href="/blog/car-leasing-vs-buying/">Car leasing vs buying: pros, cons, and the real math</a></li><li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a></li>
         </ul>
       </section>
       <!-- RANK_FEATURED_END -->
@@ -320,6 +359,7 @@
             <ul>
               <li><a href="/tools/loan-calculator/">Loan</a></li>
               <li><a href="/tools/mortgage-calculator/">Mortgage</a></li>
+              <li><a href="/tools/rent-vs-buy/">Rent vs. buy</a></li>
               <li><a href="/tools/car-loan-calculator/">Car loan</a></li>
               <li><a href="/tools/interest-calculator/">Interest</a></li>
             </ul>

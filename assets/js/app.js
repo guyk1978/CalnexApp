@@ -129,6 +129,36 @@
     });
   };
 
+  const initToolsNavDropdown = () => {
+    document.querySelectorAll(".cn-nav-dropdown").forEach((dropdown) => {
+      if (dropdown.dataset.cnNavBound === "true") return;
+      dropdown.dataset.cnNavBound = "true";
+      const trigger = dropdown.querySelector(".cn-nav-dropdown__trigger");
+      const panel = dropdown.querySelector(".cn-nav-dropdown__panel");
+      if (!trigger || !panel) return;
+
+      const setOpen = (open) => {
+        dropdown.classList.toggle("is-open", open);
+        trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+
+      trigger.addEventListener("click", (event) => {
+        if (window.innerWidth <= 768) {
+          event.preventDefault();
+          setOpen(!dropdown.classList.contains("is-open"));
+        }
+      });
+
+      dropdown.addEventListener("focusout", (event) => {
+        if (!dropdown.contains(event.relatedTarget)) setOpen(false);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setOpen(false);
+      });
+    });
+  };
+
   const initMobileMenu = () => {
     const nav = document.querySelector(".site-header .nav");
     const menu = nav?.querySelector(".menu");
@@ -282,6 +312,7 @@
   const renderToolsHub = async () => {
     const grid = document.getElementById("cn-tools-hub-grid");
     if (!grid) return;
+    const hasStaticCards = grid.querySelectorAll(".tool-card").length > 0;
     try {
       const tools = await fetchJson("/data/tools.json");
       grid.innerHTML = tools
@@ -289,14 +320,16 @@
           (tool) => `
         <article class="card tool-card cn-tool-card-link cn-card-interactive">
           <h2>${tool.name}</h2>
-          <p class="muted">${tool.description}</p>
+          <p class="muted">${tool.hubDescription || tool.description}</p>
           <a class="btn btn-primary" href="${tool.path}">Open</a>
         </article>
       `
         )
         .join("");
     } catch (_e) {
-      grid.innerHTML = "<p class=\"muted\">Unable to load tools list.</p>";
+      if (!hasStaticCards) {
+        grid.innerHTML = "<p class=\"muted\">Unable to load tools list.</p>";
+      }
     }
   };
 
@@ -382,6 +415,7 @@
   initThemeToggle();
   initSiteSearch();
   markActiveNav();
+  initToolsNavDropdown();
   initMobileMenu();
   renderRelatedTools();
   renderBlogIndex();
