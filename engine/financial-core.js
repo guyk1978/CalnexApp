@@ -454,6 +454,119 @@ const FinancialCore = (() => {
       };
     });
 
+  const termToMonths = (termValue, termUnit) => {
+    const v = Math.max(0, Number(termValue) || 0);
+    if (termUnit === "months") return Math.round(v);
+    return Math.round(v * 12);
+  };
+
+  /** IRR-style APR: fees reduce net proceeds at t=0; payments at stated amortization. */
+  const effectiveAprFromCashFlows = (netProceeds, monthlyPayment, termMonths) => {
+    if (termMonths <= 0 || netProceeds <= 0 || monthlyPayment <= 0) return 0;
+    const npv = (rm) => {
+      let total = -netProceeds;
+      for (let t = 1; t <= termMonths; t += 1) total += monthlyPayment / (1 + rm) ** t;
+      return total;
+    };
+    if (Math.abs(npv(0)) < 1e-4) return 0;
+    let lo = 0;
+    let hi = 0.01;
+    while (npv(hi) > 0 && hi < 0.3) hi *= 2;
+    if (npv(hi) > 0) return 0;
+    for (let i = 0; i < 72; i += 1) {
+      const mid = (lo + hi) / 2;
+      if (npv(mid) > 0) lo = mid;
+      else hi = mid;
+    }
+    const monthly = (lo + hi) / 2;
+    return ((1 + monthly) ** 12 - 1) * 100;
+  };
+
+  const computeLoanOfferMetrics = (offer = {}) => {
+    const principal = clampNonNeg(offer.principal);
+    const annualAprPercent = clampNonNeg(offer.annualAprPercent);
+    const termMonths = termToMonths(offer.termValue, offer.termUnit);
+    const fees = clampNonNeg(offer.fees);
+    const label = offer.label != null ? String(offer.label) : "Offer";
+
+    const baseline = loanAmortizationRaw({
+      principal,
+      annualAprPercent,
+      termMonths,
+      includeExtra: false
+    });
+    const monthlyPayment = baseline.monthlyPayment;
+    const totalPaid = monthlyPayment * termMonths;
+    const totalInterest = Math.max(0, totalPaid - principal);
+    const totalCost = totalPaid + fees;
+    const netProceeds = Math.max(principal - fees, 0);
+    const effectiveAprPercent =
+      fees > 0 ? effectiveAprFromCashFlows(netProceeds || principal, monthlyPayment, termMonths) : annualAprPercent;
+
+    return {
+      label,
+      principal,
+      annualAprPercent,
+      termMonths,
+      fees,
+      monthlyPayment,
+      totalPaid,
+      totalInterest,
+      totalCost,
+      effectiveAprPercent
+    };
+  };
+
+  const computeLoanComparisonSnapshot = (raw) =>
+    cacheGetOrSet("computeLoanComparisonSnapshot", raw, () => {
+      const offersIn = Array.isArray(raw.offers) ? raw.offers : [];
+      const offers = offersIn
+        .filter((o) => o && o.enabled !== false)
+        .map((o, i) =>
+          computeLoanOfferMetrics({
+            ...o,
+            label: o.label != null ? o.label : String.fromCharCode(65 + i)
+          })
+        );
+
+      if (!offers.length) {
+        return {
+          offers: [],
+          winnerIndex: -1,
+          winnerLabel: "",
+          savingsVsRunnerUp: 0,
+          lc_verdict_title: "Enter at least two offers to compare",
+          lc_verdict_detail: "Adjust loan amount, rate, term, and fees for each offer."
+        };
+      }
+
+      let winnerIndex = 0;
+      offers.forEach((o, i) => {
+        if (o.totalCost < offers[winnerIndex].totalCost) winnerIndex = i;
+      });
+
+      const ranked = offers
+        .map((o, index) => ({ ...o, index }))
+        .sort((a, b) => a.totalCost - b.totalCost);
+      const savingsVsRunnerUp = ranked.length > 1 ? ranked[1].totalCost - ranked[0].totalCost : 0;
+      const winner = offers[winnerIndex];
+
+      return {
+        offers,
+        winnerIndex,
+        winnerLabel: winner.label,
+        savingsVsRunnerUp,
+        lc_verdict_title:
+          savingsVsRunnerUp > 0
+            ? `Offer ${winner.label} saves you the most over the loan lifespan`
+            : `Offer ${winner.label} ties for lowest total cost`,
+        lc_verdict_detail:
+          savingsVsRunnerUp > 0
+            ? "Comparison includes monthly payments, total interest, upfront fees, and effective APR."
+            : "Tweak rates or fees to see a clearer winner."
+      };
+    });
+
   const computeMortgageSnapshot = (raw) =>
     cacheGetOrSet("computeMortgageSnapshot", raw, () => {
       const homePrice = clampNonNeg(raw.homePrice);
@@ -962,6 +1075,8 @@ const FinancialCore = (() => {
     computeInterestToolkit,
     computeRetirementToolkit,
     computeLoanSnapshot,
+    computeLoanOfferMetrics,
+    computeLoanComparisonSnapshot,
     computeMortgageSnapshot,
     computeRentVsBuySnapshot,
     computeCarLoanSnapshot,

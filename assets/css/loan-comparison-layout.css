@@ -1,0 +1,231 @@
+/**
+ * Loan offer comparison — 12-column grid (5 inputs / 7 results).
+ * Natural document flow only; sticky rail without inner scrollbars.
+ */
+
+body[data-page="loan-comparison"] .cn-loan-compare-layout {
+  display: grid;
+  gap: var(--cn-space-4);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  body[data-page="loan-comparison"] .cn-loan-compare-layout {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  body[data-page="loan-comparison"] .cn-loan-compare-layout__inputs {
+    grid-column: span 5;
+    min-width: 0;
+  }
+
+  body[data-page="loan-comparison"] .cn-loan-compare-layout__results {
+    grid-column: span 7;
+    position: relative;
+    min-width: 0;
+  }
+
+  body[data-page="loan-comparison"] .cn-loan-compare-rail {
+    position: sticky;
+    top: calc(4.5rem + env(safe-area-inset-top, 0px));
+    align-self: start;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+body[data-page="loan-comparison"] .cn-offer-panel {
+  margin-bottom: var(--cn-space-4);
+  padding-bottom: var(--cn-space-4);
+  border-bottom: 1px solid var(--cn-border-subtle);
+}
+
+body[data-page="loan-comparison"] .cn-offer-panel:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+body[data-page="loan-comparison"] .cn-offer-panel__title {
+  margin: 0 0 var(--cn-space-3);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cn-accent);
+}
+
+body[data-page="loan-comparison"] .cn-offer-panel.is-hidden {
+  display: none;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-verdict {
+  margin-bottom: var(--cn-space-4);
+  padding: var(--cn-space-4);
+  border-radius: var(--cn-radius-md);
+  border: 1px solid color-mix(in srgb, var(--cn-accent) 40%, var(--cn-border-subtle));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--cn-accent) 18%, var(--cn-bg-elevated)) 0%,
+    var(--cn-bg-elevated) 100%
+  );
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-verdict h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-verdict .cn-verdict-savings {
+  margin: 0.5rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cn-success);
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-metrics {
+  display: grid;
+  gap: var(--cn-space-3);
+  margin-bottom: var(--cn-space-4);
+}
+
+@media (min-width: 520px) {
+  body[data-page="loan-comparison"] .cn-loan-compare-metrics {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-metric-card {
+  position: relative;
+  padding: var(--cn-space-3);
+  border-radius: var(--cn-radius-md);
+  border: 1px solid var(--cn-border-subtle);
+  background: var(--cn-bg-subtle);
+  min-width: 0;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-metric-card.is-winner {
+  border-color: color-mix(in srgb, var(--cn-success) 45%, var(--cn-border-subtle));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--cn-success) 25%, transparent);
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-metric-card .eyebrow {
+  margin: 0 0 0.5rem;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-metric-card dl {
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-metric-card dt {
+  font-size: 0.78rem;
+  color: var(--cn-text-tertiary);
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-metric-card dd {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-chart-wrap {
+  position: relative;
+  min-height: 260px;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-chart-wrap canvas {
+  position: relative !important;
+  width: 100% !important;
+  max-height: 320px;
+}
+
+@media (max-width: 959px) {
+  body[data-page="loan-comparison"] .cn-loan-compare-rail {
+    position: relative;
+    top: auto;
+  }
+}
+
+/* Recommended blog guides — matches Related Tools card rhythm */
+body[data-page="loan-comparison"] .cn-recommended-guides h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+body[data-page="loan-comparison"] .cn-recommended-guides__lede {
+  margin: 0 0 var(--cn-space-4);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+body[data-page="loan-comparison"] .cn-recommended-guides__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--cn-space-3);
+}
+
+body[data-page="loan-comparison"] .cn-recommended-guides__list > li {
+  margin: 0;
+}
+
+body[data-page="loan-comparison"] .cn-recommended-guides__link {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cn-space-3);
+  padding: var(--cn-space-4);
+  border-radius: var(--cn-radius-md);
+  border: 1px solid var(--cn-border-subtle);
+  background: var(--cn-bg-subtle);
+  text-decoration: none;
+  color: var(--cn-text-primary);
+  line-height: 1.45;
+  transition:
+    border-color var(--cn-motion-fast) var(--cn-ease-out),
+    background var(--cn-motion-fast) var(--cn-ease-out),
+    box-shadow var(--cn-motion-fast) var(--cn-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body[data-page="loan-comparison"] .cn-recommended-guides__link:hover {
+    border-color: var(--cn-border-strong);
+    background: var(--cn-bg-elevated);
+    box-shadow: var(--cn-shadow-xs);
+  }
+
+  body[data-page="loan-comparison"] .cn-recommended-guides__link:hover strong {
+    color: var(--cn-accent);
+  }
+}
+
+body[data-page="loan-comparison"] .cn-recommended-guides__index {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: var(--cn-radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cn-accent);
+  background: var(--cn-accent-muted);
+}
+
+body[data-page="loan-comparison"] .cn-recommended-guides__text {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95rem;
+}
+
+body[data-page="loan-comparison"] .cn-recommended-guides__text strong {
+  font-weight: 600;
+}

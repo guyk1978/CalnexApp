@@ -51,6 +51,13 @@
     "url": "/tools/loan-calculator/"
   },
   {
+    "title": "Loan Offer Comparison Tool",
+    "category": "Tools",
+    "description": "Compare 2–3 loan offers side-by-side with true total cost, effective APR (fees included), and a clear winner banner.",
+    "keywords": "loan comparison compare loan offers apr closing costs personal loan auto loan effective apr loan fees",
+    "url": "/tools/loan-comparison/"
+  },
+  {
     "title": "Mortgage Calculator",
     "category": "Tools",
     "description": "Home loans with escrow, affordability signals, 15 vs 30 year comparison, and full amortization.",

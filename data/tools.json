@@ -9,6 +9,15 @@
     "keywords": ["loan", "personal loan", "amortization", "monthly payment", "interest", "payoff"]
   },
   {
+    "slug": "loan-comparison",
+    "name": "Loan Offer Comparison Tool",
+    "path": "/tools/loan-comparison/",
+    "description": "Compare 2 to 3 auto or personal loan offers side-by-side. Factor in interest rates, terms, and closing fees to reveal the true cheapest loan.",
+    "hubDescription": "Compare 2–3 loan offers side-by-side with true total cost, effective APR (fees included), and a clear winner banner.",
+    "navGroup": "lending",
+    "keywords": ["loan comparison", "compare loan offers", "apr", "closing costs", "personal loan", "auto loan", "effective apr", "loan fees"]
+  },
+  {
     "slug": "mortgage-calculator",
     "name": "Mortgage Calculator",
     "path": "/tools/mortgage-calculator/",

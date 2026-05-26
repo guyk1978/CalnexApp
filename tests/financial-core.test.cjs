@@ -116,6 +116,23 @@ describe("FinancialCore deterministic outputs", () => {
     );
   });
 
+  test("loan comparison: picks lower total cost and effective APR with fees", () => {
+    const snap = FC.computeLoanComparisonSnapshot({
+      offers: [
+        { label: "A", enabled: true, principal: 25_000, annualAprPercent: 7.5, termValue: 5, termUnit: "years", fees: 500 },
+        { label: "B", enabled: true, principal: 25_000, annualAprPercent: 6.9, termValue: 5, termUnit: "years", fees: 1200 }
+      ]
+    });
+    assert.equal(snap.offers.length, 2);
+    assert.ok(snap.offers[0].monthlyPayment > 400);
+    assert.ok(snap.offers[0].totalCost > 25_000);
+    assert.ok(snap.offers[1].effectiveAprPercent >= snap.offers[1].annualAprPercent - 0.01);
+    assert.ok(snap.savingsVsRunnerUp >= 0);
+    assert.equal(snap.winnerLabel, snap.offers[snap.winnerIndex].label);
+    const cheaper = snap.offers[0].totalCost <= snap.offers[1].totalCost ? snap.offers[0] : snap.offers[1];
+    assert.equal(snap.winnerLabel, cheaper.label);
+  });
+
   test("interest toolkit: compound exceeds principal and cache repeat", () => {
     const a = FC.computeInterestToolkit({
       principal: 10_000,

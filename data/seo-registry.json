@@ -7,6 +7,13 @@
     "keywords": ["loan calculator", "amortization", "monthly payment", "interest"]
   },
   {
+    "url": "/tools/loan-comparison/",
+    "type": "tool",
+    "title": "Loan Offer Comparison Tool",
+    "category": "tools",
+    "keywords": ["loan comparison", "compare loan offers", "effective apr", "closing costs", "personal loan"]
+  },
+  {
     "url": "/tools/mortgage-calculator/",
     "type": "tool",
     "title": "Mortgage Calculator",
