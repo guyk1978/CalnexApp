@@ -1,0 +1,114 @@
+/**
+ * Loan calculator — 12-column split layout & scoped sticky charts.
+ * Inputs: 5 cols | Results: 7 cols (desktop). Matches Rent vs. Buy shell rhythm.
+ */
+
+.cn-loan-layout,
+.cn-loan-layout.cn-calculator-layout {
+  display: grid;
+  gap: var(--cn-space-4);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .cn-loan-layout,
+  .cn-loan-layout.cn-calculator-layout {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .cn-loan-layout__inputs {
+    grid-column: span 5;
+    min-width: 0;
+  }
+
+  .cn-loan-layout__results {
+    grid-column: span 7;
+    position: relative;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--cn-space-4);
+  }
+}
+
+/* Loan results column is the scroll track — not the whole aside */
+.cn-loan-layout__results .output-card {
+  position: relative;
+  top: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.cn-loan-results-sticky {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cn-space-4);
+}
+
+@media (min-width: 960px) {
+  .cn-loan-results-sticky {
+    position: sticky;
+    top: 6rem;
+    z-index: 2;
+    align-self: start;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: var(--cn-space-2);
+  }
+}
+
+/* Charts live inside sticky block — contained, no absolute positioning */
+.cn-loan-charts.charts-section {
+  margin-top: 0;
+  padding: 0;
+}
+
+.cn-loan-charts .page-title {
+  margin-bottom: var(--cn-space-3);
+}
+
+.cn-loan-charts .page-title h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.1rem;
+}
+
+.cn-loan-charts .chart-grid {
+  display: grid;
+  gap: var(--cn-space-3);
+}
+
+@media (min-width: 640px) {
+  .cn-loan-charts .chart-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.cn-loan-charts .chart-wrap {
+  position: relative;
+  min-height: 220px;
+}
+
+.cn-loan-charts .chart-wrap canvas {
+  position: relative !important;
+  width: 100% !important;
+  height: 220px !important;
+}
+
+/* Below sticky: schedule & banners scroll in document flow */
+.cn-loan-layout__below-sticky {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cn-space-4);
+  min-width: 0;
+}
+
+@media (max-width: 959px) {
+  .cn-loan-results-sticky {
+    position: relative;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+  }
+}

@@ -146,6 +146,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -154,7 +155,7 @@
   "name": "Loan Calculator",
   "description": "Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/loan-calculator/",
-  "dateModified": "2026-05-26T06:12:54.334Z",
+  "dateModified": "2026-05-26T06:17:51.478Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -273,8 +274,8 @@
       </section>
 
       <div class="cn-tool-shell">
-      <section class="calculator-layout cn-calculator-layout">
-        <form class="card input-card" id="loan-form" aria-label="Loan calculator form">
+      <section class="cn-loan-layout cn-calculator-layout">
+        <form class="cn-loan-layout__inputs card input-card" id="loan-form" aria-label="Loan calculator form">
           <header class="cn-calc-form__head">
             <h2 class="cn-calc-form__title">Loan parameters</h2>
             <p class="cn-calc-form__lede muted">Adjust principal, APR, or term—the results column updates as you type.</p>
@@ -349,8 +350,10 @@
           </div>
         </form>
 
-        <aside class="card output-card cn-tool-rail" aria-live="polite">
+        <div class="cn-loan-layout__results">
+        <aside class="card output-card" aria-live="polite">
           <h2>Results</h2>
+          <div class="cn-loan-results-sticky">
           <div class="financial-validation-panel" role="status">
             <div class="financial-validation-head">
               <span class="financial-validator-badge" data-bind="financial_validation_badge" data-format="text"></span>
@@ -402,6 +405,28 @@
             </article>
           </div>
 
+          <section class="card charts-section cn-chart-section cn-loan-charts" aria-label="Loan charts">
+            <div class="page-title">
+              <p class="eyebrow">Insights</p>
+              <h2>Loan Visual Breakdown</h2>
+            </div>
+            <div class="chart-grid">
+              <article class="card chart-card">
+                <h3>Principal vs Interest</h3>
+                <div class="chart-wrap cn-chart-wrap">
+                  <canvas id="principalInterestChart"></canvas>
+                </div>
+              </article>
+              <article class="card chart-card">
+                <h3>Remaining Balance</h3>
+                <div class="chart-wrap cn-chart-wrap">
+                  <canvas id="balanceChart"></canvas>
+                </div>
+              </article>
+            </div>
+          </section>
+          </div>
+
           <div class="share-tools cn-portable-results-box" id="portableResults">
             <h3>Portable results</h3>
             <p class="muted" style="margin: 0 0 0.85rem; font-size: 0.88rem; line-height: 1.45">
@@ -438,45 +463,11 @@
             <p id="copyFeedback" class="copy-feedback" role="status" aria-live="polite" data-bind="loan_copy_feedback" data-format="text"></p>
           </div>
         </aside>
-      </section>
-      </div>
 
-      <div id="shareToast" class="share-toast" role="status" aria-live="polite" data-bind="loan_share_toast_message" data-format="text">Link copied</div>
-      <div id="shareModal" class="share-modal" aria-hidden="true">
-        <div class="share-modal-card card" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
-          <h3 id="shareModalTitle">Shareable Results Link</h3>
-          <input id="shareModalInput" type="text" readonly />
-          <div class="share-actions">
-            <button id="copyShareModalBtn" type="button" class="btn btn-primary">Copy Link</button>
-            <button id="closeShareModalBtn" type="button" class="btn btn-ghost">Close</button>
-          </div>
-        </div>
-      </div>
-
+        <div class="cn-loan-layout__below-sticky">
       <section class="card savings-banner" id="savingsBanner" aria-live="polite">
         You save <strong id="bannerMonthsSaved" data-bind="loan_months_saved" data-format="number">0</strong> months and <strong id="bannerInterestSaved" data-bind="loan_interest_saved" data-format="currency">0.00</strong> in
         interest.
-      </section>
-
-      <section class="card charts-section cn-chart-section">
-        <div class="page-title">
-          <p class="eyebrow">Insights</p>
-          <h2>Loan Visual Breakdown</h2>
-        </div>
-        <div class="chart-grid">
-          <article class="card chart-card">
-            <h3>Principal vs Interest</h3>
-            <div class="chart-wrap cn-chart-wrap">
-              <canvas id="principalInterestChart"></canvas>
-            </div>
-          </article>
-          <article class="card chart-card">
-            <h3>Remaining Balance</h3>
-            <div class="chart-wrap cn-chart-wrap">
-              <canvas id="balanceChart"></canvas>
-            </div>
-          </article>
-        </div>
       </section>
 
       <section class="card amortization-card">
@@ -520,6 +511,22 @@
           </div>
         </div>
       </section>
+        </div>
+        </div>
+      </section>
+      </div>
+
+      <div id="shareToast" class="share-toast" role="status" aria-live="polite" data-bind="loan_share_toast_message" data-format="text">Link copied</div>
+      <div id="shareModal" class="share-modal" aria-hidden="true">
+        <div class="share-modal-card card" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+          <h3 id="shareModalTitle">Shareable Results Link</h3>
+          <input id="shareModalInput" type="text" readonly />
+          <div class="share-actions">
+            <button id="copyShareModalBtn" type="button" class="btn btn-primary">Copy Link</button>
+            <button id="closeShareModalBtn" type="button" class="btn btn-ghost">Close</button>
+          </div>
+        </div>
+      </div>
 
       <section class="card" data-related-tools data-current-tool="loan-calculator"></section>
 
@@ -541,6 +548,7 @@
         </div>
       </section>
     
+      
       
       
       
@@ -780,6 +788,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -788,6 +797,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
