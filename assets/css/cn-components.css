@@ -3,9 +3,9 @@
 .cn-header-actions {
   display: flex;
   align-items: center;
-  gap: var(--cn-space-3);
+  gap: 0.5rem;
   margin-left: auto;
-  margin-right: var(--cn-space-2);
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -94,7 +94,8 @@
   top: 100%;
   left: 0;
   z-index: 120;
-  min-width: min(18rem, 88vw);
+  width: min(480px, 94vw);
+  min-width: min(400px, 94vw);
   margin-top: 0;
   /* Visual gap lives inside the panel so the pointer never leaves the hover zone */
   padding: 0.5rem var(--cn-space-3) var(--cn-space-3);
@@ -103,6 +104,7 @@
   background: var(--cn-bg-elevated);
   box-shadow: var(--cn-shadow-md);
   pointer-events: none;
+  overflow: visible;
 }
 
 /* Invisible bridge from trigger to panel (covers top padding band) */
@@ -181,11 +183,19 @@
 
   .nav.is-mobile-open .cn-nav-dropdown__panel {
     position: static;
+    width: 100%;
+    min-width: 0;
     margin-top: var(--cn-space-2);
     box-shadow: none;
     border: 1px solid var(--cn-border-subtle);
     display: none;
     pointer-events: auto;
+  }
+
+  .nav.is-mobile-open .cn-nav-dropdown__scroll {
+    max-height: min(70vh, 520px);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .nav.is-mobile-open .cn-nav-dropdown.is-open .cn-nav-dropdown__panel {
@@ -400,7 +410,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .cn-stat:hover {
+  .cn-stat:not(.cn-stat--interactive):hover {
     border-color: var(--cn-border-strong);
     background: color-mix(in srgb, var(--cn-bg-muted) 88%, var(--cn-accent-muted));
     transform: translateY(-1px);
@@ -511,20 +521,7 @@
 }
 
 .cn-tools-grid-static {
-  display: grid;
-  gap: var(--cn-space-4);
-}
-
-@media (min-width: 640px) {
-  .cn-tools-grid-static {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 960px) {
-  .cn-tools-grid-static {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  /* Layout handled by .cn-tools-grid in vibrant-ui.css */
 }
 
 /* Calculator shell */

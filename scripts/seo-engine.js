@@ -170,18 +170,15 @@ const updatePage = (entry, entries) => {
   }
 
   let html = fs.readFileSync(pagePath, "utf8");
+  const { renderRelatedSection } = require("./tool-themes.cjs");
   const related = getRelatedEntries(entries, entry);
   const relatedTitle = entry.type === "blog" ? "Related articles" : "Related tools/articles";
   const relatedSection = `
       <!-- SEO_ENGINE_RELATED_START -->
-      <section class="card seo-related-block">
-        <h2>${relatedTitle}</h2>
-        <ul class="toc-list">
-          ${related
-            .map((item) => `<li><a href="${normalizeUrl(item.url)}">${item.title}</a></li>`)
-            .join("")}
-        </ul>
-      </section>
+${renderRelatedSection(
+  relatedTitle,
+  related.map((item) => ({ ...item, url: normalizeUrl(item.url) }))
+)}
       <!-- SEO_ENGINE_RELATED_END -->`;
   html = injectSection(
     html,

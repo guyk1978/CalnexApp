@@ -69,11 +69,11 @@
 
   const initThemeToggle = () => {
     const nav = document.querySelector(".site-header .nav");
-    const brand = nav?.querySelector(".brand");
-    if (!nav || !brand || document.getElementById("cn-theme-toggle")) return;
+    if (!nav || document.getElementById("cn-theme-toggle")) return;
 
-    const wrap = document.createElement("div");
-    wrap.className = "cn-header-actions";
+    const ctx = window.CalnexHeaderToolbar?.ensure?.() || {};
+    const actions = ctx.actions || nav.querySelector(".cn-header-actions");
+    if (!actions) return;
 
     const btn = document.createElement("button");
     btn.type = "button";
@@ -110,9 +110,9 @@
     if (mq.addEventListener) mq.addEventListener("change", onOs);
     else mq.addListener(onOs);
 
-    brand.insertAdjacentElement("afterend", wrap);
-    wrap.appendChild(btn);
+    actions.appendChild(btn);
     render();
+    document.dispatchEvent(new CustomEvent("cn-header:updated"));
   };
 
   const markActiveNav = () => {
@@ -206,6 +206,62 @@
     return response.json();
   };
 
+  const RELATED_ACCENT_EMOJI = {
+    housing: "🏠",
+    lending: "💳",
+    auto: "🚗",
+    growth: "📊",
+    planning: "🧭"
+  };
+
+  const RELATED_MINI_ICON_CLASS = {
+    housing:
+      "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-lg text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400",
+    lending:
+      "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-lg text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400",
+    auto: "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-lg text-amber-600 dark:bg-amber-950/50 dark:text-amber-400",
+    growth:
+      "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-lg text-purple-600 dark:bg-purple-950/50 dark:text-purple-400",
+    planning:
+      "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-lg text-teal-600 dark:bg-teal-950/50 dark:text-teal-400"
+  };
+
+  const toolAccentFromSlug = (slug = "") => {
+    const key = slug.replace(/-calculator$/, "").replace(/^rent-vs-buy.*$/, "rent-vs-buy");
+    const map = {
+      "mortgage-calculator": "housing",
+      "rent-vs-buy": "housing",
+      "rent-vs-buy-calculator": "housing",
+      "loan-calculator": "lending",
+      "debt-payoff": "lending",
+      "loan-comparison": "lending",
+      "car-loan-calculator": "auto",
+      "interest-calculator": "growth",
+      "retirement-calculator": "planning"
+    };
+    return map[key] || map[slug] || "lending";
+  };
+
+  const RELATED_SECTION_WRAP_CLASS =
+    "py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6";
+  const RELATED_GRID_CLASS =
+    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6";
+  const RELATED_LINK_CLASS =
+    "flex items-center gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all group no-underline";
+  const RELATED_TITLE_CLASS =
+    "text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 transition-colors";
+
+  const renderRelatedToolLink = (tool) => {
+    const accent = toolAccentFromSlug(tool.slug || "");
+    const emoji = RELATED_ACCENT_EMOJI[accent] || "📊";
+    const iconClass = RELATED_MINI_ICON_CLASS[accent] || RELATED_MINI_ICON_CLASS.lending;
+    const path = tool.path || `/tools/${tool.slug}/`;
+    return `<a href="${path}" class="${RELATED_LINK_CLASS}">
+      <div class="${iconClass}" aria-hidden="true">${emoji}</div>
+      <span class="${RELATED_TITLE_CLASS}">${tool.name}</span>
+    </a>`;
+  };
+
   const renderRelatedTools = async () => {
     const holder = document.querySelector("[data-related-tools]");
     if (!holder) return;
@@ -213,26 +269,68 @@
     const currentSlug = holder.dataset.currentTool || "";
     try {
       const tools = await fetchJson("/data/tools.json");
-      const related = tools.filter((tool) => tool.slug !== currentSlug).slice(0, 3);
+      const related = tools.filter((tool) => tool.slug !== currentSlug).slice(0, 8);
+      holder.className = RELATED_SECTION_WRAP_CLASS;
       holder.innerHTML = `
-        <h2>Related Tools</h2>
-        <div class="related-tools-grid">
-          ${related
-            .map(
-              (tool) => `
-            <article class="card tool-card cn-card-interactive">
-              <h3>${tool.name}</h3>
-              <p class="muted">${tool.description}</p>
-              <a class="btn btn-ghost" href="${tool.path}">Open Tool</a>
-            </article>
-          `
-            )
-            .join("")}
+        <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Related Tools</h2>
+        <div class="${RELATED_GRID_CLASS}">
+          ${related.map((tool) => renderRelatedToolLink(tool)).join("")}
         </div>
       `;
     } catch (_error) {
       holder.innerHTML = "<p class='muted'>Related tools are unavailable right now.</p>";
     }
+  };
+
+  const classifyBlogCategory = (category = "") => {
+    const c = String(category).toLowerCase();
+    if (c.includes("auto") || c.includes("car")) return "auto";
+    if (c.includes("retirement") || c.includes("401")) return "planning";
+    if (
+      c.includes("mortgage") ||
+      c.includes("home equity") ||
+      c.includes("housing") ||
+      c.includes("rent") ||
+      c.includes("pmi")
+    ) {
+      return "housing";
+    }
+    if (c.includes("interest") || c.includes("growth") || c.includes("invest")) return "growth";
+    return "lending";
+  };
+
+  const BLOG_TILE_CLASS = {
+    housing:
+      "group block rounded-xl border-2 border-t-4 border-emerald-200 border-t-emerald-500 bg-emerald-50/60 p-4 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-emerald-800 dark:bg-emerald-950/30",
+    lending:
+      "group block rounded-xl border-2 border-t-4 border-indigo-200 border-t-indigo-500 bg-indigo-50/60 p-4 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-indigo-800 dark:bg-indigo-950/30",
+    auto: "group block rounded-xl border-2 border-t-4 border-amber-200 border-t-amber-500 bg-amber-50/60 p-4 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-amber-800 dark:bg-amber-950/30",
+    growth:
+      "group block rounded-xl border-2 border-t-4 border-purple-200 border-t-purple-500 bg-purple-50/60 p-4 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-purple-800 dark:bg-purple-950/30",
+    planning:
+      "group block rounded-xl border-2 border-t-4 border-teal-200 border-t-teal-500 bg-teal-50/60 p-4 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-teal-800 dark:bg-teal-950/30"
+  };
+
+  const BLOG_PILL_CLASS = {
+    housing:
+      "mb-3 inline-flex rounded-md bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200",
+    lending:
+      "mb-3 inline-flex rounded-md bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-200",
+    auto: "mb-3 inline-flex rounded-md bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800 dark:bg-amber-900/60 dark:text-amber-200",
+    growth:
+      "mb-3 inline-flex rounded-md bg-purple-100 px-2.5 py-1 text-xs font-semibold text-purple-800 dark:bg-purple-900/60 dark:text-purple-200",
+    planning:
+      "mb-3 inline-flex rounded-md bg-teal-100 px-2.5 py-1 text-xs font-semibold text-teal-800 dark:bg-teal-900/60 dark:text-teal-200"
+  };
+
+  const blogTile = (post) => {
+    const accent = classifyBlogCategory(post.category);
+    const category = post.category || "Blog";
+    return `
+        <a href="/blog/${post.slug}/" class="${BLOG_TILE_CLASS[accent] || BLOG_TILE_CLASS.lending}">
+          <span class="${BLOG_PILL_CLASS[accent] || BLOG_PILL_CLASS.lending}">${category}</span>
+          <h3 class="mb-2 text-xl font-extrabold tracking-tight text-slate-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">${post.title}</h3>
+        </a>`;
   };
 
   const renderBlogIndex = async () => {
@@ -253,14 +351,7 @@
       let activeCategory = "All";
       let activeQuery = "";
 
-      const card = (post) => `
-        <article class="card blog-card">
-          <p class="blog-meta">${post.updatedDate} • ${post.readTime} • ${post.category}</p>
-          <h3>${post.title}</h3>
-          <p>${post.excerpt}</p>
-          <a class="btn btn-ghost" href="/blog/${post.slug}/">Read Article</a>
-        </article>
-      `;
+      const card = blogTile;
 
       const renderFilters = () => {
         filtersHolder.innerHTML = categories
@@ -311,25 +402,56 @@
   };
 
   const renderToolsHub = async () => {
-    const grid = document.getElementById("cn-tools-hub-grid");
-    if (!grid) return;
-    const hasStaticCards = grid.querySelectorAll(".tool-card").length > 0;
+    const catalog = document.getElementById("cn-tools-catalog");
+    if (!catalog) return;
+    const hasStaticCards = catalog.querySelector("a.cn-dashboard-micro-card");
+    if (hasStaticCards) return;
     try {
       const tools = await fetchJson("/data/tools.json");
-      grid.innerHTML = tools
+      const ACCENT_EMOJI = { housing: "🏠", lending: "💳", auto: "🚗", growth: "📊", planning: "🧭" };
+      const toolAccent = (slug = "", navGroup = "") => {
+        if (navGroup) return navGroup;
+        if (slug.includes("mortgage") || slug.includes("rent")) return "housing";
+        if (slug.includes("car")) return "auto";
+        if (slug.includes("retirement")) return "planning";
+        if (slug.includes("interest")) return "growth";
+        return "lending";
+      };
+      const iconClass = {
+        housing: "w-10 h-10 shrink-0 rounded-lg flex items-center justify-center bg-emerald-50 text-lg text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400",
+        lending: "w-10 h-10 shrink-0 rounded-lg flex items-center justify-center bg-indigo-50 text-lg text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400",
+        auto: "w-10 h-10 shrink-0 rounded-lg flex items-center justify-center bg-amber-50 text-lg text-amber-600 dark:bg-amber-950/40 dark:text-amber-400",
+        growth: "w-10 h-10 shrink-0 rounded-lg flex items-center justify-center bg-purple-50 text-lg text-purple-600 dark:bg-purple-950/40 dark:text-purple-400",
+        planning: "w-10 h-10 shrink-0 rounded-lg flex items-center justify-center bg-teal-50 text-lg text-teal-600 dark:bg-teal-950/40 dark:text-teal-400"
+      };
+      const linkClass = RELATED_LINK_CLASS;
+      const titleClass = RELATED_TITLE_CLASS;
+      const catalogGridClass = RELATED_GRID_CLASS;
+      const GROUPS = [
+        { key: "housing", label: "Housing" },
+        { key: "lending", label: "Loans & credit" },
+        { key: "auto", label: "Auto" },
+        { key: "growth", label: "Interest & growth" },
+        { key: "planning", label: "Retirement & planning" }
+      ];
+      const buckets = Object.fromEntries(GROUPS.map((g) => [g.key, []]));
+      tools.forEach((tool) => {
+        const key = toolAccent(tool.slug, tool.navGroup);
+        (buckets[key] || buckets.lending).push(tool);
+      });
+      const card = (tool) => {
+        const accent = toolAccent(tool.slug, tool.navGroup);
+        return `<a href="${tool.path}" class="cn-dashboard-micro-card ${linkClass}"><div class="${iconClass[accent]}" aria-hidden="true">${ACCENT_EMOJI[accent]}</div><span class="${titleClass}">${tool.name}</span></a>`;
+      };
+      catalog.className = `cn-tools-dashboard ${RELATED_SECTION_WRAP_CLASS} px-4 sm:px-6 max-w-7xl mx-auto`;
+      catalog.innerHTML = `<h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">All calculators</h2>${GROUPS.filter((g) => buckets[g.key].length)
         .map(
-          (tool) => `
-        <article class="card tool-card cn-tool-card-link cn-card-interactive">
-          <h2>${tool.name}</h2>
-          <p class="muted">${tool.hubDescription || tool.description}</p>
-          <a class="btn btn-primary" href="${tool.path}">Open</a>
-        </article>
-      `
+          (g) => `<section class="cn-tools-dashboard__category"><h3 class="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2"><span aria-hidden="true">${ACCENT_EMOJI[g.key]}</span><span>${g.label} calculators</span></h3><div class="${catalogGridClass}">${buckets[g.key].map(card).join("")}</div></section>`
         )
-        .join("");
+        .join("")}`;
     } catch (_e) {
       if (!hasStaticCards) {
-        grid.innerHTML = "<p class=\"muted\">Unable to load tools list.</p>";
+        catalog.innerHTML = "<p class=\"muted\">Unable to load tools list.</p>";
       }
     }
   };
@@ -411,6 +533,8 @@
       console.warn("[CalnexApp] Site search init failed", err);
     }
   };
+
+  ensureScriptLoaded("/assets/js/ui-enhancements.js").catch(() => {});
 
   initHeaderChart();
   initThemeToggle();

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-26T07:03:19.495Z",
+  "generated_at": "2026-05-29T06:15:20.339Z",
   "totals": {
-    "keywords": 667,
-    "informational": 212,
-    "commercial": 310,
-    "transactional": 145
+    "keywords": 702,
+    "informational": 221,
+    "commercial": 326,
+    "transactional": 155
   },
   "samples": {
     "informational": [
@@ -27,12 +27,13 @@
       "compare loan offers",
       "closing costs",
       "personal loan",
-      "mortgage",
-      "home loan",
-      "rent vs buy"
+      "debt snowball",
+      "debt avalanche",
+      "credit card payoff"
     ],
     "transactional": [
       "loan calculator",
+      "debt payoff calculator",
       "interest calculator",
       "car lease calculator",
       "100000 loan at 3 5 percent for 15 years monthly payment calculator",
@@ -40,8 +41,7 @@
       "100000 loan at 4 5 percent for 15 years monthly payment calculator",
       "100000 loan at 4 5 percent for 30 years monthly payment calculator",
       "100000 loan at 4 percent for 15 years monthly payment calculator",
-      "100000 loan at 4 percent for 30 years monthly payment calculator",
-      "100000 loan at 5 percent for 15 years monthly payment calculator"
+      "100000 loan at 4 percent for 30 years monthly payment calculator"
     ]
   },
   "classified_keywords": [
@@ -79,6 +79,26 @@
     },
     {
       "keyword": "personal loan",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt snowball",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt avalanche",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt payoff calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "credit card payoff",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt free",
       "intent": "commercial"
     },
     {
@@ -922,6 +942,18 @@
       "intent": "commercial"
     },
     {
+      "keyword": "credit card payoff calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "credit card payoff for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "credit card payoff with extra payments",
+      "intent": "commercial"
+    },
+    {
       "keyword": "credit score car loan rate calculator",
       "intent": "transactional"
     },
@@ -943,6 +975,18 @@
     },
     {
       "keyword": "dealer financing with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt avalanche calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "debt avalanche for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt avalanche with extra payments",
       "intent": "commercial"
     },
     {
@@ -975,6 +1019,42 @@
     },
     {
       "keyword": "debt consolidation with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt free calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "debt free for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt free with extra payments",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt payoff calculator calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "debt payoff calculator for beginners",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "debt payoff calculator with extra payments",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "debt snowball calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "debt snowball for beginners",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "debt snowball with extra payments",
       "intent": "commercial"
     },
     {
@@ -1234,6 +1314,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does credit card payoff work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does credit score car loan rate work",
       "intent": "informational"
     },
@@ -1242,11 +1326,27 @@
       "intent": "informational"
     },
     {
+      "keyword": "how does debt avalanche work",
+      "intent": "informational"
+    },
+    {
       "keyword": "how does debt consolidation break even work",
       "intent": "informational"
     },
     {
       "keyword": "how does debt consolidation work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does debt free work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does debt payoff calculator work",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how does debt snowball work",
       "intent": "informational"
     },
     {
@@ -1770,6 +1870,10 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce credit card payoff",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce credit score car loan rate",
       "intent": "informational"
     },
@@ -1778,11 +1882,27 @@
       "intent": "informational"
     },
     {
+      "keyword": "how to reduce debt avalanche",
+      "intent": "informational"
+    },
+    {
       "keyword": "how to reduce debt consolidation",
       "intent": "informational"
     },
     {
       "keyword": "how to reduce debt consolidation break even",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce debt free",
+      "intent": "informational"
+    },
+    {
+      "keyword": "how to reduce debt payoff calculator",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "how to reduce debt snowball",
       "intent": "informational"
     },
     {
@@ -2138,6 +2258,10 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is credit card payoff worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is credit score car loan rate worth it",
       "intent": "commercial"
     },
@@ -2146,11 +2270,27 @@
       "intent": "commercial"
     },
     {
+      "keyword": "is debt avalanche worth it",
+      "intent": "commercial"
+    },
+    {
       "keyword": "is debt consolidation break even worth it",
       "intent": "commercial"
     },
     {
       "keyword": "is debt consolidation worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is debt free worth it",
+      "intent": "commercial"
+    },
+    {
+      "keyword": "is debt payoff calculator worth it",
+      "intent": "transactional"
+    },
+    {
+      "keyword": "is debt snowball worth it",
       "intent": "commercial"
     },
     {

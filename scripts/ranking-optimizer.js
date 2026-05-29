@@ -19,13 +19,16 @@ const urlToFilePath = (url) => {
 };
 
 const injectSection = (html, markerStart, markerEnd, sectionHtml, beforeTag = "</main>") => {
-  const start = html.indexOf(markerStart);
-  const end = html.indexOf(markerEnd);
-  if (start !== -1 && end !== -1 && end > start) {
-    return `${html.slice(0, start)}${sectionHtml}${html.slice(end + markerEnd.length)}`;
-  }
+  const { injectMarkerBlock } = require("./html-inject-utils.cjs");
+  const replaced = injectMarkerBlock(html, markerStart, markerEnd, sectionHtml, {
+    scopeBefore: beforeTag
+  });
+  if (replaced) return replaced;
   const insertAt = html.indexOf(beforeTag);
-  if (insertAt === -1) return html;
+  if (insertAt === -1) {
+    console.warn(`injectSection: markers not found (${markerStart}) — skipping insert`);
+    return html;
+  }
   return `${html.slice(0, insertAt)}${sectionHtml}\n${html.slice(insertAt)}`;
 };
 
@@ -79,6 +82,13 @@ const run = () => {
     if (!fs.existsSync(filePath)) return;
     let html = fs.readFileSync(filePath, "utf8");
 
+    const {
+      renderDashboardCategoryPanel,
+      renderRelatedSection,
+      renderToolContextCta,
+      getToolContextCtaPreset,
+      RELATED_SECTION_WRAP_CLASS
+    } = require("./tool-themes.cjs");
     const relatedTools = buildRelatedByType(registry, "tool", entry.url, 3);
     const relatedBlogs = buildRelatedByType(registry, "blog", entry.url, 3);
 
@@ -93,13 +103,9 @@ const run = () => {
       <!-- RANK_TOOL_FAQ_END -->`;
       const comparisonBlock = `
       <!-- RANK_TOOL_COMPARISON_START -->
-      <section class="card">
-        <h2>Comparison section</h2>
-        <p class="muted">Compare this calculator with related tools for different borrowing scenarios.</p>
-        <ul class="toc-list">
-          ${relatedTools.slice(0, 2).map((item) => `<li><a href="${item.url}">${item.title}</a></li>`).join("")}
-        </ul>
-      </section>
+      <div class="${RELATED_SECTION_WRAP_CLASS} px-4 sm:px-6 max-w-7xl mx-auto">
+${renderDashboardCategoryPanel("lending", "Similar calculators", relatedTools.slice(0, 4))}
+      </div>
       <!-- RANK_TOOL_COMPARISON_END -->`;
       html = injectSection(html, "<!-- RANK_TOOL_FAQ_START -->", "<!-- RANK_TOOL_FAQ_END -->", faqBlock);
       html = injectSection(
@@ -113,20 +119,11 @@ const run = () => {
     if (entry.type === "blog") {
       const ctaBlock = `
       <!-- RANK_BLOG_CTA_START -->
-      <section class="card">
-        <h2>Next step: run a live scenario</h2>
-        <p class="muted">Apply this guide directly in the calculator to test your assumptions.</p>
-        <a class="btn btn-primary" href="/tools/loan-calculator/">Open Loan Calculator</a>
-      </section>
+${renderToolContextCta(getToolContextCtaPreset("blog-next-step"))}
       <!-- RANK_BLOG_CTA_END -->`;
       const linksBlock = `
       <!-- RANK_BLOG_TOOLS_START -->
-      <section class="card">
-        <h2>Recommended calculators</h2>
-        <ul class="toc-list">
-          ${relatedTools.map((item) => `<li><a href="${item.url}">${item.title}</a></li>`).join("")}
-        </ul>
-      </section>
+${renderRelatedSection("Recommended calculators", relatedTools)}
       <!-- RANK_BLOG_TOOLS_END -->`;
       html = injectSection(html, "<!-- RANK_BLOG_CTA_START -->", "<!-- RANK_BLOG_CTA_END -->", ctaBlock);
       html = injectSection(html, "<!-- RANK_BLOG_TOOLS_START -->", "<!-- RANK_BLOG_TOOLS_END -->", linksBlock);
@@ -135,20 +132,12 @@ const run = () => {
     if (entry.type === "seo") {
       const seoBlock = `
       <!-- RANK_SEO_BLOCK_START -->
-      <section class="card">
-        <h2>Try this scenario in the calculator</h2>
-        <a class="btn btn-primary" href="/tools/loan-calculator/">Open calculator</a>
-      </section>
+${renderToolContextCta(getToolContextCtaPreset("loan-scenario-try"))}
       <section class="card">
         <h2>Explanation</h2>
         <p>This page is part of CalnexApp scenario planning. Compare rates, term length, and total interest before choosing an offer.</p>
       </section>
-      <section class="card">
-        <h2>Related blog guides</h2>
-        <ul class="toc-list">
-          ${relatedBlogs.map((item) => `<li><a href="${item.url}">${item.title}</a></li>`).join("")}
-        </ul>
-      </section>
+${renderRelatedSection("Related blog guides", relatedBlogs.map((item) => ({ ...item, type: "blog" })))}
       <!-- RANK_SEO_BLOCK_END -->`;
       html = injectSection(html, "<!-- RANK_SEO_BLOCK_START -->", "<!-- RANK_SEO_BLOCK_END -->", seoBlock);
     }
@@ -183,14 +172,13 @@ const run = () => {
   const homePath = path.join(ROOT, "index.html");
   if (fs.existsSync(homePath)) {
     let homeHtml = fs.readFileSync(homePath, "utf8");
+    const { renderListingSectionInner, renderListingGridTile } = require("./tool-themes.cjs");
     const featured = `
       <!-- RANK_FEATURED_START -->
-      <section class="container section-space card">
-        <h2>Featured pages</h2>
-        <ul class="toc-list">
-          ${topPages.map((item) => `<li><a href="${item.url}">${item.title}</a></li>`).join("")}
-        </ul>
-      </section>
+      ${renderListingSectionInner(
+        "Featured pages",
+        topPages.map((item) => renderListingGridTile(item)).join("\n")
+      )}
       <!-- RANK_FEATURED_END -->`;
     homeHtml = injectSection(homeHtml, "<!-- RANK_FEATURED_START -->", "<!-- RANK_FEATURED_END -->", featured, "</main>");
     fs.writeFileSync(homePath, homeHtml, "utf8");

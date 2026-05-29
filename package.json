@@ -4,45 +4,38 @@
     "build:rent-vs-buy": "next build",
     "sync-nav": "node scripts/sync-nav.mjs",
     "sync-tools-hub": "node scripts/sync-tools-hub.mjs",
+    "sync-calculator-headers": "node scripts/sync-calculator-headers.mjs",
+    "sync-calculator-quick-actions": "node scripts/sync-calculator-quick-actions.mjs",
+    "sync-calculator-context-ctas": "node scripts/sync-calculator-context-ctas.mjs",
+    "sync-main-layout": "node scripts/sync-main-layout.mjs",
+    "patch-blog-articles": "node scripts/patch-blog-articles.mjs",
     "search:build": "node scripts/build-search-index.js",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/financial-core.test.cjs",
-
     "seo-draft-server": "node scripts/seo-draft-persist-server.js",
-
     "generate-sitemap": "node scripts/generate-sitemap.js",
-
     "seo:build": "node scripts/seo-engine.js",
     "links:boost": "node scripts/internal-link-booster.js",
     "build:blog-index": "node scripts/internal-link-booster.js",
-
     "keywords:expand": "node scripts/keyword-expander.js",
     "intent:classify": "node scripts/intent-classifier.js",
     "serp:gap": "node scripts/serp-gap-analyzer.js",
     "rank:optimize": "node scripts/ranking-optimizer.js",
     "pages:expand": "node scripts/page-expander.js",
-
     "guides:generate": "node scripts/generate-loan-scenario-guides.mjs",
     "guides:validate": "node scripts/validate-loan-scenario-guides.mjs",
-
     "seo:scale": "npm run keywords:expand && npm run pages:expand",
-
     "ranking:build": "npm run intent:classify && npm run serp:gap && npm run rank:optimize",
-
     "publish-approved-blog": "node scripts/publish-approved-blog-from-drafts.js",
-
     "redirects:blog": "node scripts/sync-blog-redirects.js",
-
     "validate:redirects": "node scripts/validate-redirects.js",
     "validate:blog": "node scripts/validate-blog-integrity.js",
     "validate:blog:probe": "node scripts/validate-blog-integrity.js --probe",
-
     "simulate:routes": "node scripts/simulate-blog-routes.js",
     "simulate:routes:all": "node scripts/simulate-blog-routes.js --all",
-
     "patch:html-head": "node scripts/patch-html-head.mjs",
-
-    "build": "npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run sync-tools-hub && npm run sync-nav && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
+    "build:css": "tailwindcss -i ./src/styles/vibrant-ui.css -o ./assets/css/vibrant-ui.css --minify",
+    "build": "npm run build:css && npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run sync-tools-hub && npm run sync-calculator-headers && npm run sync-calculator-quick-actions && npm run sync-calculator-context-ctas && npm run sync-main-layout && npm run patch-blog-articles && npm run patch:html-head && npm run sync-nav && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
   },
   "dependencies": {
     "next": "^15.3.3",
@@ -53,6 +46,9 @@
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3"
   }
 }

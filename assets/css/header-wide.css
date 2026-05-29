@@ -1,6 +1,5 @@
 /**
- * Wide header layout — full-bleed bar, spacious inner track.
- * Layout and color only; does not alter header contents or behavior.
+ * Wide header layout — full-bleed bar, compact single-row track.
  */
 
 .site-header {
@@ -21,61 +20,38 @@ html[data-theme="light"] .site-header {
   max-width: none;
   margin-left: 0;
   margin-right: 0;
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-left: 40px;
+  padding-right: 40px;
   box-sizing: border-box;
 }
 
 .site-header .nav {
-  gap: 30px;
-  min-height: 72px;
+  gap: 0.75rem;
+  min-height: 52px;
 }
 
 .site-header .menu {
-  gap: 30px;
+  gap: 1.25rem;
 }
 
 .site-header .cn-header-actions {
-  gap: 30px;
+  gap: 0.5rem;
   margin-right: 0;
-}
-
-.site-header .currency-selector-wrap,
-.site-header .country-selector-wrap {
-  gap: 0.65rem;
 }
 
 @media (max-width: 1200px) {
   .site-header > .container,
   .site-header .container.nav {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  .site-header .nav {
-    gap: 24px;
-  }
-
-  .site-header .menu,
-  .site-header .cn-header-actions {
-    gap: 24px;
+    padding-left: 32px;
+    padding-right: 32px;
   }
 }
 
 @media (max-width: 900px) {
   .site-header > .container,
   .site-header .container.nav {
-    padding-left: 28px;
-    padding-right: 28px;
-  }
-
-  .site-header .nav {
-    gap: 18px;
-  }
-
-  .site-header .menu,
-  .site-header .cn-header-actions {
-    gap: 18px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 }
 
@@ -87,8 +63,9 @@ html[data-theme="light"] .site-header {
   }
 
   .site-header .nav {
-    gap: 0.75rem;
-    min-height: 56px;
+    gap: 0.5rem;
+    min-height: 52px;
+    flex-wrap: wrap;
   }
 
   .site-header .menu {
@@ -96,6 +73,6 @@ html[data-theme="light"] .site-header {
   }
 
   .site-header .cn-header-actions {
-    gap: var(--cn-space-3);
+    gap: 0.4rem;
   }
 }

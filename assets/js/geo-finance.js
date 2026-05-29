@@ -37,6 +37,42 @@ const GeoFinance = (() => {
       loan_norm_years: 6,
       car_affordability_min: 0.14,
       car_affordability_max: 0.2
+    },
+    CN: {
+      label: "China",
+      average_interest_rate: 4.5,
+      inflation_rate: 2.0,
+      average_income: 120000,
+      loan_norm_years: 5,
+      car_affordability_min: 0.15,
+      car_affordability_max: 0.2
+    },
+    CA: {
+      label: "Canada",
+      average_interest_rate: 5.5,
+      inflation_rate: 2.5,
+      average_income: 85000,
+      loan_norm_years: 5,
+      car_affordability_min: 0.15,
+      car_affordability_max: 0.2
+    },
+    AU: {
+      label: "Australia",
+      average_interest_rate: 6.2,
+      inflation_rate: 3.2,
+      average_income: 98000,
+      loan_norm_years: 5,
+      car_affordability_min: 0.14,
+      car_affordability_max: 0.2
+    },
+    JP: {
+      label: "Japan",
+      average_interest_rate: 1.2,
+      inflation_rate: 2.5,
+      average_income: 5500000,
+      loan_norm_years: 6,
+      car_affordability_min: 0.12,
+      car_affordability_max: 0.18
     }
   };
 
@@ -83,40 +119,38 @@ const GeoFinance = (() => {
   };
 
   const renderSelector = () => {
+    const pills = window.CalnexHeaderToolbar?.ensure?.()?.pills;
     const nav = document.querySelector(".site-header .nav");
-    if (!nav || nav.querySelector(".country-selector-wrap")) return;
+    const host = pills || nav;
+    if (!host || host.querySelector(".country-selector-wrap")) return;
     const selected = getSelectedCountry();
+    const pill = window.CalnexHeaderToolbar || {};
+    const wrapClass = `country-selector-wrap cn-header-pill cn-header-pill--country ${pill.PILL_WRAP_CLASS || ""}`.trim();
+    const selectClass = `country-selector ${pill.PILL_SELECT_CLASS || "cn-header-pill__select"}`;
+    const renderOption = pill.renderPillOption || ((value, label, isSel) => `<option value="${value}"${isSel ? " selected" : ""}>${label}</option>`);
     const wrap = document.createElement("div");
-    wrap.className = "country-selector-wrap";
+    wrap.className = wrapClass;
     wrap.innerHTML = `
-      <label class="country-selector-label" for="headerCountrySelect">Country</label>
-      <select id="headerCountrySelect" class="country-selector">
-        ${COUNTRY_CODES.map(
-          (code) => `<option value="${code}" ${selected === code ? "selected" : ""}>${code}</option>`
-        ).join("")}
+      <label class="sr-only" for="headerCountrySelect">Country</label>
+      <span class="cn-header-pill__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </span>
+      <select id="headerCountrySelect" class="${selectClass}" aria-label="Country">
+        ${COUNTRY_CODES.map((code) => renderOption(code, code, selected === code)).join("")}
       </select>
     `;
-    nav.append(wrap);
+    host.append(wrap);
     wrap.querySelector("select").addEventListener("change", (event) => {
       const next = setCountry(event.target.value);
       document.querySelectorAll(".country-selector").forEach((node) => {
         node.value = next;
       });
     });
+    document.dispatchEvent(new CustomEvent("cn-header:updated"));
   };
 
   const renderIndicator = () => {
-    const nav = document.querySelector(".site-header .nav");
-    if (!nav) return;
-    let indicator = nav.querySelector(".geo-indicator");
-    if (!indicator) {
-      indicator = document.createElement("span");
-      indicator.className = "geo-indicator";
-      nav.append(indicator);
-    }
-    const selected = getSelectedCountry();
-    const label = getCountryData(selected).label || selected;
-    indicator.textContent = `Location: ${label} | Default rates applied`;
+    /* Location hint is consolidated into the country pill; no inline header text. */
   };
 
   const getGlobalAverage = () => {

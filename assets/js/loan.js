@@ -152,10 +152,25 @@ const LoanCalculator = (() => {
     return raw.split(",")[0].replace(/['"]/g, "").trim() || "Inter";
   };
 
+  const chartEnh = () => window.CalnexChartEnhancements;
+  const withAreaFill = (dataset, primary = false) =>
+    chartEnh()?.enhanceLineDataset(dataset, { fillPrimary: primary }) ?? dataset;
+
   const getChartOptions = (yLabel) => {
     const p = getChartPalette();
     const font = chartFontFamily();
     const motion = chartMotionOn();
+    const tooltip =
+      chartEnh()?.modernTooltip(p) ?? {
+        enabled: true,
+        backgroundColor: p.tooltipBg,
+        titleColor: p.tooltipFg,
+        bodyColor: p.tooltipFg,
+        borderColor: p.tooltipBorder,
+        borderWidth: 1,
+        cornerRadius: 12,
+        padding: 12
+      };
     return {
       responsive: true,
       maintainAspectRatio: false,
@@ -175,16 +190,7 @@ const LoanCalculator = (() => {
           }
         },
         tooltip: {
-          enabled: true,
-          backgroundColor: p.tooltipBg,
-          titleColor: p.tooltipFg,
-          bodyColor: p.tooltipFg,
-          borderColor: p.tooltipBorder,
-          borderWidth: 1,
-          cornerRadius: 8,
-          padding: 10,
-          caretSize: 0,
-          displayColors: true,
+          ...tooltip,
           titleFont: { size: 12, weight: 600, family: font },
           bodyFont: { size: 12, family: font }
         }
@@ -260,7 +266,7 @@ const LoanCalculator = (() => {
       data: {
         labels,
         datasets: [
-          {
+          withAreaFill({
             label: "Principal (Original)",
             data: buildSeries(baselineSchedule, "principal", maxMonths),
             borderColor: p.s1,
@@ -270,8 +276,8 @@ const LoanCalculator = (() => {
             pointRadius: 0,
             pointHoverRadius: 4,
             pointHoverBorderWidth: 2
-          },
-          {
+          }),
+          withAreaFill({
             label: "Interest (Original)",
             data: buildSeries(baselineSchedule, "interest", maxMonths),
             borderColor: p.s2,
@@ -281,27 +287,33 @@ const LoanCalculator = (() => {
             pointRadius: 0,
             pointHoverRadius: 4,
             pointHoverBorderWidth: 2
-          },
-          {
-            label: "Principal (With Extra)",
-            data: buildSeries(acceleratedSchedule, "principal", maxMonths),
-            borderColor: p.s3,
-            borderWidth: 2,
-            tension: 0.35,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 2
-          },
-          {
-            label: "Interest (With Extra)",
-            data: buildSeries(acceleratedSchedule, "interest", maxMonths),
-            borderColor: p.s4,
-            borderWidth: 2,
-            tension: 0.35,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 2
-          }
+          }),
+          withAreaFill(
+            {
+              label: "Principal (With Extra)",
+              data: buildSeries(acceleratedSchedule, "principal", maxMonths),
+              borderColor: p.s3,
+              borderWidth: 2,
+              tension: 0.35,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 2
+            },
+            true
+          ),
+          withAreaFill(
+            {
+              label: "Interest (With Extra)",
+              data: buildSeries(acceleratedSchedule, "interest", maxMonths),
+              borderColor: p.s4,
+              borderWidth: 2,
+              tension: 0.35,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 2
+            },
+            true
+          )
         ]
       },
       options: getChartOptions("Amount (USD)")
@@ -318,7 +330,7 @@ const LoanCalculator = (() => {
       data: {
         labels,
         datasets: [
-          {
+          withAreaFill({
             label: "Remaining Balance (Original)",
             data: originalBalance,
             borderColor: p.b1,
@@ -328,27 +340,33 @@ const LoanCalculator = (() => {
             pointRadius: 0,
             pointHoverRadius: 4,
             pointHoverBorderWidth: 2
-          },
-          {
-            label: "Remaining Balance (With Extra)",
-            data: acceleratedBalance,
-            borderColor: p.b2,
-            borderWidth: 2,
-            tension: 0.35,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 2
-          },
-          {
-            label: "Balance Reduction Difference",
-            data: reductionDiff,
-            borderColor: p.b3,
-            borderWidth: 1.75,
-            tension: 0.32,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 2
-          }
+          }),
+          withAreaFill(
+            {
+              label: "Remaining Balance (With Extra)",
+              data: acceleratedBalance,
+              borderColor: p.b2,
+              borderWidth: 2,
+              tension: 0.35,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 2
+            },
+            true
+          ),
+          withAreaFill(
+            {
+              label: "Balance Reduction Difference",
+              data: reductionDiff,
+              borderColor: p.b3,
+              borderWidth: 1.75,
+              tension: 0.32,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 2
+            },
+            true
+          )
         ]
       },
       options: getChartOptions("Remaining Balance (USD)")

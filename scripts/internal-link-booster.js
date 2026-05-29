@@ -21,15 +21,17 @@ const urlToFilePath = (url) => {
 
 const ensureDir = (dir) => fs.mkdirSync(dir, { recursive: true });
 
+const {
+  replaceMarkerBlock,
+  injectMarkerBlock,
+  dedupeMarkerRegions
+} = require("./html-inject-utils.cjs");
+
 const injectByMarkers = (html, start, end, block, before = "</main>") => {
-  const startIdx = html.indexOf(start);
-  const endIdx = html.indexOf(end);
-  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
-    return `${html.slice(0, startIdx)}${block}${html.slice(endIdx + end.length)}`;
-  }
-  const insertIdx = html.indexOf(before);
-  if (insertIdx === -1) return html;
-  return `${html.slice(0, insertIdx)}${block}\n${html.slice(insertIdx)}`;
+  const replaced = injectMarkerBlock(html, start, end, block, { scopeBefore: before });
+  if (replaced) return replaced;
+  console.warn(`injectByMarkers: markers not found (${start}) — skipping insert to avoid duplicates`);
+  return html;
 };
 
 const stripBlogManifestScripts = (html) =>
@@ -44,27 +46,21 @@ const injectBlogManifest = (html, manifestScript) => {
   return next.replace("</head>", `${block}\n  </head>`);
 };
 
-/** Replace featured / all-article grids using markers or stable section boundaries. */
-const replaceBlogGrid = (html, divId, innerHtml) => {
+/** Replace featured / all-article grids — full marker block overwrite with fresh grid + cards. */
+const replaceBlogGrid = (html, divId, postsHtml) => {
   const kind = divId === "featuredBlogList" ? "FEATURED" : "ALL";
   const start = `<!-- BLOG_INDEX_${kind}_START -->`;
   const end = `<!-- BLOG_INDEX_${kind}_END -->`;
-  const block = `\n${innerHtml}\n          `;
+  const { HUB_GRID_CLASS } = require("./tool-themes.cjs");
 
-  if (html.includes(start) && html.includes(end)) {
-    return injectByMarkers(html, start, end, block);
-  }
+  const block = `${start}
+        <div id="${divId}" class="${HUB_GRID_CLASS}" aria-live="polite">
+${postsHtml}
+        </div>
+${end}`;
 
-  const boundary =
-    divId === "featuredBlogList"
-      ? /(<div id="featuredBlogList"[^>]*>)[\s\S]*?(<\/div>\s*<\/section>\s*<section>\s*<h2>All Articles<\/h2>)/i
-      : /(<div id="blogList"[^>]*>)[\s\S]*?(<\/div>\s*<\/section>\s*<section id="seoApprovedSection")/i;
-
-  if (!boundary.test(html)) return html;
-  return html.replace(
-    boundary,
-    `$1\n          ${start}${block}${end}\n        $2`
-  );
+  const replaced = injectMarkerBlock(html, start, end, block);
+  return replaced ?? html;
 };
 
 /** Remove stray article cards injected outside blog grids (bad fallback inserts). */
@@ -78,8 +74,27 @@ const pruneOrphanBlogCards = (html) => {
   return html.slice(0, latestEnd + "<!-- ILB_BLOG_LATEST_END -->".length) + cleanedTail + html.slice(mainEnd);
 };
 
-const renderLinks = (items) =>
-  items.map((item) => `<li><a href="${item.url}">${item.title}</a> <span class="muted">(${item.lastmod})</span></li>`).join("");
+const {
+  renderHubBlogCard,
+  renderHubToolCard,
+  renderListingGridTile,
+  renderBlogListingTile,
+  renderListingSection,
+  renderListingSectionInner,
+  HUB_GRID_CLASS,
+  LISTING_GRID_CLASS,
+  LISTING_SECTION_WRAP_CLASS,
+  LISTING_HEADING_CLASS,
+  CN_MAIN_LAYOUT_CLASS,
+  CN_PAGE_HERO_CLASS,
+  renderToolsCatalogDashboard
+} = require("./tool-themes.cjs");
+
+const renderListingGrid = (items) => items.map((item) => renderListingGridTile(item)).join("\n");
+
+const renderHubToolGrid = (items) => items.map((item) => renderHubToolCard(item)).join("\n");
+
+const renderHubBlogGrid = (posts) => posts.map((post) => renderHubBlogCard(post)).join("\n");
 
 const escapeHtml = (value) =>
   String(value ?? "")
@@ -113,13 +128,7 @@ const loadBlogManifestPosts = () => {
     .sort((a, b) => new Date(b.updatedDate) - new Date(a.updatedDate));
 };
 
-const renderBlogCard = (post) => `
-        <article class="card blog-card">
-          <p class="blog-meta">${escapeHtml(post.updatedDate)} • ${escapeHtml(post.readTime)} • ${escapeHtml(post.category)}</p>
-          <h3>${escapeHtml(post.title)}</h3>
-          <p>${escapeHtml(post.excerpt)}</p>
-          <a class="btn btn-ghost" href="/blog/${escapeHtml(post.slug)}/">Read Article</a>
-        </article>`;
+const renderBlogCardLegacy = (post) => renderHubBlogCard(post);
 
 const buildBlogIndexCatalog = (posts) => {
   const featured = posts.filter((p) => p.featured);
@@ -137,15 +146,22 @@ const buildBlogIndexCatalog = (posts) => {
   return {
     manifestScript,
     featuredHtml: featured.length
-      ? featured.map(renderBlogCard).join("")
+      ? renderHubBlogGrid(featured)
       : '<p class="muted">No featured articles yet.</p>',
     allHtml: nonFeatured.length
-      ? nonFeatured.map(renderBlogCard).join("")
+      ? renderHubBlogGrid(nonFeatured)
       : '<p class="muted">No articles published yet.</p>'
   };
 };
 
-const buildLatestPage = (title, description, items, type) => `<!doctype html>
+/** Ensure blog grid containers use the canonical Tailwind grid classes. */
+const syncBlogGridWrappers = (html) => html;
+
+const buildLatestPage = (title, description, items, type) => {
+  const isBlog = type === "blog";
+  const gridHtml = isBlog ? renderHubBlogGrid(items) : renderHubToolGrid(items);
+
+  return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -176,16 +192,16 @@ const buildLatestPage = (title, description, items, type) => `<!doctype html>
         </nav>
       </div>
     </header>
-    <main class="container section-space">
-      <section class="page-title">
+    <main class="${CN_MAIN_LAYOUT_CLASS}">
+      <section class="page-title ${CN_PAGE_HERO_CLASS}">
         <p class="eyebrow">Recently Updated</p>
         <h1>${title}</h1>
         <p>${description}</p>
       </section>
-      <section class="card">
-        <ol class="toc-list">
-          ${renderLinks(items)}
-        </ol>
+      <section class="${LISTING_SECTION_WRAP_CLASS}">
+        <div class="${HUB_GRID_CLASS}">
+          ${gridHtml}
+        </div>
       </section>
     </main>
     <footer class="site-footer">
@@ -197,6 +213,7 @@ const buildLatestPage = (title, description, items, type) => `<!doctype html>
   </body>
 </html>
 `;
+};
 
 const run = () => {
   const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8"))
@@ -238,8 +255,8 @@ const run = () => {
   </head>
   <body>
     <header class="site-header"><div class="container nav"><a href="/" class="brand">CalnexApp<span class="header-chart-mini" aria-hidden="true" title="CalnexApp Analytics"><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span></span></a></div></header>
-    <main class="container section-space">
-      <section class="page-title"><p class="eyebrow">Tools</p><h1>All Financial Tools</h1><p>Explore calculators and latest updates.</p></section>
+    <main class="${CN_MAIN_LAYOUT_CLASS}">
+      <section class="page-title ${CN_PAGE_HERO_CLASS}"><p class="eyebrow">Tools</p><h1>All Financial Tools</h1><p>Explore calculators and latest updates.</p></section>
     </main>
     <footer class="site-footer"><div class="container footer-content"><p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p></div></footer>
     <script src="/assets/js/app.js" defer></script>
@@ -251,36 +268,24 @@ const run = () => {
 
   const homePath = path.join(ROOT, "index.html");
   let homeHtml = fs.readFileSync(homePath, "utf8");
+  const homeTools = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "tools.json"), "utf8"));
+  const homeToolsBlock = `
+      <!-- ILB_HOME_TOOLS_START -->
+${renderToolsCatalogDashboard(homeTools, { heading: "Financial calculators" })}
+      <!-- ILB_HOME_TOOLS_END -->`;
+  homeHtml = injectByMarkers(
+    homeHtml,
+    "<!-- ILB_HOME_TOOLS_START -->",
+    "<!-- ILB_HOME_TOOLS_END -->",
+    homeToolsBlock
+  );
+
   const homeRecentBlock = `
       <!-- ILB_HOME_RECENT_START -->
-      <section class="container section-space card">
-        <h2>Recently updated</h2>
-        <ul class="toc-list">
-          ${renderLinks(latestOverall)}
-        </ul>
-      </section>
+      ${renderListingSectionInner("Recently updated", renderListingGrid(latestOverall))}
       <!-- ILB_HOME_RECENT_END -->`;
   homeHtml = injectByMarkers(homeHtml, "<!-- ILB_HOME_RECENT_START -->", "<!-- ILB_HOME_RECENT_END -->", homeRecentBlock, "</main>");
   fs.writeFileSync(homePath, homeHtml, "utf8");
-
-  let toolsHtml = fs.readFileSync(toolsIndexPath, "utf8");
-  const toolsLatestBlock = `
-      <!-- ILB_TOOLS_LATEST_START -->
-      <section class="card">
-        <h2>Latest Tools</h2>
-        <ul class="toc-list">
-          ${renderLinks(latestTools)}
-        </ul>
-      </section>
-      <section class="card">
-        <h2>Latest SEO Scenarios</h2>
-        <ul class="toc-list">
-          ${renderLinks(latestSeo)}
-        </ul>
-      </section>
-      <!-- ILB_TOOLS_LATEST_END -->`;
-  toolsHtml = injectByMarkers(toolsHtml, "<!-- ILB_TOOLS_LATEST_START -->", "<!-- ILB_TOOLS_LATEST_END -->", toolsLatestBlock);
-  fs.writeFileSync(toolsIndexPath, toolsHtml, "utf8");
 
   const blogPath = path.join(ROOT, "blog", "index.html");
   let blogHtml = fs.readFileSync(blogPath, "utf8");
@@ -289,16 +294,12 @@ const run = () => {
   blogHtml = injectBlogManifest(blogHtml, catalog.manifestScript);
   blogHtml = replaceBlogGrid(blogHtml, "featuredBlogList", catalog.featuredHtml);
   blogHtml = replaceBlogGrid(blogHtml, "blogList", catalog.allHtml);
+  blogHtml = syncBlogGridWrappers(blogHtml);
   blogHtml = pruneOrphanBlogCards(blogHtml);
 
   const blogLatestBlock = `
       <!-- ILB_BLOG_LATEST_START -->
-      <section class="card">
-        <h2>Recently updated</h2>
-        <ul class="toc-list">
-          ${renderLinks(latestBlogs)}
-        </ul>
-      </section>
+      ${renderListingSection("Recently updated", renderHubBlogGrid(latestBlogs))}
       <!-- ILB_BLOG_LATEST_END -->`;
   blogHtml = injectByMarkers(blogHtml, "<!-- ILB_BLOG_LATEST_START -->", "<!-- ILB_BLOG_LATEST_END -->", blogLatestBlock);
   fs.writeFileSync(blogPath, blogHtml, "utf8");

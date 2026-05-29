@@ -37,6 +37,11 @@
 
 const fs = require("fs");
 const path = require("path");
+const {
+  renderBlogCategoryPill,
+  classifyBlogCategory,
+  renderDefaultRecommendedCalculators
+} = require("./tool-themes.cjs");
 
 // ---------------------------------------------------------------------------
 // Paths & site config
@@ -462,7 +467,13 @@ function buildArticleHtml(item, enrichedMarkdown) {
   const canonical = `${SITE_ORIGIN}/blog/${slug}/`;
   const today = new Date().toISOString().slice(0, 10);
   const readTime = `${readMinutesFromItem(item)} min read`;
-  const bodyHtml = bodyMarkdownToHtml(enrichedMarkdown);
+  const category = inferCategory(item);
+  const categoryPill = renderBlogCategoryPill(category);
+  let bodyHtml = bodyMarkdownToHtml(enrichedMarkdown);
+  bodyHtml = bodyHtml.replace(
+    /<h2>Quick answer<\/h2>\s*(<p>[\s\S]*?<\/p>)/i,
+    `<div class="cn-quick-answer cn-quick-answer--${classifyBlogCategory(category)}"><h2>Quick answer</h2>$1</div>`
+  );
   const faqHtml = faqSectionHtml(item.faq);
   const faqLd = faqJsonLd(item.faq);
 
@@ -521,8 +532,8 @@ ${JSON.stringify(
     </header>
 
     <main class="container section-space article-layout">
-      <section class="page-title">
-        <p class="eyebrow">${escapeHtml(inferCategory(item))}</p>
+      <section class="page-title cn-article-page-title">
+        ${categoryPill}
         <h1>${escapeHtml(h1)}</h1>
         <div class="article-meta">
           <span>By CalnexApp Editorial Team</span>
@@ -536,14 +547,7 @@ ${JSON.stringify(
       </article>
       ${faqHtml}
 
-      <section class="card">
-        <h2>Recommended calculators</h2>
-        <ul class="toc-list">
-          <li><a href="/tools/loan-calculator/">Loan Calculator</a></li>
-          <li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a></li>
-          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a></li>
-        </ul>
-      </section>
+      ${renderDefaultRecommendedCalculators()}
     </main>
 
     <footer class="site-footer">

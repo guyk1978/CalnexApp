@@ -387,6 +387,7 @@ const renderGuidePage = (entry, options = {}) => {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" href="data:;base64,=" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="/assets/js/theme-init.js"></script>
   <title>${meta.title}</title>
@@ -410,8 +411,8 @@ const renderGuidePage = (entry, options = {}) => {
     <a href="/" class="brand">CalnexApp<span class="header-chart-mini" aria-hidden="true" title="CalnexApp Analytics"><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span><span class="header-chart-mini__bar"></span></span></a>
     <nav class="menu"><a href="/" data-nav-link>Home</a><a href="/tools/" data-nav-link>Tools</a><a href="/blog/" data-nav-link>Blog</a><a href="/about/" data-nav-link>About</a><a href="/contact/" data-nav-link>Contact</a></nav>
   </div></header>
-  <main class="container section-space article-layout">
-    <section class="page-title">
+  <main class="cn-main-layout pt-10 sm:pt-14 px-4 sm:px-6 max-w-7xl mx-auto article-layout">
+    <section class="page-title cn-page-hero space-y-4 text-center sm:text-left">
       <p class="eyebrow">Loan guide</p>
       <h1>${meta.h1}</h1>
       <div class="article-meta">
@@ -446,14 +447,15 @@ const renderGuidePage = (entry, options = {}) => {
       </dl>
       <p style="margin-top:1rem">Formula walkthrough: <a href="/blog/how-to-calculate-loan-interest/">how to calculate loan interest</a>.</p>
     </section>
-    <section class="card guide-cta-card">
-      <h2 style="margin-top:0">${cta.h}</h2>
-      <p>${cta.p}</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="/tools/loan-calculator/">${cta.btn}</a>
-        <a class="btn btn-ghost" href="/tools/loan-calculator/${s.toolSlug}/">Open this scenario</a>
-      </div>
-    </section>
+    ${(() => {
+      const { renderToolContextCta } = require("./tool-themes.cjs");
+      return renderToolContextCta({
+        title: cta.h,
+        body: cta.p,
+        actionsHtml: `<a class="btn btn-primary flex-shrink-0 w-full sm:w-auto" href="/tools/loan-calculator/">${cta.btn}</a>
+        <a class="btn btn-ghost flex-shrink-0 w-full sm:w-auto" href="/tools/loan-calculator/${s.toolSlug}/">Open this scenario</a>`
+      });
+    })()}
     ${sectionBlocks.charts}
     <article class="card article-body">
       ${articleInner}
@@ -463,11 +465,26 @@ const renderGuidePage = (entry, options = {}) => {
     <section class="card faq-list"><h2>Frequently asked questions</h2>
       ${faqs.map((f) => `<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n      ")}
     </section>
-    <section class="card"><h2>Related scenarios</h2><ul class="toc-list">
-      <li><a href="/tools/loan-calculator/${toToolSlug(s.P, s.rate, s.altYears)}/">${currency(s.P)} at ${formatRate(s.rate)}% for ${s.altYears} years</a></li>
-      <li><a href="/blog/how-extra-payments-save-money/">How extra payments save interest</a></li>
-      <li><a href="/blog/best-loan-term-15-vs-30-years/">15-year vs 30-year term planning</a></li>
-    </ul></section>
+    ${(() => {
+      const { renderRelatedSection } = require("./tool-themes.cjs");
+      return renderRelatedSection("Related scenarios", [
+        {
+          url: `/tools/loan-calculator/${toToolSlug(s.P, s.rate, s.altYears)}/`,
+          title: `${currency(s.P)} at ${formatRate(s.rate)}% for ${s.altYears} years`,
+          slug: "loan-calculator"
+        },
+        {
+          url: "/blog/how-extra-payments-save-money/",
+          title: "How extra payments save interest",
+          type: "blog"
+        },
+        {
+          url: "/blog/best-loan-term-15-vs-30-years/",
+          title: "15-year vs 30-year term planning",
+          type: "blog"
+        }
+      ]);
+    })()}
   </main>
   <footer class="site-footer"><div class="container footer-content">
     <p>&copy; <span id="year"></span> CalnexApp.</p>

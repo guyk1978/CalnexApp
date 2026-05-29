@@ -5,21 +5,41 @@ const CurrencyLayer = (() => {
     USD: 1,
     EUR: 0.92,
     GBP: 0.79,
-    ILS: 3.66
+    ILS: 3.66,
+    CNY: 7.24,
+    CAD: 1.36,
+    AUD: 1.52,
+    JPY: 150
   };
   const SYMBOLS = {
     USD: "$",
     EUR: "€",
     GBP: "£",
-    ILS: "₪"
+    ILS: "₪",
+    CNY: "¥",
+    CAD: "$",
+    AUD: "$",
+    JPY: "¥"
   };
   const LOCALES = {
     USD: "en-US",
     EUR: "de-DE",
     GBP: "en-GB",
-    ILS: "he-IL"
+    ILS: "he-IL",
+    CNY: "zh-CN",
+    CAD: "en-CA",
+    AUD: "en-AU",
+    JPY: "ja-JP"
+  };
+  const CURRENCY_LABELS = {
+    CNY: "CNY (¥)",
+    CAD: "CAD ($)",
+    AUD: "AUD ($)",
+    JPY: "JPY (¥)"
   };
   const SUPPORTED = Object.keys(RATES_FROM_USD);
+
+  const getCurrencyOptionLabel = (code) => CURRENCY_LABELS[code] || code;
 
   const normalizeCurrency = (currency) => {
     const code = String(currency || DEFAULT_CURRENCY).toUpperCase();
@@ -68,15 +88,19 @@ const CurrencyLayer = (() => {
     const existing = container.querySelector(".currency-selector-wrap");
     if (existing) return existing.querySelector("select");
     const selected = getSelectedCurrency();
+    const pill = window.CalnexHeaderToolbar || {};
+    const wrapClass = `currency-selector-wrap cn-header-pill cn-header-pill--currency ${pill.PILL_WRAP_CLASS || ""}`.trim();
+    const selectClass = `currency-selector ${pill.PILL_SELECT_CLASS || "cn-header-pill__select"}`;
+    const renderOption = pill.renderPillOption || ((value, label, isSel) => `<option value="${value}"${isSel ? " selected" : ""}>${label}</option>`);
     const wrapper = document.createElement("div");
-    wrapper.className = "currency-selector-wrap";
+    wrapper.className = wrapClass;
     wrapper.innerHTML = `
-      <label class="currency-selector-label" for="${idPrefix}CurrencySelect">Currency</label>
-      <select id="${idPrefix}CurrencySelect" class="currency-selector">
-        ${SUPPORTED.map(
-          (code) =>
-            `<option value="${code}" ${code === selected ? "selected" : ""}>${code} (${SYMBOLS[code] || ""})</option>`
-        ).join("")}
+      <label class="sr-only" for="${idPrefix}CurrencySelect">Currency</label>
+      <span class="cn-header-pill__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M12 18V6"/></svg>
+      </span>
+      <select id="${idPrefix}CurrencySelect" class="${selectClass}" aria-label="Currency">
+        ${SUPPORTED.map((code) => renderOption(code, getCurrencyOptionLabel(code), code === selected)).join("")}
       </select>
     `;
     container.append(wrapper);
@@ -87,13 +111,16 @@ const CurrencyLayer = (() => {
         if (node !== event.target) node.value = normalizeCurrency(event.target.value);
       });
     });
+    document.dispatchEvent(new CustomEvent("cn-header:updated"));
     return select;
   };
 
   const renderHeaderSelector = () => {
+    const pills = window.CalnexHeaderToolbar?.ensure?.()?.pills;
     const nav = document.querySelector(".site-header .nav");
-    if (!nav) return;
-    renderSelector(nav, "header");
+    const host = pills || nav;
+    if (!host) return;
+    renderSelector(host, "header");
   };
 
   const renderDashboardSelector = () => {

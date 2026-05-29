@@ -83,12 +83,21 @@ const CarLoanCalculator = (() => {
       .join("");
   };
 
+  const chartEnh = () => window.CalnexChartEnhancements;
+  const withAreaFill = (dataset, primary = false) =>
+    chartEnh()?.enhanceLineDataset(dataset, { fillPrimary: primary }) ?? dataset;
+
   const renderCharts = (schedule) => {
     if (!window.Chart) return;
     const labels = schedule.map((row) => row.month);
     const principal = schedule.map((row) => Number(row.principal.toFixed(2)));
     const interest = schedule.map((row) => Number(row.interest.toFixed(2)));
     const balance = schedule.map((row) => Number(row.balance.toFixed(2)));
+    const chartOpts = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { tooltip: chartEnh()?.modernTooltip() ?? { cornerRadius: 12, padding: 12 } }
+    };
 
     if (principalInterestChartInstance) principalInterestChartInstance.destroy();
     if (balanceChartInstance) balanceChartInstance.destroy();
@@ -98,20 +107,25 @@ const CarLoanCalculator = (() => {
       data: {
         labels,
         datasets: [
-          { label: "Principal", data: principal, borderColor: "#1b63f0", tension: 0.22, pointRadius: 0 },
-          { label: "Interest", data: interest, borderColor: "#5f6b7a", tension: 0.22, pointRadius: 0 }
+          withAreaFill({ label: "Principal", data: principal, borderColor: "#1b63f0", tension: 0.22, pointRadius: 0 }, true),
+          withAreaFill({ label: "Interest", data: interest, borderColor: "#5f6b7a", tension: 0.22, pointRadius: 0 }, true)
         ]
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      options: chartOpts
     });
 
     balanceChartInstance = new window.Chart(selectors.balanceChart, {
       type: "line",
       data: {
         labels,
-        datasets: [{ label: "Remaining Balance", data: balance, borderColor: "#144fc1", tension: 0.22, pointRadius: 0 }]
+        datasets: [
+          withAreaFill(
+            { label: "Remaining Balance", data: balance, borderColor: "#144fc1", tension: 0.22, pointRadius: 0 },
+            true
+          )
+        ]
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      options: chartOpts
     });
   };
 

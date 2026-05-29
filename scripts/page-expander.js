@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { renderGuidePage, parseKeyword, parseGuideSlug, toGuideSlug, toToolSlug } = require("./loan-scenario-core.cjs");
+const { renderRelatedSection } = require("./tool-themes.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const REGISTRY_PATH = path.join(ROOT, "data", "seo-registry.json");
@@ -44,9 +45,12 @@ const scoreKeyword = (keyword, relatedPages, intent, trafficSignal = 0) => {
 };
 
 const buildHtmlPage = (candidate) => {
-  const relatedLinks = candidate.internalLinks
-    .map((link) => `<li><a href="${link.url}">${link.title}</a></li>`)
-    .join("");
+  const relatedItems = candidate.internalLinks.map((link) => ({
+    url: link.url,
+    title: link.title,
+    type: String(link.url || "").includes("/blog/") ? "blog" : "tool"
+  }));
+  const relatedBlock = renderRelatedSection("Related tools/articles", relatedItems);
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -68,12 +72,7 @@ const buildHtmlPage = (candidate) => {
         <h2>Target Keywords</h2>
         <p>${candidate.targetKeywords.join(", ")}</p>
       </section>
-      <section class="card">
-        <h2>Related tools/articles</h2>
-        <ul class="toc-list">
-          ${relatedLinks}
-        </ul>
-      </section>
+      ${relatedBlock}
       <section class="card">
         <a class="btn btn-primary" href="/tools/loan-calculator/">Customize this loan</a>
       </section>

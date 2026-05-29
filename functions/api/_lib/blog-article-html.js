@@ -1,5 +1,10 @@
 /** Blog HTML generator (aligned with scripts/publish-approved-blog-from-drafts.js). */
 
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { renderDefaultRecommendedCalculators } = require("../../../scripts/tool-themes.cjs");
+
 export function normalizeDraftStatus(s) {
   return String(s == null ? "" : s)
     .trim()
@@ -173,14 +178,7 @@ ${JSON.stringify(
       </article>
       ${faqHtml}
 
-      <section class="card">
-        <h2>Recommended calculators</h2>
-        <ul class="toc-list">
-          <li><a href="/tools/loan-calculator/">Loan Calculator</a></li>
-          <li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a></li>
-          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a></li>
-        </ul>
-      </section>
+      ${renderDefaultRecommendedCalculators()}
     </main>
 
     <footer class="site-footer">

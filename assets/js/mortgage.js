@@ -67,11 +67,18 @@ const MortgageCalculator = (() => {
       return Number(row[key].toFixed(2));
     });
 
+  const chartEnh = () => window.CalnexChartEnhancements;
+  const withAreaFill = (dataset, primary = false) =>
+    chartEnh()?.enhanceLineDataset(dataset, { fillPrimary: primary }) ?? dataset;
+
   const getChartOptions = (yLabel) => ({
     responsive: true,
     maintainAspectRatio: false,
     interaction: { mode: "index", intersect: false },
-    plugins: { legend: { position: "top" } },
+    plugins: {
+      legend: { position: "top" },
+      tooltip: chartEnh()?.modernTooltip() ?? { cornerRadius: 12, padding: 12 }
+    },
     scales: {
       x: { title: { display: true, text: "Month" } },
       y: { title: { display: true, text: yLabel }, ticks: { callback: (value) => setCurrency(Number(value) || 0) } }
@@ -100,10 +107,10 @@ const MortgageCalculator = (() => {
       data: {
         labels,
         datasets: [
-          { label: "Principal (Original)", data: buildSeries(baselineSchedule, "principal", maxMonths), borderColor: "#8da8de", borderDash: [6, 6], tension: 0.24, pointRadius: 0 },
-          { label: "Interest (Original)", data: buildSeries(baselineSchedule, "interest", maxMonths), borderColor: "#b0bac8", borderDash: [6, 6], tension: 0.24, pointRadius: 0 },
-          { label: "Principal (With Extra)", data: buildSeries(acceleratedSchedule, "principal", maxMonths), borderColor: "#1b63f0", tension: 0.24, pointRadius: 0 },
-          { label: "Interest (With Extra)", data: buildSeries(acceleratedSchedule, "interest", maxMonths), borderColor: "#5f6b7a", tension: 0.24, pointRadius: 0 }
+          withAreaFill({ label: "Principal (Original)", data: buildSeries(baselineSchedule, "principal", maxMonths), borderColor: "#8da8de", borderDash: [6, 6], tension: 0.24, pointRadius: 0 }),
+          withAreaFill({ label: "Interest (Original)", data: buildSeries(baselineSchedule, "interest", maxMonths), borderColor: "#b0bac8", borderDash: [6, 6], tension: 0.24, pointRadius: 0 }),
+          withAreaFill({ label: "Principal (With Extra)", data: buildSeries(acceleratedSchedule, "principal", maxMonths), borderColor: "#1b63f0", tension: 0.24, pointRadius: 0 }, true),
+          withAreaFill({ label: "Interest (With Extra)", data: buildSeries(acceleratedSchedule, "interest", maxMonths), borderColor: "#5f6b7a", tension: 0.24, pointRadius: 0 }, true)
         ]
       },
       options: getChartOptions("Amount (USD)")
@@ -113,8 +120,8 @@ const MortgageCalculator = (() => {
       data: {
         labels,
         datasets: [
-          { label: "Balance (Original)", data: buildSeries(baselineSchedule, "balance", maxMonths, true), borderColor: "#8da8de", borderDash: [6, 6], tension: 0.24, pointRadius: 0 },
-          { label: "Balance (With Extra)", data: buildSeries(acceleratedSchedule, "balance", maxMonths, true), borderColor: "#144fc1", tension: 0.24, pointRadius: 0 }
+          withAreaFill({ label: "Balance (Original)", data: buildSeries(baselineSchedule, "balance", maxMonths, true), borderColor: "#8da8de", borderDash: [6, 6], tension: 0.24, pointRadius: 0 }),
+          withAreaFill({ label: "Balance (With Extra)", data: buildSeries(acceleratedSchedule, "balance", maxMonths, true), borderColor: "#144fc1", tension: 0.24, pointRadius: 0 }, true)
         ]
       },
       options: getChartOptions("Remaining Balance (USD)")

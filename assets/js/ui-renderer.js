@@ -138,6 +138,21 @@ const UiRenderer = (() => {
       const txt = (node.textContent || "").trim();
       node.classList.toggle("financial-validator-badge--visible", Boolean(txt));
     });
+    document.querySelectorAll("[data-confidence-fill]").forEach((fill) => {
+      const widget = fill.closest(".cn-confidence-widget");
+      const panel = fill.closest(".financial-validation-panel, .cn-confidence-widget");
+      const scoreEl = panel?.querySelector('[data-bind="financial_validation_confidence_score"]');
+      const raw = scoreEl ? Number(String(scoreEl.textContent).replace(/,/g, "")) : 100;
+      const pct = Math.max(0, Math.min(100, Number.isFinite(raw) ? raw : 0));
+      fill.style.width = `${pct}%`;
+      widget?.style.setProperty("--cn-confidence-pct", `${pct}%`);
+      if (widget) {
+        widget.classList.remove("cn-confidence-widget--high", "cn-confidence-widget--mid", "cn-confidence-widget--low");
+        if (pct >= 80) widget.classList.add("cn-confidence-widget--high");
+        else if (pct >= 50) widget.classList.add("cn-confidence-widget--mid");
+        else widget.classList.add("cn-confidence-widget--low");
+      }
+    });
     if (document.body?.dataset?.page === "retirement-calculator") {
       console.log("[RENDER] retirement", { boundCount });
     }

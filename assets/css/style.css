@@ -6,6 +6,7 @@
 @import url("./debt-payoff-layout.css");
 @import url("./header-wide.css");
 @import url("./site-search.css");
+@import url("./vibrant-ui.css");
 
 .sr-only {
   position: absolute;
@@ -62,14 +63,16 @@ a {
   position: sticky;
   top: 0;
   z-index: 40;
+  overflow: visible;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  min-height: 68px;
-  gap: 1rem;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  min-height: 52px;
+  gap: 0.75rem;
 }
 
 .brand {
@@ -82,8 +85,12 @@ a {
 
 .menu {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 1.25rem;
+  min-width: 0;
+  margin-left: 0.5rem;
 }
 
 .menu > a,
@@ -827,9 +834,8 @@ input[type="range"] {
   background: var(--cn-accent-muted);
 }
 
-.featured-grid .blog-card {
-  border-color: var(--cn-border-strong);
-  background: linear-gradient(180deg, var(--cn-bg-tint-blue) 0%, var(--surface) 100%);
+.featured-grid .cn-blog-tile {
+  box-shadow: var(--cn-shadow-sm);
 }
 
 .article-layout {
@@ -1007,20 +1013,20 @@ input[type="range"] {
   .country-selector-wrap,
   .geo-indicator {
     display: none;
-    width: 100%;
   }
 
-  .nav.is-mobile-open .currency-selector-wrap,
-  .nav.is-mobile-open .country-selector-wrap,
-  .nav.is-mobile-open .geo-indicator {
+  .nav.is-mobile-open .cn-header-pills {
     display: flex;
-    margin-top: 0.35rem;
+    width: 100%;
+    gap: 0.5rem;
   }
 
-  .nav.is-mobile-open .geo-indicator {
-    display: block;
-    white-space: normal;
-    padding: 0.45rem 0.1rem 0.2rem;
+  .nav.is-mobile-open .cn-header-pill {
+    flex: 1;
+  }
+
+  .nav.is-mobile-open .cn-header-pill__select {
+    width: 100%;
   }
 
   .currency-selector,
