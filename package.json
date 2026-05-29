@@ -14,6 +14,7 @@
     "test": "node --test tests/financial-core.test.cjs",
     "seo-draft-server": "node scripts/seo-draft-persist-server.js",
     "generate-sitemap": "node scripts/generate-sitemap.js",
+    "sitemap:ping": "node scripts/ping-sitemap.js",
     "seo:build": "node scripts/seo-engine.js",
     "links:boost": "node scripts/internal-link-booster.js",
     "build:blog-index": "node scripts/internal-link-booster.js",

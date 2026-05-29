@@ -1,9 +1,6 @@
 /** Blog HTML generator (aligned with scripts/publish-approved-blog-from-drafts.js). */
 
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-const { renderDefaultRecommendedCalculators } = require("../../../scripts/tool-themes.cjs");
+import { renderDefaultRecommendedCalculators } from "./recommended-calculators-html.js";
 
 export function normalizeDraftStatus(s) {
   return String(s == null ? "" : s)
