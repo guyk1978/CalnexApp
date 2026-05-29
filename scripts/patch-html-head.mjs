@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const THEME_LINE = '    <script src="/assets/js/theme-init.js"></script>';
 const FAVICON_LINE = '    <link rel="icon" href="data:;base64,=">';
-const STYLESHEET_VERSION = "1.2";
+const STYLESHEET_VERSION = "1.3";
 const STYLESHEET_HREF = `/assets/css/style.css?v=${STYLESHEET_VERSION}`;
 
 function walk(dir, out = []) {

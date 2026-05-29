@@ -692,7 +692,7 @@
     @apply mt-2;
   }
 
-  /* Calculator title icon — fixed 112×112px box, 56×56px glyph */
+  /* Calculator title icon — fixed 113×113px box, 56×56px glyph */
   .cn-tool-page-title__head .cn-tool-badge,
   .cn-tool-page-title__head .cn-tool-badge--lg {
     display: inline-flex;
@@ -700,12 +700,12 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    width: 112px !important;
-    height: 112px !important;
-    min-width: 112px !important;
-    min-height: 112px !important;
-    max-width: 112px !important;
-    max-height: 112px !important;
+    width: 113px !important;
+    height: 113px !important;
+    min-width: 113px !important;
+    min-height: 113px !important;
+    max-width: 113px !important;
+    max-height: 113px !important;
     border-radius: 1rem;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   }

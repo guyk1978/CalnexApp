@@ -141,7 +141,7 @@ const TOOL_BADGE_ICON_CLASS = {
 const TOOL_PAGE_TITLE_HEAD_CLASS = "cn-tool-page-title__head flex items-center gap-4 sm:gap-5";
 
 const TOOL_BADGE_WRAP_CLASS =
-  "cn-tool-badge cn-tool-badge--lg flex shrink-0 w-28 h-28 items-center justify-center rounded-2xl shadow-sm";
+  "cn-tool-badge cn-tool-badge--lg flex shrink-0 w-[113px] h-[113px] items-center justify-center rounded-2xl shadow-sm";
 
 function renderToolBadgeIcon(iconName, accent) {
   const paths = ICONS[iconName] || ICONS["credit-card"];

@@ -98,6 +98,8 @@ module.exports = {
     "sm:w-20",
     "w-[80px]",
     "h-[80px]",
+    "w-[113px]",
+    "h-[113px]",
     "cn-tool-badge__icon",
     "h-7",
     "w-7",
