@@ -7,6 +7,7 @@
     "sync-calculator-headers": "node scripts/sync-calculator-headers.mjs",
     "sync-calculator-quick-actions": "node scripts/sync-calculator-quick-actions.mjs",
     "sync-calculator-context-ctas": "node scripts/sync-calculator-context-ctas.mjs",
+    "sync-pdf-export": "node scripts/sync-pdf-export.mjs",
     "sync-main-layout": "node scripts/sync-main-layout.mjs",
     "patch-blog-articles": "node scripts/patch-blog-articles.mjs",
     "search:build": "node scripts/build-search-index.js",
@@ -36,7 +37,7 @@
     "simulate:routes:all": "node scripts/simulate-blog-routes.js --all",
     "patch:html-head": "node scripts/patch-html-head.mjs",
     "build:css": "tailwindcss -i ./src/styles/vibrant-ui.css -o ./assets/css/vibrant-ui.css --minify",
-    "build": "npm run build:css && npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run sync-tools-hub && npm run sync-calculator-headers && npm run sync-calculator-quick-actions && npm run sync-calculator-context-ctas && npm run sync-main-layout && npm run patch-blog-articles && npm run patch:html-head && npm run sync-nav && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
+    "build": "npm run build:css && npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run sync-tools-hub && npm run sync-calculator-headers && npm run sync-calculator-quick-actions && npm run sync-calculator-context-ctas && npm run sync-pdf-export && npm run sync-main-layout && npm run patch-blog-articles && npm run patch:html-head && npm run sync-nav && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
   },
   "dependencies": {
     "next": "^15.3.3",

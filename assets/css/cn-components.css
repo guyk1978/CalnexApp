@@ -933,3 +933,37 @@
   background: color-mix(in srgb, var(--cn-bg-app) 65%, transparent);
   border: 1px solid var(--cn-border-subtle);
 }
+
+/* PDF export control */
+.cn-pdf-export-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.cn-pdf-export-btn__icon {
+  flex-shrink: 0;
+}
+
+.cn-pdf-export-btn__label {
+  font-weight: 600;
+}
+
+.cn-pdf-export-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.cn-pdf-export-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.share-toast.share-toast--error {
+  background: color-mix(in srgb, #dc2626 12%, var(--cn-bg-elevated));
+  border-color: color-mix(in srgb, #dc2626 35%, var(--border));
+  color: var(--cn-text-primary);
+}

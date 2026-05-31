@@ -53,6 +53,8 @@
     
     
     
+    
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -61,7 +63,7 @@
   "name": "Rent vs. Buy Calculator",
   "description": "Rent vs. Buy Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/rent-vs-buy/",
-  "dateModified": "2026-05-29T06:36:38.061Z",
+  "dateModified": "2026-05-31T06:19:37.407Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -217,7 +219,7 @@
           inflation, and investment opportunity costs—then see when buying pulls ahead.
         </p>
       </section>
-                                    <!-- CN_QUICK_ACTIONS_START -->
+                                          <!-- CN_QUICK_ACTIONS_START -->
       <section class="cn-quick-actions relative block w-full mt-2">
         <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">More tools</h2>
         <div class="cn-quick-actions__grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-6 sm:mt-8 w-full">
@@ -354,6 +356,15 @@
 
           <aside class="card output-card cn-tool-rail" aria-live="polite">
             <h2>Results</h2>
+            <div class="cn-pdf-export-wrap" style="margin: 0.75rem 0 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem">
+              <!-- CN_PDF_EXPORT_START -->
+              <button type="button" class="btn btn-ghost cn-pdf-export-btn" data-cn-pdf-export data-calculator-name="Rent vs. Buy Calculator" aria-label="Export results to PDF">
+                <svg class="cn-pdf-export-btn__icon cn-theme-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span class="cn-pdf-export-btn__label">Export PDF</span>
+              </button>
+<!-- CN_PDF_EXPORT_END -->
+            </div>
+
             <div class="cn-output-highlight">
               <h3 data-bind="rvb_banner_title" data-format="text" style="margin: 0 0 0.5rem; font-size: 1.1rem">
                 Adjust inputs to compare rent vs buy
@@ -442,6 +453,8 @@
       
       
       
+      
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6">
         <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Related tools/articles</h2>
@@ -485,6 +498,8 @@
       
       
       
+      
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -493,6 +508,8 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
+      
       
       
       
@@ -586,5 +603,11 @@
     <script src="/assets/js/scenario-engine.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/rent-vs-buy.js" defer></script>
-  </body>
+  
+    <script src="/assets/js/pdf-export-helpers.js" defer></script>
+    <script src="/assets/js/pdf-export.js" defer></script>
+    <script src="/assets/js/pdf-export-init.js" defer></script>
+
+      <div id="cnPdfToast" class="share-toast" role="status" aria-live="polite"></div>
+</body>
 </html>

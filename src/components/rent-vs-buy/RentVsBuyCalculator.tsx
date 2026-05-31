@@ -8,6 +8,8 @@ import {
   DEFAULT_RENT_INPUTS,
 } from "@/lib/rent-vs-buy";
 import type { BuyInputs, RentInputs } from "@/lib/rent-vs-buy";
+import { PdfExportButton } from "@/components/PdfExportButton";
+import { buildRentVsBuyPdfPayload } from "@/lib/rent-vs-buy/pdf-export";
 import { InputPanel } from "./InputPanel";
 import { ResultsPanel } from "./ResultsPanel";
 import styles from "./rent-vs-buy.module.css";
@@ -27,6 +29,11 @@ export function RentVsBuyCalculator() {
     [rent, buy, horizonYears]
   );
 
+  const pdfPayload = useMemo(
+    () => buildRentVsBuyPdfPayload(rent, buy, horizonYears, result),
+    [rent, buy, horizonYears, result]
+  );
+
   return (
     <div className={styles.shell}>
       <section className={styles.layout}>
@@ -38,7 +45,16 @@ export function RentVsBuyCalculator() {
           onBuyChange={(patch) => setBuy((prev) => ({ ...prev, ...patch }))}
           onHorizonChange={setHorizonYears}
         />
-        <ResultsPanel result={result} />
+        <div className={styles.resultsColumn}>
+          <ResultsPanel result={result} />
+          <div className={styles.pdfExportRow}>
+            <PdfExportButton
+              calculatorName="Rent vs. Buy Calculator"
+              inputs={pdfPayload.inputs}
+              results={pdfPayload.results}
+            />
+          </div>
+        </div>
       </section>
     </div>
   );

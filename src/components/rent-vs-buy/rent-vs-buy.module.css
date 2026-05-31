@@ -14,6 +14,20 @@
   }
 }
 
+.resultsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cn-space-3);
+  min-width: 0;
+}
+
+.pdfExportRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cn-space-2);
+  padding: 0 var(--cn-space-1);
+}
+
 .rail {
   position: sticky;
   top: calc(4.5rem + env(safe-area-inset-top, 0px));
