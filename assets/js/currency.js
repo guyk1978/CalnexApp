@@ -181,8 +181,6 @@ const CurrencyLayer = (() => {
   };
 
   const init = () => {
-    if (init.__done) return;
-    init.__done = true;
     renderHeaderSelector();
     renderDashboardSelector();
     bindExistingSelectors();

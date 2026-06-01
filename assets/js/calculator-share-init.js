@@ -183,7 +183,5 @@ window.CalnexCalculatorShareInit = CalnexCalculatorShareInit;
 window.initShareButtons = () => CalnexCalculatorShareInit.init();
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (!document.querySelector("[data-cn-take-home-pay-static]")) {
-    CalnexCalculatorShareInit.init();
-  }
+  CalnexCalculatorShareInit.init();
 });

@@ -275,34 +275,6 @@
     window.addEventListener("appStateChanged", run);
   }
 
-  function initLegacySharePdf() {
-    const wire = () => {
-      if (typeof window.initShareButtons === "function") {
-        window.initShareButtons();
-      } else {
-        window.CalnexCalculatorShareInit?.init?.();
-      }
-      if (typeof window.initPdfExportButtons === "function") {
-        window.initPdfExportButtons();
-      } else {
-        window.CalnexPdfExportInit?.init?.();
-      }
-      window.CalnexSiteBoot?.initLegacyCalculatorUi?.();
-    };
-
-    if (window.CalnexCalculatorShare && window.CalnexPdfExport) {
-      wire();
-      return;
-    }
-
-    if (window.CalnexSiteBoot?.bootCalculatorLegacy) {
-      void window.CalnexSiteBoot.bootCalculatorLegacy().then(wire);
-      return;
-    }
-
-    wire();
-  }
-
   function init() {
     if (!window.TakeHomePayEngine?.computeTakeHomePay) {
       console.warn("[TakeHomePay] engine not loaded");
@@ -310,7 +282,12 @@
     }
     bind();
     run();
-    initLegacySharePdf();
+    if (typeof window.initShareButtons === "function") {
+      window.initShareButtons();
+    }
+    if (typeof window.initPdfExportButtons === "function") {
+      window.initPdfExportButtons();
+    }
   }
 
   if (document.readyState === "loading") {
