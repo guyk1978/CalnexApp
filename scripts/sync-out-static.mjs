@@ -15,6 +15,8 @@ const DATA_ONLY = process.argv.includes("--data-only");
 /** Static route roots merged into out/ when Next has no index.txt yet. */
 const STATIC_INDEX_ROUTES = ["about/index.html", "contact/index.html"];
 
+const HOME_INDEX = "index.html";
+
 /** Do not overwrite Next-exported app routes with static HTML. */
 const NEXT_ROUTE_PREFIXES = ["404"];
 
@@ -61,6 +63,17 @@ function mergeStaticIndex(relPath) {
   return copyFile(src, dest);
 }
 
+/** Always replace Next / export (redirect shell) with the static marketing homepage. */
+function forceMergeHomeIndex() {
+  const src = path.join(ROOT, HOME_INDEX);
+  const dest = path.join(OUT, HOME_INDEX);
+  if (!fs.existsSync(src)) {
+    console.warn("sync-out-static: missing root index.html — skip home merge");
+    return false;
+  }
+  return copyFile(src, dest);
+}
+
 console.log("sync-out-static: building search index…");
 execSync("node scripts/build-search-index.js", { cwd: ROOT, stdio: "inherit" });
 
@@ -79,6 +92,11 @@ if (!DATA_ONLY) {
   }
 
   execSync("node scripts/sync-static-site.mjs --to-out", { cwd: ROOT, stdio: "inherit" });
+
+  const homeMerged = forceMergeHomeIndex();
+  if (homeMerged) {
+    console.log("sync-out-static: replaced out/index.html with static marketing homepage");
+  }
 
   console.log(
     `sync-out-static: public/data/ (${publicCount} files), out/data/ (${outCount} files), ${staticMerged} static index.html merged`
