@@ -21,6 +21,7 @@ const REQUIRED = [
   "/assets/js/car-loan.js",
   "/assets/js/debt-payoff.js",
   "/assets/js/loan-comparison.js",
+  "/assets/js/roi-calculator.js",
   ...PDF_SCRIPT_PATHS,
   ...CALCULATOR_UTILITY_SCRIPT_PATHS,
 ];

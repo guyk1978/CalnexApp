@@ -237,6 +237,7 @@
       "mortgage-calculator": "housing",
       "rent-vs-buy": "housing",
       "rent-vs-buy-calculator": "housing",
+      "roi-calculator": "housing",
       "loan-calculator": "lending",
       "debt-payoff": "lending",
       "loan-comparison": "lending",

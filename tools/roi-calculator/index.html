@@ -5,15 +5,12 @@
     <link rel="icon" href="data:;base64,=">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/assets/js/theme-init.js"></script>
-    <title>Interest Calculator - CalnexApp</title>
-    <meta
-      name="description"
-      content="Calculate simple and compound interest growth with monthly contributions, charts, and year-by-year breakdowns."
-    />
+    <title>ROI Calculator — Rental Property Return | CalnexApp</title>
+    <meta name="description" content="Estimate rental property ROI: cash-on-cash return, annual net income, appreciation, and total return on purchase price." />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Interest Calculator - CalnexApp" />
-    <meta property="og:url" content="https://calnexapp.com/tools/interest-calculator/" />
-    <link rel="canonical" href="https://calnexapp.com/tools/interest-calculator/" />                                                                                                                                                                                                                                <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
+    <meta property="og:title" content="ROI Calculator - CalnexApp" />
+    <meta property="og:url" content="https://calnexapp.com/tools/roi-calculator/" />
+    <link rel="canonical" href="https://calnexapp.com/tools/roi-calculator/" />                                                                                                                                                                                                                                <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
 <script>
@@ -32,15 +29,16 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Interest Calculator",
-  "description": "Interest Calculator - CalnexApp",
-  "url": "https://calnexapp.com/tools/interest-calculator/",
-  "dateModified": "2026-06-01T14:38:13.217Z",
+  "name": "ROI Calculator",
+  "description": "ROI Calculator - CalnexApp",
+  "url": "https://calnexapp.com/tools/roi-calculator/",
+  "dateModified": "2026-06-01T15:44:23.683Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -60,8 +58,8 @@
       {
         "@type": "ListItem",
         "position": 3,
-        "name": "Interest Calculator",
-        "item": "https://calnexapp.com/tools/interest-calculator/"
+        "name": "ROI Calculator",
+        "item": "https://calnexapp.com/tools/roi-calculator/"
       }
     ]
   }
@@ -69,7 +67,7 @@
     </script>
     <!-- SEO_ENGINE_SCHEMA_END -->
   </head>
-  <body data-page="interest-calculator">
+  <body data-page="roi-calculator">
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
@@ -187,13 +185,15 @@
       <div class="cn-calculator-hero-stack w-full flex flex-col gap-6 my-6 relative block">
 <section class="page-title cn-tool-page-title cn-page-hero space-y-4 text-center sm:text-left">
         <div class="cn-tool-page-title__head flex items-center gap-4 sm:gap-5">
-          <div class="cn-tool-badge cn-tool-badge--lg flex shrink-0 w-[113px] h-[113px] items-center justify-center rounded-2xl shadow-sm bg-purple-50 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-900/60 cn-tool-badge--growth" aria-hidden="true"><svg class="cn-theme-icon cn-tool-badge__icon w-14 h-14 text-purple-600 dark:text-purple-400" viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+          <div class="cn-tool-badge cn-tool-badge--lg flex shrink-0 w-[113px] h-[113px] items-center justify-center rounded-2xl shadow-sm bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/60 cn-tool-badge--housing" aria-hidden="true"><svg class="cn-theme-icon cn-tool-badge__icon w-14 h-14 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
           <div class="cn-tool-page-title__copy">
-            <span class="cn-blog-category-pill cn-blog-category-pill--growth">Interest &amp; growth</span>
-            <h1>Interest Calculator</h1>
+            <span class="cn-blog-category-pill cn-blog-category-pill--housing">Housing</span>
+            <h1>ROI Calculator</h1>
           </div>
         </div>
-        
+        <p class="muted">
+          Estimate rental property return: annual net income, cash-on-cash ROI, appreciation on purchase price, and combined total return.
+        </p>
       </section>
                                                                               <!-- CN_QUICK_ACTIONS_START -->
       <section class="cn-quick-actions relative block w-full mt-2">
@@ -226,81 +226,69 @@
       <!-- CN_CALCULATOR_HERO_STACK_END -->
 <!-- CN_CALCULATOR_BODY_START -->
 <section class="calculator-layout">
-        <article class="card">
+        <form class="card input-card" id="roi-form" aria-label="ROI calculator inputs">
           <h2>Inputs</h2>
           <div class="field">
-            <label for="interestPrincipal" data-currency-label="principal_amount">Principal Amount</label>
+            <label for="roiPurchasePrice" data-currency-label="roi_purchase_price">Purchase price</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="interestPrincipal" data-input-bind="interest_principal" type="number" min="0" step="100" value="10000" />
+              <input id="roiPurchasePrice" data-input-bind="roi_purchase_price" type="number" min="0" step="1000" value="250000" />
             </div>
           </div>
           <div class="field">
-            <label for="interestRate">Interest Rate (%)</label>
-            <input id="interestRate" data-input-bind="interest_rate" type="number" min="0" step="0.01" value="5" />
-          </div>
-          <div class="field">
-            <label for="interestYears">Time Period (Years)</label>
-            <input id="interestYears" data-input-bind="interest_years" type="number" min="1" step="1" value="10" />
-          </div>
-          <div class="field">
-            <label for="interestCompounding">Compounding Frequency</label>
-            <select id="interestCompounding" data-input-bind="interest_compounding">
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
-              <option value="daily">Daily</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="interestMonthlyContribution">Monthly Contribution (Optional)</label>
+            <label for="roiAnnualRent" data-currency-label="roi_annual_rent">Annual rent (gross)</label>
             <div class="input-with-prefix">
               <span data-currency-symbol>¤</span>
-              <input id="interestMonthlyContribution" data-input-bind="interest_monthly_contribution" type="number" min="0" step="10" value="0" />
+              <input id="roiAnnualRent" data-input-bind="roi_annual_rent" type="number" min="0" step="100" value="24000" />
             </div>
           </div>
-        </article>
+          <div class="field">
+            <label for="roiAnnualExpenses" data-currency-label="roi_annual_expenses">Annual expenses</label>
+            <div class="input-with-prefix">
+              <span data-currency-symbol>¤</span>
+              <input id="roiAnnualExpenses" data-input-bind="roi_annual_expenses" type="number" min="0" step="100" value="6000" />
+            </div>
+            <p class="muted" style="margin: 0.35rem 0 0; font-size: 0.85rem">Taxes, insurance, maintenance, vacancy, and management.</p>
+          </div>
+          <div class="field">
+            <label for="roiAppreciationRate">Annual appreciation (%)</label>
+            <input id="roiAppreciationRate" data-input-bind="roi_appreciation_rate" type="number" min="0" step="0.1" value="3" />
+          </div>
+        </form>
 
-        <article class="card">
+        <aside class="card output-card" aria-live="polite">
           <h2>Results</h2>
-          <div class="financial-validation-panel" role="status">
-            <div class="financial-validation-head">
-              <span class="financial-validator-badge" data-bind="financial_validation_badge" data-format="text"></span>
-              <p class="financial-validation-confidence">
-                <strong>Result confidence:</strong>
-                <span data-bind="financial_validation_confidence_label" data-format="text">—</span>
-                <span class="muted">(<span data-bind="financial_validation_confidence_score" data-format="number">100</span>/100)</span>
-              </p>
-            </div>
-            <p class="financial-validation-warnings muted" data-bind="financial_validation_warnings_text" data-format="text"></p>
+          <div class="cn-result-banner" role="status">
+            <p class="eyebrow" data-bind="roi_banner_title" data-format="text">—</p>
+            <p class="muted" data-bind="roi_banner_detail" data-format="text"></p>
           </div>
           <dl class="result-grid">
             <div>
-              <dt>Final Amount (Compound)</dt>
-              <dd id="interestFinalAmount" data-bind="interest_final_amount" data-format="currency">0.00</dd>
+              <dt>Annual net income</dt>
+              <dd data-bind="roi_annual_net_income" data-format="currency">0</dd>
             </div>
             <div>
-              <dt>Total Interest Earned</dt>
-              <dd id="interestTotalInterest" data-bind="interest_total_interest" data-format="currency">0.00</dd>
+              <dt>Cash-on-cash ROI</dt>
+              <dd data-bind="roi_cash_on_cash_pct" data-format="percent">0</dd>
             </div>
             <div>
-              <dt>Simple Interest Total</dt>
-              <dd id="interestSimpleAmount" data-bind="interest_simple_total" data-format="currency">0.00</dd>
+              <dt>Appreciation gain (year 1)</dt>
+              <dd data-bind="roi_appreciation_gain" data-format="currency">0</dd>
             </div>
             <div>
-              <dt>Compound Interest Total</dt>
-              <dd id="interestCompoundAmount" data-bind="interest_compound_total" data-format="currency">0.00</dd>
+              <dt>Total return (cash flow + appreciation)</dt>
+              <dd data-bind="roi_total_return_pct" data-format="percent">0</dd>
             </div>
           </dl>
         
-
 <!-- CN_EXPORT_SHARE_TOOLBAR_START -->
       <div class="share-tools cn-portable-results-box cn-export-share-rail" data-cn-share>
         <h3>Export &amp; share</h3>
         <p class="muted cn-portable-results__lead">Download data or send a link that restores this calculation.</p>
         <div class="cn-export-share-toolbar">
-          <button type="button" class="cn-action-btn cn-action-btn--ghost" data-cn-download-csv data-cn-csv-table=".amortization-card .schedule-table" data-cn-csv-filename="interest-growth.csv">Download CSV</button>
+          <button type="button" class="cn-action-btn cn-action-btn--ghost" data-cn-download-csv>Download CSV</button>
           <!-- CN_PDF_EXPORT_START -->
-              <button type="button" class="cn-action-btn cn-action-btn--ghost cn-pdf-export-btn" data-cn-pdf-export data-calculator-name="Interest Calculator" aria-label="Export results to PDF">
+              <button type="button" class="cn-action-btn cn-action-btn--ghost cn-pdf-export-btn" data-cn-pdf-export data-calculator-name="ROI Calculator" aria-label="Export results to PDF">
                 <svg class="cn-pdf-export-btn__icon cn-theme-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                 <span class="cn-pdf-export-btn__label">Export PDF</span>
               </button>
@@ -315,7 +303,7 @@
                   <p class="cn-share-menu__title">Share this calculation</p>
                   <p class="muted cn-share-menu__hint">Opens with your inputs pre-filled on CalnexApp.</p>
                   <input
-                    id="cnShareUrl-interest-calculator"
+                    id="cnShareUrl-roi-calculator"
                     class="cn-calculator-share__url"
                     type="text"
                     readonly
@@ -348,48 +336,12 @@
         </div>
       </div>
 <!-- CN_EXPORT_SHARE_TOOLBAR_END -->
-</article>
-      </section>
-
-      <section class="card charts-section">
-        <div class="page-title">
-          <p class="eyebrow">Visualization</p>
-          <h2>Growth and Comparison Charts</h2>
-        </div>
-        <div class="chart-grid">
-          <article class="card chart-card">
-            <h3>Growth Chart</h3>
-            <div class="chart-wrap"><canvas id="interestGrowthChart"></canvas></div>
-          </article>
-          <article class="card chart-card">
-            <h3>Simple vs Compound</h3>
-            <div class="chart-wrap"><canvas id="interestCompareChart"></canvas></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="card amortization-card">
-        <div class="amortization-header">
-          <h2>Year-by-Year Breakdown</h2>
-        </div>
-        <div class="schedule-table-wrap">
-          <table class="schedule-table">
-            <thead>
-              <tr>
-                <th>Year</th>
-                <th>Simple Total</th>
-                <th>Compound Total</th>
-                <th>Total Contributions</th>
-                <th>Interest Earned</th>
-              </tr>
-            </thead>
-            <tbody id="interestYearlyBody"></tbody>
-          </table>
-        </div>
+</aside>
       </section>
 <!-- CN_CALCULATOR_BODY_END -->
-<section class="card" data-related-tools data-current-tool="interest-calculator"></section>
+<section class="card" data-related-tools data-current-tool="roi-calculator"></section>
 
+      
       
       
       
@@ -407,6 +359,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
@@ -449,6 +402,7 @@
       
       
       
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6">
         <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Related tools/articles</h2>
@@ -481,8 +435,7 @@
     <script src="/assets/js/app-engine.js" defer></script>
     <script src="/assets/js/input-sync.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
-    <script src="/assets/js/interest.js" defer></script>
+    <script src="/assets/js/roi-calculator.js" defer></script>
 
 
 <div id="cnPdfToast" class="share-toast" role="status" aria-live="polite"></div>

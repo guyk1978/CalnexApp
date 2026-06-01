@@ -103,6 +103,7 @@ const CSV_TABLE_ATTRS = {
     ' data-cn-csv-table="#carSchedulePanel .schedule-table" data-cn-csv-filename="car-loan-amortization.csv"',
   "rent-vs-buy-calculator":
     ' data-cn-csv-table=".cn-rvb-trajectory-table" data-cn-csv-filename="rent-vs-buy-timeline.csv"',
+  "roi-calculator": "",
   "debt-payoff": "",
   "loan-comparison": "",
   "take-home-pay-calculator": "",

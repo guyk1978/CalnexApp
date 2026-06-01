@@ -34,6 +34,7 @@ const NAV_GROUP_THEMES = {
 const TOOL_THEMES = {
   "mortgage-calculator": { navGroup: "housing", icon: "home" },
   "rent-vs-buy-calculator": { navGroup: "housing", icon: "building" },
+  "roi-calculator": { navGroup: "housing", icon: "trending-up" },
   "loan-calculator": { navGroup: "lending", icon: "credit-card" },
   "debt-payoff": { navGroup: "lending", icon: "trending-down" },
   "loan-comparison": { navGroup: "lending", icon: "scale" },
