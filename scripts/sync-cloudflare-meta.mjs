@@ -67,11 +67,21 @@ function verifyNextBundles(baseDir, label) {
     }
   }
 
-  const stableCandidates = [
-    path.join(baseDir, "assets", "css", "take-home-pay-calculator.css"),
+  const thpDest = path.join(baseDir, "assets", "css", "take-home-pay-calculator.css");
+  const thpSources = [
+    thpDest,
     path.join(PUBLIC_ASSETS, "css", "take-home-pay-calculator.css"),
+    path.join(ROOT, "assets", "css", "take-home-pay-calculator.css"),
   ];
-  if (!stableCandidates.some((p) => fs.existsSync(p))) {
+  if (!fs.existsSync(thpDest)) {
+    const src = thpSources.find((p) => p !== thpDest && fs.existsSync(p));
+    if (src) {
+      ensureDir(path.dirname(thpDest));
+      fs.copyFileSync(src, thpDest);
+      console.log(`sync-cloudflare-meta: copied take-home-pay-calculator.css → ${label}assets/css/`);
+    }
+  }
+  if (!fs.existsSync(thpDest)) {
     console.error(
       `sync-cloudflare-meta: missing take-home-pay-calculator.css under ${label} — run sync-take-home-pay-css.mjs`
     );
