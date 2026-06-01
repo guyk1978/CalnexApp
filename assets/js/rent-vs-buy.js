@@ -85,6 +85,23 @@ const RentVsBuyCalculator = (() => {
     };
   };
 
+  const commitSnapshot = (patch) => {
+    if (!patch || typeof patch !== "object" || !Object.keys(patch).length) return;
+    if (typeof SharedState !== "undefined") {
+      SharedState.setState(patch, { engineCommit: true, syncUrl: false });
+    }
+    window.CalnexAppRender?.appRenderAll?.("rent-vs-buy");
+  };
+
+  const runCalculation = () => {
+    const patch = runRentVsBuyPipeline();
+    if (patch && Object.keys(patch).length) {
+      commitSnapshot(patch);
+      return true;
+    }
+    return false;
+  };
+
   const init = () => {
     if (document.body.dataset.page !== PAGE) return;
     if (window.CalnexCsvExport) {
@@ -97,14 +114,27 @@ const RentVsBuyCalculator = (() => {
     if (window.AppEngine) {
       AppEngine.registerToolPipeline(PAGE, runRentVsBuyPipeline);
       AppEngine.runImmediate();
+    } else {
+      runCalculation();
+    }
+    const form = document.getElementById("rvb-form");
+    if (form && !form.dataset.rvbBound) {
+      form.dataset.rvbBound = "1";
+      const onChange = () => {
+        if (window.AppEngine) AppEngine.notifyToolInput();
+        else runCalculation();
+      };
+      form.addEventListener("input", onChange);
+      form.addEventListener("change", onChange);
     }
   };
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  window.addEventListener("DOMContentLoaded", init);
+  window.addEventListener("load", () => {
+    if (document.body.dataset.page !== PAGE) return;
+    if (window.AppEngine) AppEngine.runImmediate();
+    else runCalculation();
+  });
 
   return { runRentVsBuyPipeline };
 })();
