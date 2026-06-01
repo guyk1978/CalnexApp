@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import {
+  assertNoAbsoluteAssetRefs,
   assertNoAbsoluteNextPaths,
   assertTakeHomePayBundles,
   htmlDepthFromOut,
@@ -44,6 +45,7 @@ function relativizeAt(full, relLabel, depth) {
   let next = relativizeHtml(raw, prefix);
   next = injectCalnexRoot(next, prefix);
   assertNoAbsoluteNextPaths(next, relLabel);
+  assertNoAbsoluteAssetRefs(next, relLabel);
   if (relLabel.includes("take-home-pay")) {
     assertTakeHomePayBundles(next, relLabel);
   }
@@ -102,6 +104,7 @@ for (const auditRel of BUNDLE_AUDIT_PATHS) {
   if (!fs.existsSync(auditFull)) continue;
   const raw = fs.readFileSync(auditFull, "utf8");
   assertNoAbsoluteNextPaths(raw, auditRel);
+  assertNoAbsoluteAssetRefs(raw, auditRel);
   assertTakeHomePayBundles(raw, auditRel);
   console.log(`relativize-export: audit OK — ${auditRel}`);
 }

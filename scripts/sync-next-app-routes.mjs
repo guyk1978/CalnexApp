@@ -4,7 +4,6 @@
  *
  * Run after `next build` (see package.json postbuild).
  */
-import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -100,6 +99,4 @@ if (fs.existsSync(thpHtml)) {
   console.log("sync-next-app-routes: cleaned tools/take-home-pay/index.html");
 }
 
-console.log("sync-next-app-routes: syncing site nav + tools hub…");
-execSync("node scripts/sync-nav.mjs", { cwd: ROOT, stdio: "inherit" });
-execSync("node scripts/sync-tools-hub.mjs", { cwd: ROOT, stdio: "inherit" });
+// Nav/tools-hub sync runs in postbuild after relativize-export (see package.json).

@@ -63,7 +63,13 @@ function escapeRe(segment) {
 
 function joinPrefix(prefix, tail) {
   const root = tail.startsWith("/") ? tail.slice(1) : tail;
-  return `${prefix}${root}`;
+  return collapseUrlSlashes(`${prefix}${root}`);
+}
+
+/** Collapse duplicate slashes in relative URLs (not after `http:` / `https:`). */
+export function collapseUrlSlashes(url) {
+  if (!url || /^https?:\/\//i.test(url) || /^data:/i.test(url)) return url;
+  return url.replace(/([^:])\/{2,}/g, "$1/");
 }
 
 /** Map site-root paths; _next → assets/next for Cloudflare static hosts. */
@@ -100,12 +106,13 @@ export function relativizeEmbeddedPaths(text, prefix) {
 
   out = out.replace(EMBEDDED_ABS_RE, (_, lead, root) => {
     const normalized = normalizeInternalRoot(root);
-    return `${lead}${joinPrefix(prefix, `${normalized}/`)}`;
+    // Do not append "/" — the source already has "/" immediately after the root segment.
+    return `${lead}${joinPrefix(prefix, normalized)}`;
   });
 
   out = out.replace(ESCAPED_SLASH_ABS_RE, (_, root) => {
     const normalized = normalizeInternalRoot(root);
-    const rel = joinPrefix(prefix, `${normalized}/`).replace(/\//g, "\\/");
+    const rel = joinPrefix(prefix, normalized).replace(/\//g, "\\/");
     return `\\/${rel}`;
   });
 
@@ -129,7 +136,43 @@ export function relativizeHtml(html, prefix) {
 
   next = relativizeEmbeddedPaths(next, prefix);
 
+  next = next.replace(
+    /(href|src|content|as)=(["'])([^"']+)\2/gi,
+    (_, attr, quote, url) => `${attr}=${quote}${collapseUrlSlashes(url)}${quote}`
+  );
+
+  next = dedupeRelativePathSlashes(next);
+
   return next;
+}
+
+/** Collapse `//` inside depth-relative paths embedded in JSON / flight payloads. */
+export function dedupeRelativePathSlashes(html) {
+  return html.replace(/(?:\.\.\/)+[^"'\\s<>]+/g, (match) => collapseUrlSlashes(match));
+}
+
+/** Fail when script/link/preload tags still use site-root absolute internal paths. */
+export function assertNoAbsoluteAssetRefs(html, relPath = "") {
+  const bad = [];
+  const tagRe = /<(script|link)\b[^>]*>/gi;
+  let tag;
+  while ((tag = tagRe.exec(html)) !== null) {
+    const chunk = tag[0];
+    for (const attr of ["src", "href"]) {
+      const m = new RegExp(`${attr}=["']([^"']+)["']`, "i").exec(chunk);
+      if (!m) continue;
+      const url = m[1];
+      if (/^https?:\/\//i.test(url) || /^data:/i.test(url)) continue;
+      if (/^\/(assets|_next)(\/|$)/.test(url)) {
+        bad.push(`<${tag[1]} ${attr}="${url}"`);
+      }
+    }
+  }
+  if (bad.length) {
+    throw new Error(
+      `relativize-export: ${relPath || "HTML"} still has absolute asset refs:\n  ${bad.slice(0, 8).join("\n  ")}`
+    );
+  }
 }
 
 export function assertNoAbsoluteNextPaths(html, relPath = "") {
