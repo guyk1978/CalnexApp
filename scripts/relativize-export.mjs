@@ -32,6 +32,15 @@ if (!fs.existsSync(OUT)) {
   process.exit(1);
 }
 
+const assetsDir = path.join(OUT, "assets");
+if (!fs.existsSync(assetsDir)) {
+  console.warn(
+    "relativize-export: warning — out/assets/ is missing (CSS/JS will 404). Ensure public/assets is copied by next build."
+  );
+} else {
+  console.log("relativize-export: out/assets/ present");
+}
+
 let updated = 0;
 for (const rel of walkHtml(OUT)) {
   const full = path.join(OUT, rel);

@@ -9,7 +9,7 @@
     "dev:static": "npm run dev",
     "prebuild": "npm run sync:site",
     "build": "next build",
-    "postbuild": "node scripts/sync-out-static.mjs && node scripts/sync-next-app-routes.mjs && node scripts/sync-static-site.mjs --to-out && node scripts/relativize-export.mjs",
+    "postbuild": "node scripts/sync-out-static.mjs && node scripts/sync-static-site.mjs --to-out && node scripts/relativize-export.mjs && node scripts/sync-next-app-routes.mjs",
     "relativize-export": "node scripts/relativize-export.mjs",
     "start": "node scripts/start-server.mjs",
     "build:rent-vs-buy": "npm run build",

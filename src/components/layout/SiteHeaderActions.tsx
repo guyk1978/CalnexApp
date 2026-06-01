@@ -24,6 +24,48 @@ const legacyGeo = () => (window as Window & { GeoFinance?: LegacyGeo }).GeoFinan
 const legacyCurrency = () => (window as Window & { CurrencyLayer?: LegacyCurrency }).CurrencyLayer;
 const legacySearch = () => (window as Window & { CalnexSiteSearch?: LegacySearch }).CalnexSiteSearch;
 
+function resolveAsset(path: string): string {
+  const calnexPath = (window as Window & { CalnexPath?: (p: string) => string }).CalnexPath;
+  return calnexPath ? calnexPath(path) : path;
+}
+
+function isSiteSearchScript(node: Element): boolean {
+  if (!(node instanceof HTMLScriptElement)) return false;
+  const src = node.getAttribute("src") || "";
+  return /site-search\.js(?:\?|$)/i.test(src);
+}
+
+async function loadSiteSearchOnce(): Promise<void> {
+  if (document.getElementById("cn-site-search-trigger")) return;
+
+  if (!legacySearch()?.init) {
+    const existing = Array.from(document.querySelectorAll("script")).some(isSiteSearchScript);
+    if (existing) {
+      await new Promise<void>((resolve) => {
+        const wait = window.setInterval(() => {
+          if (legacySearch()?.init) {
+            window.clearInterval(wait);
+            resolve();
+          }
+        }, 50);
+        window.setTimeout(() => window.clearInterval(wait), 8000);
+      });
+    } else {
+      await new Promise<void>((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = resolveAsset("/assets/js/site-search.js");
+        script.defer = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("site-search failed"));
+        document.head.append(script);
+      });
+    }
+  }
+
+  if (document.getElementById("cn-site-search-trigger")) return;
+  await legacySearch()?.init?.();
+}
+
 function GlobeIcon() {
   return (
     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
@@ -41,35 +83,6 @@ function CurrencyIcon() {
       <path d="M12 18V6" />
     </svg>
   );
-}
-
-async function loadSiteSearchOnce(): Promise<void> {
-  if (document.getElementById("cn-site-search-trigger")) return;
-
-  if (!legacySearch()?.init) {
-    await new Promise<void>((resolve, reject) => {
-      if (document.querySelector('script[src="/assets/js/site-search.js"]')) {
-        const wait = window.setInterval(() => {
-          if (legacySearch()?.init) {
-            window.clearInterval(wait);
-            resolve();
-          }
-        }, 50);
-        window.setTimeout(() => window.clearInterval(wait), 5000);
-        return;
-      }
-    const calnexPath = (window as Window & { CalnexPath?: (p: string) => string }).CalnexPath;
-    const script = document.createElement("script");
-    script.src = calnexPath ? calnexPath("/assets/js/site-search.js") : "/assets/js/site-search.js";
-      script.defer = true;
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error("site-search failed"));
-      document.head.append(script);
-    });
-  }
-
-  if (document.getElementById("cn-site-search-trigger")) return;
-  await legacySearch()?.init?.();
 }
 
 export function SiteHeaderActions() {
@@ -144,6 +157,7 @@ export function SiteHeaderActions() {
 
   return (
     <div className="cn-header-actions" data-cn-react-header="true">
+      <div id="cn-site-search-mount" className="cn-header-search-mount" aria-hidden="true" />
       <div className="cn-header-pills">
         <div className="country-selector-wrap cn-header-pill cn-header-pill--country">
           <label className="sr-only" htmlFor="headerCountrySelect">

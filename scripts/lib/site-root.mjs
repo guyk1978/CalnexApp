@@ -27,6 +27,18 @@ const ABS_INTERNAL_RE = new RegExp(
 
 const ABS_HOME_RE = /(href|src)=(["'])\/(["'])/gi;
 
+/** Root-absolute paths inside JSON / Next flight payloads (not https://…). */
+const EMBEDDED_ABS_RE = new RegExp(
+  `(["'\\(\\[=])\\/(${INTERNAL_ROOTS})\\/`,
+  "g"
+);
+
+/** Rewrite root-absolute internal URLs in attributes and embedded script payloads. */
+export function relativizeEmbeddedPaths(text, prefix) {
+  if (!text) return text;
+  return text.replace(EMBEDDED_ABS_RE, (_, lead, root) => `${lead}${prefix}${root}/`);
+}
+
 /** Rewrite root-absolute internal URLs to depth-relative paths. */
 export function relativizeHtml(html, prefix) {
   let next = html.replace(ABS_INTERNAL_RE, (_, attr, quote, root, rest = "") => {
@@ -47,7 +59,7 @@ export function relativizeHtml(html, prefix) {
     );
   }
 
-  return next;
+  return relativizeEmbeddedPaths(next, prefix);
 }
 
 export function injectCalnexRoot(html, prefix) {
@@ -56,13 +68,25 @@ export function injectCalnexRoot(html, prefix) {
   const pathSrc = `${prefix}assets/js/calnex-path.js`;
   const pathTag = `<script src="${pathSrc}"></script>`;
 
-  if (html.includes("__CALNEX_ROOT__")) return html;
+  let next = html;
 
-  if (/<head[^>]*>/i.test(html)) {
-    return html.replace(/<head([^>]*)>/i, `<head$1>\n${snippet}\n${pathTag}`);
+  if (next.includes("__CALNEX_ROOT__")) {
+    next = next.replace(
+      /<script>window\.__CALNEX_ROOT__\s*=\s*[^<]*<\/script>\s*/i,
+      `${snippet}\n`
+    );
   }
-  if (/<body[^>]*>/i.test(html)) {
-    return html.replace(/<body([^>]*)>/i, `<body$1>\n${snippet}\n${pathTag}`);
+
+  const calnexPathRe = /<script\s+src=["'](?:\.\.\/)*assets\/js\/calnex-path\.js["']\s*><\/script>\s*/i;
+  if (calnexPathRe.test(next)) {
+    next = next.replace(calnexPathRe, "");
   }
-  return `${snippet}\n${pathTag}\n${html}`;
+
+  if (/<head[^>]*>/i.test(next)) {
+    return next.replace(/<head([^>]*)>/i, `<head$1>\n${snippet}\n${pathTag}`);
+  }
+  if (/<body[^>]*>/i.test(next)) {
+    return next.replace(/<body([^>]*)>/i, `<body$1>\n${snippet}\n${pathTag}`);
+  }
+  return `${snippet}\n${pathTag}\n${next}`;
 }

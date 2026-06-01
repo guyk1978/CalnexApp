@@ -69,7 +69,9 @@ export function TakeHomePayPageSections() {
               <span className="cn-blog-category-pill cn-blog-category-pill--planning">
                 Retirement &amp; planning
               </span>
-              <h1>Take-Home Pay Calculator</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-[color:var(--cn-text-primary)]">
+                Take-Home Pay Calculator
+              </h1>
             </div>
           </div>
           <p className="muted">
