@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { CalculatorClientBoot } from "@/components/calculator/CalculatorClientBoot";
 import { SiteChromeBoot } from "@/components/layout/SiteChromeBoot";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { publicAsset, siteScripts, siteStylesheets } from "@/lib/public-asset";
 import "./globals.css";
-
-/** Static export: real <script defer> tags so nested routes get app.js without relying on Next Script hydration. */
-const DEFERRED_SITE_SCRIPTS = [
-  siteScripts.headerToolbar,
-  "/assets/js/geo-finance.js",
-  "/assets/js/currency.js",
-  "/assets/js/geo-currency-sync.js",
-  siteScripts.uiEnhancements,
-  siteScripts.app,
-] as const;
 
 export const metadata: Metadata = {
   title: {
@@ -39,9 +30,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <SiteFooter />
         <SiteChromeBoot />
-        {DEFERRED_SITE_SCRIPTS.map((href) => (
-          <script key={href} src={publicAsset(href)} defer data-cn-site-boot="true" />
-        ))}
+        <Script src={publicAsset(siteScripts.siteBoot)} strategy="afterInteractive" />
+        <Script src={publicAsset(siteScripts.headerToolbar)} strategy="afterInteractive" />
+        <Script src={publicAsset("/assets/js/geo-finance.js")} strategy="afterInteractive" />
+        <Script src={publicAsset("/assets/js/currency.js")} strategy="afterInteractive" />
+        <Script src={publicAsset("/assets/js/geo-currency-sync.js")} strategy="afterInteractive" />
+        <Script src={publicAsset(siteScripts.uiEnhancements)} strategy="afterInteractive" />
+        <Script src={publicAsset(siteScripts.app)} strategy="afterInteractive" />
+        <CalculatorClientBoot />
       </body>
     </html>
   );

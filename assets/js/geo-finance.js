@@ -201,6 +201,8 @@ const GeoFinance = (() => {
   };
 
   const init = () => {
+    if (init.__done) return;
+    init.__done = true;
     renderSelector();
     bindExistingSelectors();
     renderIndicator();

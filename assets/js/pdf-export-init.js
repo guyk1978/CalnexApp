@@ -87,7 +87,10 @@ const CalnexPdfExportInit = (() => {
 })();
 
 window.CalnexPdfExportInit = CalnexPdfExportInit;
+window.initPdfExportButtons = () => CalnexPdfExportInit.init();
 
 document.addEventListener("DOMContentLoaded", () => {
-  CalnexPdfExportInit.init();
+  if (!document.querySelector("[data-cn-take-home-pay-static]")) {
+    CalnexPdfExportInit.init();
+  }
 });

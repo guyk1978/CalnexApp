@@ -21,6 +21,7 @@ const {
   CN_MAIN_LAYOUT_CLASS,
 } = require("./tool-themes.cjs");
 const { siteStylesheetLinks } = require("./site-stylesheets.cjs");
+const { buildPdfShareScriptBlock } = require("./calculator-asset-manifest.cjs");
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "tools/take-home-pay/index.html");
@@ -249,7 +250,7 @@ function buildHead() {
     <link rel="canonical" href="https://calnexapp.com/tools/take-home-pay/" />
 ${siteStylesheetLinks()}
   </head>
-  <body data-page="take-home-pay-calculator">`;
+  <body data-page="take-home-pay-calculator" data-cn-take-home-pay-static="true">`;
 }
 
 function buildFooterScripts() {
@@ -275,13 +276,7 @@ function buildFooterScripts() {
     <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/take-home-pay-engine.js" defer></script>
     <script src="/assets/js/take-home-pay-calculator.js" defer></script>
-    <script src="/assets/js/pdf-export-helpers.js" defer></script>
-    <script src="/assets/js/pdf-export.js" defer></script>
-    <script src="/assets/js/pdf-export-init.js" defer></script>
-    <script src="/assets/js/vendor/jspdf.umd.min.js" defer></script>
-    <script src="/assets/js/pdf-report-generator.js" defer></script>
-    <script src="/assets/js/calculator-share.js" defer></script>
-    <script src="/assets/js/calculator-share-init.js" defer></script>
+${buildPdfShareScriptBlock()}
   </body>
 </html>`;
 }

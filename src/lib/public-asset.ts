@@ -19,6 +19,7 @@ export const siteStylesheets = [`/assets/css/style.css?v=${STYLESHEET_VERSION}`]
 
 export const siteScripts = {
   themeInit: "/assets/js/theme-init.js",
+  siteBoot: "/assets/js/site-boot.js",
   headerToolbar: "/assets/js/header-toolbar.js",
   uiEnhancements: "/assets/js/ui-enhancements.js",
   app: "/assets/js/app.js",

@@ -524,16 +524,14 @@
       await ensureScriptLoaded("/assets/js/app-render.js");
       await ensureScriptLoaded("/assets/js/app-engine.js");
       await ensureScriptLoaded("/assets/js/input-sync.js");
-      if (window.GeoFinance?.init) {
-        window.GeoFinance.init();
-      }
-      if (window.CurrencyLayer?.init) {
-        window.CurrencyLayer.init();
-      }
-      if (window.UiRenderer?.init) {
+      window.GeoFinance?.bindExistingSelectors?.();
+      window.CurrencyLayer?.bindExistingSelectors?.();
+      if (window.UiRenderer?.init && !window.__cnUiRendererInited) {
+        window.__cnUiRendererInited = true;
         window.UiRenderer.init();
       }
-      if (window.InputSyncLayer?.init) {
+      if (window.InputSyncLayer?.init && !window.__cnInputSyncInited) {
+        window.__cnInputSyncInited = true;
         window.InputSyncLayer.init();
       }
     } catch (error) {
@@ -569,12 +567,8 @@
       }
       initThemeToggle();
       initSiteSearch();
-      if (window.GeoFinance?.init) {
-        window.GeoFinance.init();
-      }
-      if (window.CurrencyLayer?.init) {
-        window.CurrencyLayer.init();
-      }
+      window.GeoFinance?.bindExistingSelectors?.();
+      window.CurrencyLayer?.bindExistingSelectors?.();
       window.CalnexHeaderToolbar?.consolidate?.();
       window.CalnexGeoCurrency?.reconcile?.();
     },

@@ -17,14 +17,7 @@ import { injectMarkerBlock } from "./html-inject-utils.cjs";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tools = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "tools.json"), "utf8"));
 
-const PDF_SCRIPT_PATHS = [
-  "/assets/js/vendor/jspdf.umd.min.js",
-  "/assets/js/pdf-joinmypdf-promo.config.js",
-  "/assets/js/pdf-report-generator.js",
-  "/assets/js/pdf-export-helpers.js",
-  "/assets/js/pdf-export.js",
-  "/assets/js/pdf-export-init.js"
-];
+const { PDF_SCRIPT_PATHS } = require("./calculator-asset-manifest.cjs");
 
 const PDF_SCRIPTS = PDF_SCRIPT_PATHS.map((src) => `    <script src="${src}" defer></script>`).join(
   "\n"
