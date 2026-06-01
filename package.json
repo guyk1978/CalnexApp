@@ -9,7 +9,7 @@
     "dev": "npm run sync:site && node scripts/kill-port.mjs 3000 && node scripts/dev-server.mjs",
     "dev:next": "npm run sync:site && node scripts/kill-port.mjs 3001 && next dev -p 3001",
     "dev:static": "npm run dev",
-    "prebuild": "node scripts/ensure-public-assets.mjs && node scripts/sync-assets-js-to-public.mjs && node scripts/sync-public-assets.mjs && node scripts/sync-pdf-vendor.mjs && npm run generate:take-home-pay",
+    "prebuild": "node scripts/ensure-public-assets.mjs && node scripts/sync-assets-js-to-public.mjs && node scripts/write-pdf-promo-config.mjs && node scripts/sync-public-assets.mjs && node scripts/sync-pdf-vendor.mjs && npm run generate:take-home-pay",
     "sync-pdf-vendor": "node scripts/sync-pdf-vendor.mjs",
     "restore-calculator-bodies": "node scripts/restore-calculator-bodies.mjs",
     "build": "next build",

@@ -4,12 +4,12 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { ROOT_ASSETS } from "./lib/ensure-public-assets.mjs";
+import { PUBLIC_ASSETS, ROOT_ASSETS } from "./lib/ensure-public-assets.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "out");
-const SRC = path.join(ROOT_ASSETS, "js");
 const DEST = path.join(OUT, "assets", "js");
+const SOURCES = [path.join(ROOT_ASSETS, "js"), path.join(PUBLIC_ASSETS, "js")];
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
@@ -37,5 +37,8 @@ if (!fs.existsSync(OUT)) {
   process.exit(1);
 }
 
-const copied = copyDir(SRC, DEST);
+let copied = 0;
+for (const src of SOURCES) {
+  if (fs.existsSync(src)) copied += copyDir(src, DEST);
+}
 console.log(`sync-assets-js-to-out: copied ${copied} .js files → out/assets/js/`);
