@@ -58,7 +58,8 @@ const RoiCalculator = (() => {
 
   const paintResults = (patch) => {
     if (!patch || typeof patch !== "object") return;
-    document.querySelectorAll("[data-bind]").forEach((node) => {
+    const scope = document.querySelector(".output-card") || document;
+    scope.querySelectorAll("[data-bind]").forEach((node) => {
       const key = node.getAttribute("data-bind");
       if (!key || !(key in patch)) return;
       const fmt = node.getAttribute("data-format") || "";
@@ -69,55 +70,54 @@ const RoiCalculator = (() => {
     });
   };
 
-  const runRoiPipeline = () => computeRoiSnapshot(readInputs());
-
-  const applyResults = (patch) => {
-    if (!patch || !Object.keys(patch).length) return;
+  const syncResults = () => {
+    const patch = computeRoiSnapshot(readInputs());
     paintResults(patch);
     if (typeof SharedState !== "undefined") {
       SharedState.setState(patch, { engineCommit: true, syncUrl: false });
     }
-    if (typeof window.CalnexAppRender?.appRenderAll === "function") {
-      CalnexAppRender.appRenderAll("roi-calculator");
-    }
+    return patch;
   };
 
-  const runCalculation = () => {
-    const patch = runRoiPipeline();
-    if (patch && Object.keys(patch).length) {
-      applyResults(patch);
-      return true;
-    }
-    return false;
+  const runRoiPipeline = () => computeRoiSnapshot(readInputs());
+
+  let renderHookInstalled = false;
+  const installRenderHook = () => {
+    if (renderHookInstalled || !window.CalnexAppRender?.appRenderAll) return;
+    renderHookInstalled = true;
+    const original = CalnexAppRender.appRenderAll.bind(CalnexAppRender);
+    CalnexAppRender.appRenderAll = (source = "", opts) => {
+      original(source, opts);
+      if (document.body?.dataset?.page === PAGE) {
+        paintResults(runRoiPipeline());
+      }
+    };
   };
 
   const init = () => {
     if (document.body.dataset.page !== PAGE) return;
+    installRenderHook();
+
     if (window.AppEngine) {
-      AppEngine.registerToolPipeline(PAGE, () => {
-        const patch = runRoiPipeline();
-        if (patch && Object.keys(patch).length) {
-          queueMicrotask(() => paintResults(patch));
-        }
-        return patch;
-      });
+      AppEngine.registerToolPipeline(PAGE, runRoiPipeline);
       AppEngine.runImmediate();
-    } else {
-      runCalculation();
     }
+    syncResults();
+
     const form = document.getElementById("roi-form");
     if (form && !form.dataset.roiBound) {
       form.dataset.roiBound = "1";
       const onChange = () => {
         if (window.AppEngine) AppEngine.notifyToolInput();
-        else runCalculation();
+        else syncResults();
       };
       form.addEventListener("input", onChange);
       form.addEventListener("change", onChange);
     }
+
     document.addEventListener("currency:changed", () => {
       if (window.AppEngine) AppEngine.runImmediate();
-      else runCalculation();
+      else syncResults();
     });
   };
 
@@ -125,10 +125,10 @@ const RoiCalculator = (() => {
   window.addEventListener("load", () => {
     if (document.body.dataset.page !== PAGE) return;
     if (window.AppEngine) AppEngine.runImmediate();
-    else runCalculation();
+    syncResults();
   });
 
-  return { runRoiPipeline, computeRoiSnapshot, paintResults, applyResults };
+  return { runRoiPipeline, computeRoiSnapshot, paintResults, syncResults };
 })();
 
 window.RoiCalculator = RoiCalculator;
