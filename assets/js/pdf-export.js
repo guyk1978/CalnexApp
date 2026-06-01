@@ -1,5 +1,5 @@
 /**
- * JoinMyPDF report generation for static calculator pages.
+ * Calculator PDF export for static pages (client-side generation).
  */
 const CalnexPdfExport = (() => {
   const providers = new Map();
@@ -10,25 +10,12 @@ const CalnexPdfExport = (() => {
   };
 
   const exportToPdf = async (data) => {
-    const response = await fetch("https://api.joinmypdf.com/generate-report", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-      throw new Error("PDF generation failed");
+    if (typeof CalnexPdfReportGenerator !== "undefined") {
+      await CalnexPdfReportGenerator.download(data);
+      return;
     }
 
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "report.pdf";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
+    throw new Error("PDF export is not available on this page");
   };
 
   const getPayload = (pageKey, calculatorName) => {

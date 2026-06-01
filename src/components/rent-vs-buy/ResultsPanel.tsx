@@ -81,11 +81,7 @@ export function ResultsPanel({ result }: ResultsPanelProps) {
   const horizonRow = visibleRows[visibleRows.length - 1];
 
   return (
-    <aside className={`${styles.card} ${styles.rail}`} aria-live="polite">
-      <h2 className={styles.formTitle} style={{ marginBottom: "var(--cn-space-4)" }}>
-        Results
-      </h2>
-
+    <div>
       <div className={`${styles.banner} ${banner.variant}`}>
         <h3>{banner.title}</h3>
         <p>{banner.detail}</p>
@@ -179,6 +175,6 @@ export function ResultsPanel({ result }: ResultsPanelProps) {
           </table>
         </div>
       </div>
-    </aside>
+    </div>
   );
 }

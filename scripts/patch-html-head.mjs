@@ -1,20 +1,35 @@
 /**
- * One-time / CI patch: inject sync theme-init before stylesheets; normalize Tools nav to /tools/.
+ * Patch static HTML: theme-init, style.css manifest link, Tools nav link.
  * Run: node scripts/patch-html-head.mjs
  */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { siteStylesheetLinks } = require("./site-stylesheets.cjs");
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const THEME_LINE = '    <script src="/assets/js/theme-init.js"></script>';
 const FAVICON_LINE = '    <link rel="icon" href="data:;base64,=">';
-const STYLESHEET_VERSION = "1.3";
-const STYLESHEET_HREF = `/assets/css/style.css?v=${STYLESHEET_VERSION}`;
+const STYLESHEET_BLOCK = siteStylesheetLinks();
+const AUX_CSS_RE =
+  /\s*<link\s+rel="stylesheet"\s+href="\/assets\/css\/(?:tokens|cn-components|header-wide|site-search)\.css"\s*\/?>\s*/gi;
+const SKIP_DIRS = new Set([
+  "node_modules",
+  ".git",
+  ".next",
+  "out",
+  "public",
+  "coverage",
+  "dist",
+  "drafts",
+]);
 
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (name.name.startsWith(".") || name.name === "node_modules") continue;
+    if (SKIP_DIRS.has(name.name)) continue;
     const full = path.join(dir, name.name);
     if (name.isDirectory()) walk(full, out);
     else if (name.name.endsWith(".html")) out.push(full);
@@ -22,10 +37,25 @@ function walk(dir, out = []) {
   return out;
 }
 
+function patchStylesheets(html) {
+  if (!html.includes("/assets/css/style.css")) return html;
+  let next = html.replace(AUX_CSS_RE, "");
+  if (next.includes("/assets/css/tokens.css")) {
+    // legacy multi-link stack from earlier patch — collapse to manifest
+    next = next.replace(AUX_CSS_RE, "");
+  }
+  next = next.replace(
+    /<link\s+rel="stylesheet"\s+href="\/assets\/css\/style\.css(?:\?v=[^"]*)?"\s*\/?>\s*/i,
+    `${STYLESHEET_BLOCK}\n`
+  );
+  return next;
+}
+
 let patched = 0;
 for (const file of walk(ROOT)) {
   let raw = fs.readFileSync(file, "utf8");
   let next = raw;
+
   if (!next.includes('rel="icon"')) {
     const charsetRe = /(<meta\s+charset="[^"]*"\s*\/?>)/i;
     if (charsetRe.test(next)) {
@@ -35,14 +65,12 @@ for (const file of walk(ROOT)) {
     }
   }
 
-  if (next.includes("theme-init.js")) {
-    // still fix Tools link
-  } else if (next.includes('/assets/css/style.css"')) {
-    const viewportRe = /(<meta\s+name="viewport"[^>]*\/>)/i;
+  if (!next.includes("theme-init.js") && next.includes("/assets/css/style.css")) {
+    const viewportRe = /(<meta\s+name="viewport"[^>]*\/?>)/i;
     if (viewportRe.test(next)) {
       next = next.replace(viewportRe, `$1\n${THEME_LINE}`);
     } else {
-      const linkRe = /(<link\s+rel="stylesheet"\s+href="\/assets\/css\/style\.css"\s*\/?>)/i;
+      const linkRe = /(<link\s+rel="stylesheet"\s+href="\/assets\/css\/style\.css[^"]*"\s*\/?>)/i;
       if (linkRe.test(next)) next = next.replace(linkRe, `${THEME_LINE}\n    $1`);
     }
   }
@@ -52,10 +80,7 @@ for (const file of walk(ROOT)) {
     '<a href="/tools/" data-nav-link>Tools</a>'
   );
 
-  next = next.replace(
-    /<link\s+rel="stylesheet"\s+href="\/assets\/css\/style\.css(?:\?v=[^"]*)?"\s*\/?>/gi,
-    `<link rel="stylesheet" href="${STYLESHEET_HREF}" />`
-  );
+  next = patchStylesheets(next);
 
   if (next !== raw) {
     fs.writeFileSync(file, next, "utf8");

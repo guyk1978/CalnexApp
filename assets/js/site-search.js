@@ -40,9 +40,14 @@
     return '<kbd class="cn-kbd">Ctrl</kbd><kbd class="cn-kbd">K</kbd>';
   };
 
+  let searchInitLock = false;
+
   const initSiteSearch = async () => {
+    if (document.getElementById("cn-site-search-trigger")) return;
+    if (searchInitLock) return;
     const headerActions = document.querySelector(".cn-header-actions");
-    if (!headerActions || document.getElementById("cn-site-search-trigger")) return;
+    if (!headerActions) return;
+    searchInitLock = true;
 
     let index = [];
     let fuse = null;
@@ -71,6 +76,7 @@
       }
     } catch (err) {
       console.warn("[CalnexApp] Site search disabled:", err);
+      searchInitLock = false;
       return;
     }
 

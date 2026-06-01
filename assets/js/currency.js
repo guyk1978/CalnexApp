@@ -62,14 +62,14 @@ const CurrencyLayer = (() => {
   };
 
   const formatCurrency = (value, currency = getSelectedCurrency()) => {
-    const nextCurrency = normalizeCurrency(currency);
-    const locale = LOCALES[nextCurrency] || "en-US";
-    return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency: nextCurrency,
+    const code = normalizeCurrency(currency);
+    const symbol = SYMBOLS[code] || "$";
+    const safe = Number(value) || 0;
+    const formatted = Math.abs(safe).toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(Number(value) || 0);
+    });
+    return safe < 0 ? `-${symbol}${formatted}` : `${symbol}${formatted}`;
   };
 
   const setCurrency = (currency) => {
@@ -77,6 +77,26 @@ const CurrencyLayer = (() => {
     window.localStorage.setItem(STORAGE_KEY, nextCurrency);
     if (typeof SharedState !== "undefined") {
       SharedState.setState({ currency: nextCurrency }, { system: true, syncUrl: true });
+    }
+    const CURRENCY_TO_COUNTRY = {
+      USD: "US",
+      EUR: "EU",
+      GBP: "UK",
+      ILS: "IL",
+      CNY: "CN",
+      CAD: "CA",
+      AUD: "AU",
+      JPY: "JP"
+    };
+    const linkedCountry = CURRENCY_TO_COUNTRY[nextCurrency];
+    if (linkedCountry && typeof window.GeoFinance !== "undefined") {
+      const currentCountry = window.GeoFinance.getSelectedCountry();
+      if (linkedCountry !== currentCountry) {
+        window.GeoFinance.setCountry(linkedCountry);
+        document.querySelectorAll(".country-selector").forEach((node) => {
+          node.value = linkedCountry;
+        });
+      }
     }
     document.dispatchEvent(new CustomEvent("currency:changed", { detail: { currency: nextCurrency } }));
     window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "currency", currency: nextCurrency } }));
@@ -116,6 +136,7 @@ const CurrencyLayer = (() => {
   };
 
   const renderHeaderSelector = () => {
+    if (document.querySelector("[data-cn-react-header]")) return;
     const pills = window.CalnexHeaderToolbar?.ensure?.()?.pills;
     const nav = document.querySelector(".site-header .nav");
     const host = pills || nav;

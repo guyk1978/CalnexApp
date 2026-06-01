@@ -1,53 +1,7 @@
 /**
- * CalnexApp design tokens — dark-first (mirrors assets/css/tokens.css)
+ * App-specific helpers. Global site CSS is linked from layout.tsx
+ * (files in public/assets/, served at /assets/).
  */
-:root {
-  color-scheme: dark;
-
-  --cn-bg-app: #0b0f14;
-  --cn-bg-elevated: #0f141b;
-  --cn-bg-muted: #121826;
-  --cn-bg-subtle: rgba(255, 255, 255, 0.03);
-  --cn-bg-tint-blue: rgba(91, 140, 255, 0.08);
-  --cn-bg-tint-green: rgba(62, 224, 143, 0.1);
-
-  --cn-surface-solid: #141a24;
-  --cn-border-subtle: rgba(255, 255, 255, 0.08);
-  --cn-border-strong: rgba(255, 255, 255, 0.14);
-  --cn-border-focus: #5b8cff;
-
-  --cn-text-primary: #e7eef8;
-  --cn-text-secondary: #9aa7b8;
-  --cn-text-tertiary: #7c8a9e;
-
-  --cn-accent: #5b8cff;
-  --cn-accent-muted: rgba(91, 140, 255, 0.18);
-
-  --cn-success: #3ee08f;
-  --cn-chart-1: #5b8cff;
-  --cn-chart-3: #3ee08f;
-  --cn-chart-track: rgba(255, 255, 255, 0.1);
-
-  --cn-shadow-xs: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 4px 14px rgba(0, 0, 0, 0.35);
-  --cn-shadow-ring: 0 0 0 3px rgba(91, 140, 255, 0.18);
-
-  --cn-radius-sm: 10px;
-  --cn-radius-md: 14px;
-  --cn-radius-pill: 999px;
-
-  --cn-space-2: 0.5rem;
-  --cn-space-3: 0.75rem;
-  --cn-space-4: 1rem;
-  --cn-space-5: 1.25rem;
-
-  --cn-text-xs: 0.75rem;
-  --cn-text-sm: 0.875rem;
-  --cn-text-md: 1rem;
-
-  --cn-leading-snug: 1.45;
-  --cn-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --cn-motion-base: 0.2s;
-}
 
 *,
 *::before,
@@ -60,14 +14,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  font-family:
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+  font-family: var(--cn-font-sans, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
   font-size: 16px;
   line-height: 1.5;
   color: var(--cn-text-primary);

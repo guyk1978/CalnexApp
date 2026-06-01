@@ -39,11 +39,13 @@ const TOOL_THEMES = {
   "loan-comparison": { navGroup: "lending", icon: "scale" },
   "car-loan-calculator": { navGroup: "auto", icon: "car" },
   "interest-calculator": { navGroup: "growth", icon: "trending-up" },
-  "retirement-calculator": { navGroup: "planning", icon: "compass" }
+  "retirement-calculator": { navGroup: "planning", icon: "compass" },
+  "take-home-pay-calculator": { navGroup: "planning", icon: "briefcase" }
 };
 
 const SLUG_ALIASES = {
-  "rent-vs-buy": "rent-vs-buy-calculator"
+  "rent-vs-buy": "rent-vs-buy-calculator",
+  "take-home-pay": "take-home-pay-calculator"
 };
 
 function resolveToolSlug(slug) {
@@ -695,6 +697,12 @@ function getQuickActionCatalog() {
       path: "/tools/retirement-calculator/",
       emoji: "🧭",
       theme: "teal"
+    },
+    takeHomePay: {
+      label: "Take-Home Pay",
+      path: "/tools/take-home-pay/",
+      emoji: "💵",
+      theme: "teal"
     }
   };
 }
@@ -703,7 +711,7 @@ const TOOL_QUICK_ACTION_PRESETS = {
   "loan-calculator": {
     primary: {
       title: "More tools",
-      keys: ["moreTools", "dashboard", "switchMortgage", "compareLoans", "checkAffordability", "optimizePayments"]
+      keys: ["moreTools", "takeHomePay", "dashboard", "switchMortgage", "compareLoans", "checkAffordability", "optimizePayments"]
     },
     connected: {
       title: "Connected Planning Suite",
@@ -713,7 +721,7 @@ const TOOL_QUICK_ACTION_PRESETS = {
   "mortgage-calculator": {
     primary: {
       title: "Cross-Tool Navigation",
-      keys: ["moreTools", "dashboard", "switchMortgage", "compareLoans", "checkAffordability", "optimizePayments"]
+      keys: ["moreTools", "takeHomePay", "dashboard", "switchMortgage", "compareLoans", "checkAffordability", "optimizePayments"]
     },
     connected: {
       title: "Connected Planning Suite",
@@ -729,7 +737,7 @@ const TOOL_QUICK_ACTION_PRESETS = {
   "rent-vs-buy-calculator": {
     primary: {
       title: "More tools",
-      keys: ["mortgageCalculator", "loanCalculator", "rentVsBuy", "allCalculators"]
+      keys: ["mortgageCalculator", "loanCalculator", "takeHomePay", "rentVsBuy", "allCalculators"]
     }
   },
   "debt-payoff": {
@@ -747,13 +755,23 @@ const TOOL_QUICK_ACTION_PRESETS = {
   "interest-calculator": {
     primary: {
       title: "Cross-Tool Navigation",
-      keys: ["openLoanCalculator", "openMortgageCalculator", "openRetirementCalculator", "dashboard"]
+      keys: ["openLoanCalculator", "openMortgageCalculator", "openRetirementCalculator", "takeHomePay", "dashboard"]
     }
   },
   "retirement-calculator": {
     primary: {
       title: "Connected Planning Tools",
-      keys: ["interestCalculator", "mortgageCalculator", "dashboardShort"]
+      keys: ["interestCalculator", "takeHomePay", "mortgageCalculator", "dashboardShort"]
+    }
+  },
+  "take-home-pay-calculator": {
+    primary: {
+      title: "More tools",
+      keys: ["retirementCalculator", "interestCalculator", "mortgageCalculator", "loanCalculator", "allCalculators"]
+    },
+    connected: {
+      title: "Connected Planning Suite",
+      keys: ["loanCalculator", "mortgageCalculator", "carLoanCalculator"]
     }
   }
 };
@@ -863,6 +881,13 @@ const TOOL_CONTEXT_CTA_PRESETS = {
     body: "Apply this guide directly in the calculator to test your assumptions.",
     href: "/tools/loan-calculator/",
     label: "Open Loan Calculator"
+  },
+  "take-home-pay-calculator": {
+    title: "Planning retirement contributions?",
+    body:
+      "Pre-tax 401(k) contributions lower taxable income—model long-term growth in the retirement calculator.",
+    href: "/tools/retirement-calculator/",
+    label: "Open Retirement Calculator"
   }
 };
 

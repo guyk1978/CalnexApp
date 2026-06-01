@@ -205,10 +205,7 @@ const RetirementCalculator = (() => {
       if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("currency:changed", () => {
-      if (window.AppEngine) AppEngine.runImmediate();
-    });
-    document.addEventListener("geo:changed", () => {
-      applyGeoDefaults();
+      if (window.UiRenderer?.renderCurrency) window.UiRenderer.renderCurrency();
       if (window.AppEngine) AppEngine.runImmediate();
     });
   };

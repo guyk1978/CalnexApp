@@ -67,7 +67,10 @@
     });
   };
 
+  const hasReactHeader = () => Boolean(document.querySelector("[data-cn-react-header]"));
+
   const initThemeToggle = () => {
+    if (hasReactHeader()) return;
     const nav = document.querySelector(".site-header .nav");
     if (!nav || document.getElementById("cn-theme-toggle")) return;
 
@@ -466,9 +469,20 @@
     footer.append(disclaimer);
   };
 
+  const resolvePageId = () =>
+    document.body?.dataset?.page ||
+    document.querySelector("main[data-page]")?.dataset?.page ||
+    "";
+
   const shouldLoadCalculatorStack = () => {
-    const page = document.body?.dataset?.page;
-    return typeof page === "string" && page.length > 0;
+    const page = resolvePageId();
+    if (typeof page === "string" && page.length > 0) {
+      if (!document.body.dataset.page) {
+        document.body.dataset.page = page;
+      }
+      return true;
+    }
+    return false;
   };
 
   const ensureScriptLoaded = (src) =>
@@ -502,6 +516,7 @@
       await ensureScriptLoaded("/engine/financial-validator.js");
       await ensureScriptLoaded("/assets/js/geo-finance.js");
       await ensureScriptLoaded("/assets/js/currency.js");
+      await ensureScriptLoaded("/assets/js/geo-currency-sync.js");
       await ensureScriptLoaded("/assets/js/ui-renderer.js");
       await ensureScriptLoaded("/assets/js/app-render.js");
       await ensureScriptLoaded("/assets/js/app-engine.js");
@@ -524,6 +539,7 @@
   };
 
   const initSiteSearch = async () => {
+    if (hasReactHeader()) return;
     try {
       await ensureScriptLoaded("/assets/js/site-search.js");
       if (window.CalnexSiteSearch?.init) {
@@ -534,7 +550,39 @@
     }
   };
 
+  window.CalnexSiteChrome = {
+    refreshHeader() {
+      if (hasReactHeader()) {
+        if (window.CurrencyLayer?.syncCurrencySymbols) {
+          window.CurrencyLayer.syncCurrencySymbols();
+        }
+        return;
+      }
+      initThemeToggle();
+      initSiteSearch();
+      if (window.GeoFinance?.init) {
+        window.GeoFinance.init();
+      }
+      if (window.CurrencyLayer?.init) {
+        window.CurrencyLayer.init();
+      }
+      window.CalnexHeaderToolbar?.consolidate?.();
+      window.CalnexGeoCurrency?.reconcile?.();
+    },
+  };
+
   ensureScriptLoaded("/assets/js/ui-enhancements.js").catch(() => {});
+
+  const initGeoCurrencySync = async () => {
+    try {
+      await ensureScriptLoaded("/assets/js/geo-finance.js");
+      await ensureScriptLoaded("/assets/js/currency.js");
+      await ensureScriptLoaded("/assets/js/geo-currency-sync.js");
+    } catch (_) {
+      /* header scripts may load later on Next pages */
+    }
+  };
+  initGeoCurrencySync();
 
   initHeaderChart();
   initThemeToggle();

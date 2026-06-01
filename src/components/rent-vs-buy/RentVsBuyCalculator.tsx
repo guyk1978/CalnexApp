@@ -35,8 +35,8 @@ export function RentVsBuyCalculator() {
   );
 
   return (
-    <div className={styles.shell}>
-      <section className={styles.layout}>
+    <div className="cn-tool-shell">
+      <section className="calculator-layout cn-calculator-layout">
         <InputPanel
           rent={rent}
           buy={buy}
@@ -45,16 +45,17 @@ export function RentVsBuyCalculator() {
           onBuyChange={(patch) => setBuy((prev) => ({ ...prev, ...patch }))}
           onHorizonChange={setHorizonYears}
         />
-        <div className={styles.resultsColumn}>
+        <aside className="card output-card cn-tool-rail" aria-live="polite">
+          <h2>Results</h2>
           <ResultsPanel result={result} />
-          <div className={styles.pdfExportRow}>
+          <div className="cn-pdf-export-wrap" style={{ margin: "0.75rem 0 1rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
             <PdfExportButton
               calculatorName="Rent vs. Buy Calculator"
               inputs={pdfPayload.inputs}
               results={pdfPayload.results}
             />
           </div>
-        </div>
+        </aside>
       </section>
     </div>
   );

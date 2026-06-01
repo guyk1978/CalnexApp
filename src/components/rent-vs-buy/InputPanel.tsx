@@ -1,7 +1,6 @@
 "use client";
 
 import type { BuyInputs, RentInputs } from "@/lib/rent-vs-buy";
-import styles from "./rent-vs-buy.module.css";
 
 type InputPanelProps = {
   rent: RentInputs;
@@ -46,10 +45,10 @@ function NumberField({
   );
 
   return (
-    <div className={styles.field}>
+    <div className="field">
       <label htmlFor={id}>{label}</label>
       {prefix ? (
-        <div className={styles.inputPrefix}>
+        <div className="input-with-prefix">
           <span>{prefix}</span>
           {input}
         </div>
@@ -72,14 +71,14 @@ export function InputPanel({
   onHorizonChange,
 }: InputPanelProps) {
   return (
-    <form className={styles.card} aria-label="Rent vs buy calculator inputs" onSubmit={(e) => e.preventDefault()}>
-      <header className={styles.formHead}>
-        <h2 className={styles.formTitle}>Scenario inputs</h2>
-        <p className={styles.formLede}>Adjust rent, purchase, and macro assumptions—the results update instantly.</p>
+    <form className="card input-card" aria-label="Rent vs buy calculator form" onSubmit={(e) => e.preventDefault()}>
+      <header className="cn-calc-form__head">
+        <h2 className="cn-calc-form__title">Scenario inputs</h2>
+        <p className="cn-calc-form__lede muted">Adjust rent, purchase, and macro assumptions—the results update as you type.</p>
       </header>
 
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Renting variables</legend>
+      <fieldset className="cn-calc-fieldset">
+        <legend className="cn-calc-fieldset__legend">Renting variables</legend>
         <NumberField
           id="monthlyRent"
           label="Monthly rent"
@@ -110,8 +109,8 @@ export function InputPanel({
         />
       </fieldset>
 
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Buying variables</legend>
+      <fieldset className="cn-calc-fieldset">
+        <legend className="cn-calc-fieldset__legend">Buying variables</legend>
         <NumberField
           id="homePrice"
           label="Home price"
@@ -183,8 +182,8 @@ export function InputPanel({
         />
       </fieldset>
 
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Macro variables</legend>
+      <fieldset className="cn-calc-fieldset">
+        <legend className="cn-calc-fieldset__legend">Macro variables</legend>
         <NumberField
           id="horizonYears"
           label="Comparison timeline"

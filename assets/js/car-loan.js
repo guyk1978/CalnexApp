@@ -284,9 +284,11 @@ const CarLoanCalculator = (() => {
       if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("geo:changed", () => {
+      if (window.UiRenderer?.renderCurrency) window.UiRenderer.renderCurrency();
       if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("currency:changed", () => {
+      if (window.UiRenderer?.renderCurrency) window.UiRenderer.renderCurrency();
       if (window.AppEngine) AppEngine.runImmediate();
     });
   };

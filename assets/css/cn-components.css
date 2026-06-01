@@ -935,6 +935,168 @@
 }
 
 /* PDF export control */
+.cn-export-share-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cn-share-menu {
+  position: relative;
+  display: inline-flex;
+}
+
+.cn-share-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cn-share-menu__panel {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 40;
+  width: min(20rem, calc(100vw - 2rem));
+  padding: 0.85rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--cn-border-subtle, rgba(255, 255, 255, 0.12));
+  background: var(--cn-surface-solid, #141a24);
+  box-shadow: var(--cn-shadow-md, 0 18px 55px rgba(0, 0, 0, 0.55));
+}
+
+.cn-share-menu__title {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--cn-text-primary, inherit);
+}
+
+.cn-share-menu__hint {
+  margin: 0 0 0.65rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.cn-share-menu__panel .cn-calculator-share__url {
+  width: 100%;
+  margin-bottom: 0.65rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--cn-border-subtle, var(--border));
+  background: var(--cn-bg-subtle, rgba(255, 255, 255, 0.04));
+  color: inherit;
+  font-size: 0.82rem;
+}
+
+.cn-share-menu__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.cn-share-menu__social {
+  display: flex;
+  gap: 0.35rem;
+  justify-content: flex-end;
+}
+
+.cn-share-menu__social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.45rem;
+  border-radius: 8px;
+  border: 1px solid var(--cn-border-subtle, var(--border));
+  background: var(--cn-bg-subtle, rgba(255, 255, 255, 0.04));
+  color: var(--cn-accent, #5b8cff);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.cn-share-menu__social-btn:hover {
+  border-color: var(--cn-accent, #5b8cff);
+  background: var(--cn-accent-muted, rgba(91, 140, 255, 0.18));
+}
+
+.savings-banner--hint {
+  border-color: var(--cn-border-subtle, var(--border));
+  background: var(--cn-bg-muted, rgba(255, 255, 255, 0.03));
+  color: var(--cn-text-secondary, var(--muted));
+}
+
+.savings-banner--active {
+  border-color: color-mix(in srgb, var(--cn-success, #3ee08f) 35%, var(--border));
+  background: var(--cn-success-muted, rgba(62, 224, 143, 0.14));
+  color: var(--cn-success, #3ee08f);
+}
+
+.savings-banner__message {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.savings-banner__action {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--cn-accent, #5b8cff);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cn-calculator-share {
+  margin-top: 1rem;
+  border-top: 1px solid var(--cn-border-subtle, var(--border));
+  padding-top: 1rem;
+}
+
+.cn-calculator-share h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+}
+
+.cn-calculator-share__lead {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.cn-calculator-share__label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.cn-calculator-share__url {
+  width: 100%;
+  margin-bottom: 0.85rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--cn-border-subtle, var(--border));
+  background: var(--cn-bg-subtle, rgba(255, 255, 255, 0.04));
+  color: inherit;
+  font-size: 0.88rem;
+}
+
+.cn-calculator-share__actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.share-toast--error {
+  background: #9b2c2c;
+}
+
 .cn-pdf-export-btn {
   display: inline-flex;
   align-items: center;
@@ -966,4 +1128,110 @@
   background: color-mix(in srgb, #dc2626 12%, var(--cn-bg-elevated));
   border-color: color-mix(in srgb, #dc2626 35%, var(--border));
   color: var(--cn-text-primary);
+}
+
+/* Tool page sections — token-based (no tailwind light/dark split) */
+.cn-section-heading {
+  margin: 0 0 1rem;
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--cn-text-primary);
+}
+
+.cn-quick-action-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  background: var(--cn-bg-elevated);
+  border: 1px solid var(--cn-border-subtle);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cn-quick-action-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+}
+
+.cn-quick-action-card__emoji {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--cn-accent) 14%, var(--cn-bg-elevated));
+}
+
+.cn-quick-action-card__label {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--cn-text-primary);
+  transition: color 0.2s ease;
+}
+
+.cn-quick-action-card:hover .cn-quick-action-card__label {
+  color: var(--cn-accent);
+}
+
+.cn-dashboard-micro-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+  background: var(--cn-bg-elevated);
+  border: 1px solid var(--cn-border-subtle);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cn-dashboard-micro-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.cn-dashboard-micro-card__emoji {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--cn-accent) 12%, var(--cn-bg-elevated));
+}
+
+.cn-dashboard-micro-card__label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--cn-text-primary);
+  transition: color 0.2s ease;
+}
+
+.cn-dashboard-micro-card:hover .cn-dashboard-micro-card__label {
+  color: var(--cn-accent);
+}
+
+.cn-tool-badge--planning {
+  background: color-mix(in srgb, var(--cn-accent) 10%, var(--cn-bg-elevated));
+  border: 1px solid var(--cn-border-subtle);
+}
+
+.cn-tool-badge--planning .cn-tool-badge__icon {
+  color: var(--cn-accent);
 }

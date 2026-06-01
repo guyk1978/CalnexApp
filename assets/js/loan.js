@@ -475,11 +475,13 @@ const LoanCalculator = (() => {
   const openShareModal = () => {
     const shareUrl = getShareUrl();
     syncShareUrlFields(shareUrl);
+    if (!selectors.shareModal) return;
     selectors.shareModal.classList.add("is-open");
     selectors.shareModal.setAttribute("aria-hidden", "false");
   };
 
   const closeShareModal = () => {
+    if (!selectors.shareModal) return;
     selectors.shareModal.classList.remove("is-open");
     selectors.shareModal.setAttribute("aria-hidden", "true");
   };
@@ -506,14 +508,27 @@ const LoanCalculator = (() => {
   };
 
   const updateShareLinks = () => {
-    const url = getShareUrl();
-    syncShareUrlFields(url);
-    const text = encodeURIComponent(document.title);
-    const encodedUrl = encodeURIComponent(url);
-    document.querySelector('[data-share="whatsapp"]').href = `https://wa.me/?text=${text}%20${encodedUrl}`;
-    document.querySelector('[data-share="facebook"]').href =
-      `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-    document.querySelector('[data-share="twitter"]').href = `https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`;
+    try {
+      const url = getShareUrl();
+      syncShareUrlFields(url);
+      if (window.CalnexCalculatorShare) {
+        CalnexCalculatorShare.updateSocialLinks(document);
+        return;
+      }
+      const text = encodeURIComponent(document.title);
+      const encodedUrl = encodeURIComponent(url);
+      document
+        .querySelector('[data-share="whatsapp"]')
+        ?.setAttribute("href", `https://wa.me/?text=${text}%20${encodedUrl}`);
+      document
+        .querySelector('[data-share="facebook"]')
+        ?.setAttribute("href", `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`);
+      document
+        .querySelector('[data-share="twitter"]')
+        ?.setAttribute("href", `https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`);
+    } catch (err) {
+      console.warn("[loan] updateShareLinks skipped", err);
+    }
   };
 
   const runLoanPipeline = () => {
@@ -561,8 +576,41 @@ const LoanCalculator = (() => {
 
     updateSeoMeta();
     updateShareLinks();
+    updateSavingsBanner(snapshot, extraConfig);
     if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
     return snapshot;
+  };
+
+  const updateSavingsBanner = (snapshot, extraConfig) => {
+    const banner = document.getElementById("savingsBanner");
+    const messageEl = document.querySelector("[data-loan-savings-message]");
+    if (!banner || !messageEl) return;
+
+    const extraMonthly = Number(extraConfig?.extraMonthly) || 0;
+    const lumpSum = Number(extraConfig?.lumpSum) || 0;
+    const hasExtras = extraMonthly > 0 || lumpSum > 0;
+    const months = Math.max(0, Number(snapshot.loan_months_saved) || 0);
+    const interest = Math.max(0, Number(snapshot.loan_interest_saved) || 0);
+
+    banner.classList.remove("savings-banner--hint", "savings-banner--active");
+    banner.hidden = false;
+
+    if (!hasExtras) {
+      banner.classList.add("savings-banner--hint");
+      messageEl.innerHTML =
+        'Add <button type="button" class="savings-banner__action" id="savingsBannerOpenAdvanced">extra payments</button> (under Advanced) to see how many months and how much interest you could save.';
+      return;
+    }
+
+    if (months <= 0 && interest <= 0) {
+      banner.classList.add("savings-banner--hint");
+      messageEl.textContent =
+        "Extra payments are enabled — increase the extra monthly amount or add a lump sum to see savings vs. the baseline schedule.";
+      return;
+    }
+
+    banner.classList.add("savings-banner--active");
+    messageEl.innerHTML = `You save <strong>${months.toLocaleString("en-US")}</strong> months and <strong>${setCurrency(interest)}</strong> in interest compared with no extra payments.`;
   };
 
   const paintLoanCharts = () => {
@@ -670,52 +718,18 @@ const LoanCalculator = (() => {
     /* PDF export: handled by pdf-export-init.js (JoinMyPDF API) */
     selectors.printReport.addEventListener("click", printReport);
 
-    selectors.shareButtons.forEach((node) => {
-      if (node.dataset.share !== "copy") return;
-      node.addEventListener("click", async () => {
-        try {
-          await copyTextToClipboard(getShareUrl());
-          if (typeof SharedState !== "undefined") {
-            SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." }, { system: true });
-          }
-          showToast("Link copied");
-        } catch (_error) {
-          if (typeof SharedState !== "undefined") {
-            SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." }, { system: true });
-          }
+    const savingsBanner = document.getElementById("savingsBanner");
+    if (savingsBanner && savingsBanner.dataset.savingsClickBound !== "1") {
+      savingsBanner.dataset.savingsClickBound = "1";
+      savingsBanner.addEventListener("click", (event) => {
+        const btn = event.target.closest("#savingsBannerOpenAdvanced");
+        if (!btn) return;
+        if (!selectors.advancedPanel?.classList.contains("is-open")) {
+          selectors.toggleAdvanced?.click();
         }
+        selectors.advancedPanel?.scrollIntoView({ behavior: "smooth", block: "nearest" });
       });
-    });
-
-    selectors.shareResultsBtn.addEventListener("click", async () => {
-      try {
-        await copyTextToClipboard(getShareUrl());
-        if (typeof SharedState !== "undefined") {
-          SharedState.setState({ loan_copy_feedback: "Link copied to clipboard." }, { system: true });
-        }
-        showToast("Link copied");
-      } catch (_error) {
-        if (typeof SharedState !== "undefined") {
-          SharedState.setState({ loan_copy_feedback: "Copy failed. Please copy from the address bar." }, { system: true });
-        }
-      }
-    });
-
-    selectors.openShareModalBtn.addEventListener("click", openShareModal);
-    selectors.copyShareModalBtn.addEventListener("click", async () => {
-      try {
-        await copyTextToClipboard(selectors.shareModalInput.value || getShareUrl());
-        showToast("Link copied");
-      } catch (_error) {
-        showToast("Copy failed");
-      }
-    });
-    selectors.closeShareModalBtn.addEventListener("click", closeShareModal);
-    selectors.shareModal.addEventListener("click", (event) => {
-      if (event.target === selectors.shareModal) {
-        closeShareModal();
-      }
-    });
+    }
   };
 
   const init = () => {
@@ -745,11 +759,8 @@ const LoanCalculator = (() => {
       applyQueryState();
       if (window.AppEngine) AppEngine.runImmediate();
     });
-    document.addEventListener("geo:changed", () => {
-      applyGeoDefaults(true);
-      if (window.AppEngine) AppEngine.runImmediate();
-    });
     document.addEventListener("currency:changed", () => {
+      if (window.UiRenderer?.renderCurrency) window.UiRenderer.renderCurrency();
       if (window.AppEngine) AppEngine.runImmediate();
     });
     document.addEventListener("cn-themechange", () => {

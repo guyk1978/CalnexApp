@@ -100,6 +100,17 @@ const GeoFinance = (() => {
 
   const getCountryData = (country = getSelectedCountry()) => COUNTRY_DATA[normalizeCountry(country)] || COUNTRY_DATA.US;
 
+  const COUNTRY_TO_CURRENCY = {
+    US: "USD",
+    EU: "EUR",
+    UK: "GBP",
+    IL: "ILS",
+    CN: "CNY",
+    CA: "CAD",
+    AU: "AUD",
+    JP: "JPY"
+  };
+
   const setCountry = (country) => {
     const nextCountry = normalizeCountry(country);
     const defaults = getCountryData(nextCountry);
@@ -113,12 +124,23 @@ const GeoFinance = (() => {
         { system: true, syncUrl: true }
       );
     }
+    const linkedCurrency = COUNTRY_TO_CURRENCY[nextCountry];
+    if (linkedCurrency && typeof window.CurrencyLayer !== "undefined") {
+      const currentCurrency = window.CurrencyLayer.getSelectedCurrency();
+      if (linkedCurrency !== currentCurrency) {
+        window.CurrencyLayer.setCurrency(linkedCurrency);
+        document.querySelectorAll(".currency-selector").forEach((node) => {
+          node.value = linkedCurrency;
+        });
+      }
+    }
     document.dispatchEvent(new CustomEvent("geo:changed", { detail: { country: nextCountry, defaults } }));
     window.dispatchEvent(new CustomEvent("appStateChanged", { detail: { source: "geo", country: nextCountry } }));
     return nextCountry;
   };
 
   const renderSelector = () => {
+    if (document.querySelector("[data-cn-react-header]")) return;
     const pills = window.CalnexHeaderToolbar?.ensure?.()?.pills;
     const nav = document.querySelector(".site-header .nav");
     const host = pills || nav;

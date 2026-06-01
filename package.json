@@ -1,13 +1,25 @@
 {
   "scripts": {
-    "dev:rent-vs-buy": "next dev",
-    "build:rent-vs-buy": "next build",
+    "sync-public-assets": "node scripts/sync-public-assets.mjs",
+    "build:site-inventory": "node scripts/build-site-inventory.mjs",
+    "sync:site": "node scripts/sync-public-assets.mjs && node scripts/patch-html-head.mjs && node scripts/build-site-inventory.mjs && node scripts/sync-out-static.mjs --data-only && node scripts/sync-static-site.mjs && node scripts/sync-pdf-export.mjs && node scripts/sync-calculator-share.mjs",
+    "dev:kill": "node scripts/kill-port.mjs 3000",
+    "dev": "npm run sync:site && node scripts/kill-port.mjs 3000 && node scripts/dev-server.mjs",
+    "dev:next": "npm run sync:site && node scripts/kill-port.mjs 3001 && next dev -p 3001",
+    "dev:static": "npm run dev",
+    "prebuild": "npm run sync:site",
+    "build": "next build",
+    "postbuild": "node scripts/sync-out-static.mjs && node scripts/sync-next-app-routes.mjs",
+    "start": "node scripts/start-server.mjs",
+    "build:rent-vs-buy": "npm run build",
     "sync-nav": "node scripts/sync-nav.mjs",
     "sync-tools-hub": "node scripts/sync-tools-hub.mjs",
     "sync-calculator-headers": "node scripts/sync-calculator-headers.mjs",
     "sync-calculator-quick-actions": "node scripts/sync-calculator-quick-actions.mjs",
     "sync-calculator-context-ctas": "node scripts/sync-calculator-context-ctas.mjs",
     "sync-pdf-export": "node scripts/sync-pdf-export.mjs",
+    "sync-calculator-share": "node scripts/sync-calculator-share.mjs",
+    "sync-calculators": "npm run sync-pdf-export && npm run sync-calculator-share",
     "sync-main-layout": "node scripts/sync-main-layout.mjs",
     "patch-blog-articles": "node scripts/patch-blog-articles.mjs",
     "search:build": "node scripts/build-search-index.js",
@@ -36,10 +48,12 @@
     "simulate:routes": "node scripts/simulate-blog-routes.js",
     "simulate:routes:all": "node scripts/simulate-blog-routes.js --all",
     "patch:html-head": "node scripts/patch-html-head.mjs",
-    "build:css": "tailwindcss -i ./src/styles/vibrant-ui.css -o ./assets/css/vibrant-ui.css --minify",
-    "build": "npm run build:css && npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run sync-tools-hub && npm run sync-calculator-headers && npm run sync-calculator-quick-actions && npm run sync-calculator-context-ctas && npm run sync-pdf-export && npm run sync-main-layout && npm run patch-blog-articles && npm run patch:html-head && npm run sync-nav && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
+    "build:css": "tailwindcss -i ./src/styles/vibrant-ui.css -o ./assets/css/vibrant-ui.css --minify && node scripts/sync-public-assets.mjs",
+    "build:site": "npm run build:css && npm run validate:redirects && npm run redirects:blog && npm run publish-approved-blog && npm run seo:scale && npm run seo:build && npm run ranking:build && npm run build:blog-index && npm run sync-tools-hub && npm run sync-calculator-headers && npm run sync-calculator-quick-actions && npm run sync-calculator-context-ctas && npm run sync-calculators && npm run sync-main-layout && npm run patch-blog-articles && npm run patch:html-head && npm run sync-nav && npm run search:build && npm run generate-sitemap && npm run validate:redirects"
   },
   "dependencies": {
+    "framer-motion": "^12.40.0",
+    "jspdf": "^4.2.1",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
@@ -50,6 +64,7 @@
     "@types/react-dom": "^19.1.5",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.15",
+    "serve": "^14.2.4",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3"
   }

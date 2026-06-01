@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:;base64,=">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <script src="/assets/js/theme-init.js"></script>
+    <title>Site inventory (internal) | CalnexApp</title>
+                                                                                                    <link rel="stylesheet" href="/assets/css/style.css?v=1.3" />
+<style>
+      .cn-inv-wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1rem 4rem;
+      }
+      .cn-inv-wrap h1 {
+        margin: 0 0 0.35rem;
+      }
+      .cn-inv-lead {
+        margin: 0 0 1.25rem;
+        color: var(--cn-text-secondary, var(--muted));
+        line-height: 1.5;
+      }
+      .cn-inv-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem 1.25rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+      }
+      .cn-inv-warn {
+        color: var(--cn-warning, #f5b84a);
+      }
+      .cn-inv-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-bottom: 1rem;
+      }
+      .cn-inv-toolbar input,
+      .cn-inv-toolbar select {
+        padding: 0.5rem 0.65rem;
+        border-radius: 8px;
+        border: 1px solid var(--cn-border-subtle, var(--border));
+        background: var(--cn-bg-subtle, rgba(255, 255, 255, 0.04));
+        color: inherit;
+        min-width: 12rem;
+      }
+      .cn-inv-table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--cn-border-subtle, var(--border));
+        border-radius: 12px;
+        margin-bottom: 2rem;
+      }
+      table.cn-inv-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+      }
+      .cn-inv-table th,
+      .cn-inv-table td {
+        padding: 0.55rem 0.65rem;
+        border-bottom: 1px solid var(--cn-border-subtle, var(--border));
+        text-align: left;
+        vertical-align: top;
+      }
+      .cn-inv-table th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--cn-text-secondary, var(--muted));
+      }
+      .cn-inv-badge {
+        display: inline-block;
+        padding: 0.15rem 0.45rem;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .cn-inv-badge--core-calculator {
+        background: var(--cn-accent-muted, rgba(91, 140, 255, 0.18));
+        color: var(--cn-accent, #5b8cff);
+      }
+      .cn-inv-badge--blog {
+        background: var(--cn-success-muted, rgba(62, 224, 143, 0.14));
+        color: var(--cn-success, #3ee08f);
+      }
+      .cn-inv-badge--loan-scenario {
+        background: rgba(245, 184, 74, 0.15);
+        color: var(--cn-warning, #f5b84a);
+      }
+      .cn-inv-url {
+        font-size: 0.8rem;
+      }
+      .cn-inv-kw {
+        max-width: 16rem;
+        line-height: 1.35;
+      }
+      .cn-inv-conflicts {
+        border: 1px solid var(--cn-border-subtle, var(--border));
+        border-radius: 12px;
+        padding: 1rem 1.1rem;
+        margin-bottom: 1rem;
+      }
+      .cn-inv-conflict {
+        margin-bottom: 1rem;
+      }
+      .cn-inv-conflict h3 {
+        margin: 0 0 0.35rem;
+        font-size: 0.95rem;
+      }
+      .cn-inv-conflict ul {
+        margin: 0;
+        padding-left: 1.1rem;
+      }
+    </style>
+  </head>
+  <body data-page="site-inventory">
+    <main class="cn-inv-wrap">
+      <p class="eyebrow">Internal · not in site navigation</p>
+      <h1>Site content inventory</h1>
+      <p class="cn-inv-lead">
+        Master list of calculators, blog posts, and programmatic pages. Use this before adding a new tool or article to avoid
+        keyword cannibalization. Regenerate with <code>npm run build:site-inventory</code>.
+      </p>
+      <p id="invUpdated" class="muted" style="font-size: 0.85rem"></p>
+      <div id="invCounts" class="cn-inv-stats"></div>
+
+      <div class="cn-inv-toolbar">
+        <input id="invSearch" type="search" placeholder="Search title, URL, keyword…" aria-label="Search inventory" />
+        <select id="invTypeFilter" aria-label="Filter by type">
+          <option value="all">All types</option>
+          <option value="core-calculator">Core calculators</option>
+          <option value="blog">Blog</option>
+          <option value="loan-scenario">Loan scenarios</option>
+          <option value="seo">Other SEO</option>
+        </select>
+      </div>
+
+      <h2>Keyword overlap warnings</h2>
+      <div id="invConflicts" class="cn-inv-conflicts" aria-live="polite"></div>
+
+      <h2>All URLs</h2>
+      <div class="cn-inv-table-wrap">
+        <table class="cn-inv-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Title</th>
+              <th>URL</th>
+              <th>Category</th>
+              <th>Keywords</th>
+            </tr>
+          </thead>
+          <tbody id="invTableBody">
+            <tr>
+              <td colspan="5" class="muted">Loading inventory…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="muted" style="font-size: 0.85rem">
+        Sources: <code>data/tools.json</code>, <code>data/blog.json</code>, loan scenario folders,
+        <code>data/seo-registry.json</code>. Public hubs: <a href="/tools/">/tools/</a>,
+        <a href="/blog/">/blog/</a>.
+      </p>
+    </main>
+    <script src="/assets/js/site-inventory-data.js?v=2026-05-31T2015"></script>
+    <script src="/assets/js/site-inventory.js?v=2026-05-31T2015" defer></script>
+  </body>
+</html>
