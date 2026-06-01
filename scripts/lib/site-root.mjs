@@ -44,9 +44,34 @@ export function relativizeEmbeddedPaths(text, prefix) {
  */
 export function relocateNextBundlesToAssets(text, prefix) {
   if (!text) return text;
-  const rel = prefix ? `${prefix}_next/` : "/_next/";
-  const abs = prefix ? `${prefix}assets/next/` : "/assets/next/";
-  return text.split(rel).join(abs);
+  let out = text;
+
+  const pairs = [
+    [prefix ? `${prefix}_next/` : "/_next/", prefix ? `${prefix}assets/next/` : "/assets/next/"],
+    ["/_next/", "/assets/next/"],
+    ["_next/", "assets/next/"],
+  ];
+
+  for (const [from, to] of pairs) {
+    if (from !== to) out = out.split(from).join(to);
+  }
+
+  // Next sometimes emits ./_next/ before relativize
+  out = out.replace(
+    /(href|src|content)=(["'])\.\/_next\//gi,
+    (_, attr, quote) => `${attr}=${quote}${prefix}assets/next/`
+  );
+
+  return out;
+}
+
+/** Fail build if any root-absolute /_next/ references remain in exported HTML. */
+export function assertNoAbsoluteNextPaths(html, relPath = "") {
+  if (/(["'(=])\/_next\//.test(html)) {
+    throw new Error(
+      `relativize-export: ${relPath || "HTML"} still contains /_next/ — run sync-next-to-assets and relocateNextBundlesToAssets`
+    );
+  }
 }
 
 /** Rewrite root-absolute internal URLs to depth-relative paths. */
@@ -60,14 +85,6 @@ export function relativizeHtml(html, prefix) {
     const home = prefix || "./";
     return `${attr}=${quote}${home}${quote}`;
   });
-
-  // Next may emit ./_next/ when assetPrefix is set — normalize to correct depth
-  if (prefix) {
-    next = next.replace(
-      /(href|src|content)=(["'])\.\/_next\//gi,
-      (_, attr, quote) => `${attr}=${quote}${prefix}_next/`
-    );
-  }
 
   next = relativizeEmbeddedPaths(next, prefix);
   return relocateNextBundlesToAssets(next, prefix);

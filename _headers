@@ -1,14 +1,50 @@
+# Cloudflare Pages — publish directory must be out/ (see scripts/sync-cloudflare-meta.mjs).
+# Most specific paths first. Wrong Content-Type on JS/CSS causes "Unexpected token '<'".
+
+/assets/next/static/css/*
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/assets/next/static/chunks/*
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/assets/next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/assets/next/*.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/next/*.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/next/*
+  X-Content-Type-Options: nosniff
+
+/assets/css/*
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=604800
+
+/assets/js/*
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=604800
+
+/assets/js/vendor/*
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/*
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
   X-Content-Type-Options: nosniff
 
 /robots.txt
   Content-Type: text/plain; charset=utf-8
-
-/assets/next/*
-  Content-Type: application/javascript
-  Cache-Control: public, max-age=31536000, immutable
-
-/assets/next/static/css/*
-  Content-Type: text/css; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable

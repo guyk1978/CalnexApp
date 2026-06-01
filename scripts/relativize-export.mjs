@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import {
+  assertNoAbsoluteNextPaths,
   htmlDepthFromOut,
   injectCalnexRoot,
   relativePrefix,
@@ -58,6 +59,7 @@ for (const rel of walkHtml(OUT)) {
   const raw = fs.readFileSync(full, "utf8");
   let next = relativizeHtml(raw, prefix);
   next = injectCalnexRoot(next, prefix);
+  assertNoAbsoluteNextPaths(next, rel);
   if (next !== raw) {
     fs.writeFileSync(full, next, "utf8");
     updated += 1;
@@ -65,3 +67,4 @@ for (const rel of walkHtml(OUT)) {
 }
 
 console.log(`relativize-export: updated ${updated} HTML file(s) under out/`);
+

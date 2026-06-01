@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "description": "Keep /assets/* and /data/* on static asset serving — do not run Pages Functions (avoids index.html MIME on .js/.css).",
+  "include": ["/*"],
+  "exclude": [
+    "/assets/*",
+    "/data/*",
+    "/_next/*",
+    "/engine/*",
+    "/favicon.ico",
+    "/robots.txt",
+    "/sitemap.xml",
+    "/sitemap-index.xml"
+  ]
+}
