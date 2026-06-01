@@ -37,7 +37,49 @@ function verifyNextBundles(baseDir, label) {
     console.error(`sync-cloudflare-meta: ${label}${webpack} too small (${size}b) — not a real bundle`);
     return false;
   }
-  console.log(`sync-cloudflare-meta: ${label}assets/next OK (${webpack}, ${size} bytes)`);
+
+  const cssDir = path.join(baseDir, "assets", "next", "static", "css");
+  if (!fs.existsSync(cssDir)) {
+    console.error(
+      `sync-cloudflare-meta: missing ${label}assets/next/static/css — run sync-next-to-assets; take-home-pay also uses public/assets/css/take-home-pay-calculator.css`
+    );
+    return false;
+  }
+  const cssFiles = fs.readdirSync(cssDir).filter((n) => n.endsWith(".css"));
+  if (cssFiles.length < 1) {
+    console.error(`sync-cloudflare-meta: no .css files under ${label}assets/next/static/css`);
+    return false;
+  }
+  for (const css of cssFiles) {
+    const cssPath = path.join(cssDir, css);
+    const cssSize = fs.statSync(cssPath).size;
+    const head = fs.readFileSync(cssPath, "utf8").slice(0, 40);
+    if (head.includes("<!") || head.includes("<html")) {
+      console.error(
+        `sync-cloudflare-meta: ${label}assets/next/static/css/${css} looks like HTML — wrong deploy artifact`
+      );
+      return false;
+    }
+    if (cssSize < 200) {
+      console.error(`sync-cloudflare-meta: ${label}assets/next/static/css/${css} too small (${cssSize}b)`);
+      return false;
+    }
+  }
+
+  const stableCandidates = [
+    path.join(baseDir, "assets", "css", "take-home-pay-calculator.css"),
+    path.join(baseDir, "public", "assets", "css", "take-home-pay-calculator.css"),
+  ];
+  if (!stableCandidates.some((p) => fs.existsSync(p))) {
+    console.error(
+      `sync-cloudflare-meta: missing take-home-pay-calculator.css under ${label} — run sync-take-home-pay-css.mjs`
+    );
+    return false;
+  }
+
+  console.log(
+    `sync-cloudflare-meta: ${label}assets/next OK (${webpack}, ${size} bytes, css=${cssFiles.join(", ")})`
+  );
   return true;
 }
 
