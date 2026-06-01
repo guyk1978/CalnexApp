@@ -1,6 +1,6 @@
 # SEO Opportunities Report
 
-- Generated at: 2026-06-01T07:23:20.782Z
+- Generated at: 2026-06-01T07:49:29.859Z
 - Total candidates evaluated: 614
 - Selected pages: 30
 
