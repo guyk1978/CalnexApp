@@ -127,6 +127,7 @@ export function ShareMenu({
             value={shareUrl}
             data-cn-share-url
             aria-label="Shareable calculator URL"
+            suppressHydrationWarning
           />
           <div className="cn-share-menu__actions">
             <button

@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { exportToPdf } from "@/lib/pdf-export";
 
 export type PdfExportButtonProps = {
   calculatorName: string;
@@ -63,6 +62,7 @@ export function PdfExportButton({
     if (loading) return;
     setLoading(true);
     try {
+      const { exportToPdf } = await import("@/lib/pdf-export");
       await exportToPdf({ calculatorName, inputs, results });
       notify("PDF downloaded");
     } catch {

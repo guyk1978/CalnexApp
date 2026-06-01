@@ -68,6 +68,8 @@ function isReactCalculatorMounted() {
  */
 export function CalculatorClientBoot() {
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     bindHeaderSelectors();
 
     let cancelled = false;

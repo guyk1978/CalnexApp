@@ -98,6 +98,8 @@ export function SiteHeaderActions() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const storedCountry = readStoredCountry();
     const storedCurrency = readStoredCurrency();
     const linkedCurrency = COUNTRY_TO_CURRENCY[storedCountry];
@@ -129,6 +131,8 @@ export function SiteHeaderActions() {
   }, [applyPair]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const bootScripts = ["/assets/js/geo-finance.js", "/assets/js/currency.js"];
     for (const src of bootScripts) {
       if (document.querySelector(`script[data-cn-boot="${src}"]`)) continue;

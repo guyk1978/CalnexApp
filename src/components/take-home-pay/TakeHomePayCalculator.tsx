@@ -11,7 +11,10 @@ import {
 import { useSiteCurrency } from "@/hooks/useSiteCurrency";
 import { buildTakeHomePayPdfPayload } from "@/lib/take-home-pay/pdf-export";
 import { buildTakeHomePayShareMessage } from "@/lib/take-home-pay/share-message";
-import { buildTakeHomePayShareUrl } from "@/lib/take-home-pay/share-url";
+import {
+  buildTakeHomePayShareUrl,
+  TAKE_HOME_PAY_CANONICAL_ORIGIN,
+} from "@/lib/take-home-pay/share-url";
 import { InputPanel } from "./InputPanel";
 import { ResultsDashboard } from "./ResultsDashboard";
 import styles from "./take-home-pay.module.css";
@@ -62,11 +65,18 @@ function buildCsv(result: TakeHomePayResult, inputs: TakeHomePayInputs): string 
 export function TakeHomePayCalculator() {
   const { formatMoney } = useSiteCurrency();
   const [inputs, setInputs] = useState<TakeHomePayInputs>({ ...DEFAULT_TAKE_HOME_INPUTS });
+  const [shareOrigin, setShareOrigin] = useState(TAKE_HOME_PAY_CANONICAL_ORIGIN);
   const shellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const patch = parseInputsFromSearch();
     if (patch) setInputs((prev) => ({ ...prev, ...patch }));
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setShareOrigin(window.location.origin);
+    }
   }, []);
 
   useEffect(() => {
@@ -85,7 +95,7 @@ export function TakeHomePayCalculator() {
     [inputs, result, formatMoney]
   );
 
-  const shareUrl = useMemo(() => buildTakeHomePayShareUrl(inputs), [inputs]);
+  const shareUrl = useMemo(() => buildTakeHomePayShareUrl(inputs, shareOrigin), [inputs, shareOrigin]);
   const shareMessage = useMemo(
     () => buildTakeHomePayShareMessage(inputs, result, formatMoney),
     [inputs, result, formatMoney]

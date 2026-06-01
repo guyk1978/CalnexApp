@@ -13,6 +13,8 @@ export function useSiteCurrency() {
   const [currency, setCurrency] = useState<SiteCurrencyCode>("USD");
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     setCurrency(readStoredCurrency());
 
     const refresh = () => setCurrency(readStoredCurrency());
