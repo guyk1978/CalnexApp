@@ -58,8 +58,9 @@ async function loadSiteSearchOnce(): Promise<void> {
         window.setTimeout(() => window.clearInterval(wait), 5000);
         return;
       }
-      const script = document.createElement("script");
-      script.src = "/assets/js/site-search.js";
+    const calnexPath = (window as Window & { CalnexPath?: (p: string) => string }).CalnexPath;
+    const script = document.createElement("script");
+    script.src = calnexPath ? calnexPath("/assets/js/site-search.js") : "/assets/js/site-search.js";
       script.defer = true;
       script.onload = () => resolve();
       script.onerror = () => reject(new Error("site-search failed"));

@@ -1,4 +1,6 @@
 (function () {
+  const asset = (path) => (typeof CalnexPath === "function" ? CalnexPath(path) : path);
+
   const yearNode = document.getElementById("year");
   if (yearNode) {
     yearNode.textContent = new Date().getFullYear();
@@ -271,7 +273,7 @@
 
     const currentSlug = holder.dataset.currentTool || "";
     try {
-      const tools = await fetchJson("/data/tools.json");
+      const tools = await fetchJson(asset("/data/tools.json"));
       const related = tools.filter((tool) => tool.slug !== currentSlug).slice(0, 8);
       holder.className = RELATED_SECTION_WRAP_CLASS;
       holder.innerHTML = `
@@ -348,7 +350,7 @@
       if (embedded && embedded.textContent.trim()) {
         posts = JSON.parse(embedded.textContent);
       } else {
-        posts = await fetchJson("/data/blog.json");
+        posts = await fetchJson(asset("/data/blog.json"));
       }
       const categories = ["All", ...new Set(posts.map((post) => post.category))];
       let activeCategory = "All";
@@ -410,7 +412,7 @@
     const hasStaticCards = catalog.querySelector("a.cn-dashboard-micro-card");
     if (hasStaticCards) return;
     try {
-      const tools = await fetchJson("/data/tools.json");
+      const tools = await fetchJson(asset("/data/tools.json"));
       const ACCENT_EMOJI = { housing: "🏠", lending: "💳", auto: "🚗", growth: "📊", planning: "🧭" };
       const toolAccent = (slug = "", navGroup = "") => {
         if (navGroup) return navGroup;
@@ -487,7 +489,8 @@
 
   const ensureScriptLoaded = (src) =>
     new Promise((resolve, reject) => {
-      const existing = document.querySelector(`script[src="${src}"]`);
+      const resolved = asset(src);
+      const existing = document.querySelector(`script[src="${resolved}"]`);
       if (existing) {
         if (existing.dataset.loaded === "true") {
           resolve();
@@ -498,7 +501,7 @@
         return;
       }
       const script = document.createElement("script");
-      script.src = src;
+      script.src = resolved;
       script.defer = true;
       script.dataset.globalLayer = "true";
       script.addEventListener("load", () => {

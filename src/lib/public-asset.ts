@@ -1,8 +1,8 @@
 /**
  * Build URLs for files under `public/assets/`.
  *
- * Next.js serves `public/` from the site root, so `public/assets/css/style.css`
- * is available at `/assets/css/style.css` — never `/public/assets/...`.
+ * Dev (next dev): absolute paths from site root (/assets/...).
+ * Production static export: post-build `relativize-export` rewrites HTML; runtime uses CalnexPath().
  */
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX ?? "";
 

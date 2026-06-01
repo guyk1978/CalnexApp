@@ -3,6 +3,8 @@
  * Loaded by app.js after fuse.min.js is available.
  */
 (function () {
+  const asset = (path) => (typeof CalnexPath === "function" ? CalnexPath(path) : path);
+
   const CATEGORY_LABELS = {
     Tools: "Tools & Calculators",
     Blog: "Blog Articles",
@@ -17,12 +19,13 @@
 
   const loadScript = (src) =>
     new Promise((resolve, reject) => {
-      if (document.querySelector(`script[src="${src}"]`)) {
+      const resolved = asset(src);
+      if (document.querySelector(`script[src="${resolved}"]`)) {
         resolve();
         return;
       }
       const script = document.createElement("script");
-      script.src = src;
+      script.src = resolved;
       script.defer = true;
       script.addEventListener("load", () => resolve(), { once: true });
       script.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
@@ -56,8 +59,8 @@
     let flatResults = [];
 
     try {
-      await loadScript("/assets/js/vendor/fuse.min.js");
-      const response = await fetch("/data/search-index.json");
+      await loadScript(asset("/assets/js/vendor/fuse.min.js"));
+      const response = await fetch(asset("/data/search-index.json"));
       if (!response.ok) throw new Error("search index unavailable");
       index = await response.json();
       if (typeof Fuse !== "undefined") {

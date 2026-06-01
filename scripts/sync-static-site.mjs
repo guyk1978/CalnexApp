@@ -1,6 +1,9 @@
 /**
  * Mirror static site pages into public/ (dev) and out/ (production) so tools
  * match calnexapp.com 1:1. App Router must not define the same paths.
+ *
+ * Does not touch out/_next/ (created by `next build`). Run `relativize-export`
+ * after `sync-static-site --to-out` in postbuild for portable relative URLs.
  */
 import fs from "fs";
 import path from "path";
@@ -56,23 +59,26 @@ function removeIndexTxtUnder(dir) {
   return removed;
 }
 
-function syncToBase(baseDir, { skipNextRoutes = false } = {}) {
+function syncToBase(baseDir, { isOut = false } = {}) {
   let files = 0;
   const skipRelPrefixes = [...NEXT_APP_ROUTE_DIRS];
   for (const { src, dest } of STATIC_TREE_COPIES) {
     files += copyDir(path.join(ROOT, src), path.join(baseDir, dest), { skipRelPrefixes });
   }
-  for (const routeDir of NEXT_APP_ROUTE_DIRS) {
-    const stale = path.join(baseDir, routeDir);
-    if (fs.existsSync(stale)) {
-      fs.rmSync(stale, { recursive: true, force: true });
-      console.log(`sync-static-site: removed stale ${path.relative(ROOT, stale).replace(/\\/g, "/")}/`);
+  // Only purge stale static HTML from public/ — never delete Next export routes in out/.
+  if (!isOut) {
+    for (const routeDir of NEXT_APP_ROUTE_DIRS) {
+      const stale = path.join(baseDir, routeDir);
+      if (fs.existsSync(stale)) {
+        fs.rmSync(stale, { recursive: true, force: true });
+        console.log(`sync-static-site: removed stale ${path.relative(ROOT, stale).replace(/\\/g, "/")}/`);
+      }
     }
   }
   return files;
 }
 
-const publicFiles = syncToBase(path.join(ROOT, "public"));
+const publicFiles = syncToBase(path.join(ROOT, "public"), { isOut: false });
 let outMsg = "";
 
 if (TO_OUT) {
@@ -81,7 +87,7 @@ if (TO_OUT) {
     console.error("sync-static-site: missing out/ — run next build first");
     process.exit(1);
   }
-  const outFiles = syncToBase(outDir, { skipNextRoutes: true });
+  const outFiles = syncToBase(outDir, { isOut: true });
   const removedToolsTxt = removeIndexTxtUnder(path.join(outDir, "tools"));
   const removedBlogTxt = removeIndexTxtUnder(path.join(outDir, "blog"));
   outMsg = `, out/ (${outFiles} files, removed ${removedToolsTxt} index.txt under tools/, ${removedBlogTxt} under blog/)`;

@@ -18,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        <Script src={publicAsset("/assets/js/calnex-path.js")} strategy="beforeInteractive" />
         {siteStylesheets.map((href) => (
           <link key={href} rel="stylesheet" href={publicAsset(href)} />
         ))}
