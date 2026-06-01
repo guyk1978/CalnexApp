@@ -17,7 +17,7 @@ const STATIC_TREE_COPIES = [
 ];
 
 /** Next.js app-router exports — do not overwrite with repo-root static HTML. */
-const NEXT_APP_ROUTE_DIRS = new Set([]);
+const NEXT_APP_ROUTE_DIRS = new Set(["tools/take-home-pay"]);
 
 function copyDir(src, dest, { skipRelPrefixes = [] } = {}) {
   if (!fs.existsSync(src)) {
