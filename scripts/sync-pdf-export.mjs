@@ -11,13 +11,21 @@
  */
 import fs from "fs";
 import path from "path";
+import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { injectMarkerBlock } from "./html-inject-utils.cjs";
 
+const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tools = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "tools.json"), "utf8"));
 
-const { PDF_SCRIPT_PATHS } = require("./calculator-asset-manifest.cjs");
+const { PDF_SCRIPT_PATHS, SHARE_SCRIPT_PATHS } = require("./calculator-asset-manifest.cjs");
+
+const ALL_CALCULATOR_SCRIPT_PATHS = [...PDF_SCRIPT_PATHS, ...SHARE_SCRIPT_PATHS];
+
+function escapeRegExp(str) {
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 const PDF_SCRIPTS = PDF_SCRIPT_PATHS.map((src) => `    <script src="${src}" defer></script>`).join(
   "\n"
@@ -69,12 +77,12 @@ const PLACEMENTS = {
     variant: "ghost"
   },
   "interest-calculator": {
-    anchor: /<!-- CN_CALCULATOR_HERO_STACK_END -->/i,
+    anchor: /<!-- CN_CALCULATOR_BODY_END -->/i,
     insertAfter: true,
     variant: "ghost"
   },
   "retirement-calculator": {
-    anchor: /<!-- CN_CALCULATOR_HERO_STACK_END -->/i,
+    anchor: /<!-- CN_CALCULATOR_BODY_END -->/i,
     insertAfter: true,
     variant: "ghost"
   },
@@ -100,19 +108,26 @@ function writeJoinMyPdfPromoConfig() {
   return outPath;
 }
 
-function ensurePdfScripts(html) {
+function normalizeCalculatorScripts(html) {
   const bodyClose = html.lastIndexOf("</body>");
   if (bodyClose === -1) return html;
 
-  let next = html;
-  const missing = PDF_SCRIPT_PATHS.filter((src) => !next.includes(src));
-  if (!missing.length) return next;
+  let next = html.slice(0, bodyClose);
+  const afterBody = html.slice(bodyClose);
 
-  const block = missing
-    .map((src) => `    <script src="${src}" defer></script>`)
-    .join("\n");
+  for (const src of ALL_CALCULATOR_SCRIPT_PATHS) {
+    const re = new RegExp(
+      `\\s*<script src="${escapeRegExp(src)}" defer><\\/script>\\s*`,
+      "gi"
+    );
+    next = next.replace(re, "\n");
+  }
 
-  return `${next.slice(0, bodyClose)}\n${block}\n${next.slice(bodyClose)}`;
+  const block = ALL_CALCULATOR_SCRIPT_PATHS.map(
+    (src) => `    <script src="${src}" defer></script>`
+  ).join("\n");
+
+  return `${next}\n${block}\n${afterBody}`;
 }
 
 function ensureShareToast(html) {
@@ -173,7 +188,7 @@ function patchFile(filePath, tool) {
   const before = html;
 
   html = injectPdfButton(html, tool, placement);
-  html = ensurePdfScripts(html);
+  html = normalizeCalculatorScripts(html);
   html = ensureShareToast(html);
   if (tool.slug === "loan-calculator") {
     html = removeJspdfScript(html);

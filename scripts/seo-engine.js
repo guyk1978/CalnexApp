@@ -153,11 +153,11 @@ const getRelatedEntries = (entries, current) => {
 };
 
 const injectSection = (html, markerStart, markerEnd, sectionHtml, beforeTag = "</main>") => {
-  const startIndex = html.indexOf(markerStart);
-  const endIndex = html.indexOf(markerEnd);
-  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
-    return `${html.slice(0, startIndex)}${sectionHtml}${html.slice(endIndex + markerEnd.length)}`;
-  }
+  const { injectMarkerBlock } = require("./html-inject-utils.cjs");
+  const replaced = injectMarkerBlock(html, markerStart, markerEnd, sectionHtml, {
+    scopeBefore: beforeTag,
+  });
+  if (replaced) return replaced;
   const insertIndex = html.indexOf(beforeTag);
   if (insertIndex === -1) return html;
   return `${html.slice(0, insertIndex)}${sectionHtml}\n${html.slice(insertIndex)}`;

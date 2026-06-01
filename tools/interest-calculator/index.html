@@ -22,175 +22,7 @@
   gtag('js', new Date());
   gtag('config', 'G-MMLPFGBR27');
 </script>
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -382,7 +214,114 @@
       <!-- CN_QUICK_ACTIONS_END -->
       </div>
       <!-- CN_CALCULATOR_HERO_STACK_END -->
-            <div class="cn-pdf-export-wrap" style="margin: 0.75rem 0 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem">
+<!-- CN_CALCULATOR_BODY_START -->
+<section class="calculator-layout">
+        <article class="card">
+          <h2>Inputs</h2>
+          <div class="field">
+            <label for="interestPrincipal" data-currency-label="principal_amount">Principal Amount</label>
+            <div class="input-with-prefix">
+              <span data-currency-symbol>¤</span>
+              <input id="interestPrincipal" data-input-bind="interest_principal" type="number" min="0" step="100" value="10000" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="interestRate">Interest Rate (%)</label>
+            <input id="interestRate" data-input-bind="interest_rate" type="number" min="0" step="0.01" value="5" />
+          </div>
+          <div class="field">
+            <label for="interestYears">Time Period (Years)</label>
+            <input id="interestYears" data-input-bind="interest_years" type="number" min="1" step="1" value="10" />
+          </div>
+          <div class="field">
+            <label for="interestCompounding">Compounding Frequency</label>
+            <select id="interestCompounding" data-input-bind="interest_compounding">
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+              <option value="daily">Daily</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="interestMonthlyContribution">Monthly Contribution (Optional)</label>
+            <div class="input-with-prefix">
+              <span data-currency-symbol>¤</span>
+              <input id="interestMonthlyContribution" data-input-bind="interest_monthly_contribution" type="number" min="0" step="10" value="0" />
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Results</h2>
+          <div class="financial-validation-panel" role="status">
+            <div class="financial-validation-head">
+              <span class="financial-validator-badge" data-bind="financial_validation_badge" data-format="text"></span>
+              <p class="financial-validation-confidence">
+                <strong>Result confidence:</strong>
+                <span data-bind="financial_validation_confidence_label" data-format="text">—</span>
+                <span class="muted">(<span data-bind="financial_validation_confidence_score" data-format="number">100</span>/100)</span>
+              </p>
+            </div>
+            <p class="financial-validation-warnings muted" data-bind="financial_validation_warnings_text" data-format="text"></p>
+          </div>
+          <dl class="result-grid">
+            <div>
+              <dt>Final Amount (Compound)</dt>
+              <dd id="interestFinalAmount" data-bind="interest_final_amount" data-format="currency">0.00</dd>
+            </div>
+            <div>
+              <dt>Total Interest Earned</dt>
+              <dd id="interestTotalInterest" data-bind="interest_total_interest" data-format="currency">0.00</dd>
+            </div>
+            <div>
+              <dt>Simple Interest Total</dt>
+              <dd id="interestSimpleAmount" data-bind="interest_simple_total" data-format="currency">0.00</dd>
+            </div>
+            <div>
+              <dt>Compound Interest Total</dt>
+              <dd id="interestCompoundAmount" data-bind="interest_compound_total" data-format="currency">0.00</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+
+      <section class="card charts-section">
+        <div class="page-title">
+          <p class="eyebrow">Visualization</p>
+          <h2>Growth and Comparison Charts</h2>
+        </div>
+        <div class="chart-grid">
+          <article class="card chart-card">
+            <h3>Growth Chart</h3>
+            <div class="chart-wrap"><canvas id="interestGrowthChart"></canvas></div>
+          </article>
+          <article class="card chart-card">
+            <h3>Simple vs Compound</h3>
+            <div class="chart-wrap"><canvas id="interestCompareChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card amortization-card">
+        <div class="amortization-header">
+          <h2>Year-by-Year Breakdown</h2>
+        </div>
+        <div class="schedule-table-wrap">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Simple Total</th>
+                <th>Compound Total</th>
+                <th>Total Contributions</th>
+                <th>Interest Earned</th>
+              </tr>
+            </thead>
+            <tbody id="interestYearlyBody"></tbody>
+          </table>
+        </div>
+      </section>
+<!-- CN_CALCULATOR_BODY_END -->
+<div class="cn-pdf-export-wrap" style="margin: 0.75rem 0 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem">
               
             <div class="cn-calculator-share-wrap" style="margin: 0.75rem 0 1rem">
               <!-- CN_CALCULATOR_SHARE_START -->
@@ -425,362 +364,8 @@
               </button>
 <!-- CN_PDF_EXPORT_END -->
             </div>
+<section class="card" data-related-tools data-current-tool="interest-calculator"></section>
 
-      <section class="card" data-related-tools data-current-tool="interest-calculator"></section>
-    
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <!-- SEO_ENGINE_RELATED_START -->
-      <section class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6">
-        <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Related tools/articles</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
-
-        </div>
-      </section>
-      <!-- SEO_ENGINE_RELATED_END -->
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -789,182 +374,6 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       <!-- RANK_TOOL_COMPARISON_START -->
       <div class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6 px-4 sm:px-6 max-w-7xl mx-auto">
         <section class="cn-tools-dashboard__category">
@@ -1015,21 +424,16 @@
     <script src="/assets/js/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/interest.js" defer></script>
-  
+<div id="cnPdfToast" class="share-toast" role="status" aria-live="polite"></div>
+<div id="cnShareToast" class="share-toast" role="status" aria-live="polite"></div>
+
+    <script src="/assets/js/vendor/jspdf.umd.min.js" defer></script>
+    <script src="/assets/js/pdf-joinmypdf-promo.config.js" defer></script>
+    <script src="/assets/js/pdf-report-generator.js" defer></script>
     <script src="/assets/js/pdf-export-helpers.js" defer></script>
     <script src="/assets/js/pdf-export.js" defer></script>
     <script src="/assets/js/pdf-export-init.js" defer></script>
-
-      <div id="cnPdfToast" class="share-toast" role="status" aria-live="polite"></div>
-
-    <script src="/assets/js/vendor/jspdf.umd.min.js" defer></script>
-    <script src="/assets/js/pdf-report-generator.js" defer></script>
-
-    <script src="/assets/js/pdf-joinmypdf-promo.config.js" defer></script>
-
     <script src="/assets/js/calculator-share.js" defer></script>
     <script src="/assets/js/calculator-share-init.js" defer></script>
-
-      <div id="cnShareToast" class="share-toast" role="status" aria-live="polite"></div>
 </body>
 </html>
