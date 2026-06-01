@@ -1,14 +1,14 @@
 /**
- * Mirror public/assets → assets/ so /assets/* works with static hosts (repo root)
- * and matches production HTML. Next.js still serves from public/ in dev/build.
+ * Mirror public/assets → assets/ so /assets/* works with static hosts (repo root).
+ * Creates public/assets when missing (seeded from assets/ when available).
  */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { ensurePublicAssets, PUBLIC_ASSETS, ROOT_ASSETS } from "./lib/ensure-public-assets.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SRC = path.join(ROOT, "public", "assets");
-const DEST = path.join(ROOT, "assets");
+const DEST = ROOT_ASSETS;
 
 function copyDir(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
@@ -20,10 +20,13 @@ function copyDir(src, dest) {
   }
 }
 
-if (!fs.existsSync(SRC)) {
-  console.error("sync-public-assets: missing", SRC);
+ensurePublicAssets({ seedFromRoot: true });
+
+if (!fs.existsSync(PUBLIC_ASSETS)) {
+  console.error("sync-public-assets: could not create", PUBLIC_ASSETS);
   process.exit(1);
 }
 
-copyDir(SRC, DEST);
+fs.mkdirSync(DEST, { recursive: true });
+copyDir(PUBLIC_ASSETS, DEST);
 console.log("sync-public-assets: public/assets → assets/");

@@ -5,6 +5,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { ensureDir, ensurePublicAssets, PUBLIC_ASSETS } from "./lib/ensure-public-assets.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "out");
@@ -68,7 +69,7 @@ function verifyNextBundles(baseDir, label) {
 
   const stableCandidates = [
     path.join(baseDir, "assets", "css", "take-home-pay-calculator.css"),
-    path.join(baseDir, "public", "assets", "css", "take-home-pay-calculator.css"),
+    path.join(PUBLIC_ASSETS, "css", "take-home-pay-calculator.css"),
   ];
   if (!stableCandidates.some((p) => fs.existsSync(p))) {
     console.error(
@@ -83,6 +84,8 @@ function verifyNextBundles(baseDir, label) {
   return true;
 }
 
+ensurePublicAssets();
+
 if (!fs.existsSync(OUT)) {
   console.error("sync-cloudflare-meta: missing out/ — run npm run build first");
   process.exit(1);
@@ -90,12 +93,14 @@ if (!fs.existsSync(OUT)) {
 
 let ok = true;
 for (const { dir, label } of DEPLOY_ROOTS) {
+  ensureDir(dir);
   for (const { from, name } of FILES) {
     if (!fs.existsSync(from)) {
       console.error(`sync-cloudflare-meta: missing ${path.relative(ROOT, from)}`);
       process.exit(1);
     }
     const to = path.join(dir, name);
+    ensureDir(path.dirname(to));
     fs.copyFileSync(from, to);
     console.log(`sync-cloudflare-meta: ${label}${name}`);
   }

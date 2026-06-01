@@ -5,6 +5,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { ensureDir, ensurePublicAssets, PUBLIC_ASSETS } from "./lib/ensure-public-assets.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "out");
@@ -15,7 +16,7 @@ const DEST_OUT = path.join(OUT, "assets", "next");
 /** Static dev server + deploys that publish repo root */
 const DEST_ROOT_ASSETS = path.join(ROOT, "assets", "next");
 /** Merged into out/ on next build via public/ copy on subsequent builds */
-const DEST_PUBLIC = path.join(ROOT, "public", "assets", "next");
+const DEST_PUBLIC = path.join(PUBLIC_ASSETS, "next");
 
 function countFiles(dir) {
   let count = 0;
@@ -35,8 +36,9 @@ function findWebpackChunk(dir) {
 }
 
 function copyTree(src, dest, label) {
+  ensureDir(path.dirname(dest));
   fs.rmSync(dest, { recursive: true, force: true });
-  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  ensureDir(path.dirname(dest));
   fs.cpSync(src, dest, { recursive: true });
   const webpack = findWebpackChunk(dest);
   if (!webpack) {
@@ -45,6 +47,8 @@ function copyTree(src, dest, label) {
   console.log(`sync-next-to-assets: ${label} (${countFiles(dest)} files, ${webpack})`);
   return webpack;
 }
+
+ensurePublicAssets();
 
 if (!fs.existsSync(OUT)) {
   console.error("sync-next-to-assets: missing out/ — run npm run build first");

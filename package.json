@@ -7,7 +7,7 @@
     "dev": "npm run sync:site && node scripts/kill-port.mjs 3000 && node scripts/dev-server.mjs",
     "dev:next": "npm run sync:site && node scripts/kill-port.mjs 3001 && next dev -p 3001",
     "dev:static": "npm run dev",
-    "prebuild": "node scripts/sync-public-assets.mjs || echo 'Skipping assets'",
+    "prebuild": "node scripts/ensure-public-assets.mjs && node scripts/sync-public-assets.mjs",
     "build": "next build",
     "postbuild": "node scripts/sync-out-static.mjs && node scripts/sync-static-site.mjs --to-out && node scripts/sync-next-to-assets.mjs && node scripts/sync-take-home-pay-css.mjs && node scripts/sync-next-app-routes.mjs && node scripts/relativize-export.mjs && node scripts/sync-cloudflare-meta.mjs",
     "sync-cloudflare-meta": "node scripts/sync-cloudflare-meta.mjs",
