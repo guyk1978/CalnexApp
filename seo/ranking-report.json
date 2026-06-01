@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T13:07:27.364Z",
+  "generated_at": "2026-06-01T14:12:22.513Z",
   "summary": {
     "total_pages": 69,
     "pages_need_improvement": 3,
@@ -52,7 +52,7 @@
       "metrics": {
         "keyword_coverage": 40,
         "internal_links_count": 80,
-        "content_depth_words": 704,
+        "content_depth_words": 700,
         "intent_match_score": 65
       },
       "ranking_score": 70
@@ -64,7 +64,7 @@
       "metrics": {
         "keyword_coverage": 40,
         "internal_links_count": 78,
-        "content_depth_words": 673,
+        "content_depth_words": 669,
         "intent_match_score": 65
       },
       "ranking_score": 69
@@ -76,7 +76,7 @@
       "metrics": {
         "keyword_coverage": 60,
         "internal_links_count": 78,
-        "content_depth_words": 750,
+        "content_depth_words": 746,
         "intent_match_score": 65
       },
       "ranking_score": 77
@@ -88,7 +88,7 @@
       "metrics": {
         "keyword_coverage": 75,
         "internal_links_count": 84,
-        "content_depth_words": 728,
+        "content_depth_words": 724,
         "intent_match_score": 65
       },
       "ranking_score": 81
@@ -426,7 +426,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 89,
-        "content_depth_words": 760,
+        "content_depth_words": 756,
         "intent_match_score": 65
       },
       "ranking_score": 89
@@ -438,7 +438,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 78,
-        "content_depth_words": 541,
+        "content_depth_words": 537,
         "intent_match_score": 100
       },
       "ranking_score": 90
@@ -524,7 +524,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 78,
-        "content_depth_words": 541,
+        "content_depth_words": 537,
         "intent_match_score": 100
       },
       "ranking_score": 90
@@ -536,7 +536,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 89,
-        "content_depth_words": 760,
+        "content_depth_words": 756,
         "intent_match_score": 65
       },
       "ranking_score": 89
@@ -560,7 +560,7 @@
       "metrics": {
         "keyword_coverage": 75,
         "internal_links_count": 84,
-        "content_depth_words": 728,
+        "content_depth_words": 724,
         "intent_match_score": 65
       },
       "ranking_score": 81
@@ -620,7 +620,7 @@
       "metrics": {
         "keyword_coverage": 60,
         "internal_links_count": 78,
-        "content_depth_words": 750,
+        "content_depth_words": 746,
         "intent_match_score": 65
       },
       "ranking_score": 77
@@ -1232,7 +1232,7 @@
       "metrics": {
         "keyword_coverage": 40,
         "internal_links_count": 80,
-        "content_depth_words": 704,
+        "content_depth_words": 700,
         "intent_match_score": 65
       },
       "ranking_score": 70
@@ -1244,7 +1244,7 @@
       "metrics": {
         "keyword_coverage": 40,
         "internal_links_count": 78,
-        "content_depth_words": 673,
+        "content_depth_words": 669,
         "intent_match_score": 65
       },
       "ranking_score": 69
