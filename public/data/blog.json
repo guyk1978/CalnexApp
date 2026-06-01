@@ -1,5 +1,50 @@
 [
   {
+    "slug": "real-estate-roi-calculation-mistakes",
+    "title": "5 Common ROI Calculation Mistakes (and How to Avoid Them)",
+    "excerpt": "Quick answer Most bad rental decisions come from optimistic inputs, not bad math. The five killers are: ignoring maintenance and capex, skipping vacancy, using seller pro forma rent, forgetting tax an",
+    "category": "Business Operations",
+    "updatedDate": "2026-06-01",
+    "readTime": "10 min read",
+    "primary_keyword": "real estate roi calculation mistakes",
+    "featured": false,
+    "internal_links": [
+      "/tools/roi-calculator/",
+      "/blog/how-to-calculate-real-estate-roi/",
+      "/blog/roi-vs-cap-rate-which-metric-matters/"
+    ]
+  },
+  {
+    "slug": "roi-vs-cap-rate-which-metric-matters",
+    "title": "ROI vs Cap Rate: Which Metric Actually Predicts Investment Success?",
+    "excerpt": "Quick answer Cap rate is net operating income divided by property value—an unlevered, “property-only” yield popular for quick asset pricing. ROI on a rental usually includes your actual expense load a",
+    "category": "Business Operations",
+    "updatedDate": "2026-06-01",
+    "readTime": "11 min read",
+    "primary_keyword": "roi vs cap rate",
+    "featured": false,
+    "internal_links": [
+      "/tools/roi-calculator/",
+      "/blog/how-to-calculate-real-estate-roi/",
+      "/blog/real-estate-roi-calculation-mistakes/"
+    ]
+  },
+  {
+    "slug": "how-to-calculate-real-estate-roi",
+    "title": "How to Calculate Real Estate ROI for Rental Investments",
+    "excerpt": "Quick answer Cash flow is what you keep after rent and operating costs in a given year. ROI (return on investment) compares that economic result—and often appreciation—to the money you put into the pr",
+    "category": "Business Operations",
+    "updatedDate": "2026-06-01",
+    "readTime": "10 min read",
+    "primary_keyword": "how to calculate real estate roi",
+    "featured": false,
+    "internal_links": [
+      "/tools/roi-calculator/",
+      "/blog/roi-vs-cap-rate-which-metric-matters/",
+      "/blog/real-estate-roi-calculation-mistakes/"
+    ]
+  },
+  {
     "slug": "how-to-calculate-loan-interest",
     "title": "How to calculate loan interest on amortizing loans",
     "excerpt": "Balance × periodic rate each month; level payment from the amortization formula. Quick answer up front, then deeper walkthroughs and calculator links.",
@@ -530,9 +575,18 @@
     "featured": true,
     "primary_keyword": "mortgage strategy hub",
     "internal_links": [
-      { "title": "Mortgage amortization complete guide", "slug": "mortgage-amortization-complete-guide" },
-      { "title": "Fixed vs ARM historical payment-risk lens", "slug": "fixed-vs-arm-historical-payment-risk" },
-      { "title": "Mortgage underwriting explained", "slug": "mortgage-underwriting-process-explained" }
+      {
+        "title": "Mortgage amortization complete guide",
+        "slug": "mortgage-amortization-complete-guide"
+      },
+      {
+        "title": "Fixed vs ARM historical payment-risk lens",
+        "slug": "fixed-vs-arm-historical-payment-risk"
+      },
+      {
+        "title": "Mortgage underwriting explained",
+        "slug": "mortgage-underwriting-process-explained"
+      }
     ],
     "is_pillar": false
   },
@@ -546,9 +600,18 @@
     "featured": true,
     "primary_keyword": "home equity borrowing hub",
     "internal_links": [
-      { "title": "Complete guide to home equity borrowing", "slug": "home-equity-borrowing-complete-guide" },
-      { "title": "HEL vs HELOC vs cash-out refinance", "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance" },
-      { "title": "Mortgage cost hub", "slug": "mortgage-costs-hub" }
+      {
+        "title": "Complete guide to home equity borrowing",
+        "slug": "home-equity-borrowing-complete-guide"
+      },
+      {
+        "title": "HEL vs HELOC vs cash-out refinance",
+        "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance"
+      },
+      {
+        "title": "Mortgage cost hub",
+        "slug": "mortgage-costs-hub"
+      }
     ],
     "is_pillar": false
   },
@@ -562,9 +625,18 @@
     "featured": true,
     "primary_keyword": "mortgage costs explained hub",
     "internal_links": [
-      { "title": "Mortgage costs pillar (APR, PMI, points)", "slug": "mortgage-costs-explained-apr-pmi-points-closing" },
-      { "title": "Origination fees and points", "slug": "loan-origination-fees-points-true-borrowing-cost" },
-      { "title": "Mortgage strategy hub", "slug": "mortgage-strategy-hub" }
+      {
+        "title": "Mortgage costs pillar (APR, PMI, points)",
+        "slug": "mortgage-costs-explained-apr-pmi-points-closing"
+      },
+      {
+        "title": "Origination fees and points",
+        "slug": "loan-origination-fees-points-true-borrowing-cost"
+      },
+      {
+        "title": "Mortgage strategy hub",
+        "slug": "mortgage-strategy-hub"
+      }
     ],
     "is_pillar": false
   },
@@ -578,8 +650,14 @@
     "featured": false,
     "primary_keyword": "mortgage amortization guide",
     "internal_links": [
-      { "title": "Mortgage strategy hub", "slug": "mortgage-strategy-hub" },
-      { "title": "How extra payments save interest", "slug": "how-extra-payments-save-money" }
+      {
+        "title": "Mortgage strategy hub",
+        "slug": "mortgage-strategy-hub"
+      },
+      {
+        "title": "How extra payments save interest",
+        "slug": "how-extra-payments-save-money"
+      }
     ],
     "is_pillar": true
   },
@@ -593,8 +671,14 @@
     "featured": false,
     "primary_keyword": "mortgage apr pmi points closing costs",
     "internal_links": [
-      { "title": "Mortgage cost hub", "slug": "mortgage-costs-hub" },
-      { "title": "Refinance break-even", "slug": "mortgage-refinance-break-even-months" }
+      {
+        "title": "Mortgage cost hub",
+        "slug": "mortgage-costs-hub"
+      },
+      {
+        "title": "Refinance break-even",
+        "slug": "mortgage-refinance-break-even-months"
+      }
     ],
     "is_pillar": true
   },
@@ -608,8 +692,14 @@
     "featured": false,
     "primary_keyword": "mortgage underwriting process",
     "internal_links": [
-      { "title": "Mortgage strategy hub", "slug": "mortgage-strategy-hub" },
-      { "title": "DTI qualification", "slug": "debt-to-income-ratio-mortgage-qualification" }
+      {
+        "title": "Mortgage strategy hub",
+        "slug": "mortgage-strategy-hub"
+      },
+      {
+        "title": "DTI qualification",
+        "slug": "debt-to-income-ratio-mortgage-qualification"
+      }
     ],
     "is_pillar": true
   },
@@ -623,8 +713,14 @@
     "featured": false,
     "primary_keyword": "fixed vs arm historical risk",
     "internal_links": [
-      { "title": "ARM cap structure playbook", "slug": "interest-rate-cap-structure-arm-borrower-playbook" },
-      { "title": "Fixed vs adjustable trade-offs", "slug": "fixed-vs-variable-interest-rate" }
+      {
+        "title": "ARM cap structure playbook",
+        "slug": "interest-rate-cap-structure-arm-borrower-playbook"
+      },
+      {
+        "title": "Fixed vs adjustable trade-offs",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
     ],
     "is_pillar": true
   },
@@ -638,11 +734,26 @@
     "featured": true,
     "primary_keyword": "how much car can i afford",
     "internal_links": [
-      { "title": "Car loan APR vs interest rate", "slug": "apr-vs-interest-rate-car-loan-explained" },
-      { "title": "How your credit score affects your car loan rate", "slug": "how-credit-score-affects-car-loan" },
-      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" },
-      { "title": "Mortgage DTI qualification", "slug": "debt-to-income-ratio-mortgage-qualification" },
-      { "title": "Loan vs mortgage", "slug": "loan-vs-mortgage" }
+      {
+        "title": "Car loan APR vs interest rate",
+        "slug": "apr-vs-interest-rate-car-loan-explained"
+      },
+      {
+        "title": "How your credit score affects your car loan rate",
+        "slug": "how-credit-score-affects-car-loan"
+      },
+      {
+        "title": "How to calculate loan interest",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Mortgage DTI qualification",
+        "slug": "debt-to-income-ratio-mortgage-qualification"
+      },
+      {
+        "title": "Loan vs mortgage",
+        "slug": "loan-vs-mortgage"
+      }
     ],
     "is_pillar": false
   },
@@ -656,9 +767,18 @@
     "featured": true,
     "primary_keyword": "car leasing vs buying",
     "internal_links": [
-      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
-      { "title": "Car loan APR vs interest rate", "slug": "apr-vs-interest-rate-car-loan-explained" },
-      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" }
+      {
+        "title": "How much car can you afford",
+        "slug": "how-much-car-can-i-afford"
+      },
+      {
+        "title": "Car loan APR vs interest rate",
+        "slug": "apr-vs-interest-rate-car-loan-explained"
+      },
+      {
+        "title": "How to calculate loan interest",
+        "slug": "how-to-calculate-loan-interest"
+      }
     ],
     "is_pillar": false
   },
@@ -672,9 +792,18 @@
     "featured": true,
     "primary_keyword": "how to negotiate car loan interest rate",
     "internal_links": [
-      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
-      { "title": "Car leasing vs buying", "slug": "car-leasing-vs-buying" },
-      { "title": "Car loan APR vs interest rate", "slug": "apr-vs-interest-rate-car-loan-explained" }
+      {
+        "title": "How much car can you afford",
+        "slug": "how-much-car-can-i-afford"
+      },
+      {
+        "title": "Car leasing vs buying",
+        "slug": "car-leasing-vs-buying"
+      },
+      {
+        "title": "Car loan APR vs interest rate",
+        "slug": "apr-vs-interest-rate-car-loan-explained"
+      }
     ],
     "is_pillar": false
   },
@@ -688,9 +817,18 @@
     "featured": true,
     "primary_keyword": "credit score car loan rate",
     "internal_links": [
-      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
-      { "title": "How to negotiate a car loan", "slug": "how-to-negotiate-car-loan" },
-      { "title": "Car leasing vs buying", "slug": "car-leasing-vs-buying" }
+      {
+        "title": "How much car can you afford",
+        "slug": "how-much-car-can-i-afford"
+      },
+      {
+        "title": "How to negotiate a car loan",
+        "slug": "how-to-negotiate-car-loan"
+      },
+      {
+        "title": "Car leasing vs buying",
+        "slug": "car-leasing-vs-buying"
+      }
     ],
     "is_pillar": false
   },
@@ -704,10 +842,22 @@
     "featured": true,
     "primary_keyword": "how to refinance car loan",
     "internal_links": [
-      { "title": "How much car can you afford", "slug": "how-much-car-can-i-afford" },
-      { "title": "Car leasing vs buying", "slug": "car-leasing-vs-buying" },
-      { "title": "How to negotiate a car loan", "slug": "how-to-negotiate-car-loan" },
-      { "title": "How your credit score affects your car loan rate", "slug": "how-credit-score-affects-car-loan" }
+      {
+        "title": "How much car can you afford",
+        "slug": "how-much-car-can-i-afford"
+      },
+      {
+        "title": "Car leasing vs buying",
+        "slug": "car-leasing-vs-buying"
+      },
+      {
+        "title": "How to negotiate a car loan",
+        "slug": "how-to-negotiate-car-loan"
+      },
+      {
+        "title": "How your credit score affects your car loan rate",
+        "slug": "how-credit-score-affects-car-loan"
+      }
     ],
     "is_pillar": false
   },
@@ -721,10 +871,22 @@
     "featured": true,
     "primary_keyword": "debt consolidation",
     "internal_links": [
-      { "title": "Loan vs mortgage", "slug": "loan-vs-mortgage" },
-      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" },
-      { "title": "How extra payments save money", "slug": "how-extra-payments-save-money" },
-      { "title": "Fixed vs variable personal loans", "slug": "fixed-vs-variable-personal-loans" }
+      {
+        "title": "Loan vs mortgage",
+        "slug": "loan-vs-mortgage"
+      },
+      {
+        "title": "How to calculate loan interest",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "How extra payments save money",
+        "slug": "how-extra-payments-save-money"
+      },
+      {
+        "title": "Fixed vs variable personal loans",
+        "slug": "fixed-vs-variable-personal-loans"
+      }
     ],
     "is_pillar": true
   },
@@ -738,9 +900,18 @@
     "featured": true,
     "primary_keyword": "fixed vs variable personal loan",
     "internal_links": [
-      { "title": "Ultimate guide to debt consolidation", "slug": "ultimate-guide-debt-consolidation" },
-      { "title": "How to calculate loan interest", "slug": "how-to-calculate-loan-interest" },
-      { "title": "Fixed vs adjustable mortgage rate", "slug": "fixed-vs-variable-interest-rate" }
+      {
+        "title": "Ultimate guide to debt consolidation",
+        "slug": "ultimate-guide-debt-consolidation"
+      },
+      {
+        "title": "How to calculate loan interest",
+        "slug": "how-to-calculate-loan-interest"
+      },
+      {
+        "title": "Fixed vs adjustable mortgage rate",
+        "slug": "fixed-vs-variable-interest-rate"
+      }
     ],
     "is_pillar": false
   },
@@ -754,8 +925,14 @@
     "featured": false,
     "primary_keyword": "home equity borrowing guide",
     "internal_links": [
-      { "title": "Home equity hub", "slug": "home-equity-hub" },
-      { "title": "HEL vs HELOC vs cash-out", "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance" }
+      {
+        "title": "Home equity hub",
+        "slug": "home-equity-hub"
+      },
+      {
+        "title": "HEL vs HELOC vs cash-out",
+        "slug": "home-equity-loan-vs-heloc-vs-cash-out-refinance"
+      }
     ],
     "is_pillar": true
   }

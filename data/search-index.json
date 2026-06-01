@@ -86,6 +86,13 @@
     "url": "/tools/retirement-calculator/"
   },
   {
+    "title": "ROI Calculator",
+    "category": "Tools",
+    "description": "Model purchase price, rent, expenses, and appreciation to see cash-on-cash and total return on a rental property.",
+    "keywords": "roi rental property investment property cash on cash cap rate real estate rental income appreciation",
+    "url": "/tools/roi-calculator/"
+  },
+  {
     "title": "Take-Home Pay Calculator",
     "category": "Tools",
     "description": "See monthly, weekly, and annual take-home pay with federal brackets, FICA, and a custom state/local rate.",
@@ -97,6 +104,12 @@
     "category": "Blog",
     "description": "Same-rate $400k table (~$956/mo payment gap, ~$283k interest delta), hybrid prepay strategy, DTI checklist—no generic flexibility filler.",
     "url": "/blog/best-loan-term-15-vs-30-years/"
+  },
+  {
+    "title": "5 Common ROI Calculation Mistakes (and How to Avoid Them)",
+    "category": "Blog",
+    "description": "Quick answer Most bad rental decisions come from optimistic inputs, not bad math. The five killers are: ignoring maintenance and capex, skipping vacancy, using seller pro forma rent, forgetting tax an",
+    "url": "/blog/real-estate-roi-calculation-mistakes/"
   },
   {
     "title": "ARM Cap Structure Explained: Initial, Periodic, and Lifetime Limits Borrowers Actually Hit",
@@ -207,6 +220,12 @@
     "url": "/blog/how-to-calculate-loan-interest/"
   },
   {
+    "title": "How to Calculate Real Estate ROI for Rental Investments",
+    "category": "Blog",
+    "description": "Quick answer Cash flow is what you keep after rent and operating costs in a given year. ROI (return on investment) compares that economic result—and often appreciation—to the money you put into the pr",
+    "url": "/blog/how-to-calculate-real-estate-roi/"
+  },
+  {
     "title": "How to negotiate a car loan: tips for getting the best interest rate",
     "category": "Blog",
     "description": "Pre-approval, credit-union leverage, OTD price negotiation, and APR pushback—plus a worked $32k example showing how 1.5 points changes total interest.",
@@ -289,6 +308,12 @@
     "category": "Blog",
     "description": "Net costs ÷ true monthly savings = months. $400k example moving 7.00% → 6.25% with $6,500 costs ≈ 33 months; term-reset warning paired with prepay links.",
     "url": "/blog/mortgage-refinance-break-even-months/"
+  },
+  {
+    "title": "ROI vs Cap Rate: Which Metric Actually Predicts Investment Success?",
+    "category": "Blog",
+    "description": "Quick answer Cap rate is net operating income divided by property value—an unlevered, “property-only” yield popular for quick asset pricing. ROI on a rental usually includes your actual expense load a",
+    "url": "/blog/roi-vs-cap-rate-which-metric-matters/"
   },
   {
     "title": "The ultimate guide to debt consolidation: how to combine loans and save money",
