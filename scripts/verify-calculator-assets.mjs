@@ -50,4 +50,17 @@ if (missing.length) {
   process.exit(1);
 }
 
+const sharedStatePath = path.join(OUT_JS, "shared-state.js");
+if (!fs.existsSync(sharedStatePath)) {
+  console.error("verify-calculator-assets: missing out/assets/js/shared-state.js");
+  process.exit(1);
+}
+const sharedStateSrc = fs.readFileSync(sharedStatePath, "utf8");
+const ROI_STATE_KEYS = ["roi_purchase_price", "roi_annual_net_income", "roi_total_return_pct"];
+const missingStateKeys = ROI_STATE_KEYS.filter((key) => !sharedStateSrc.includes(`"${key}"`));
+if (missingStateKeys.length) {
+  console.error("verify-calculator-assets: shared-state.js missing ROI keys:", missingStateKeys.join(", "));
+  process.exit(1);
+}
+
 console.log(`verify-calculator-assets: OK (${REQUIRED.length} scripts)`);
