@@ -2,10 +2,10 @@
  * Bundle take-home pay tax math for static tools (no React).
  * Output: public/assets/js/take-home-pay-engine.js (IIFE → window.TakeHomePayEngine)
  */
-import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import * as esbuild from "esbuild";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ENTRY = path.join(ROOT, "src/lib/take-home-pay/index.ts");
@@ -19,18 +19,16 @@ if (!fs.existsSync(ENTRY)) {
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 
-const cmd = [
-  "npx",
-  "esbuild",
-  ENTRY,
-  "--bundle",
-  "--format=iife",
-  "--global-name=TakeHomePayEngine",
-  `--outfile=${OUT}`,
-  "--platform=browser",
-  "--target=es2020",
-].join(" ");
+await esbuild.build({
+  entryPoints: [ENTRY],
+  outfile: OUT,
+  bundle: true,
+  format: "iife",
+  globalName: "TakeHomePayEngine",
+  platform: "browser",
+  target: "es2020",
+  logLevel: "warning",
+});
 
-execSync(cmd, { cwd: ROOT, stdio: "inherit", shell: true });
 fs.copyFileSync(OUT, OUT_MIRROR);
 console.log("bundle-take-home-pay-engine:", path.relative(ROOT, OUT));

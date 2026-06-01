@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T12:39:39.499Z",
+  "generated_at": "2026-06-01T12:52:28.630Z",
   "summary": {
     "total_pages": 69,
     "pages_need_improvement": 3,
@@ -52,10 +52,10 @@
       "metrics": {
         "keyword_coverage": 40,
         "internal_links_count": 80,
-        "content_depth_words": 689,
+        "content_depth_words": 704,
         "intent_match_score": 65
       },
-      "ranking_score": 69
+      "ranking_score": 70
     },
     {
       "url": "/tools/debt-payoff/",
@@ -64,10 +64,10 @@
       "metrics": {
         "keyword_coverage": 40,
         "internal_links_count": 78,
-        "content_depth_words": 658,
+        "content_depth_words": 673,
         "intent_match_score": 65
       },
-      "ranking_score": 68
+      "ranking_score": 69
     },
     {
       "url": "/tools/rent-vs-buy/",
@@ -76,7 +76,7 @@
       "metrics": {
         "keyword_coverage": 60,
         "internal_links_count": 78,
-        "content_depth_words": 735,
+        "content_depth_words": 750,
         "intent_match_score": 65
       },
       "ranking_score": 77
@@ -88,10 +88,10 @@
       "metrics": {
         "keyword_coverage": 75,
         "internal_links_count": 84,
-        "content_depth_words": 713,
+        "content_depth_words": 728,
         "intent_match_score": 65
       },
-      "ranking_score": 80
+      "ranking_score": 81
     },
     {
       "url": "/blog/fixed-vs-variable-interest-rate/",
@@ -426,7 +426,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 89,
-        "content_depth_words": 745,
+        "content_depth_words": 760,
         "intent_match_score": 65
       },
       "ranking_score": 89
@@ -438,7 +438,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 78,
-        "content_depth_words": 526,
+        "content_depth_words": 541,
         "intent_match_score": 100
       },
       "ranking_score": 90
@@ -524,7 +524,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 78,
-        "content_depth_words": 526,
+        "content_depth_words": 541,
         "intent_match_score": 100
       },
       "ranking_score": 90
@@ -536,7 +536,7 @@
       "metrics": {
         "keyword_coverage": 100,
         "internal_links_count": 89,
-        "content_depth_words": 745,
+        "content_depth_words": 760,
         "intent_match_score": 65
       },
       "ranking_score": 89
@@ -554,6 +554,18 @@
       "ranking_score": 86
     },
     {
+      "url": "/tools/car-loan-calculator/",
+      "type": "tool",
+      "title": "Car Loan Calculator",
+      "metrics": {
+        "keyword_coverage": 75,
+        "internal_links_count": 84,
+        "content_depth_words": 728,
+        "intent_match_score": 65
+      },
+      "ranking_score": 81
+    },
+    {
       "url": "/blog/car-leasing-vs-buying/",
       "type": "blog",
       "title": "Car leasing vs buying: pros, cons, and the real math",
@@ -564,18 +576,6 @@
         "intent_match_score": 65
       },
       "ranking_score": 81
-    },
-    {
-      "url": "/tools/car-loan-calculator/",
-      "type": "tool",
-      "title": "Car Loan Calculator",
-      "metrics": {
-        "keyword_coverage": 75,
-        "internal_links_count": 84,
-        "content_depth_words": 713,
-        "intent_match_score": 65
-      },
-      "ranking_score": 80
     },
     {
       "url": "/blog/fixed-vs-variable-interest-rate/",
@@ -620,7 +620,7 @@
       "metrics": {
         "keyword_coverage": 60,
         "internal_links_count": 78,
-        "content_depth_words": 735,
+        "content_depth_words": 750,
         "intent_match_score": 65
       },
       "ranking_score": 77
@@ -1232,7 +1232,19 @@
       "metrics": {
         "keyword_coverage": 40,
         "internal_links_count": 80,
-        "content_depth_words": 689,
+        "content_depth_words": 704,
+        "intent_match_score": 65
+      },
+      "ranking_score": 70
+    },
+    {
+      "url": "/tools/debt-payoff/",
+      "type": "tool",
+      "title": "Debt Snowball & Avalanche Calculator",
+      "metrics": {
+        "keyword_coverage": 40,
+        "internal_links_count": 78,
+        "content_depth_words": 673,
         "intent_match_score": 65
       },
       "ranking_score": 69
@@ -1260,18 +1272,6 @@
         "intent_match_score": 65
       },
       "ranking_score": 69
-    },
-    {
-      "url": "/tools/debt-payoff/",
-      "type": "tool",
-      "title": "Debt Snowball & Avalanche Calculator",
-      "metrics": {
-        "keyword_coverage": 40,
-        "internal_links_count": 78,
-        "content_depth_words": 658,
-        "intent_match_score": 65
-      },
-      "ranking_score": 68
     },
     {
       "url": "/blog/how-to-negotiate-car-loan/",
