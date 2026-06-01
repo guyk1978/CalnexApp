@@ -14,6 +14,7 @@ import path from "path";
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { injectMarkerBlock } from "./html-inject-utils.cjs";
+import { sanitizeCalculatorHtml } from "./calculator-html-integrity.mjs";
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -109,33 +110,7 @@ function writeJoinMyPdfPromoConfig() {
 }
 
 function normalizeCalculatorScripts(html) {
-  const bodyClose = html.lastIndexOf("</body>");
-  if (bodyClose === -1) return html;
-
-  let next = html.slice(0, bodyClose);
-  const afterBody = html.slice(bodyClose);
-
-  for (const src of ALL_CALCULATOR_SCRIPT_PATHS) {
-    const re = new RegExp(
-      `\\s*<script src="${escapeRegExp(src)}" defer><\\/script>\\s*`,
-      "gi"
-    );
-    next = next.replace(re, "\n");
-  }
-
-  const block = ALL_CALCULATOR_SCRIPT_PATHS.map(
-    (src) => `    <script src="${src}" defer></script>`
-  ).join("\n");
-
-  return `${next}\n${block}\n${afterBody}`;
-}
-
-function ensureShareToast(html) {
-  if (html.includes('id="shareToast"') || html.includes('id="cnPdfToast"')) return html;
-  const bodyClose = html.lastIndexOf("</body>");
-  if (bodyClose === -1) return html;
-  const toast = `      <div id="cnPdfToast" class="share-toast" role="status" aria-live="polite"></div>\n`;
-  return `${html.slice(0, bodyClose)}\n${toast}${html.slice(bodyClose)}`;
+  return sanitizeCalculatorHtml(html);
 }
 
 function removeJspdfScript(html) {
@@ -189,7 +164,6 @@ function patchFile(filePath, tool) {
 
   html = injectPdfButton(html, tool, placement);
   html = normalizeCalculatorScripts(html);
-  html = ensureShareToast(html);
   if (tool.slug === "loan-calculator") {
     html = removeJspdfScript(html);
   }

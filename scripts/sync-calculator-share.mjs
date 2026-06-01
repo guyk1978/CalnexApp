@@ -8,7 +8,11 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createRequire } from "module";
 import { injectMarkerBlock } from "./html-inject-utils.cjs";
+
+const require = createRequire(import.meta.url);
+const { SOCIAL_SHARE_LINKS_HTML } = require("./calculator-share-social-html.cjs");
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tools = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "tools.json"), "utf8"));
@@ -53,11 +57,7 @@ function buildShareMenuOnly(toolName) {
                   <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="copy-message">Copy summary</button>
                   <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="email">Email</button>
                 </div>
-                <div class="cn-share-menu__social" aria-label="Social networks">
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="whatsapp" href="#" target="_blank" rel="noopener noreferrer" title="WhatsApp">WA</a>
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="facebook" href="#" target="_blank" rel="noopener noreferrer" title="Facebook">f</a>
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="twitter" href="#" target="_blank" rel="noopener noreferrer" title="X">X</a>
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="linkedin" href="#" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
+                <div class="cn-share-menu__social" aria-label="Social networks">${SOCIAL_SHARE_LINKS_HTML}
                 </div>
               </div>
             </div>
