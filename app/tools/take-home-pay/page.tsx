@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CalculatorClientBoot } from "@/components/calculator/CalculatorClientBoot";
 import { TakeHomePayCalculator } from "@/components/take-home-pay/TakeHomePayCalculator";
 import {
   TakeHomePayBottomSections,
@@ -34,6 +35,7 @@ export default function TakeHomePayPage() {
 
       <div id="cnShareToast" className="share-toast" role="status" aria-live="polite" />
       <div id="cnPdfToast" className="share-toast" role="status" aria-live="polite" />
+      <CalculatorClientBoot />
     </>
   );
 }

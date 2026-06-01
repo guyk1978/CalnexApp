@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ExportSharePanel } from "@/components/calculator/ExportSharePanel";
 import {
   computeTakeHomePay,
@@ -17,6 +17,7 @@ import { ResultsDashboard } from "./ResultsDashboard";
 import styles from "./take-home-pay.module.css";
 
 const CALCULATOR_NAME = "Take-Home Pay Calculator";
+const PAGE_KEY = "take-home-pay-calculator";
 
 function parseInputsFromSearch(): Partial<TakeHomePayInputs> | null {
   if (typeof window === "undefined") return null;
@@ -61,10 +62,20 @@ function buildCsv(result: TakeHomePayResult, inputs: TakeHomePayInputs): string 
 export function TakeHomePayCalculator() {
   const { formatMoney } = useSiteCurrency();
   const [inputs, setInputs] = useState<TakeHomePayInputs>({ ...DEFAULT_TAKE_HOME_INPUTS });
+  const shellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const patch = parseInputsFromSearch();
     if (patch) setInputs((prev) => ({ ...prev, ...patch }));
+  }, []);
+
+  useEffect(() => {
+    const el = shellRef.current;
+    if (!el) return;
+    el.setAttribute("data-cn-react-calculator", "true");
+    return () => {
+      el.removeAttribute("data-cn-react-calculator");
+    };
   }, []);
 
   const result = useMemo(() => computeTakeHomePay(inputs), [inputs]);
@@ -103,7 +114,7 @@ export function TakeHomePayCalculator() {
   }, [inputs, result]);
 
   return (
-    <div className="cn-tool-shell">
+    <div className="cn-tool-shell" ref={shellRef}>
       <section className={`calculator-layout cn-calculator-layout ${styles.layout}`}>
         <InputPanel inputs={inputs} onChange={(patch) => setInputs((prev) => ({ ...prev, ...patch }))} />
         <aside className={`card output-card cn-tool-rail ${styles.rail}`} aria-live="polite">
@@ -111,6 +122,7 @@ export function TakeHomePayCalculator() {
           <ResultsDashboard result={result} payFrequency={inputs.payFrequency} calcKey={calcKey} />
           <ExportSharePanel
             calculatorName={CALCULATOR_NAME}
+            pageKey={PAGE_KEY}
             shareUrl={shareUrl}
             shareMessage={shareMessage}
             pdfInputs={pdfPayload.inputs}

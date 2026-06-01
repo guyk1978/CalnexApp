@@ -287,7 +287,8 @@ const CalnexPdfExportHelpers = (() => {
     "retirement-calculator": "Retirement Calculator",
     "rent-vs-buy-calculator": "Rent vs. Buy Calculator",
     "debt-payoff": "Debt Snowball & Avalanche Calculator",
-    "loan-comparison": "Loan Offer Comparison Tool"
+    "loan-comparison": "Loan Offer Comparison Tool",
+    "take-home-pay-calculator": "Take-Home Pay Calculator"
   };
 
   const resolveCalculatorName = (pageKey, override) =>

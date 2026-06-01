@@ -16,8 +16,8 @@ import {
 } from "@/lib/geo-currency-map";
 import { normalizeSiteCurrency, readStoredCurrency } from "@/lib/site-currency";
 
-type LegacyGeo = { setCountry?: (code: string) => string };
-type LegacyCurrency = { setCurrency?: (code: string) => string };
+type LegacyGeo = { setCountry?: (code: string) => string; bindExistingSelectors?: () => void };
+type LegacyCurrency = { setCurrency?: (code: string) => string; bindExistingSelectors?: () => void };
 type LegacySearch = { init?: () => void | Promise<void> };
 
 const legacyGeo = () => (window as Window & { GeoFinance?: LegacyGeo }).GeoFinance;
@@ -136,8 +136,14 @@ export function SiteHeaderActions() {
       script.src = resolveAsset(src);
       script.defer = true;
       script.dataset.cnBoot = src;
+      script.onload = () => {
+        legacyGeo()?.bindExistingSelectors?.();
+        legacyCurrency()?.bindExistingSelectors?.();
+      };
       document.body.append(script);
     }
+    legacyGeo()?.bindExistingSelectors?.();
+    legacyCurrency()?.bindExistingSelectors?.();
   }, []);
 
   useEffect(() => {

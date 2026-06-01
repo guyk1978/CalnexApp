@@ -165,19 +165,37 @@ const CurrencyLayer = (() => {
     });
   };
 
+  /** Wire existing header/dashboard selects (Next static export + data-cn-react-header). */
+  const bindExistingSelectors = () => {
+    document.querySelectorAll(".currency-selector").forEach((select) => {
+      if (!select || select.dataset.cnCurrencyBound === "1") return;
+      select.dataset.cnCurrencyBound = "1";
+      select.addEventListener("change", (event) => {
+        const next = normalizeCurrency(event.target.value);
+        setCurrency(next);
+        document.querySelectorAll(".currency-selector").forEach((node) => {
+          if (node !== event.target) node.value = next;
+        });
+      });
+    });
+  };
+
   const init = () => {
     renderHeaderSelector();
     renderDashboardSelector();
+    bindExistingSelectors();
     const selected = getSelectedCurrency();
     window.localStorage.setItem(STORAGE_KEY, selected);
     if (typeof SharedState !== "undefined" && SharedState.getState().currency !== selected) {
       SharedState.setState({ currency: selected }, { system: true, syncUrl: true });
     }
+    syncSelectors();
     syncCurrencySymbols();
     console.log("[CalnexApp] Selected currency", selected, "sample:", formatCurrency(1234.56, selected));
     document.addEventListener("sharedstate:updated", syncSelectors);
     document.addEventListener("sharedstate:updated", syncCurrencySymbols);
     document.addEventListener("currency:changed", syncCurrencySymbols);
+    document.addEventListener("cn-header:updated", bindExistingSelectors);
   };
 
   return {
@@ -190,6 +208,7 @@ const CurrencyLayer = (() => {
     setCurrency,
     formatCurrency,
     normalizeCurrency,
+    bindExistingSelectors,
     init
   };
 })();

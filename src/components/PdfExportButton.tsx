@@ -7,6 +7,7 @@ export type PdfExportButtonProps = {
   calculatorName: string;
   inputs: Record<string, string>;
   results: Record<string, string>;
+  pageKey?: string;
   className?: string;
   variant?: "primary" | "ghost";
   onToast?: (message: string, isError?: boolean) => void;
@@ -37,11 +38,13 @@ export function PdfExportButton({
   calculatorName,
   inputs,
   results,
+  pageKey,
   className = "",
   variant = "ghost",
   onToast,
 }: PdfExportButtonProps) {
   const [loading, setLoading] = useState(false);
+  const resolvedPageKey = pageKey ?? "";
 
   const notify = useCallback(
     (message: string, isError = false) => {
@@ -75,6 +78,9 @@ export function PdfExportButton({
     <button
       type="button"
       className={`cn-pdf-export-btn ${variantClass} ${className}`.trim()}
+      data-cn-pdf-export
+      data-page-key={resolvedPageKey}
+      data-calculator-name={calculatorName}
       onClick={() => void handleClick()}
       disabled={loading}
       aria-busy={loading}

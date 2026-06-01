@@ -51,6 +51,23 @@
     transparent 70%
   );
   transform: translateX(-120%);
+  animation: take-home-pay-shimmer 0.85s ease-in-out 1;
+}
+
+@keyframes take-home-pay-shimmer {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(200%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmerOverlay {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 .heroAmount {

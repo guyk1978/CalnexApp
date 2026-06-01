@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import type { PayFrequency, TakeHomePayResult } from "@/lib/take-home-pay";
 import { useSiteCurrency } from "@/hooks/useSiteCurrency";
 import { BreakdownRing } from "./BreakdownRing";
@@ -15,7 +14,6 @@ type ResultsDashboardProps = {
 
 export function ResultsDashboard({ result, payFrequency, calcKey }: ResultsDashboardProps) {
   const { formatMoney, currency } = useSiteCurrency();
-  const reduceMotion = useReducedMotion();
   const netSegment = result.segments.find((s) => s.key === "net");
   const netPercent = netSegment?.percent ?? 0;
   const payLabel = payFrequency === "biweekly" ? "Bi-weekly" : "Monthly";
@@ -23,23 +21,8 @@ export function ResultsDashboard({ result, payFrequency, calcKey }: ResultsDashb
   const taxBars = result.segments.filter((s) => s.key !== "net");
 
   return (
-    <motion.article
-      key={`${calcKey}|${currency}`}
-      className={styles.resultCard}
-      initial={reduceMotion ? false : { opacity: 0.85, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      aria-live="polite"
-    >
-      {!reduceMotion ? (
-        <motion.div
-          className={styles.shimmerOverlay}
-          initial={{ x: "-120%" }}
-          animate={{ x: "200%" }}
-          transition={{ duration: 0.85, ease: "easeInOut" }}
-          aria-hidden
-        />
-      ) : null}
+    <article key={`${calcKey}|${currency}`} className={styles.resultCard} aria-live="polite">
+      <div className={styles.shimmerOverlay} aria-hidden />
 
       <p
         style={{
@@ -78,24 +61,20 @@ export function ResultsDashboard({ result, payFrequency, calcKey }: ResultsDashb
         <BreakdownRing segments={result.segments} netPercent={netPercent} />
         <div className={styles.barList} aria-label="Pay breakdown by category">
           {taxBars.map((seg) => (
-            <motion.div
-              key={seg.key}
-              className={styles.barRow}
-              layout
-              transition={{ duration: 0.4 }}
-            >
+            <div key={seg.key} className={styles.barRow}>
               <span className={styles.barLabel}>{seg.label}</span>
               <div className={styles.barTrack}>
-                <motion.div
+                <div
                   className={styles.barFill}
-                  style={{ backgroundColor: seg.color, color: seg.color }}
-                  initial={false}
-                  animate={{ width: `${Math.max(seg.percent, 0.5)}%` }}
-                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  style={{
+                    backgroundColor: seg.color,
+                    color: seg.color,
+                    width: `${Math.max(seg.percent, 0.5)}%`,
+                  }}
                 />
               </div>
               <span className={styles.barPct}>{seg.percent.toFixed(1)}%</span>
-            </motion.div>
+            </div>
           ))}
           <div className={styles.barRow}>
             <span className={styles.barLabel}>Gross</span>
@@ -139,6 +118,6 @@ export function ResultsDashboard({ result, payFrequency, calcKey }: ResultsDashb
         withholding varies with W-4 elections, pre-tax benefits, and credits—consult a tax
         professional for filing decisions.
       </p>
-    </motion.article>
+    </article>
   );
 }

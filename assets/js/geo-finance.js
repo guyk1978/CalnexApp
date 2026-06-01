@@ -186,8 +186,23 @@ const GeoFinance = (() => {
     };
   };
 
+  /** Wire existing header country selects (Next static export + data-cn-react-header). */
+  const bindExistingSelectors = () => {
+    document.querySelectorAll(".country-selector").forEach((select) => {
+      if (!select || select.dataset.cnCountryBound === "1") return;
+      select.dataset.cnCountryBound = "1";
+      select.addEventListener("change", (event) => {
+        const next = setCountry(event.target.value);
+        document.querySelectorAll(".country-selector").forEach((node) => {
+          if (node !== event.target) node.value = next;
+        });
+      });
+    });
+  };
+
   const init = () => {
     renderSelector();
+    bindExistingSelectors();
     renderIndicator();
     const selected = getSelectedCountry();
     const defaults = getCountryData(selected);
@@ -203,6 +218,7 @@ const GeoFinance = (() => {
     }
     document.addEventListener("sharedstate:updated", renderIndicator);
     document.addEventListener("geo:changed", renderIndicator);
+    document.addEventListener("cn-header:updated", bindExistingSelectors);
   };
 
   return {
@@ -213,6 +229,7 @@ const GeoFinance = (() => {
     getGlobalAverage,
     normalizeCountry,
     setCountry,
+    bindExistingSelectors,
     init
   };
 })();

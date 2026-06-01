@@ -58,6 +58,7 @@ const CalnexPdfExportInit = (() => {
 
   const bindButton = (btn) => {
     if (!btn || btn.dataset.cnPdfExportBound === "1") return;
+    if (document.querySelector("[data-cn-react-calculator='true']")) return;
     btn.dataset.cnPdfExportBound = "1";
     btn.addEventListener("click", () => {
       void handleExportClick(btn);

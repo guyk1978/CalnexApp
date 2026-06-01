@@ -9,6 +9,7 @@ type ExportSharePanelProps = {
   shareMessage: string;
   pdfInputs: Record<string, string>;
   pdfResults: Record<string, string>;
+  pageKey?: string;
   shareUrlInputId?: string;
   onCopyCsv?: () => void;
 };
@@ -22,6 +23,7 @@ export function ExportSharePanel({
   shareMessage,
   pdfInputs,
   pdfResults,
+  pageKey,
   shareUrlInputId = "cnShareUrl-inline",
   onCopyCsv,
 }: ExportSharePanelProps) {
@@ -37,7 +39,12 @@ export function ExportSharePanel({
             Download CSV
           </button>
         ) : null}
-        <PdfExportButton calculatorName={calculatorName} inputs={pdfInputs} results={pdfResults} />
+        <PdfExportButton
+          calculatorName={calculatorName}
+          inputs={pdfInputs}
+          results={pdfResults}
+          pageKey={pageKey}
+        />
         <ShareMenu
           shareUrl={shareUrl}
           shareMessage={shareMessage}
