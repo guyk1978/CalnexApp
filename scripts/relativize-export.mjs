@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 import {
   assertNoAbsoluteAssetRefs,
   assertNoAbsoluteNextPaths,
-  assertTakeHomePayBundles,
+  assertNoNextClientBundles,
   htmlDepthFromOut,
   injectCalnexRoot,
   relativePrefix,
@@ -18,14 +18,8 @@ import {
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "out");
 
-/** Pages that must reference Next bundles under assets/next (not /_next). */
-/** Mirrored by sync-next-app-routes.mjs — relativize after nav sync. */
-const EXTRA_HTML = [{ rel: "tools/take-home-pay/index.html", depth: 2 }];
-
-const BUNDLE_AUDIT_PATHS = [
-  "tools/take-home-pay/index.html",
-  "out/tools/take-home-pay/index.html",
-];
+/** Post-relativize audit: exported copy only (repo tools/ keep /assets/ like other calculators). */
+const STATIC_TOOL_AUDIT_PATHS = ["out/tools/take-home-pay/index.html"];
 
 function walkHtml(dir, base = OUT, files = []) {
   if (!fs.existsSync(dir)) return files;
@@ -46,8 +40,8 @@ function relativizeAt(full, relLabel, depth) {
   next = injectCalnexRoot(next, prefix);
   assertNoAbsoluteNextPaths(next, relLabel);
   assertNoAbsoluteAssetRefs(next, relLabel);
-  if (relLabel.includes("take-home-pay")) {
-    assertTakeHomePayBundles(next, relLabel);
+  if (STATIC_TOOL_AUDIT_PATHS.includes(relLabel)) {
+    assertNoNextClientBundles(next, relLabel);
   }
   return { full, raw, next };
 }
@@ -83,28 +77,14 @@ for (const rel of htmlFiles) {
   }
 }
 
-for (const { rel, depth } of EXTRA_HTML) {
-  const full = path.join(ROOT, rel);
-  if (!fs.existsSync(full)) continue;
-  const { raw, next } = relativizeAt(full, rel, depth);
-  if (next !== raw) {
-    fs.writeFileSync(full, next, "utf8");
-    updated += 1;
-  }
-}
-
 console.log(`relativize-export: processed ${htmlFiles.length} HTML file(s), updated ${updated}`);
 
-for (const auditRel of BUNDLE_AUDIT_PATHS) {
-  const auditFull = auditRel.startsWith("out/")
-    ? path.join(ROOT, auditRel)
-    : auditRel.startsWith("tools/")
-      ? path.join(ROOT, auditRel)
-      : path.join(OUT, auditRel);
+for (const auditRel of STATIC_TOOL_AUDIT_PATHS) {
+  const auditFull = path.join(ROOT, auditRel);
   if (!fs.existsSync(auditFull)) continue;
   const raw = fs.readFileSync(auditFull, "utf8");
   assertNoAbsoluteNextPaths(raw, auditRel);
   assertNoAbsoluteAssetRefs(raw, auditRel);
-  assertTakeHomePayBundles(raw, auditRel);
+  assertNoNextClientBundles(raw, auditRel);
   console.log(`relativize-export: audit OK — ${auditRel}`);
 }

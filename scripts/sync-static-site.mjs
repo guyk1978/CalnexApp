@@ -19,9 +19,6 @@ const STATIC_TREE_COPIES = [
   { src: "site-inventory", dest: "site-inventory" },
 ];
 
-/** Next.js app-router exports — do not overwrite with repo-root static HTML. */
-const NEXT_APP_ROUTE_DIRS = new Set(["tools/take-home-pay"]);
-
 function copyDir(src, dest, { skipRelPrefixes = [] } = {}) {
   if (!fs.existsSync(src)) {
     console.warn(`sync-static-site: skip missing ${src}`);
@@ -61,19 +58,8 @@ function removeIndexTxtUnder(dir) {
 
 function syncToBase(baseDir, { isOut = false } = {}) {
   let files = 0;
-  const skipRelPrefixes = [...NEXT_APP_ROUTE_DIRS];
   for (const { src, dest } of STATIC_TREE_COPIES) {
-    files += copyDir(path.join(ROOT, src), path.join(baseDir, dest), { skipRelPrefixes });
-  }
-  // Only purge stale static HTML from public/ — never delete Next export routes in out/.
-  if (!isOut) {
-    for (const routeDir of NEXT_APP_ROUTE_DIRS) {
-      const stale = path.join(baseDir, routeDir);
-      if (fs.existsSync(stale)) {
-        fs.rmSync(stale, { recursive: true, force: true });
-        console.log(`sync-static-site: removed stale ${path.relative(ROOT, stale).replace(/\\/g, "/")}/`);
-      }
-    }
+    files += copyDir(path.join(ROOT, src), path.join(baseDir, dest));
   }
   return files;
 }

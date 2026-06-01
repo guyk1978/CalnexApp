@@ -183,10 +183,11 @@ export function assertNoAbsoluteNextPaths(html, relPath = "") {
   }
 }
 
-export function assertTakeHomePayBundles(html, relPath = "") {
-  if (!/\/assets\/next\//.test(html) && !/\.\.\/[^"']*assets\/next\//.test(html)) {
+/** Static tool pages must not ship Next.js client bundles. */
+export function assertNoNextClientBundles(html, relPath = "") {
+  if (/\/assets\/next\//.test(html) || /\/_next\//.test(html)) {
     throw new Error(
-      `relativize-export: ${relPath || "HTML"} has no assets/next bundle paths (only /_next or missing sync-next-to-assets)`
+      `relativize-export: ${relPath || "HTML"} must not reference Next client bundles (static tool page)`
     );
   }
 }

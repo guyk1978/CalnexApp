@@ -1,8 +1,6 @@
 /**
- * Copy Next.js export routes into the static tools/ tree so `npm run dev`
- * (serve repo root) can load app-router calculators. Also mirrors _next/ assets.
- *
- * Run after `next build` (see package.json postbuild).
+ * Mirror out/_next and out/assets/next into repo root for local static dev.
+ * Take-home pay is a static HTML tool (see scripts/generate-take-home-pay-page.mjs).
  */
 import fs from "fs";
 import path from "path";
@@ -10,9 +8,6 @@ import { fileURLToPath } from "url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "out");
-
-/** out/<from> → <to> under repo root */
-const ROUTE_COPIES = [{ from: "tools/take-home-pay", to: "tools/take-home-pay" }];
 
 function copyDir(src, dest) {
   if (!fs.existsSync(src)) {
@@ -28,16 +23,6 @@ function copyDir(src, dest) {
 if (!fs.existsSync(OUT)) {
   console.error("sync-next-app-routes: missing out/ — run `npm run build` first");
   process.exit(1);
-}
-
-let copied = 0;
-for (const { from, to } of ROUTE_COPIES) {
-  const src = path.join(OUT, from);
-  const dest = path.join(ROOT, to);
-  if (copyDir(src, dest)) {
-    copied += 1;
-    console.log(`sync-next-app-routes: ${to}/`);
-  }
 }
 
 const nextSrc = path.join(OUT, "_next");
@@ -57,76 +42,3 @@ if (fs.existsSync(nextAssetsSrc)) {
 } else {
   console.warn("sync-next-app-routes: missing out/assets/next");
 }
-
-if (copied === 0) {
-  console.warn("sync-next-app-routes: no app routes copied");
-  process.exit(1);
-}
-
-const SITE_DEFER_SCRIPTS = [
-  "assets/js/header-toolbar.js",
-  "assets/js/geo-finance.js",
-  "assets/js/currency.js",
-  "assets/js/geo-currency-sync.js",
-  "assets/js/ui-enhancements.js",
-  "assets/js/app.js",
-];
-
-/** Ensure portable static HTML loads the legacy site stack (not only Next afterInteractive). */
-function injectDeferredSiteScripts(html, assetPrefix = "../../") {
-  if (html.includes('data-cn-site-boot="true"')) return html;
-  const block = SITE_DEFER_SCRIPTS.map(
-    (src) => `    <script src="${assetPrefix}${src}" defer data-cn-site-boot="true"></script>`
-  ).join("\n");
-  if (/<\/body>/i.test(html)) {
-    return html.replace(/<\/body>/i, `${block}\n  </body>`);
-  }
-  return html;
-}
-
-const thpHtml = path.join(ROOT, "tools/take-home-pay/index.html");
-if (fs.existsSync(thpHtml)) {
-  let html = fs.readFileSync(thpHtml, "utf8");
-  html = html.replace(
-    /<div class="cn-pdf-export-wrap"[\s\S]*?<!-- CN_PDF_EXPORT_END -->[\s\S]*?<\/div>\s*(?=<\/main>)/i,
-    ""
-  );
-  html = html.replace(
-    /<div class="cn-calculator-share-wrap"[\s\S]*?<!-- CN_CALCULATOR_SHARE_END -->[\s\S]*?<\/div>\s*(?=<\/main>)/i,
-    ""
-  );
-  if (!html.includes('data-page="take-home-pay-calculator"')) {
-    html = html.replace(/<body([^>]*)>/i, '<body$1 data-page="take-home-pay-calculator">');
-  } else if (!/<body[^>]*data-page=/i.test(html)) {
-    html = html.replace(
-      /<body([^>]*)>/i,
-      '<body$1 data-page="take-home-pay-calculator">'
-    );
-  }
-  if (!html.includes("cn-main-layout")) {
-    html = html.replace(
-      /<main class="container section-space"/i,
-      '<main class="cn-main-layout pt-10 sm:pt-14 px-4 sm:px-6 max-w-7xl mx-auto"'
-    );
-  }
-  if (!html.includes("cn-header-actions")) {
-    html = html.replace(
-      /<!-- CN_NAV_MENU_END -->/,
-      "<!-- CN_NAV_MENU_END -->\n        <div class=\"cn-header-actions\"></div>"
-    );
-  }
-
-  html = injectDeferredSiteScripts(html);
-  fs.writeFileSync(thpHtml, html, "utf8");
-  console.log("sync-next-app-routes: cleaned tools/take-home-pay/index.html");
-}
-
-const thpOutHtml = path.join(OUT, "tools/take-home-pay/index.html");
-if (fs.existsSync(thpOutHtml)) {
-  let outHtml = fs.readFileSync(thpOutHtml, "utf8");
-  outHtml = injectDeferredSiteScripts(outHtml);
-  fs.writeFileSync(thpOutHtml, outHtml, "utf8");
-  console.log("sync-next-app-routes: injected site scripts into out/tools/take-home-pay/index.html");
-}
-
-// Nav/tools-hub sync runs in postbuild after relativize-export (see package.json).
