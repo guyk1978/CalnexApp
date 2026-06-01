@@ -95,6 +95,10 @@ export function SiteHeaderActions() {
     setCurrency(nextCurrency);
     writeStoredCountry(nextCountry);
     writeStoredCurrency(nextCurrency);
+    document.dispatchEvent(new CustomEvent("geo:changed", { detail: { country: nextCountry } }));
+    document.dispatchEvent(
+      new CustomEvent("currency:changed", { detail: { currency: nextCurrency } })
+    );
   }, []);
 
   useEffect(() => {

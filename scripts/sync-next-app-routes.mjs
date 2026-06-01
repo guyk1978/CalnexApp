@@ -63,6 +63,27 @@ if (copied === 0) {
   process.exit(1);
 }
 
+const SITE_DEFER_SCRIPTS = [
+  "assets/js/header-toolbar.js",
+  "assets/js/geo-finance.js",
+  "assets/js/currency.js",
+  "assets/js/geo-currency-sync.js",
+  "assets/js/ui-enhancements.js",
+  "assets/js/app.js",
+];
+
+/** Ensure portable static HTML loads the legacy site stack (not only Next afterInteractive). */
+function injectDeferredSiteScripts(html, assetPrefix = "../../") {
+  if (html.includes('data-cn-site-boot="true"')) return html;
+  const block = SITE_DEFER_SCRIPTS.map(
+    (src) => `    <script src="${assetPrefix}${src}" defer data-cn-site-boot="true"></script>`
+  ).join("\n");
+  if (/<\/body>/i.test(html)) {
+    return html.replace(/<\/body>/i, `${block}\n  </body>`);
+  }
+  return html;
+}
+
 const thpHtml = path.join(ROOT, "tools/take-home-pay/index.html");
 if (fs.existsSync(thpHtml)) {
   let html = fs.readFileSync(thpHtml, "utf8");
@@ -95,8 +116,17 @@ if (fs.existsSync(thpHtml)) {
     );
   }
 
+  html = injectDeferredSiteScripts(html);
   fs.writeFileSync(thpHtml, html, "utf8");
   console.log("sync-next-app-routes: cleaned tools/take-home-pay/index.html");
+}
+
+const thpOutHtml = path.join(OUT, "tools/take-home-pay/index.html");
+if (fs.existsSync(thpOutHtml)) {
+  let outHtml = fs.readFileSync(thpOutHtml, "utf8");
+  outHtml = injectDeferredSiteScripts(outHtml);
+  fs.writeFileSync(thpOutHtml, outHtml, "utf8");
+  console.log("sync-next-app-routes: injected site scripts into out/tools/take-home-pay/index.html");
 }
 
 // Nav/tools-hub sync runs in postbuild after relativize-export (see package.json).

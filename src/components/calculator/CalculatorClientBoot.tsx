@@ -78,9 +78,7 @@ export function CalculatorClientBoot() {
       bindHeaderSelectors();
 
       try {
-        if (!isReactCalculatorMounted()) {
-          await loadScriptChain(SHARE_SCRIPTS);
-        }
+        await loadScriptChain(SHARE_SCRIPTS);
         await loadScriptChain(PDF_SCRIPTS);
       } catch {
         /* non-fatal — page still renders */

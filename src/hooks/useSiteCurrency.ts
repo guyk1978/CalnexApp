@@ -19,11 +19,13 @@ export function useSiteCurrency() {
 
     const refresh = () => setCurrency(readStoredCurrency());
     document.addEventListener(SITE_CURRENCY_CHANGE_EVENT, refresh);
+    document.addEventListener("geo:changed", refresh);
     document.addEventListener("sharedstate:updated", refresh);
     window.addEventListener("appStateChanged", refresh);
 
     return () => {
       document.removeEventListener(SITE_CURRENCY_CHANGE_EVENT, refresh);
+      document.removeEventListener("geo:changed", refresh);
       document.removeEventListener("sharedstate:updated", refresh);
       window.removeEventListener("appStateChanged", refresh);
     };

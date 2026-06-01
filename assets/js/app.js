@@ -542,7 +542,6 @@
   };
 
   const initSiteSearch = async () => {
-    if (hasReactHeader()) return;
     try {
       await ensureScriptLoaded("/assets/js/site-search.js");
       if (window.CalnexSiteSearch?.init) {
@@ -559,6 +558,13 @@
         if (window.CurrencyLayer?.syncCurrencySymbols) {
           window.CurrencyLayer.syncCurrencySymbols();
         }
+        if (window.CurrencyLayer?.bindExistingSelectors) {
+          window.CurrencyLayer.bindExistingSelectors();
+        }
+        if (window.GeoFinance?.bindExistingSelectors) {
+          window.GeoFinance.bindExistingSelectors();
+        }
+        void initSiteSearch();
         return;
       }
       initThemeToggle();
