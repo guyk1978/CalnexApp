@@ -9,7 +9,7 @@
     "dev:static": "npm run dev",
     "prebuild": "node scripts/sync-public-assets.mjs || echo 'Skipping assets'",
     "build": "next build",
-    "postbuild": "node scripts/sync-out-static.mjs && node scripts/sync-static-site.mjs --to-out && node scripts/sync-next-to-assets.mjs && node scripts/relativize-export.mjs && node scripts/sync-cloudflare-meta.mjs && node scripts/sync-next-app-routes.mjs",
+    "postbuild": "node scripts/sync-out-static.mjs && node scripts/sync-static-site.mjs --to-out && node scripts/sync-next-to-assets.mjs && node scripts/sync-next-app-routes.mjs && node scripts/relativize-export.mjs && node scripts/sync-cloudflare-meta.mjs",
     "sync-cloudflare-meta": "node scripts/sync-cloudflare-meta.mjs",
     "sync-next-to-assets": "node scripts/sync-next-to-assets.mjs",
     "relativize-export": "node scripts/relativize-export.mjs",
