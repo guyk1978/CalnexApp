@@ -19,9 +19,9 @@ const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tools = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "tools.json"), "utf8"));
 
-const { PDF_SCRIPT_PATHS, SHARE_SCRIPT_PATHS } = require("./calculator-asset-manifest.cjs");
+const { PDF_SCRIPT_PATHS, CALCULATOR_UTILITY_SCRIPT_PATHS } = require("./calculator-asset-manifest.cjs");
 
-const ALL_CALCULATOR_SCRIPT_PATHS = [...PDF_SCRIPT_PATHS, ...SHARE_SCRIPT_PATHS];
+const ALL_CALCULATOR_SCRIPT_PATHS = [...PDF_SCRIPT_PATHS, ...CALCULATOR_UTILITY_SCRIPT_PATHS];
 
 function escapeRegExp(str) {
   return String(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -77,13 +77,13 @@ const PLACEMENTS = {
     variant: "ghost"
   },
   "interest-calculator": {
-    anchor: /<!-- CN_CALCULATOR_BODY_END -->/i,
-    insertAfter: true,
+    anchor: /<!-- CN_PDF_EXPORT_START -->/i,
+    insertBefore: true,
     variant: "ghost"
   },
   "retirement-calculator": {
-    anchor: /<!-- CN_CALCULATOR_BODY_END -->/i,
-    insertAfter: true,
+    anchor: /<!-- CN_PDF_EXPORT_START -->/i,
+    insertBefore: true,
     variant: "ghost"
   },
 

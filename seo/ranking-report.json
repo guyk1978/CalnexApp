@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-01T10:21:51.173Z",
+  "generated_at": "2026-06-01T12:39:39.499Z",
   "summary": {
     "total_pages": 69,
     "pages_need_improvement": 3,
-    "pages_high_potential": 61,
-    "top_performing_pages": 5
+    "pages_high_potential": 60,
+    "top_performing_pages": 6
   },
   "pages_need_improvement": [
     {
@@ -90,18 +90,6 @@
         "internal_links_count": 84,
         "content_depth_words": 713,
         "intent_match_score": 65
-      },
-      "ranking_score": 80
-    },
-    {
-      "url": "/tools/interest-calculator/",
-      "type": "tool",
-      "title": "Interest Calculator",
-      "metrics": {
-        "keyword_coverage": 75,
-        "internal_links_count": 78,
-        "content_depth_words": 463,
-        "intent_match_score": 100
       },
       "ranking_score": 80
     },
@@ -404,6 +392,18 @@
         "intent_match_score": 100
       },
       "ranking_score": 75
+    },
+    {
+      "url": "/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/",
+      "type": "seo",
+      "title": "$150,000 loan at 6% for 30 years",
+      "metrics": {
+        "keyword_coverage": 50,
+        "internal_links_count": 79,
+        "content_depth_words": 538,
+        "intent_match_score": 100
+      },
+      "ranking_score": 75
     }
   ],
   "top_performing_pages": [
@@ -430,6 +430,18 @@
         "intent_match_score": 65
       },
       "ranking_score": 89
+    },
+    {
+      "url": "/tools/interest-calculator/",
+      "type": "tool",
+      "title": "Interest Calculator",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 78,
+        "content_depth_words": 526,
+        "intent_match_score": 100
+      },
+      "ranking_score": 90
     },
     {
       "url": "/blog/how-to-calculate-loan-interest/",
@@ -506,6 +518,18 @@
       "ranking_score": 93
     },
     {
+      "url": "/tools/interest-calculator/",
+      "type": "tool",
+      "title": "Interest Calculator",
+      "metrics": {
+        "keyword_coverage": 100,
+        "internal_links_count": 78,
+        "content_depth_words": 526,
+        "intent_match_score": 100
+      },
+      "ranking_score": 90
+    },
+    {
       "url": "/tools/mortgage-calculator/",
       "type": "tool",
       "title": "Mortgage Calculator",
@@ -550,18 +574,6 @@
         "internal_links_count": 84,
         "content_depth_words": 713,
         "intent_match_score": 65
-      },
-      "ranking_score": 80
-    },
-    {
-      "url": "/tools/interest-calculator/",
-      "type": "tool",
-      "title": "Interest Calculator",
-      "metrics": {
-        "keyword_coverage": 75,
-        "internal_links_count": 78,
-        "content_depth_words": 463,
-        "intent_match_score": 100
       },
       "ranking_score": 80
     },

@@ -3,6 +3,7 @@ const LoanComparisonTool = (() => {
   const OFFER_IDS = ["a", "b", "c"];
 
   let chartInstance = null;
+  let lastComparisonSnap = null;
 
   const formatCurrency = (value) =>
     typeof CurrencyLayer !== "undefined"
@@ -139,6 +140,7 @@ const LoanComparisonTool = (() => {
   const recalculate = () => {
     if (!window.FinancialCore?.computeLoanComparisonSnapshot) return;
     const snap = FinancialCore.computeLoanComparisonSnapshot(readInputs());
+    lastComparisonSnap = snap;
     renderVerdict(snap);
     renderMetricCards(snap);
     renderChart(snap);
@@ -158,6 +160,27 @@ const LoanComparisonTool = (() => {
     bindInputs();
     toggleOfferC();
     recalculate();
+    if (window.CalnexCsvExport) {
+      CalnexCsvExport.register("loan-comparison", () => {
+        const offers = lastComparisonSnap?.offers || [];
+        if (!offers.length) return null;
+        const lines = [
+          "Offer,Monthly payment,Total interest,Total cost,Effective APR %"
+        ];
+        offers.forEach((o) => {
+          lines.push(
+            CalnexCsvExport.toCsvLine([
+              o.label,
+              o.monthlyPayment,
+              o.totalInterest,
+              o.totalCost,
+              o.effectiveAprPercent
+            ])
+          );
+        });
+        return { csv: lines.join("\n"), filename: "loan-comparison.csv" };
+      });
+    }
   };
 
   if (document.readyState === "loading") {

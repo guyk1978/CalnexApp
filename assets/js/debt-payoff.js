@@ -457,6 +457,23 @@ const DebtPayoffCalculator = (() => {
     bindEvents();
     updateRemoveButtons();
     recalculate();
+    if (window.CalnexCsvExport) {
+      CalnexCsvExport.register("debt-payoff", () => {
+        const snap = lastSnapshot;
+        const plan = activeStrategy === "avalanche" ? snap?.avalanche : snap?.snowball;
+        const timeline = plan?.valid
+          ? activeStrategy === "avalanche"
+            ? snap?.chart?.avalanche || []
+            : snap?.chart?.snowball || []
+          : [];
+        if (!timeline.length) return null;
+        const lines = ["Month,Total balance"];
+        timeline.forEach((row) => {
+          lines.push(CalnexCsvExport.toCsvLine([row.month, row.totalBalance]));
+        });
+        return { csv: lines.join("\n"), filename: `debt-payoff-${activeStrategy}.csv` };
+      });
+    }
   };
 
   if (document.readyState === "loading") {

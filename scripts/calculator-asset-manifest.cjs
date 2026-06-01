@@ -11,10 +11,17 @@ const PDF_SCRIPT_PATHS = [
   "/assets/js/pdf-export-init.js",
 ];
 
+const CSV_SCRIPT_PATHS = [
+  "/assets/js/calculator-csv-export.js",
+  "/assets/js/calculator-csv-export-init.js",
+];
+
 const SHARE_SCRIPT_PATHS = [
   "/assets/js/calculator-share.js",
   "/assets/js/calculator-share-init.js",
 ];
+
+const CALCULATOR_UTILITY_SCRIPT_PATHS = [...CSV_SCRIPT_PATHS, ...SHARE_SCRIPT_PATHS];
 
 function buildDeferScriptTags(paths, indent = "    ") {
   return paths.map((src) => `${indent}<script src="${src}" defer></script>`).join("\n");
@@ -22,9 +29,14 @@ function buildDeferScriptTags(paths, indent = "    ") {
 
 module.exports = {
   PDF_SCRIPT_PATHS,
+  CSV_SCRIPT_PATHS,
   SHARE_SCRIPT_PATHS,
+  CALCULATOR_UTILITY_SCRIPT_PATHS,
   buildDeferScriptTags,
   buildPdfShareScriptBlock(indent = "    ") {
-    return buildDeferScriptTags([...PDF_SCRIPT_PATHS, ...SHARE_SCRIPT_PATHS], indent);
+    return buildDeferScriptTags(
+      [...PDF_SCRIPT_PATHS, ...CALCULATOR_UTILITY_SCRIPT_PATHS],
+      indent
+    );
   },
 };

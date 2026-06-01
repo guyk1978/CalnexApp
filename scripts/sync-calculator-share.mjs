@@ -111,6 +111,7 @@ const DEFAULT_PLACEMENT = {
 
 function hasShareUi(html) {
   return (
+    html.includes("<!-- CN_EXPORT_SHARE_TOOLBAR_START -->") ||
     html.includes("data-cn-share-menu") ||
     (html.includes("share-tools") && html.includes("shareUrlInline") && html.includes("cn-export-share-toolbar"))
   );
@@ -137,7 +138,7 @@ function ensureShareToast(html) {
 
 function injectShareBlock(html, tool, placement) {
   if (hasShareUi(html)) return html;
-  if (tool.slug === "loan-calculator") return html;
+  if (tool.slug === "loan-calculator" || tool.slug === "take-home-pay-calculator") return html;
 
   const block = buildShareBlock(tool.name);
   const existing = injectMarkerBlock(html, SHARE_START, SHARE_END, block.trim());

@@ -188,6 +188,14 @@ const InterestCalculator = (() => {
     document.addEventListener("currency:changed", () => {
       if (window.AppEngine) AppEngine.runImmediate();
     });
+
+    if (window.CalnexCsvExport) {
+      CalnexCsvExport.register("interest-calculator", () => {
+        const table = document.querySelector(".amortization-card .schedule-table");
+        const csv = CalnexCsvExport.tableToCsv(table);
+        return csv.trim() ? { csv, filename: "interest-growth.csv" } : null;
+      });
+    }
   };
 
   return { init };

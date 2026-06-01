@@ -87,6 +87,13 @@ const RentVsBuyCalculator = (() => {
 
   const init = () => {
     if (document.body.dataset.page !== PAGE) return;
+    if (window.CalnexCsvExport) {
+      CalnexCsvExport.register("rent-vs-buy-calculator", () => {
+        const table = document.querySelector(".cn-rvb-trajectory-table");
+        const csv = CalnexCsvExport.tableToCsv(table);
+        return csv.trim() ? { csv, filename: "rent-vs-buy-timeline.csv" } : null;
+      });
+    }
     if (window.AppEngine) {
       AppEngine.registerToolPipeline(PAGE, runRentVsBuyPipeline);
       AppEngine.runImmediate();

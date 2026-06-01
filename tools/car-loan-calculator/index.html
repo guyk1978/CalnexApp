@@ -188,6 +188,7 @@
     
     
     
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -196,7 +197,7 @@
   "name": "Car Loan Calculator",
   "description": "Car Loan Calculator - CalnexApp",
   "url": "https://calnexapp.com/tools/car-loan-calculator/",
-  "dateModified": "2026-06-01T10:10:17.212Z",
+  "dateModified": "2026-06-01T12:38:13.457Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -487,50 +488,7 @@
               <dd id="carTotalVehicleCost" data-bind="car_total_cost" data-format="currency">0.00</dd>
             </div>
           
-            <div class="cn-pdf-export-wrap" style="margin: 0.75rem 0 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem">
-              
-            <div class="cn-calculator-share-wrap" style="margin: 0.75rem 0 1rem">
-              <!-- CN_CALCULATOR_SHARE_START -->
-            <div class="cn-share-menu" data-cn-share-menu>
-              <button type="button" class="btn btn-primary cn-share-menu__trigger" data-cn-share-toggle aria-expanded="false" aria-haspopup="dialog">
-                <svg class="cn-theme-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                <span>Share</span>
-              </button>
-              <div class="cn-share-menu__panel" data-cn-share-panel hidden role="dialog" aria-label="Share calculation">
-                <p class="cn-share-menu__title">Share this calculation</p>
-                <p class="muted cn-share-menu__hint">Opens with your inputs pre-filled on CalnexApp.</p>
-                <input
-                  id="cnShareUrl-car-loan-calculator"
-                  class="cn-calculator-share__url"
-                  type="text"
-                  readonly
-                  data-cn-share-url
-                  aria-label="Shareable calculator URL"
-                />
-                <div class="cn-share-menu__actions">
-                  <button type="button" class="btn btn-primary btn-sm" data-cn-share-action="native">Share…</button>
-                  <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="copy">Copy link</button>
-                  <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="copy-message">Copy summary</button>
-                  <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="email">Email</button>
-                </div>
-                <div class="cn-share-menu__social" aria-label="Social networks">
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="whatsapp" href="#" target="_blank" rel="noopener noreferrer" title="WhatsApp">WA</a>
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="facebook" href="#" target="_blank" rel="noopener noreferrer" title="Facebook">f</a>
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="twitter" href="#" target="_blank" rel="noopener noreferrer" title="X">X</a>
-                  <a class="cn-share-menu__social-btn" data-cn-share-network="linkedin" href="#" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
-                </div>
-              </div>
-            </div>
-<!-- CN_CALCULATOR_SHARE_END -->
-            </div>
-<!-- CN_PDF_EXPORT_START -->
-              <button type="button" class="btn btn-ghost cn-pdf-export-btn" data-cn-pdf-export data-calculator-name="Car Loan Calculator" aria-label="Export results to PDF">
-                <svg class="cn-pdf-export-btn__icon cn-theme-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                <span class="cn-pdf-export-btn__label">Export PDF</span>
-              </button>
-<!-- CN_PDF_EXPORT_END -->
-            </div>
-</dl>
+            </dl>
         </aside>
       </section>
 
@@ -648,8 +606,57 @@
         </details>
       </section>
 
-      <section class="card" data-related-tools data-current-tool="car-loan-calculator"></section>
+      
+<!-- CN_EXPORT_SHARE_TOOLBAR_START -->
+      <div class="share-tools cn-portable-results-box" data-cn-share>
+        <h3>Export &amp; share</h3>
+        <p class="muted cn-portable-results__lead">Download data or send a link that restores this calculation.</p>
+        <div class="cn-export-share-toolbar">
+          <button type="button" class="btn btn-ghost" data-cn-download-csv data-cn-csv-table="#carSchedulePanel .schedule-table" data-cn-csv-filename="car-loan-amortization.csv">Download CSV</button>
+          <!-- CN_PDF_EXPORT_START -->
+              <button type="button" class="btn btn-ghost cn-pdf-export-btn" data-cn-pdf-export data-calculator-name="Car Loan Calculator" aria-label="Export results to PDF">
+                <svg class="cn-pdf-export-btn__icon cn-theme-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span class="cn-pdf-export-btn__label">Export PDF</span>
+              </button>
+<!-- CN_PDF_EXPORT_END -->
+          <!-- CN_CALCULATOR_SHARE_START -->
+              <div class="cn-share-menu" data-cn-share-menu>
+                <button type="button" class="btn btn-primary cn-share-menu__trigger" data-cn-share-toggle aria-expanded="false" aria-haspopup="dialog">
+                  <svg class="cn-theme-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                  <span>Share</span>
+                </button>
+                <div class="cn-share-menu__panel" data-cn-share-panel hidden role="dialog" aria-label="Share calculation">
+                  <p class="cn-share-menu__title">Share this calculation</p>
+                  <p class="muted cn-share-menu__hint">Opens with your inputs pre-filled on CalnexApp.</p>
+                  <input
+                    id="cnShareUrl-car-loan-calculator"
+                    class="cn-calculator-share__url"
+                    type="text"
+                    readonly
+                    data-cn-share-url
+                    aria-label="Shareable calculator URL"
+                  />
+                  <div class="cn-share-menu__actions">
+                    <button type="button" class="btn btn-primary btn-sm" data-cn-share-action="native">Share…</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="copy">Copy link</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="copy-message">Copy summary</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-cn-share-action="email">Email</button>
+                  </div>
+                  <div class="cn-share-menu__social" aria-label="Social networks">
+                    <a class="cn-share-menu__social-btn" data-cn-share-network="whatsapp" href="#" target="_blank" rel="noopener noreferrer" title="WhatsApp">WA</a>
+                    <a class="cn-share-menu__social-btn" data-cn-share-network="facebook" href="#" target="_blank" rel="noopener noreferrer" title="Facebook">f</a>
+                    <a class="cn-share-menu__social-btn" data-cn-share-network="twitter" href="#" target="_blank" rel="noopener noreferrer" title="X">X</a>
+                    <a class="cn-share-menu__social-btn" data-cn-share-network="linkedin" href="#" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
+                  </div>
+                </div>
+              </div>
+<!-- CN_CALCULATOR_SHARE_END -->
+        </div>
+      </div>
+<!-- CN_EXPORT_SHARE_TOOLBAR_END -->
+<section class="card" data-related-tools data-current-tool="car-loan-calculator"></section>
     
+      
       
       
       
@@ -998,6 +1005,7 @@
       
       
       
+      
       <!-- RANK_TOOL_FAQ_START -->
       <section class="card">
         <h2>Loan Tool FAQ</h2>
@@ -1006,6 +1014,7 @@
       </section>
       <!-- RANK_TOOL_FAQ_END -->
 
+      
       
       
       
@@ -1237,6 +1246,8 @@
     <script src="/assets/js/pdf-export-helpers.js" defer></script>
     <script src="/assets/js/pdf-export.js" defer></script>
     <script src="/assets/js/pdf-export-init.js" defer></script>
+    <script src="/assets/js/calculator-csv-export.js" defer></script>
+    <script src="/assets/js/calculator-csv-export-init.js" defer></script>
     <script src="/assets/js/calculator-share.js" defer></script>
     <script src="/assets/js/calculator-share-init.js" defer></script>
 </body>

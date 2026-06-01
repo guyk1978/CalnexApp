@@ -208,6 +208,17 @@ const RetirementCalculator = (() => {
       if (window.UiRenderer?.renderCurrency) window.UiRenderer.renderCurrency();
       if (window.AppEngine) AppEngine.runImmediate();
     });
+
+    if (window.CalnexCsvExport) {
+      CalnexCsvExport.register("retirement-calculator", () => {
+        if (!lastRetirementProjection.length) return null;
+        const lines = ["Age,Projected balance"];
+        lastRetirementProjection.forEach((row) => {
+          lines.push(CalnexCsvExport.toCsvLine([row.age, row.balance]));
+        });
+        return { csv: lines.join("\n"), filename: "retirement-projection.csv" };
+      });
+    }
   };
 
   return { init };
