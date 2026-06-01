@@ -2,17 +2,9 @@
 # Pages serves folder index.html automatically; those rules cause infinite loops (HTTP 500).
 # Keep only real 301/302 redirects here. See: npm run validate:redirects
 
-# STATIC_ASSETS_START
-# Serve real files under /assets/* and /data/* — never the app shell (index.html).
-# Pages matches static files first; these 200 rules prevent SPA-style fallbacks if added later.
-# Do NOT add /* /index.html 200 above this block.
-/assets/next/*  /assets/next/:splat  200
-/assets/css/*   /assets/css/:splat   200
-/assets/js/*    /assets/js/:splat    200
-/data/*         /data/:splat         200
-/engine/*       /engine/:splat       200
-/_next/*        /_next/:splat        200
-# STATIC_ASSETS_END
+# Do NOT add /* /index.html 200 or /assets/* 200 rewrites — they serve index.html for missing
+# .js/.css and cause "Unexpected token '<'" + wrong MIME. Deploy out/ (or run postbuild so
+# assets/next/ exists). See scripts/sync-next-to-assets.mjs and scripts/sync-cloudflare-meta.mjs.
 
 # Canonical: bare /index.html → site root
 /index.html / 301

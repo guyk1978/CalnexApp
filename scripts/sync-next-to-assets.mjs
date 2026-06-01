@@ -1,6 +1,6 @@
 /**
- * Mirror Next export bundles into out/assets/next so hosts that do not serve
- * /_next/ (or SPA fallbacks) still deliver JS/CSS. Run after `next build`.
+ * Mirror Next export bundles into out/assets/next (and mirror to repo paths used by
+ * Cloudflare when publish directory is repo root instead of out/).
  */
 import fs from "fs";
 import path from "path";
@@ -9,7 +9,13 @@ import { fileURLToPath } from "url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "out");
 const SRC = path.join(OUT, "_next");
-const DEST = path.join(OUT, "assets", "next");
+
+/** Cloudflare Pages output dir (out/) */
+const DEST_OUT = path.join(OUT, "assets", "next");
+/** Static dev server + deploys that publish repo root */
+const DEST_ROOT_ASSETS = path.join(ROOT, "assets", "next");
+/** Merged into out/ on next build via public/ copy on subsequent builds */
+const DEST_PUBLIC = path.join(ROOT, "public", "assets", "next");
 
 function countFiles(dir) {
   let count = 0;
@@ -28,6 +34,18 @@ function findWebpackChunk(dir) {
   return fs.readdirSync(chunks).find((n) => /^webpack-[a-f0-9]+\.js$/.test(n)) || null;
 }
 
+function copyTree(src, dest, label) {
+  fs.rmSync(dest, { recursive: true, force: true });
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.cpSync(src, dest, { recursive: true });
+  const webpack = findWebpackChunk(dest);
+  if (!webpack) {
+    throw new Error(`sync-next-to-assets: missing webpack chunk under ${label}`);
+  }
+  console.log(`sync-next-to-assets: ${label} (${countFiles(dest)} files, ${webpack})`);
+  return webpack;
+}
+
 if (!fs.existsSync(OUT)) {
   console.error("sync-next-to-assets: missing out/ — run npm run build first");
   process.exit(1);
@@ -44,30 +62,12 @@ if (srcCount < 1) {
   process.exit(1);
 }
 
-fs.rmSync(DEST, { recursive: true, force: true });
-fs.mkdirSync(path.join(OUT, "assets"), { recursive: true });
-fs.cpSync(SRC, DEST, { recursive: true });
+const webpack = copyTree(SRC, DEST_OUT, "out/assets/next");
+copyTree(SRC, DEST_ROOT_ASSETS, "assets/next (repo root)");
+copyTree(SRC, DEST_PUBLIC, "public/assets/next");
 
-const destCount = countFiles(DEST);
-if (destCount !== srcCount) {
-  console.warn(`sync-next-to-assets: file count mismatch (_next=${srcCount}, assets/next=${destCount})`);
-}
-
-const webpack = findWebpackChunk(DEST);
-const cssDir = path.join(DEST, "static", "css");
-const cssFile = fs.existsSync(cssDir)
-  ? fs.readdirSync(cssDir).find((n) => n.endsWith(".css"))
-  : null;
-
-if (!webpack) {
-  console.error("sync-next-to-assets: missing webpack-*.js in assets/next/static/chunks");
-  process.exit(1);
-}
-
-if (!cssFile) {
-  console.warn("sync-next-to-assets: warning — no .css under assets/next/static/css");
-}
-
+const cssDir = path.join(DEST_OUT, "static", "css");
+const cssFile = fs.existsSync(cssDir) ? fs.readdirSync(cssDir).find((n) => n.endsWith(".css")) : null;
 console.log(
-  `sync-next-to-assets: copied ${destCount} file(s) → out/assets/next/ (${webpack}, ${cssFile || "no css"})`
+  `sync-next-to-assets: done (${srcCount} files from out/_next, webpack=${webpack}, css=${cssFile || "none"})`
 );
