@@ -129,6 +129,18 @@ export function SiteHeaderActions() {
   }, [applyPair]);
 
   useEffect(() => {
+    const bootScripts = ["/assets/js/geo-finance.js", "/assets/js/currency.js"];
+    for (const src of bootScripts) {
+      if (document.querySelector(`script[data-cn-boot="${src}"]`)) continue;
+      const script = document.createElement("script");
+      script.src = resolveAsset(src);
+      script.defer = true;
+      script.dataset.cnBoot = src;
+      document.body.append(script);
+    }
+  }, []);
+
+  useEffect(() => {
     if (searchBooted.current) return;
     searchBooted.current = true;
     loadSiteSearchOnce().catch(() => {
@@ -140,7 +152,14 @@ export function SiteHeaderActions() {
     (next: SiteCountryCode) => {
       const linked = COUNTRY_TO_CURRENCY[next];
       applyPair(next, linked);
-      legacyGeo()?.setCountry?.(next);
+      if (legacyGeo()?.setCountry) {
+        legacyGeo()?.setCountry?.(next);
+      } else {
+        document.dispatchEvent(new CustomEvent("geo:changed", { detail: { country: next } }));
+        document.dispatchEvent(
+          new CustomEvent("currency:changed", { detail: { currency: linked } })
+        );
+      }
     },
     [applyPair]
   );
@@ -150,7 +169,13 @@ export function SiteHeaderActions() {
       const normalized = normalizeSiteCurrency(next) as SiteCurrencyCode;
       const linked = CURRENCY_TO_COUNTRY[normalized];
       applyPair(linked, normalized);
-      legacyCurrency()?.setCurrency?.(normalized);
+      if (legacyCurrency()?.setCurrency) {
+        legacyCurrency()?.setCurrency?.(normalized);
+      } else {
+        document.dispatchEvent(
+          new CustomEvent("currency:changed", { detail: { currency: normalized } })
+        );
+      }
     },
     [applyPair]
   );

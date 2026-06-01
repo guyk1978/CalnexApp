@@ -4,3 +4,11 @@
 
 /robots.txt
   Content-Type: text/plain; charset=utf-8
+
+/assets/next/*
+  Content-Type: application/javascript
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/next/static/css/*
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable

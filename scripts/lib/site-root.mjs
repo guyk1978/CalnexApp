@@ -39,6 +39,16 @@ export function relativizeEmbeddedPaths(text, prefix) {
   return text.replace(EMBEDDED_ABS_RE, (_, lead, root) => `${lead}${prefix}${root}/`);
 }
 
+/**
+ * Hosts that SPA-fallback `/_next/*` need bundles under /assets/next/ (see sync-next-to-assets.mjs).
+ */
+export function relocateNextBundlesToAssets(text, prefix) {
+  if (!text) return text;
+  const rel = prefix ? `${prefix}_next/` : "/_next/";
+  const abs = prefix ? `${prefix}assets/next/` : "/assets/next/";
+  return text.split(rel).join(abs);
+}
+
 /** Rewrite root-absolute internal URLs to depth-relative paths. */
 export function relativizeHtml(html, prefix) {
   let next = html.replace(ABS_INTERNAL_RE, (_, attr, quote, root, rest = "") => {
@@ -59,7 +69,8 @@ export function relativizeHtml(html, prefix) {
     );
   }
 
-  return relativizeEmbeddedPaths(next, prefix);
+  next = relativizeEmbeddedPaths(next, prefix);
+  return relocateNextBundlesToAssets(next, prefix);
 }
 
 export function injectCalnexRoot(html, prefix) {

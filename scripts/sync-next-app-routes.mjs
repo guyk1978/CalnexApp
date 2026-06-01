@@ -50,6 +50,15 @@ if (fs.existsSync(nextSrc)) {
   console.warn("sync-next-app-routes: missing out/_next");
 }
 
+const nextAssetsSrc = path.join(OUT, "assets", "next");
+const nextAssetsDest = path.join(ROOT, "assets", "next");
+if (fs.existsSync(nextAssetsSrc)) {
+  copyDir(nextAssetsSrc, nextAssetsDest);
+  console.log("sync-next-app-routes: assets/next/ (production Next bundles)");
+} else {
+  console.warn("sync-next-app-routes: missing out/assets/next");
+}
+
 if (copied === 0) {
   console.warn("sync-next-app-routes: no app routes copied");
   process.exit(1);

@@ -41,6 +41,15 @@ if (!fs.existsSync(assetsDir)) {
   console.log("relativize-export: out/assets/ present");
 }
 
+const nextAssetsDir = path.join(OUT, "assets", "next");
+if (!fs.existsSync(nextAssetsDir)) {
+  console.warn(
+    "relativize-export: warning — out/assets/next/ missing; run sync-next-to-assets before relativize-export"
+  );
+} else {
+  console.log("relativize-export: out/assets/next/ present (Next bundles for production)");
+}
+
 let updated = 0;
 for (const rel of walkHtml(OUT)) {
   const full = path.join(OUT, rel);
