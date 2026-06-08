@@ -24,14 +24,16 @@ const GTAG_BLOCK_RE =
 const GTAG_PAIR_RE =
   /<script\s+async\s+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]*"><\/script>\s*<script>[\s\S]*?gtag\s*\(\s*["']config["'][\s\S]*?<\/script>\s*/gi;
 
-const CONSENT_CSS_TAG =
-  '    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />\n';
-const CONSENT_CSS_OLD_RE =
-  /<link\s+rel="stylesheet"\s+href="\/assets\/css\/cookie-consent\.css\?v=1"\s*\/?>\s*/gi;
-const CONSENT_CONFIG_TAG =
-  '    <script src="/assets/js/consent-config.js"></script>\n';
-const CONSENT_BOOT_TAG =
-  '    <script src="/assets/js/cookie-consent.js" defer></script>\n';
+const CONSENT_CSS_HREF = "/assets/css/cookie-consent.css?v=3";
+const CONSENT_CSS_TAG = `    <link rel="stylesheet" href="${CONSENT_CSS_HREF}" />\n`;
+const CONSENT_CSS_ANY_RE =
+  /<link\s+rel="stylesheet"\s+href="\/assets\/css\/cookie-consent\.css\?v=[^"]*"\s*\/?>\s*/gi;
+const CONSENT_CONFIG_TAG = '    <script src="/assets/js/consent-config.js"></script>\n';
+const CONSENT_CONFIG_ANY_RE =
+  /<script\s+src="\/assets\/js\/consent-config\.js"><\/script>\s*/gi;
+const CONSENT_BOOT_TAG = '    <script src="/assets/js/cookie-consent.js" defer></script>\n';
+const CONSENT_BOOT_ANY_RE =
+  /<script\s+src="\/assets\/js\/cookie-consent\.js"\s+defer><\/script>\s*/gi;
 
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -53,17 +55,28 @@ function stripGtag(html) {
   return next;
 }
 
-function ensureConsentAssets(html) {
-  let next = html.replace(CONSENT_CSS_OLD_RE, CONSENT_CSS_TAG);
-  if (!next.includes("cookie-consent.css")) {
-    next = next.replace("</head>", `${CONSENT_CSS_TAG}${CONSENT_CONFIG_TAG}  </head>`);
-  } else if (!next.includes("consent-config.js")) {
-    next = next.replace("</head>", `${CONSENT_CONFIG_TAG}  </head>`);
-  }
+function dedupeConsentHead(html) {
+  let next = html.replace(CONSENT_CSS_ANY_RE, "");
+  next = next.replace(CONSENT_CONFIG_ANY_RE, "");
+  return next.replace("</head>", `${CONSENT_CSS_TAG}${CONSENT_CONFIG_TAG}  </head>`);
+}
+
+function dedupeConsentBody(html) {
+  let next = html.replace(CONSENT_BOOT_ANY_RE, "");
   if (!next.includes("cookie-consent.js")) {
     next = next.replace("</body>", `${CONSENT_BOOT_TAG}  </body>`);
   }
   return next;
+}
+
+function ensureConsentAssets(html) {
+  let next = html;
+  if (next.includes("cookie-consent.css") || next.includes("consent-config.js")) {
+    next = dedupeConsentHead(next);
+  } else {
+    next = next.replace("</head>", `${CONSENT_CSS_TAG}${CONSENT_CONFIG_TAG}  </head>`);
+  }
+  return dedupeConsentBody(next);
 }
 
 let updated = 0;

@@ -1,27 +1,29 @@
 /**
  * Cookie consent — standalone floating card (Industrial Matte).
- * Loaded directly; do not rely on footer or style.css inheritance.
+ * Decoupled from footer/layout; loaded directly or via style.css @import.
  */
+#cn-cookie-consent-root.cn-cookie-banner,
 #cn-cookie-consent-root.cn-cookie-consent {
   position: fixed !important;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
+  bottom: 1rem !important;
+  left: 1rem !important;
+  right: 1rem !important;
   z-index: 9999 !important;
   max-width: 56rem;
-  margin: 0 auto;
+  margin: 0 auto !important;
   padding: 1.5rem;
   box-sizing: border-box;
-  background: rgba(23, 23, 23, 0.8);
+  background: rgba(23, 23, 23, 0.8) !important;
   -webkit-backdrop-filter: blur(40px);
   backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 0.75rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #f5f5f5;
-  isolation: isolate;
+  color: #f5f5f5 !important;
+  isolation: isolate !important;
   pointer-events: auto;
+  contain: layout style;
 }
 
 #cn-cookie-consent-root .cn-cookie-consent__inner {
@@ -58,14 +60,14 @@
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: #fafafa;
+  color: #fafafa !important;
 }
 
 #cn-cookie-consent-root .cn-cookie-consent__desc {
   margin: 0;
   font-size: 0.8125rem;
   line-height: 1.55;
-  color: #a3a3a3;
+  color: #a3a3a3 !important;
 }
 
 #cn-cookie-consent-root .cn-cookie-consent__actions {
@@ -88,7 +90,7 @@
 #cn-cookie-consent-root button.cn-cookie-consent__btn {
   all: unset;
   box-sizing: border-box;
-  display: inline-flex;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
   min-height: 2.5rem;
@@ -105,29 +107,37 @@
 }
 
 #cn-cookie-consent-root .cn-cookie-consent__btn--decline {
-  color: #a3a3a3;
-  background: transparent;
+  color: #a3a3a3 !important;
+  background: transparent !important;
 }
 
 #cn-cookie-consent-root .cn-cookie-consent__btn--decline:hover,
 #cn-cookie-consent-root .cn-cookie-consent__btn--decline:focus-visible {
-  color: #ffffff;
+  color: #ffffff !important;
   outline: none;
 }
 
 #cn-cookie-consent-root .cn-cookie-consent__btn--accept {
-  color: #ffffff;
-  background: #2563eb;
+  color: #ffffff !important;
+  background: #2563eb !important;
 }
 
 #cn-cookie-consent-root .cn-cookie-consent__btn--accept:hover,
 #cn-cookie-consent-root .cn-cookie-consent__btn--accept:focus-visible {
-  background: #3b82f6;
+  background: #3b82f6 !important;
   outline: none;
 }
 
+/* Prevent footer / site typography from leaking into the banner */
+.site-footer #cn-cookie-consent-root,
+.footer-content #cn-cookie-consent-root,
+footer #cn-cookie-consent-root {
+  display: none !important;
+}
+
+html[data-theme="light"] #cn-cookie-consent-root.cn-cookie-banner,
 html[data-theme="light"] #cn-cookie-consent-root.cn-cookie-consent {
-  background: rgba(23, 23, 23, 0.88);
-  color: #fafafa;
-  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(23, 23, 23, 0.88) !important;
+  color: #fafafa !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
 }

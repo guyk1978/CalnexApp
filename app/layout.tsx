@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { CookieConsentBanner } from "@/components/consent/CookieConsentBanner";
+import { CookieBanner } from "@/components/consent/CookieBanner";
 import { SiteChromeBoot } from "@/components/layout/SiteChromeBoot";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -37,11 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href={publicAsset(CONSENT_CSS_HREF)} />
       </head>
       <body>
+        <CookieBanner />
         <Script src={publicAsset(siteScripts.themeInit)} strategy="beforeInteractive" />
         <SiteHeader />
         {children}
         <SiteFooter />
-        <CookieConsentBanner />
         <SiteChromeBoot />
         {DEFERRED_SITE_SCRIPTS.map((href) => (
           <script key={href} src={publicAsset(href)} defer data-cn-site-boot="true" />
