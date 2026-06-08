@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-01T07:14:30.393Z",
+  "generatedAt": "2026-06-01T17:04:53.975Z",
   "counts": {
-    "total": 95,
-    "calculators": 9,
-    "blog": 36,
+    "total": 99,
+    "calculators": 10,
+    "blog": 39,
     "loanScenarios": 50,
     "other": 0,
-    "keywordConflicts": 38
+    "keywordConflicts": 42
   },
   "conflicts": [
     {
@@ -46,10 +46,35 @@
       ]
     },
     {
+      "keyword": "appreciation",
+      "urls": [
+        "/tools/rent-vs-buy/",
+        "/tools/roi-calculator/"
+      ]
+    },
+    {
       "keyword": "savings",
       "urls": [
         "/tools/interest-calculator/",
         "/tools/retirement-calculator/"
+      ]
+    },
+    {
+      "keyword": "real estate roi calculation mistakes",
+      "urls": [
+        "/blog/real-estate-roi-calculation-mistakes/"
+      ]
+    },
+    {
+      "keyword": "roi vs cap rate",
+      "urls": [
+        "/blog/roi-vs-cap-rate-which-metric-matters/"
+      ]
+    },
+    {
+      "keyword": "how to calculate real estate roi",
+      "urls": [
+        "/blog/how-to-calculate-real-estate-roi/"
       ]
     },
     {
@@ -661,6 +686,19 @@
     },
     {
       "type": "blog",
+      "slug": "real-estate-roi-calculation-mistakes",
+      "title": "5 Common ROI Calculation Mistakes (and How to Avoid Them)",
+      "url": "/blog/real-estate-roi-calculation-mistakes/",
+      "category": "Business Operations",
+      "keywords": [
+        "real estate roi calculation mistakes"
+      ],
+      "primary_keyword": "real estate roi calculation mistakes",
+      "featured": false,
+      "description": "Quick answer Most bad rental decisions come from optimistic inputs, not bad math. The five killers are: ignoring maintenance and capex, skipping vacancy, using seller pro forma rent, forgetting tax an"
+    },
+    {
+      "type": "blog",
       "slug": "interest-rate-cap-structure-arm-borrower-playbook",
       "title": "ARM Cap Structure Explained: Initial, Periodic, and Lifetime Limits Borrowers Actually Hit",
       "url": "/blog/interest-rate-cap-structure-arm-borrower-playbook/",
@@ -920,6 +958,19 @@
       "primary_keyword": "how to calculate loan interest",
       "featured": true,
       "description": "Balance × periodic rate each month; level payment from the amortization formula. Quick answer up front, then deeper walkthroughs and calculator links."
+    },
+    {
+      "type": "blog",
+      "slug": "how-to-calculate-real-estate-roi",
+      "title": "How to Calculate Real Estate ROI for Rental Investments",
+      "url": "/blog/how-to-calculate-real-estate-roi/",
+      "category": "Business Operations",
+      "keywords": [
+        "how to calculate real estate roi"
+      ],
+      "primary_keyword": "how to calculate real estate roi",
+      "featured": false,
+      "description": "Quick answer Cash flow is what you keep after rent and operating costs in a given year. ROI (return on investment) compares that economic result—and often appreciation—to the money you put into the pr"
     },
     {
       "type": "blog",
@@ -1199,6 +1250,37 @@
         "pension"
       ],
       "description": "Contribution-led retirement projections with inflation-adjusted goals and funding gap readouts."
+    },
+    {
+      "type": "core-calculator",
+      "slug": "roi-calculator",
+      "title": "ROI Calculator",
+      "url": "/tools/roi-calculator/",
+      "category": "housing",
+      "keywords": [
+        "roi",
+        "rental property",
+        "investment property",
+        "cash on cash",
+        "cap rate",
+        "real estate",
+        "rental income",
+        "appreciation"
+      ],
+      "description": "Model purchase price, rent, expenses, and appreciation to see cash-on-cash and total return on a rental property."
+    },
+    {
+      "type": "blog",
+      "slug": "roi-vs-cap-rate-which-metric-matters",
+      "title": "ROI vs Cap Rate: Which Metric Actually Predicts Investment Success?",
+      "url": "/blog/roi-vs-cap-rate-which-metric-matters/",
+      "category": "Business Operations",
+      "keywords": [
+        "roi vs cap rate"
+      ],
+      "primary_keyword": "roi vs cap rate",
+      "featured": false,
+      "description": "Quick answer Cap rate is net operating income divided by property value—an unlevered, “property-only” yield popular for quick asset pricing. ROI on a rental usually includes your actual expense load a"
     },
     {
       "type": "core-calculator",

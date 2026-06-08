@@ -45,6 +45,15 @@
     "keywords": ["rent", "buy", "rent vs buy", "housing", "home", "break even", "appreciation", "opportunity cost", "renter", "homeowner"]
   },
   {
+    "slug": "roi-calculator",
+    "name": "ROI Calculator",
+    "path": "/tools/roi-calculator/",
+    "description": "Estimate rental property return: cash-on-cash ROI, net income, and total return with appreciation.",
+    "hubDescription": "Model purchase price, rent, expenses, and appreciation to see cash-on-cash and total return on a rental property.",
+    "navGroup": "housing",
+    "keywords": ["roi", "rental property", "investment property", "cash on cash", "cap rate", "real estate", "rental income", "appreciation"]
+  },
+  {
     "slug": "car-loan-calculator",
     "name": "Car Loan Calculator",
     "path": "/tools/car-loan-calculator/",
