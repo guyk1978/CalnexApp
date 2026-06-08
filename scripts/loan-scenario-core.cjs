@@ -403,8 +403,7 @@ const renderGuidePage = (entry, options = {}) => {
   <link rel="stylesheet" href="/assets/css/style.css" />
   <link rel="stylesheet" href="/assets/css/loan-scenario-guide.css" />
   <script type="application/ld+json">${JSON.stringify(schema, null, 2)}</script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-MMLPFGBR27');</script>
+  <script src="/assets/js/consent-config.js"></script>
 </head>
 <body>
   <header class="site-header"><div class="container nav">
@@ -491,6 +490,7 @@ const renderGuidePage = (entry, options = {}) => {
     <nav class="footer-links"><a href="/blog/">Blog</a><a href="/tools/">Tools</a></nav>
   </div></footer>
   <script src="/assets/js/app.js" defer></script>
+  <script src="/assets/js/cookie-consent.js" defer></script>
 </body>
 </html>`;
 

@@ -8,15 +8,8 @@ const DATA_PATH = path.join(__dirname, "data", "loan-pages.json");
 const GENERATED_ROOT = path.join(ROOT, "tools", "loan-calculator");
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 const ROBOTS_PATH = path.join(ROOT, "robots.txt");
-const TRACKING_ID = "G-MMLPFGBR27";
-const GA_SNIPPET = `<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MMLPFGBR27"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-MMLPFGBR27');
-</script>`;
+const CONSENT_HEAD = `    <script src="/assets/js/consent-config.js"></script>`;
+const CONSENT_BODY = `    <script src="/assets/js/cookie-consent.js" defer></script>`;
 
 const ensureDir = (dirPath) => fs.mkdirSync(dirPath, { recursive: true });
 
@@ -53,9 +46,13 @@ const createPage = (template, entry) => {
   const slug = toSlug(loanAmount, interestRate, term);
   const canonicalUrl = `${SITE_URL}/tools/loan-calculator/${slug}/`;
 
-  const htmlWithAnalytics = template.includes(TRACKING_ID)
-    ? template
-    : template.replace("</head>", `    ${GA_SNIPPET}\n  </head>`);
+  let htmlWithAnalytics = template;
+  if (!htmlWithAnalytics.includes("consent-config.js")) {
+    htmlWithAnalytics = htmlWithAnalytics.replace("</head>", `${CONSENT_HEAD}\n  </head>`);
+  }
+  if (!htmlWithAnalytics.includes("cookie-consent.js")) {
+    htmlWithAnalytics = htmlWithAnalytics.replace("</body>", `${CONSENT_BODY}\n  </body>`);
+  }
 
   return {
     slug,

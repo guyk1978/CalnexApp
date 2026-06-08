@@ -1,0 +1,74 @@
+/**
+ * Remove inline gtag/GA snippets and inject consent-config + cookie-consent scripts.
+ * Run: node scripts/patch-cookie-consent.mjs
+ */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+const SKIP_DIRS = new Set([
+  "node_modules",
+  ".git",
+  ".next",
+  "out",
+  "coverage",
+  "dist",
+  "drafts",
+]);
+
+const GTAG_BLOCK_RE =
+  /<!--\s*Google tag \(gtag\.js\)\s*-->[\s\S]*?<script[^>]*googletagmanager\.com\/gtag\/js[\s\S]*?<\/script>\s*<script>[\s\S]*?gtag\s*\([\s\S]*?<\/script>\s*/gi;
+
+const GTAG_PAIR_RE =
+  /<script\s+async\s+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]*"><\/script>\s*<script>[\s\S]*?gtag\s*\(\s*["']config["'][\s\S]*?<\/script>\s*/gi;
+
+const CONSENT_CONFIG_TAG =
+  '    <script src="/assets/js/consent-config.js"></script>\n';
+const CONSENT_BOOT_TAG =
+  '    <script src="/assets/js/cookie-consent.js" defer></script>\n';
+
+function walk(dir, out = []) {
+  for (const name of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (SKIP_DIRS.has(name.name)) continue;
+    const full = path.join(dir, name.name);
+    if (name.isDirectory()) walk(full, out);
+    else if (name.name.endsWith(".html")) out.push(full);
+  }
+  return out;
+}
+
+function stripGtag(html) {
+  let next = html.replace(GTAG_BLOCK_RE, "");
+  let prev = "";
+  while (prev !== next) {
+    prev = next;
+    next = next.replace(GTAG_PAIR_RE, "");
+  }
+  return next;
+}
+
+function ensureConsentScripts(html) {
+  let next = html;
+  if (!next.includes("consent-config.js")) {
+    next = next.replace("</head>", `${CONSENT_CONFIG_TAG}  </head>`);
+  }
+  if (!next.includes("cookie-consent.js")) {
+    next = next.replace("</body>", `${CONSENT_BOOT_TAG}  </body>`);
+  }
+  return next;
+}
+
+let updated = 0;
+for (const file of walk(ROOT)) {
+  const raw = fs.readFileSync(file, "utf8");
+  let next = stripGtag(raw);
+  next = ensureConsentScripts(next);
+  if (next !== raw) {
+    fs.writeFileSync(file, next, "utf8");
+    updated += 1;
+  }
+}
+
+console.log(`patch-cookie-consent: updated ${updated} HTML files`);
