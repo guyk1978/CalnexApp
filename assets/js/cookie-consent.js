@@ -10,7 +10,7 @@
 
   var STORAGE_KEY = "calnexapp_consent_given";
   var LEGACY_KEY = "calnex_consent_granted";
-  var CSS_HREF = "/assets/css/cookie-consent.css?v=1";
+  var CSS_HREF = "/assets/css/cookie-consent.css?v=2";
   var ROOT_ID = "cn-cookie-consent-root";
   var loaded = { ga: false, adsense: false };
 
@@ -21,6 +21,13 @@
 
   function ensureStylesheet() {
     var href = resolveAssetPath(CSS_HREF);
+    if (!document.getElementById("cn-cookie-consent-critical")) {
+      var critical = document.createElement("style");
+      critical.id = "cn-cookie-consent-critical";
+      critical.textContent =
+        "#cn-cookie-consent-root{position:fixed!important;z-index:9999!important;bottom:1rem;left:1rem;right:1rem;max-width:56rem;margin:0 auto;}";
+      document.head.appendChild(critical);
+    }
     if (document.querySelector('link[href="' + href + '"], link[href="' + CSS_HREF + '"]')) return;
     var link = document.createElement("link");
     link.rel = "stylesheet";
@@ -110,11 +117,8 @@
     root.setAttribute("aria-describedby", "cn-cookie-consent-desc");
     root.setAttribute("aria-live", "polite");
 
-    var shell = document.createElement("div");
-    shell.className = "cn-cookie-consent__shell";
-
-    var grid = document.createElement("div");
-    grid.className = "cn-cookie-consent__grid";
+    var inner = document.createElement("div");
+    inner.className = "cn-cookie-consent__inner";
 
     var copy = document.createElement("div");
     copy.className = "cn-cookie-consent__copy";
@@ -156,10 +160,9 @@
 
     actions.appendChild(declineBtn);
     actions.appendChild(acceptBtn);
-    grid.appendChild(copy);
-    grid.appendChild(actions);
-    shell.appendChild(grid);
-    root.appendChild(shell);
+    inner.appendChild(copy);
+    inner.appendChild(actions);
+    root.appendChild(inner);
 
     document.body.appendChild(root);
     return root;

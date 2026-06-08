@@ -25,7 +25,9 @@ const GTAG_PAIR_RE =
   /<script\s+async\s+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]*"><\/script>\s*<script>[\s\S]*?gtag\s*\(\s*["']config["'][\s\S]*?<\/script>\s*/gi;
 
 const CONSENT_CSS_TAG =
-  '    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=1" />\n';
+  '    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=2" />\n';
+const CONSENT_CSS_OLD_RE =
+  /<link\s+rel="stylesheet"\s+href="\/assets\/css\/cookie-consent\.css\?v=1"\s*\/?>\s*/gi;
 const CONSENT_CONFIG_TAG =
   '    <script src="/assets/js/consent-config.js"></script>\n';
 const CONSENT_BOOT_TAG =
@@ -52,7 +54,7 @@ function stripGtag(html) {
 }
 
 function ensureConsentAssets(html) {
-  let next = html;
+  let next = html.replace(CONSENT_CSS_OLD_RE, CONSENT_CSS_TAG);
   if (!next.includes("cookie-consent.css")) {
     next = next.replace("</head>", `${CONSENT_CSS_TAG}${CONSENT_CONFIG_TAG}  </head>`);
   } else if (!next.includes("consent-config.js")) {
