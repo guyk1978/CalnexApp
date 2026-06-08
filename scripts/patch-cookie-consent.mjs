@@ -24,6 +24,8 @@ const GTAG_BLOCK_RE =
 const GTAG_PAIR_RE =
   /<script\s+async\s+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]*"><\/script>\s*<script>[\s\S]*?gtag\s*\(\s*["']config["'][\s\S]*?<\/script>\s*/gi;
 
+const CONSENT_CSS_TAG =
+  '    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=1" />\n';
 const CONSENT_CONFIG_TAG =
   '    <script src="/assets/js/consent-config.js"></script>\n';
 const CONSENT_BOOT_TAG =
@@ -49,9 +51,11 @@ function stripGtag(html) {
   return next;
 }
 
-function ensureConsentScripts(html) {
+function ensureConsentAssets(html) {
   let next = html;
-  if (!next.includes("consent-config.js")) {
+  if (!next.includes("cookie-consent.css")) {
+    next = next.replace("</head>", `${CONSENT_CSS_TAG}${CONSENT_CONFIG_TAG}  </head>`);
+  } else if (!next.includes("consent-config.js")) {
     next = next.replace("</head>", `${CONSENT_CONFIG_TAG}  </head>`);
   }
   if (!next.includes("cookie-consent.js")) {
@@ -64,7 +68,7 @@ let updated = 0;
 for (const file of walk(ROOT)) {
   const raw = fs.readFileSync(file, "utf8");
   let next = stripGtag(raw);
-  next = ensureConsentScripts(next);
+  next = ensureConsentAssets(next);
   if (next !== raw) {
     fs.writeFileSync(file, next, "utf8");
     updated += 1;

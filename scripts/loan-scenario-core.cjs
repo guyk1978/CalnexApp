@@ -402,6 +402,7 @@ const renderGuidePage = (entry, options = {}) => {
   <meta property="og:site_name" content="CalnexApp" />
   <link rel="stylesheet" href="/assets/css/style.css" />
   <link rel="stylesheet" href="/assets/css/loan-scenario-guide.css" />
+  <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=1" />
   <script type="application/ld+json">${JSON.stringify(schema, null, 2)}</script>
   <script src="/assets/js/consent-config.js"></script>
 </head>

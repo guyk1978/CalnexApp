@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CONSENT_STORAGE_KEY } from "@/lib/consent/constants";
 import { getConsentConfigFromEnv } from "@/lib/consent/config";
 import { activateConsentScripts } from "@/lib/consent/load-scripts";
+import { readStoredConsent, writeStoredConsent } from "@/lib/consent/storage";
 
 export type ConsentChoice = "granted" | "denied" | null;
 
@@ -13,7 +13,7 @@ export function useCookieConsent() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
+    const stored = readStoredConsent();
     if (stored === "true") {
       setChoice("granted");
       activateConsentScripts(config);
@@ -24,13 +24,13 @@ export function useCookieConsent() {
   }, [config]);
 
   const accept = useCallback(() => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "true");
+    writeStoredConsent(true);
     setChoice("granted");
     activateConsentScripts(config);
   }, [config]);
 
   const decline = useCallback(() => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "false");
+    writeStoredConsent(false);
     setChoice("denied");
   }, []);
 
