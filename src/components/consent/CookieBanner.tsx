@@ -36,6 +36,11 @@ export function CookieBanner() {
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
+    (window as Window & { __CALNEX_COOKIE_CONSENT_INIT__?: boolean }).__CALNEX_COOKIE_CONSENT_INIT__ =
+      true;
+    document
+      .querySelectorAll("#cn-cookie-consent-root, [data-cn-static-consent]")
+      .forEach((node) => node.remove());
     setPortalTarget(document.body);
     ensureConsentStylesheet();
     injectCriticalPositioning();

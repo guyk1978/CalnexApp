@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ))}
         <link rel="stylesheet" href={publicAsset(CONSENT_CSS_HREF)} />
       </head>
-      <body>
+      <body data-cn-next-layout="true">
         <CookieBanner />
         <Script src={publicAsset(siteScripts.themeInit)} strategy="beforeInteractive" />
         <SiteHeader />

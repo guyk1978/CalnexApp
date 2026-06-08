@@ -128,10 +128,12 @@
   outline: none;
 }
 
-/* Prevent footer / site typography from leaking into the banner */
+/* Legacy bleed: hide mis-placed banner nodes inside footer (static Shadow DOM uses host on body) */
 .site-footer #cn-cookie-consent-root,
 .footer-content #cn-cookie-consent-root,
-footer #cn-cookie-consent-root {
+footer #cn-cookie-consent-root,
+.site-footer [data-cn-cookie-banner],
+.footer-content [data-cn-cookie-banner] {
   display: none !important;
 }
 

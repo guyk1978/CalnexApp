@@ -1,43 +1,24 @@
 /**
- * Cookie consent — floating Industrial Matte banner for static HTML pages.
- * Always appended to document.body (never footer). Styles: cookie-consent.css + inline fallback.
+ * Global cookie consent for static HTML pages (tools, blog, etc.).
+ * Next.js App Router pages use layout.tsx CookieBanner — this script skips them.
+ * Shadow DOM isolates styles from footer/layout inheritance.
  */
 (function () {
   "use strict";
 
   if (window.__CALNEX_COOKIE_CONSENT_INIT__) return;
+  if (document.body && document.body.dataset.cnNextLayout === "true") return;
+  if (document.documentElement.dataset.cnNextLayout === "true") return;
+
   window.__CALNEX_COOKIE_CONSENT_INIT__ = true;
 
   var STORAGE_KEY = "calnexapp_consent_given";
   var LEGACY_KEY = "calnex_consent_granted";
-  var CSS_HREF = "/assets/css/cookie-consent.css?v=3";
   var ROOT_ID = "cn-cookie-consent-root";
-  var ROOT_CLASSES =
-    "cn-cookie-banner fixed bottom-4 left-4 right-4 z-[9999] mx-auto max-w-4xl p-6 bg-neutral-900/80 backdrop-blur-2xl border border-white/10 rounded-xl shadow-2xl";
-  var ROOT_STYLE =
-    "position:fixed;bottom:1rem;left:1rem;right:1rem;z-index:9999;max-width:56rem;margin:0 auto;padding:1.5rem;box-sizing:border-box;background:rgba(23,23,23,0.8);-webkit-backdrop-filter:blur(40px);backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.55);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#f5f5f5;isolation:isolate;pointer-events:auto;";
+  var HOST_STYLE =
+    "position:fixed;bottom:1rem;left:1rem;right:1rem;z-index:9999;max-width:56rem;margin:0 auto;display:block;pointer-events:none;";
+  var SHADOW_CSS = "\n:host {\n  position: fixed !important;\n  bottom: 1rem;\n  left: 1rem;\n  right: 1rem;\n  z-index: 9999 !important;\n  max-width: 56rem;\n  margin: 0 auto;\n  display: block;\n  pointer-events: none;\n  box-sizing: border-box;\n}\n.cn-cookie-banner-panel {\n  pointer-events: auto;\n  box-sizing: border-box;\n  padding: 1.5rem;\n  background: rgba(23, 23, 23, 0.8);\n  -webkit-backdrop-filter: blur(40px);\n  backdrop-filter: blur(40px);\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  border-radius: 0.75rem;\n  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);\n  font-family: Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif;\n  color: #f5f5f5;\n}\n.cn-cookie-consent__inner {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n  gap: 1rem;\n  width: 100%;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__inner {\n    flex-direction: row;\n    align-items: center;\n    gap: 1.5rem;\n  }\n}\n.cn-cookie-consent__copy {\n  min-width: 0;\n  flex: 1 1 auto;\n  text-align: center;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__copy { text-align: left; }\n}\n.cn-cookie-consent__title {\n  margin: 0 0 0.35rem;\n  font-size: 0.9375rem;\n  font-weight: 600;\n  color: #fafafa;\n}\n.cn-cookie-consent__desc {\n  margin: 0;\n  font-size: 0.8125rem;\n  line-height: 1.55;\n  color: #a3a3a3;\n}\n.cn-cookie-consent__actions {\n  display: flex;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  align-items: center;\n  justify-content: center;\n  gap: 0.75rem;\n  width: 100%;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__actions {\n    width: auto;\n    justify-content: flex-end;\n  }\n}\n.cn-cookie-consent__btn {\n  all: unset;\n  box-sizing: border-box;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 2.5rem;\n  padding: 0.5rem 1.25rem;\n  border-radius: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  font-family: inherit;\n  line-height: 1.2;\n  cursor: pointer;\n  white-space: nowrap;\n}\n.cn-cookie-consent__btn--decline { color: #a3a3a3; background: transparent; }\n.cn-cookie-consent__btn--decline:hover { color: #fff; }\n.cn-cookie-consent__btn--accept { color: #fff; background: #2563eb; }\n.cn-cookie-consent__btn--accept:hover { background: #3b82f6; }\n";
   var loaded = { ga: false, adsense: false };
-
-  function resolveAssetPath(path) {
-    if (typeof window.CalnexPath === "function") return window.CalnexPath(path);
-    return path;
-  }
-
-  function ensureStylesheet() {
-    var href = resolveAssetPath(CSS_HREF);
-    if (!document.getElementById("cn-cookie-consent-critical")) {
-      var critical = document.createElement("style");
-      critical.id = "cn-cookie-consent-critical";
-      critical.textContent =
-        "#cn-cookie-consent-root{position:fixed!important;z-index:9999!important;bottom:1rem;left:1rem;right:1rem;max-width:56rem;margin:0 auto;isolation:isolate!important;}";
-      document.head.appendChild(critical);
-    }
-    if (document.querySelector('link[href="' + href + '"], link[href="' + CSS_HREF + '"]')) return;
-    var link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    document.head.appendChild(link);
-  }
 
   function getConfig() {
     var cfg = window.__CALNEX_CONSENT_CONFIG__ || {};
@@ -105,33 +86,48 @@
   }
 
   function removeBanner() {
-    var nodes = document.querySelectorAll("#" + ROOT_ID);
+    var nodes = document.querySelectorAll("#" + ROOT_ID + ", [data-cn-cookie-banner]");
     for (var i = 0; i < nodes.length; i++) {
       var node = nodes[i];
       if (node && node.parentNode) node.parentNode.removeChild(node);
     }
+    var inFooter = document.querySelectorAll("footer .cn-cookie-consent__title, .site-footer .cn-cookie-consent__title");
+    for (var j = 0; j < inFooter.length; j++) {
+      var el = inFooter[j];
+      var root = el.closest("#" + ROOT_ID) || el.closest("[data-cn-cookie-banner]") || el.closest(".cn-cookie-consent__inner");
+      if (root && root.parentNode) root.parentNode.removeChild(root);
+    }
   }
 
-  function mountToBody(root) {
-    if (root.parentNode && root.parentNode !== document.body) {
-      root.parentNode.removeChild(root);
+  function mountHost(host) {
+    if (host.parentNode !== document.body) {
+      if (host.parentNode) host.parentNode.removeChild(host);
+      document.body.insertBefore(host, document.body.firstChild);
     }
-    document.body.appendChild(root);
   }
 
   function createBanner(onAccept, onDecline) {
     removeBanner();
-    ensureStylesheet();
 
-    var root = document.createElement("div");
-    root.id = ROOT_ID;
-    root.className = ROOT_CLASSES;
-    root.setAttribute("style", ROOT_STYLE);
-    root.setAttribute("role", "dialog");
-    root.setAttribute("aria-labelledby", "cn-cookie-consent-title");
-    root.setAttribute("aria-describedby", "cn-cookie-consent-desc");
-    root.setAttribute("aria-live", "polite");
-    root.setAttribute("data-cn-cookie-banner", "true");
+    var host = document.createElement("div");
+    host.id = ROOT_ID;
+    host.setAttribute("data-cn-cookie-banner", "true");
+    host.setAttribute("data-cn-static-consent", "true");
+    host.setAttribute("style", HOST_STYLE);
+    host.setAttribute("role", "presentation");
+
+    var shadow = host.attachShadow({ mode: "open" });
+
+    var style = document.createElement("style");
+    style.textContent = SHADOW_CSS;
+    shadow.appendChild(style);
+
+    var panel = document.createElement("div");
+    panel.className = "cn-cookie-banner-panel";
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-labelledby", "cn-cookie-consent-title");
+    panel.setAttribute("aria-describedby", "cn-cookie-consent-desc");
+    panel.setAttribute("aria-live", "polite");
 
     var inner = document.createElement("div");
     inner.className = "cn-cookie-consent__inner";
@@ -178,10 +174,11 @@
     actions.appendChild(acceptBtn);
     inner.appendChild(copy);
     inner.appendChild(actions);
-    root.appendChild(inner);
+    panel.appendChild(inner);
+    shadow.appendChild(panel);
 
-    mountToBody(root);
-    return root;
+    mountHost(host);
+    return host;
   }
 
   function init() {
