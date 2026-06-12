@@ -82,6 +82,11 @@
   color: #a3a3a3 !important;
 }
 
+#cn-cookie-consent-root .cn-cookie-consent__desc--denied {
+  color: #f87171 !important;
+  font-weight: 500;
+}
+
 #cn-cookie-consent-root .cn-cookie-consent__actions {
   display: flex;
   flex-shrink: 0;

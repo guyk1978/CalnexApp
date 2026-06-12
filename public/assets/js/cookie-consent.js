@@ -17,7 +17,7 @@
   var ROOT_ID = "cn-cookie-consent-root";
   var HOST_STYLE =
     "position:fixed;inset:0;z-index:9999;display:block;pointer-events:auto;";
-  var SHADOW_CSS = "\n:host {\n  position: fixed !important;\n  inset: 0;\n  z-index: 9999 !important;\n  display: block;\n  pointer-events: auto;\n  box-sizing: border-box;\n}\n.cn-cookie-consent-overlay {\n  position: absolute;\n  inset: 0;\n  background: transparent;\n  -webkit-backdrop-filter: blur(2px);\n  backdrop-filter: blur(2px);\n  pointer-events: auto;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center;\n  padding: 1rem;\n  box-sizing: border-box;\n}\n.cn-cookie-banner-panel {\n  pointer-events: auto;\n  box-sizing: border-box;\n  width: 100%;\n  max-width: 56rem;\n  padding: 1.5rem;\n  background: #171717;\n  border: none;\n  border-radius: 0.75rem;\n  box-shadow:\n    0 20px 40px -12px rgba(0, 0, 0, 0.35),\n    0 8px 16px -8px rgba(0, 0, 0, 0.2);\n  font-family: Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif;\n  color: #f5f5f5;\n}\n.cn-cookie-consent__inner {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n  gap: 1rem;\n  width: 100%;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__inner {\n    flex-direction: row;\n    align-items: center;\n    gap: 1.5rem;\n  }\n}\n.cn-cookie-consent__copy {\n  min-width: 0;\n  flex: 1 1 auto;\n  text-align: center;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__copy {\n    text-align: start;\n  }\n}\n.cn-cookie-consent__title {\n  margin: 0 0 0.35rem;\n  font-size: 0.9375rem;\n  font-weight: 600;\n  color: #fafafa;\n}\n.cn-cookie-consent__desc {\n  margin: 0;\n  font-size: 0.8125rem;\n  line-height: 1.55;\n  color: #a3a3a3;\n}\n.cn-cookie-consent__actions {\n  display: flex;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  align-items: center;\n  justify-content: center;\n  gap: 0.75rem;\n  width: 100%;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__actions {\n    width: auto;\n    margin-inline-start: auto;\n  }\n}\n.cn-cookie-consent__btn {\n  all: unset;\n  box-sizing: border-box;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 2.5rem;\n  padding: 0.5rem 1.25rem;\n  border-radius: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  font-family: inherit;\n  line-height: 1.2;\n  cursor: pointer;\n  white-space: nowrap;\n}\n.cn-cookie-consent__btn--decline { color: #a3a3a3; background: transparent; }\n.cn-cookie-consent__btn--decline:hover { color: #fff; }\n.cn-cookie-consent__btn--accept { color: #fff; background: #2563eb; }\n.cn-cookie-consent__btn--accept:hover { background: #3b82f6; }\n";
+  var SHADOW_CSS = "\n:host {\n  position: fixed !important;\n  inset: 0;\n  z-index: 9999 !important;\n  display: block;\n  pointer-events: auto;\n  box-sizing: border-box;\n}\n.cn-cookie-consent-overlay {\n  position: absolute;\n  inset: 0;\n  background: transparent;\n  -webkit-backdrop-filter: blur(2px);\n  backdrop-filter: blur(2px);\n  pointer-events: auto;\n  display: flex;\n  align-items: flex-end;\n  justify-content: center;\n  padding: 1rem;\n  box-sizing: border-box;\n}\n.cn-cookie-banner-panel {\n  pointer-events: auto;\n  box-sizing: border-box;\n  width: 100%;\n  max-width: 56rem;\n  padding: 1.5rem;\n  background: #171717;\n  border: none;\n  border-radius: 0.75rem;\n  box-shadow:\n    0 20px 40px -12px rgba(0, 0, 0, 0.35),\n    0 8px 16px -8px rgba(0, 0, 0, 0.2);\n  font-family: Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif;\n  color: #f5f5f5;\n}\n.cn-cookie-consent__inner {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n  gap: 1rem;\n  width: 100%;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__inner {\n    flex-direction: row;\n    align-items: center;\n    gap: 1.5rem;\n  }\n}\n.cn-cookie-consent__copy {\n  min-width: 0;\n  flex: 1 1 auto;\n  text-align: center;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__copy {\n    text-align: start;\n  }\n}\n.cn-cookie-consent__title {\n  margin: 0 0 0.35rem;\n  font-size: 0.9375rem;\n  font-weight: 600;\n  color: #fafafa;\n}\n.cn-cookie-consent__desc {\n  margin: 0;\n  font-size: 0.8125rem;\n  line-height: 1.55;\n  color: #a3a3a3;\n}\n.cn-cookie-consent__desc--denied {\n  color: #f87171;\n  font-weight: 500;\n}\n.cn-cookie-consent__actions {\n  display: flex;\n  flex-shrink: 0;\n  flex-wrap: nowrap;\n  align-items: center;\n  justify-content: center;\n  gap: 0.75rem;\n  width: 100%;\n}\n@media (min-width: 768px) {\n  .cn-cookie-consent__actions {\n    width: auto;\n    margin-inline-start: auto;\n  }\n}\n.cn-cookie-consent__btn {\n  all: unset;\n  box-sizing: border-box;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 2.5rem;\n  padding: 0.5rem 1.25rem;\n  border-radius: 0.5rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  font-family: inherit;\n  line-height: 1.2;\n  cursor: pointer;\n  white-space: nowrap;\n}\n.cn-cookie-consent__btn--decline { color: #a3a3a3; background: transparent; }\n.cn-cookie-consent__btn--decline:hover { color: #fff; }\n.cn-cookie-consent__btn--accept { color: #fff; background: #2563eb; }\n.cn-cookie-consent__btn--accept:hover { background: #3b82f6; }\n";
   var loaded = { ga: false, adsense: false };
 
   function getConfig() {
@@ -93,20 +93,22 @@
     return "ltr";
   }
 
-  function getConsentCopy() {
+  function getConsentCopy(accessDenied) {
     if (getConsentDirection() === "rtl") {
       return {
-        title: "עוגיות ואנליטיקה",
-        description:
-          "אנו משתמשים בעוגיות אופציונליות לניתוח (Google Analytics) וייתכן שנשתמש בעוגיות פרסום (Google AdSense) בעתיד. לחצו אישור כדי להפעיל סקריפטים אלה; דחייה מאפשרת גלישה ללא העוגיות.",
+        title: "נדרשת מדיניות עוגיות",
+        description: accessDenied
+          ? "גישה נדחתה: עליכם לאשר את מדיניות העוגיות כדי להשתמש באתר."
+          : "אתר זה משתמש בעוגיות עבור Google Analytics. כדי להמשיך להשתמש בכלים שלנו, עליכם לאשר את מדיניות העוגיות.",
         accept: "אישור",
         decline: "דחייה",
       };
     }
     return {
-      title: "Cookies & analytics",
-      description:
-        "We use optional cookies for analytics (Google Analytics) and may use advertising cookies (Google AdSense) in the future. Accept to enable these scripts; decline to browse without them.",
+      title: "Cookie policy required",
+      description: accessDenied
+        ? "Access denied: You must accept the cookie policy to use this site."
+        : "This site uses cookies for Google Analytics. To continue using our tools, you must accept our cookie policy.",
       accept: "Accept",
       decline: "Decline",
     };
@@ -136,8 +138,9 @@
   function createBanner(onAccept, onDecline) {
     removeBanner();
 
-    var strings = getConsentCopy();
+    var accessDenied = false;
     var dir = getConsentDirection();
+    var strings = getConsentCopy(accessDenied);
 
     var host = document.createElement("div");
     host.id = ROOT_ID;
@@ -180,6 +183,13 @@
     desc.className = "cn-cookie-consent__desc";
     desc.textContent = strings.description;
 
+    function setAccessDeniedMessage() {
+      accessDenied = true;
+      var next = getConsentCopy(true);
+      desc.textContent = next.description;
+      desc.classList.add("cn-cookie-consent__desc--denied");
+    }
+
     copyBlock.appendChild(title);
     copyBlock.appendChild(desc);
 
@@ -192,7 +202,7 @@
     declineBtn.textContent = strings.decline;
     declineBtn.addEventListener("click", function () {
       onDecline();
-      removeBanner();
+      setAccessDeniedMessage();
     });
 
     var acceptBtn = document.createElement("button");
@@ -224,7 +234,6 @@
       activateConsentScripts(config);
       return;
     }
-    if (stored === "false") return;
 
     createBanner(
       function () {

@@ -5,11 +5,11 @@ import { getConsentConfigFromEnv } from "@/lib/consent/config";
 import { activateConsentScripts } from "@/lib/consent/load-scripts";
 import { readStoredConsent, writeStoredConsent } from "@/lib/consent/storage";
 
-export type ConsentChoice = "granted" | "denied" | null;
+export type ConsentChoice = "granted" | "pending" | "declined";
 
 export function useCookieConsent() {
   const config = useMemo(() => getConsentConfigFromEnv(), []);
-  const [choice, setChoice] = useState<ConsentChoice>(null);
+  const [choice, setChoice] = useState<ConsentChoice>("pending");
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -17,8 +17,8 @@ export function useCookieConsent() {
     if (stored === "true") {
       setChoice("granted");
       activateConsentScripts(config);
-    } else if (stored === "false") {
-      setChoice("denied");
+    } else {
+      setChoice("pending");
     }
     setReady(true);
   }, [config]);
@@ -31,10 +31,11 @@ export function useCookieConsent() {
 
   const decline = useCallback(() => {
     writeStoredConsent(false);
-    setChoice("denied");
+    setChoice("declined");
   }, []);
 
-  const visible = ready && choice === null;
+  const isOverlayActive = ready && choice !== "granted";
+  const accessDenied = choice === "declined";
 
-  return { visible, choice, accept, decline };
+  return { isOverlayActive, accessDenied, choice, accept, decline };
 }

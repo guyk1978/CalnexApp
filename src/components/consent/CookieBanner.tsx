@@ -33,11 +33,11 @@ function injectCriticalPositioning() {
 }
 
 /**
- * Light Blur Teaser cookie consent — full-viewport overlay with shadow-only card.
- * Portaled to document.body; blocks interaction until Accept or Decline.
+ * Mandatory cookie gate — transparent blur overlay blocks the site until Accept.
+ * Decline keeps the overlay active and shows an access-denied message.
  */
 export function CookieBanner() {
-  const { visible, accept, decline } = useCookieConsent();
+  const { isOverlayActive, accessDenied, accept, decline } = useCookieConsent();
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -51,10 +51,10 @@ export function CookieBanner() {
     injectCriticalPositioning();
   }, []);
 
-  if (!portalTarget || !visible) return null;
+  if (!portalTarget || !isOverlayActive) return null;
 
   const dir = getConsentDirection();
-  const copy = getConsentCopy();
+  const copy = getConsentCopy(accessDenied);
 
   return createPortal(
     <div
@@ -80,7 +80,9 @@ export function CookieBanner() {
             </p>
             <p
               id="cn-cookie-consent-desc"
-              className="cn-cookie-consent__desc m-0 text-[0.8125rem] leading-relaxed text-neutral-400"
+              className={`cn-cookie-consent__desc m-0 text-[0.8125rem] leading-relaxed ${
+                accessDenied ? "cn-cookie-consent__desc--denied text-red-400" : "text-neutral-400"
+              }`}
             >
               {copy.description}
             </p>

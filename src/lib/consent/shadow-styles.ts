@@ -73,6 +73,10 @@ export const COOKIE_BANNER_SHADOW_CSS = `
   line-height: 1.55;
   color: #a3a3a3;
 }
+.cn-cookie-consent__desc--denied {
+  color: #f87171;
+  font-weight: 500;
+}
 .cn-cookie-consent__actions {
   display: flex;
   flex-shrink: 0;
