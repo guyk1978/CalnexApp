@@ -27,7 +27,7 @@ const GTAG_BLOCK_RE =
 const GTAG_PAIR_RE =
   /<script\s+async\s+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]*"><\/script>\s*<script>[\s\S]*?gtag\s*\(\s*["']config["'][\s\S]*?<\/script>\s*/gi;
 
-const CONSENT_CSS_HREF = "/assets/css/cookie-consent.css?v=4";
+const CONSENT_CSS_HREF = "/assets/css/cookie-consent.css?v=5";
 const CONSENT_CSS_TAG = `    <link rel="stylesheet" href="${CONSENT_CSS_HREF}" />\n`;
 const CONSENT_CSS_ANY_RE =
   /<link\s+rel="stylesheet"\s+href="\/assets\/css\/cookie-consent\.css\?v=[^"]*"\s*\/?>\s*/gi;

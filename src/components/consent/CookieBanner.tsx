@@ -4,11 +4,15 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useCookieConsent } from "@/hooks/useCookieConsent";
 import {
-  COOKIE_BANNER_ROOT_CLASSES,
   COOKIE_BANNER_ROOT_ID,
-  COOKIE_BANNER_ROOT_STYLE,
+  COOKIE_OVERLAY_CLASSES,
+  COOKIE_OVERLAY_STYLE,
+  COOKIE_PANEL_CLASSES,
+  COOKIE_PANEL_STYLE,
 } from "@/lib/consent/banner-classes";
+import { getConsentCopy } from "@/lib/consent/copy";
 import { CONSENT_CSS_HREF } from "@/lib/consent/constants";
+import { getConsentDirection } from "@/lib/consent/locale";
 import { publicAsset } from "@/lib/public-asset";
 
 function ensureConsentStylesheet() {
@@ -24,12 +28,13 @@ function injectCriticalPositioning() {
   if (document.getElementById("cn-cookie-consent-critical")) return;
   const style = document.createElement("style");
   style.id = "cn-cookie-consent-critical";
-  style.textContent = `#${COOKIE_BANNER_ROOT_ID}{position:fixed!important;z-index:9999!important;bottom:1rem;left:1rem;right:1rem;max-width:56rem;margin:0 auto;isolation:isolate!important;}`;
+  style.textContent = `#${COOKIE_BANNER_ROOT_ID}{position:fixed!important;inset:0!important;z-index:9999!important;pointer-events:auto!important;background:transparent!important;-webkit-backdrop-filter:blur(2px)!important;backdrop-filter:blur(2px)!important;}`;
   document.head.appendChild(style);
 }
 
 /**
- * Floating cookie consent — always portaled to document.body (never footer/layout DOM).
+ * Light Blur Teaser cookie consent — full-viewport overlay with shadow-only card.
+ * Portaled to document.body; blocks interaction until Accept or Decline.
  */
 export function CookieBanner() {
   const { visible, accept, decline } = useCookieConsent();
@@ -48,49 +53,54 @@ export function CookieBanner() {
 
   if (!portalTarget || !visible) return null;
 
+  const dir = getConsentDirection();
+  const copy = getConsentCopy();
+
   return createPortal(
     <div
       id={COOKIE_BANNER_ROOT_ID}
-      className={COOKIE_BANNER_ROOT_CLASSES}
-      style={COOKIE_BANNER_ROOT_STYLE}
+      className={COOKIE_OVERLAY_CLASSES}
+      style={COOKIE_OVERLAY_STYLE}
       role="dialog"
       aria-labelledby="cn-cookie-consent-title"
       aria-describedby="cn-cookie-consent-desc"
       aria-live="polite"
+      aria-modal="true"
       data-cn-cookie-banner="true"
+      dir={dir}
     >
-      <div className="cn-cookie-consent__inner flex flex-col items-center justify-between gap-4 md:flex-row md:gap-6">
-        <div className="cn-cookie-consent__copy min-w-0 flex-1 text-center md:text-left">
-          <p
-            id="cn-cookie-consent-title"
-            className="cn-cookie-consent__title m-0 mb-1.5 text-[0.9375rem] font-semibold text-neutral-50"
-          >
-            Cookies &amp; analytics
-          </p>
-          <p
-            id="cn-cookie-consent-desc"
-            className="cn-cookie-consent__desc m-0 text-[0.8125rem] leading-relaxed text-neutral-400"
-          >
-            We use optional cookies for analytics (Google Analytics) and may use advertising cookies
-            (Google AdSense) in the future. Accept to enable these scripts; decline to browse without
-            them.
-          </p>
-        </div>
-        <div className="cn-cookie-consent__actions flex w-full shrink-0 flex-nowrap items-center justify-center gap-3 md:w-auto md:justify-end">
-          <button
-            type="button"
-            className="cn-cookie-consent__btn cn-cookie-consent__btn--decline"
-            onClick={decline}
-          >
-            Decline
-          </button>
-          <button
-            type="button"
-            className="cn-cookie-consent__btn cn-cookie-consent__btn--accept"
-            onClick={accept}
-          >
-            Accept
-          </button>
+      <div className={COOKIE_PANEL_CLASSES} style={COOKIE_PANEL_STYLE}>
+        <div className="cn-cookie-consent__inner flex flex-col items-center justify-between gap-4 md:flex-row md:gap-6">
+          <div className="cn-cookie-consent__copy min-w-0 flex-1 text-center md:text-start">
+            <p
+              id="cn-cookie-consent-title"
+              className="cn-cookie-consent__title m-0 mb-1.5 text-[0.9375rem] font-semibold text-neutral-50"
+            >
+              {copy.title}
+            </p>
+            <p
+              id="cn-cookie-consent-desc"
+              className="cn-cookie-consent__desc m-0 text-[0.8125rem] leading-relaxed text-neutral-400"
+            >
+              {copy.description}
+            </p>
+          </div>
+          <div className="cn-cookie-consent__actions flex w-full shrink-0 flex-nowrap items-center justify-center gap-3 md:ms-auto md:w-auto">
+            <button
+              type="button"
+              className="cn-cookie-consent__btn cn-cookie-consent__btn--decline"
+              onClick={decline}
+            >
+              {copy.decline}
+            </button>
+            <button
+              type="button"
+              className="cn-cookie-consent__btn cn-cookie-consent__btn--accept"
+              onClick={accept}
+            >
+              {copy.accept}
+            </button>
+          </div>
         </div>
       </div>
     </div>,
@@ -98,5 +108,8 @@ export function CookieBanner() {
   );
 }
 
-/** @deprecated Use CookieBanner */
+/** Primary export name for layout integration. */
+export { CookieBanner as CookieConsent };
+
+/** @deprecated Use CookieConsent */
 export { CookieBanner as CookieConsentBanner };

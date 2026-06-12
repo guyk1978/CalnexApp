@@ -1,2 +1,2 @@
-/** @deprecated Import CookieBanner from ./CookieBanner */
-export { CookieBanner, CookieBanner as CookieConsentBanner } from "./CookieBanner";
+/** @deprecated Import CookieConsent from ./CookieBanner */
+export { CookieConsent, CookieBanner, CookieConsentBanner } from "./CookieBanner";

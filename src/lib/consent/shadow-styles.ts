@@ -1,27 +1,38 @@
-/** Encapsulated banner styles (Shadow DOM) — isolated from footer/layout CSS. */
+/** Encapsulated banner styles (Shadow DOM) — Light Blur Teaser overlay + shadow card. */
 export const COOKIE_BANNER_SHADOW_CSS = `
 :host {
   position: fixed !important;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
+  inset: 0;
   z-index: 9999 !important;
-  max-width: 56rem;
-  margin: 0 auto;
   display: block;
-  pointer-events: none;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+.cn-cookie-consent-overlay {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
   box-sizing: border-box;
 }
 .cn-cookie-banner-panel {
   pointer-events: auto;
   box-sizing: border-box;
+  width: 100%;
+  max-width: 56rem;
   padding: 1.5rem;
-  background: rgba(23, 23, 23, 0.8);
-  -webkit-backdrop-filter: blur(40px);
-  backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #171717;
+  border: none;
   border-radius: 0.75rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
+  box-shadow:
+    0 20px 40px -12px rgba(0, 0, 0, 0.35),
+    0 8px 16px -8px rgba(0, 0, 0, 0.2);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #f5f5f5;
 }
@@ -46,7 +57,9 @@ export const COOKIE_BANNER_SHADOW_CSS = `
   text-align: center;
 }
 @media (min-width: 768px) {
-  .cn-cookie-consent__copy { text-align: left; }
+  .cn-cookie-consent__copy {
+    text-align: start;
+  }
 }
 .cn-cookie-consent__title {
   margin: 0 0 0.35rem;
@@ -72,7 +85,7 @@ export const COOKIE_BANNER_SHADOW_CSS = `
 @media (min-width: 768px) {
   .cn-cookie-consent__actions {
     width: auto;
-    justify-content: flex-end;
+    margin-inline-start: auto;
   }
 }
 .cn-cookie-consent__btn {
