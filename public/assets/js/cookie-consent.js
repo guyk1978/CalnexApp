@@ -1,16 +1,12 @@
 /**
- * Global cookie consent for static HTML pages (tools, blog, etc.).
- * Next.js App Router pages use layout.tsx CookieBanner — this script skips them.
- * Shadow DOM isolates styles from footer/layout inheritance.
+ * Global cookie consent gatekeeper (static HTML + Next.js fallback).
+ * Next App Router renders CookieConsent when possible; this script still runs
+ * on static pages immediately and on Next pages after a short fallback delay.
  */
 (function () {
   "use strict";
 
   if (window.__CALNEX_COOKIE_CONSENT_INIT__) return;
-  if (document.body && document.body.dataset.cnNextLayout === "true") return;
-  if (document.documentElement.dataset.cnNextLayout === "true") return;
-
-  window.__CALNEX_COOKIE_CONSENT_INIT__ = true;
 
   var STORAGE_KEY = "calnexapp_consent_given";
   var LEGACY_KEY = "calnex_consent_granted";
@@ -246,9 +242,35 @@
     );
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
+  function isNextLayout() {
+    return (
+      (document.body && document.body.dataset.cnNextLayout === "true") ||
+      document.documentElement.dataset.cnNextLayout === "true"
+    );
+  }
+
+  function startStaticGatekeeper() {
+    if (window.__CALNEX_COOKIE_CONSENT_INIT__) return;
+    if (readStoredConsent() === "true") return;
+    if (document.getElementById(ROOT_ID)) return;
+    window.__CALNEX_COOKIE_CONSENT_INIT__ = true;
     init();
+  }
+
+  function bootstrap() {
+    if (isNextLayout()) {
+      var attemptFallback = function () {
+        startStaticGatekeeper();
+      };
+      window.setTimeout(attemptFallback, 1800);
+      return;
+    }
+    startStaticGatekeeper();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootstrap);
+  } else {
+    bootstrap();
   }
 })();

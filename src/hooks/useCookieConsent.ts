@@ -7,20 +7,25 @@ import { readStoredConsent, writeStoredConsent } from "@/lib/consent/storage";
 
 export type ConsentChoice = "granted" | "pending" | "declined";
 
+function readInitialChoice(): ConsentChoice {
+  if (typeof window === "undefined") return "pending";
+  return readStoredConsent() === "true" ? "granted" : "pending";
+}
+
 export function useCookieConsent() {
   const config = useMemo(() => getConsentConfigFromEnv(), []);
-  const [choice, setChoice] = useState<ConsentChoice>("pending");
-  const [ready, setReady] = useState(false);
+  const [choice, setChoice] = useState<ConsentChoice>(readInitialChoice);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const stored = readStoredConsent();
     if (stored === "true") {
       setChoice("granted");
       activateConsentScripts(config);
     } else {
-      setChoice("pending");
+      setChoice(stored === "false" ? "declined" : "pending");
     }
-    setReady(true);
   }, [config]);
 
   const accept = useCallback(() => {
@@ -34,7 +39,7 @@ export function useCookieConsent() {
     setChoice("declined");
   }, []);
 
-  const isOverlayActive = ready && choice !== "granted";
+  const isOverlayActive = mounted && choice !== "granted";
   const accessDenied = choice === "declined";
 
   return { isOverlayActive, accessDenied, choice, accept, decline };

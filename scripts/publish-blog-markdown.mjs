@@ -214,7 +214,7 @@ function buildArticleHtml(meta, bodyMd) {
     <meta property="og:url" content="${escapeHtml(canonical)}" />
     <meta property="og:site_name" content="CalnexApp" />
     <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
-    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=5" />
+    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
     <script src="/assets/js/consent-config.js"></script>
     <script type="application/ld+json">
 ${JSON.stringify(
@@ -280,7 +280,7 @@ ${JSON.stringify(
     </footer>
     <script src="/assets/js/header-toolbar.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
-    <script src="/assets/js/cookie-consent.js" defer></script>
+    <script src="/assets/js/cookie-consent.js?v=6" defer></script>
   </body>
 </html>
 `;

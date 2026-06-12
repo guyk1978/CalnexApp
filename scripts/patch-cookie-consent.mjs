@@ -27,16 +27,17 @@ const GTAG_BLOCK_RE =
 const GTAG_PAIR_RE =
   /<script\s+async\s+src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]*"><\/script>\s*<script>[\s\S]*?gtag\s*\(\s*["']config["'][\s\S]*?<\/script>\s*/gi;
 
-const CONSENT_CSS_HREF = "/assets/css/cookie-consent.css?v=5";
+const CONSENT_CSS_HREF = "/assets/css/cookie-consent.css?v=6";
+const CONSENT_JS_SRC = "/assets/js/cookie-consent.js?v=6";
 const CONSENT_CSS_TAG = `    <link rel="stylesheet" href="${CONSENT_CSS_HREF}" />\n`;
 const CONSENT_CSS_ANY_RE =
   /<link\s+rel="stylesheet"\s+href="\/assets\/css\/cookie-consent\.css\?v=[^"]*"\s*\/?>\s*/gi;
 const CONSENT_CONFIG_TAG = '    <script src="/assets/js/consent-config.js"></script>\n';
 const CONSENT_CONFIG_ANY_RE =
   /<script\s+src="\/assets\/js\/consent-config\.js"><\/script>\s*/gi;
-const CONSENT_BOOT_TAG = '    <script src="/assets/js/cookie-consent.js" defer></script>\n';
+const CONSENT_BOOT_TAG = `    <script src="${CONSENT_JS_SRC}" defer></script>\n`;
 const CONSENT_BOOT_ANY_RE =
-  /<script\s+src="\/assets\/js\/cookie-consent\.js"\s+defer><\/script>\s*/gi;
+  /<script\s+src="\/assets\/js\/cookie-consent\.js(?:\?v=[^"]*)?"\s+defer><\/script>\s*/gi;
 
 /** Legacy inline banner fragments (footer bleed). */
 const LEGACY_COOKIE_MARKUP_RE =

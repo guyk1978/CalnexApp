@@ -4,7 +4,7 @@ import { CookieConsent } from "@/components/consent/CookieBanner";
 import { SiteChromeBoot } from "@/components/layout/SiteChromeBoot";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { CONSENT_CSS_HREF } from "@/lib/consent/constants";
+import { CONSENT_CSS_HREF, CONSENT_JS_SRC } from "@/lib/consent/constants";
 import { publicAsset, siteScripts, siteStylesheets } from "@/lib/public-asset";
 import "./globals.css";
 
@@ -35,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <link key={href} rel="stylesheet" href={publicAsset(href)} />
         ))}
         <link rel="stylesheet" href={publicAsset(CONSENT_CSS_HREF)} />
+        <script src={publicAsset(CONSENT_JS_SRC)} defer />
       </head>
       <body data-cn-next-layout="true">
         <CookieConsent />
