@@ -5,7 +5,11 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createRequire } from "module";
 import { ensureDir, PUBLIC_ASSETS, ROOT_ASSETS } from "./lib/ensure-public-assets.mjs";
+
+const require = createRequire(import.meta.url);
+const { versionStyleCssImports } = require("./site-stylesheets.cjs");
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SRC_CSS = path.join(ROOT_ASSETS, "css");
@@ -58,8 +62,25 @@ function copyCssDir(src, dest) {
   return count;
 }
 
+function patchStyleCssImports(cssDir) {
+  const stylePath = path.join(cssDir, "style.css");
+  if (!fs.existsSync(stylePath)) return false;
+  const raw = fs.readFileSync(stylePath, "utf8");
+  const next = versionStyleCssImports(raw);
+  if (next === raw) return false;
+  fs.writeFileSync(stylePath, next, "utf8");
+  return true;
+}
+
 const publicDest = path.join(PUBLIC_ASSETS, "css");
 const publicCount = copyCssDir(SRC_CSS, publicDest);
+const publicPatched = patchStyleCssImports(publicDest);
+if (publicPatched) {
+  const srcStyle = path.join(SRC_CSS, "style.css");
+  if (fs.existsSync(srcStyle)) {
+    fs.copyFileSync(path.join(publicDest, "style.css"), srcStyle);
+  }
+}
 let outMsg = "";
 if (TO_OUT) {
   const outDir = path.join(ROOT, "out", "assets", "css");
@@ -67,8 +88,10 @@ if (TO_OUT) {
     console.warn("sync-site-css: skip out/ (not built yet)");
   } else {
     const outCount = copyCssDir(SRC_CSS, outDir);
+    patchStyleCssImports(outDir);
     outMsg = `, out/assets/css (${outCount} files)`;
   }
 }
 
-console.log(`sync-site-css: assets/css → public/assets/css (${publicCount} files)${outMsg}`);
+const patchNote = publicPatched ? ", versioned style.css @imports" : "";
+console.log(`sync-site-css: assets/css → public/assets/css (${publicCount} files)${patchNote}${outMsg}`);
