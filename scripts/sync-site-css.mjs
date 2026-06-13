@@ -11,15 +11,47 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SRC_CSS = path.join(ROOT_ASSETS, "css");
 const TO_OUT = process.argv.includes("--to-out");
 
+function listCssNames(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((name) => name.endsWith(".css"));
+}
+
+/** Union merge: primary wins on name conflicts; fills gaps from secondary. */
+function mergeCssDirs(primary, secondary, dest) {
+  if (!fs.existsSync(primary)) {
+    console.error("sync-site-css: missing", primary);
+    process.exit(1);
+  }
+  ensureDir(dest);
+  const names = new Set([...listCssNames(secondary), ...listCssNames(primary)]);
+  let count = 0;
+  for (const name of names) {
+    const fromPrimary = path.join(primary, name);
+    const fromSecondary = path.join(secondary, name);
+    const source = fs.existsSync(fromPrimary)
+      ? fromPrimary
+      : fs.existsSync(fromSecondary)
+        ? fromSecondary
+        : null;
+    if (!source) continue;
+    fs.copyFileSync(source, path.join(dest, name));
+    count += 1;
+  }
+  return count;
+}
+
 function copyCssDir(src, dest) {
+  const secondary = src === SRC_CSS ? path.join(PUBLIC_ASSETS, "css") : null;
+  if (secondary && fs.existsSync(secondary)) {
+    return mergeCssDirs(src, secondary, dest);
+  }
   if (!fs.existsSync(src)) {
     console.error("sync-site-css: missing", src);
     process.exit(1);
   }
   ensureDir(dest);
   let count = 0;
-  for (const name of fs.readdirSync(src)) {
-    if (!name.endsWith(".css")) continue;
+  for (const name of listCssNames(src)) {
     fs.copyFileSync(path.join(src, name), path.join(dest, name));
     count += 1;
   }

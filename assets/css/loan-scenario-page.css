@@ -1,0 +1,265 @@
+/**
+ * Pre-calculated loan scenario pages — Industrial Matte dashboard layout
+ * Scoped to .cn-loan-scenario-page
+ */
+
+.cn-loan-scenario-page {
+  --cn-scenario-workspace-max: 56rem;
+  --cn-scenario-card-bg: rgba(15, 23, 42, 0.72);
+  --cn-scenario-card-border: #1e293b;
+  --cn-scenario-muted: #94a3b8;
+}
+
+[data-theme="light"] .cn-loan-scenario-page {
+  --cn-scenario-card-bg: rgba(255, 255, 255, 0.82);
+  --cn-scenario-card-border: #e2e8f0;
+  --cn-scenario-muted: #64748b;
+}
+
+/* Workspace — centered, max-w-4xl, airy vertical rhythm */
+.cn-loan-scenario-page .cn-loan-scenario-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-workspace > * {
+  width: 100%;
+  max-width: var(--cn-scenario-workspace-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sidebar navigation */
+.cn-loan-scenario-page .cn-loan-scenario-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-nav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--cn-calc-muted, var(--cn-scenario-muted));
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-nav__back:hover {
+  color: var(--cn-calc-ink, #e8edf4);
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-nav__label {
+  margin: 0 0 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cn-calc-muted, var(--cn-scenario-muted));
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-nav__link {
+  display: block;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--cn-calc-muted, var(--cn-scenario-muted));
+  text-decoration: none;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-nav__link:hover {
+  color: var(--cn-calc-ink, #e8edf4);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-nav__link--active {
+  color: var(--cn-calc-ink, #e8edf4);
+  background: rgba(91, 140, 255, 0.1);
+  border: 1px solid rgba(91, 140, 255, 0.22);
+}
+
+[data-theme="light"] .cn-loan-scenario-page .cn-loan-scenario-nav__link:hover {
+  background: rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .cn-loan-scenario-page .cn-loan-scenario-nav__link--active {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Hero */
+.cn-loan-scenario-page .cn-loan-scenario-hero {
+  margin: 0;
+  padding: 0;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cn-calc-muted, var(--cn-scenario-muted));
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-title {
+  margin: 0 0 1rem;
+  font-family: "Plus Jakarta Sans", var(--cn-font-sans, Inter, sans-serif);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--cn-calc-ink, #e8edf4);
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-lede {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--cn-scenario-muted);
+  max-width: 42rem;
+}
+
+/* Results dashboard grid */
+.cn-loan-scenario-page .cn-loan-scenario-dashboard {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-metrics {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .cn-loan-scenario-page .cn-loan-scenario-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: 14px;
+  border: 1px solid var(--cn-scenario-card-border);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%),
+    var(--cn-scenario-card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 4px 24px rgba(0, 0, 0, 0.18);
+  min-width: 0;
+}
+
+[data-theme="light"] .cn-loan-scenario-page .cn-loan-scenario-metric {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-metric--featured {
+  border-color: rgba(91, 140, 255, 0.35);
+  background:
+    linear-gradient(145deg, rgba(91, 140, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 55%),
+    var(--cn-scenario-card-bg);
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-metric__label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cn-scenario-muted);
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-metric__value {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", var(--cn-font-sans, Inter, sans-serif);
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--cn-calc-ink, #e8edf4);
+  overflow-wrap: anywhere;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-metric--featured .cn-loan-scenario-metric__value {
+  color: #93c5fd;
+}
+
+[data-theme="light"] .cn-loan-scenario-page .cn-loan-scenario-metric--featured .cn-loan-scenario-metric__value {
+  color: #2563eb;
+}
+
+/* Context CTA — glass, not heavy box */
+.cn-loan-scenario-page .cn-tool-context-cta {
+  margin: 0;
+  padding: 1.35rem 1.5rem !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--cn-scenario-card-border) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%),
+    var(--cn-scenario-card-bg) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.cn-loan-scenario-page .cn-tool-context-cta h2 {
+  color: var(--cn-calc-ink, #e8edf4) !important;
+}
+
+.cn-loan-scenario-page .cn-tool-context-cta .muted {
+  color: var(--cn-scenario-muted) !important;
+}
+
+/* Related section — lighter industrial treatment */
+.cn-loan-scenario-page .cn-loan-scenario-workspace > section[class*="border-t"] {
+  max-width: var(--cn-scenario-workspace-max);
+  margin-top: 0 !important;
+  padding-top: 2rem !important;
+  border-top: 1px solid var(--cn-scenario-card-border) !important;
+}
+
+.cn-loan-scenario-page .cn-loan-scenario-workspace > section[class*="border-t"] h2 {
+  color: var(--cn-calc-ink, #e8edf4);
+}
+
+@media (max-width: 639px) {
+  .cn-loan-scenario-page .cn-loan-scenario-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .cn-loan-scenario-page .cn-loan-scenario-workspace {
+    gap: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+  }
+}

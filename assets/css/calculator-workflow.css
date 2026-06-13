@@ -1,0 +1,422 @@
+/**
+ * Calculator tools — dashboard layout: header | sidebar + workspace | footer
+ * Scoped to body.cn-calculator-page
+ */
+
+.cn-calculator-page {
+  --cn-calc-matte: #0a0e14;
+  --cn-calc-slate: #121a24;
+  --cn-calc-ink: #e8edf4;
+  --cn-calc-muted: #8b97a8;
+  --cn-calc-sidebar-bg: #020617;
+  --cn-calc-sidebar-border: #1e293b;
+  --cn-calc-workspace-bg: #0f172a;
+  --cn-calc-results-bg: transparent;
+  --cn-calc-sidebar-width: 20rem;
+  --cn-calc-workspace-max: 56rem;
+  --cn-header-height: 4.5rem;
+}
+
+[data-theme="light"] .cn-calculator-page {
+  --cn-calc-matte: #f4f6f9;
+  --cn-calc-slate: #e9edf3;
+  --cn-calc-ink: #0f172a;
+  --cn-calc-muted: #64748b;
+  --cn-calc-sidebar-bg: #f1f5f9;
+  --cn-calc-sidebar-border: #cbd5e1;
+  --cn-calc-workspace-bg: #f8fafc;
+}
+
+.cn-calculator-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -8%, rgba(30, 45, 68, 0.4) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 40% at 92% 100%, rgba(20, 32, 52, 0.26) 0%, transparent 52%),
+    linear-gradient(180deg, var(--cn-calc-matte) 0%, var(--cn-calc-slate) 100%);
+  color: var(--cn-calc-ink);
+}
+
+[data-theme="light"] .cn-calculator-page {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(91, 140, 255, 0.07) 0%, transparent 55%),
+    linear-gradient(180deg, var(--cn-calc-matte) 0%, var(--cn-calc-slate) 100%);
+}
+
+/* ── Row 1: header (isolated, full width, nothing above) ── */
+.cn-calculator-page .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0;
+}
+
+/* ── Row 2: dashboard body (sidebar + workspace, same Y origin) ── */
+.cn-calculator-page main.cn-calc-page-frame {
+  flex: 1 0 auto;
+  display: block;
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.cn-calculator-page .cn-calc-page-body,
+.cn-calculator-page .cn-calc-dashboard__body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+@media (min-width: 1024px) {
+  .cn-calculator-page .cn-calc-page-body,
+  .cn-calculator-page .cn-calc-dashboard__body {
+    display: grid;
+    grid-template-columns: var(--cn-calc-sidebar-width) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+/* ── Left column: sticky input sidebar (starts below header) ── */
+.cn-calculator-page .cn-calc-global-sidebar,
+.cn-calculator-page .cn-calc-sidebar.cn-calc-global-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 2.5rem 1.35rem;
+  background: var(--cn-calc-sidebar-bg) !important;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  max-height: none;
+}
+
+@media (min-width: 1024px) {
+  .cn-calculator-page .cn-calc-global-sidebar,
+  .cn-calculator-page .cn-calc-sidebar.cn-calc-global-sidebar {
+    grid-column: 1 !important;
+    grid-row: 1;
+    order: 0;
+    position: sticky;
+    top: var(--cn-header-height);
+    align-self: start;
+    width: var(--cn-calc-sidebar-width);
+    min-height: calc(100vh - var(--cn-header-height));
+    padding: 2.5rem 1.35rem;
+    border-right: 1px solid var(--cn-calc-sidebar-border) !important;
+    z-index: 2;
+  }
+
+  /* Page-level inputs must stay left — override tool-specific grid spans */
+  .cn-calculator-page .cn-calc-page-body > .cn-calc-global-sidebar,
+  .cn-calculator-page .cn-calc-page-body > form.cn-calc-global-sidebar,
+  .cn-calculator-page .cn-calc-page-body > aside.cn-calc-global-sidebar,
+  .cn-calculator-page .cn-calc-page-body > .cn-loan-compare-layout__inputs,
+  .cn-calculator-page .cn-calc-page-body > .cn-debt-payoff-layout__inputs {
+    grid-column: 1 !important;
+  }
+
+  .cn-calculator-page .cn-calc-page-body > .cn-calc-page-main,
+  .cn-calculator-page .cn-calc-page-body > .cn-calc-workspace {
+    grid-column: 2 !important;
+    order: 1;
+  }
+}
+
+/* ── Right column: main workspace (title, nav, results, charts) ── */
+.cn-calculator-page .cn-calc-page-main,
+.cn-calculator-page .cn-calc-workspace {
+  min-width: 0;
+  width: 100%;
+  background: var(--cn-calc-workspace-bg);
+  line-height: 1.75;
+}
+
+@media (min-width: 1024px) {
+  .cn-calculator-page .cn-calc-page-main,
+  .cn-calculator-page .cn-calc-workspace {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 2.5rem;
+    min-height: calc(100vh - var(--cn-header-height));
+  }
+}
+
+.cn-calculator-page .cn-calc-workspace .cn-calculator-hero-stack {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.cn-calculator-page .cn-calc-workspace .cn-tool-page-title h1 {
+  margin-top: 0;
+}
+
+.cn-calculator-page .cn-calc-form__title,
+.cn-calculator-page .cn-calc-global-sidebar h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cn-calc-muted);
+}
+
+.cn-calculator-page .cn-calc-form__lede {
+  margin: 0 0 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.cn-calculator-page .cn-calc-global-sidebar .field,
+.cn-calculator-page .cn-calc-sidebar .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0 0 1.35rem;
+}
+
+.cn-calculator-page .cn-calc-global-sidebar label,
+.cn-calculator-page .cn-calc-sidebar label {
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--cn-calc-muted);
+}
+
+.cn-calculator-page .cn-calc-fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cn-calculator-page .cn-calc-fieldset__legend {
+  margin: 0 0 1rem;
+  padding: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cn-calc-muted);
+}
+
+.cn-calculator-page .term-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.cn-calculator-page .cn-debt-strategy-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+@media (min-width: 480px) {
+  .cn-calculator-page .cn-debt-strategy-toggle {
+    flex-direction: row;
+  }
+
+  .cn-calculator-page .cn-debt-strategy-toggle button {
+    flex: 1;
+  }
+}
+
+/* Workspace tool shell */
+.cn-calculator-page .cn-calc-workspace .cn-tool-shell,
+.cn-calculator-page .cn-calc-workspace .cn-tool-shell.cn-calc-workflow {
+  display: block;
+  margin-top: 0;
+}
+
+.cn-calculator-page .cn-calc-workspace .calculator-layout,
+.cn-calculator-page .cn-calc-workspace .cn-debt-payoff-layout,
+.cn-calculator-page .cn-calc-workspace .cn-loan-compare-layout {
+  display: block;
+  width: 100%;
+  max-width: var(--cn-calc-workspace-max);
+}
+
+/* When inputs live in the page sidebar, inner tool grids are single-column */
+.cn-calculator-page .cn-calc-page-body > :is(.cn-calc-global-sidebar, form.cn-calc-global-sidebar, aside.cn-calc-global-sidebar)
+  ~ .cn-calc-workspace :is(.calculator-layout, .cn-debt-payoff-layout, .cn-loan-compare-layout) {
+  display: block !important;
+  grid-template-columns: none !important;
+  max-width: var(--cn-calc-workspace-max);
+}
+
+.cn-calculator-page .cn-calc-page-body > :is(.cn-calc-global-sidebar, form.cn-calc-global-sidebar, aside.cn-calc-global-sidebar)
+  ~ .cn-calc-workspace :is(.cn-loan-compare-layout__results, .cn-debt-payoff-layout__results) {
+  grid-column: auto !important;
+  width: 100%;
+  max-width: 100%;
+}
+
+.cn-calculator-page .cn-calc-page-body > :is(.cn-calc-global-sidebar, form.cn-calc-global-sidebar, aside.cn-calc-global-sidebar)
+  ~ .cn-calc-workspace .calculator-layout.cn-calculator-layout {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.cn-calculator-page .cn-calc-workspace .cn-tool-shell,
+.cn-calculator-page .cn-calc-workspace .cn-calculator-hero-stack,
+.cn-calculator-page .cn-calc-workspace .cn-feature-panel {
+  max-width: var(--cn-calc-workspace-max);
+  width: 100%;
+}
+
+.cn-calculator-page .cn-calc-results,
+.cn-calculator-page .output-card,
+.cn-calculator-page .calculator-layout > aside,
+.cn-calculator-page .calculator-layout > article.cn-calc-results,
+.cn-calculator-page .cn-debt-payoff-layout__results,
+.cn-calculator-page .cn-loan-compare-layout__results {
+  min-width: 0;
+  background: var(--cn-calc-results-bg);
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.cn-calculator-page .cn-calc-results > h2,
+.cn-calculator-page .output-card > h2,
+.cn-calculator-page .calculator-layout > aside > h2 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--cn-calc-ink);
+}
+
+.cn-calculator-page .result-grid,
+.cn-calculator-page .cn-metric-deck .result-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+}
+
+.cn-calculator-page .result-grid > div,
+.cn-calculator-page .cn-metric-deck .result-grid > div {
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--cn-calc-sidebar-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="light"] .cn-calculator-page .result-grid > div,
+[data-theme="light"] .cn-calculator-page .cn-metric-deck .result-grid > div {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.cn-calculator-page .comparison-grid,
+.cn-calculator-page .amortization-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cn-calculator-page .chart-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cn-calculator-page .chart-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.cn-calculator-page .chart-wrap,
+.cn-calculator-page .chart-wrap canvas {
+  min-height: 240px;
+  height: auto !important;
+}
+
+.cn-calculator-page .output-card.card,
+.cn-calculator-page .cn-calc-results.card,
+.cn-calculator-page .calculator-layout > aside.card {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.cn-calculator-page .charts-section.card,
+.cn-calculator-page .amortization-card.card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--cn-calc-sidebar-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+[data-theme="light"] .cn-calculator-page .charts-section.card,
+[data-theme="light"] .cn-calculator-page .amortization-card.card {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+/* ── Row 3: footer (full width) ── */
+body.cn-site-chrome {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.cn-site-chrome main,
+body.cn-site-chrome .cn-main-layout {
+  flex: 1 0 auto;
+}
+
+.site-footer.cn-site-footer,
+.cn-calculator-page .site-footer {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 12, 18, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .site-footer.cn-site-footer,
+[data-theme="light"] .cn-calculator-page .site-footer {
+  border-top-color: rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.site-footer.cn-site-footer .footer-content,
+.cn-calculator-page .site-footer .footer-content {
+  min-height: 72px;
+  padding: 1.35rem 1rem 1.5rem;
+}
+
+.site-footer.cn-site-footer .footer-links a,
+.cn-calculator-page .site-footer .footer-links a {
+  color: var(--cn-calc-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+
+.site-footer.cn-site-footer .footer-links a:hover,
+.cn-calculator-page .site-footer .footer-links a:hover {
+  color: var(--cn-calc-ink);
+}
+
+@media (max-width: 1023px) {
+  .cn-calculator-page .cn-calc-global-sidebar {
+    position: relative;
+    top: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--cn-calc-sidebar-border);
+  }
+
+  .cn-calculator-page .cn-calc-page-main,
+  .cn-calculator-page .cn-calc-workspace {
+    padding: 1.25rem clamp(1rem, 3vw, 1.5rem) 2rem;
+  }
+}

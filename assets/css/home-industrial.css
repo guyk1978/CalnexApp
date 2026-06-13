@@ -1,0 +1,406 @@
+/**
+ * CalnexApp homepage — Industrial Dark Glassmorphism
+ * Scoped to .cn-home-page / .cn-home-main
+ */
+
+/* ── Header alignment with wide homepage layout ── */
+.cn-home-page .site-header > .container,
+.cn-home-page .site-header .container.nav {
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Page shell ── */
+.cn-home-page {
+  --cn-home-matte: #0a0e14;
+  --cn-home-slate: #121a24;
+  --cn-home-glass-bg: rgba(255, 255, 255, 0.04);
+  --cn-home-glass-border: rgba(255, 255, 255, 0.1);
+  --cn-home-glow: rgba(91, 140, 255, 0.35);
+  --cn-home-display: "Plus Jakarta Sans", var(--cn-font-sans);
+}
+
+.cn-home-main {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ── Hero — full-bleed industrial matte ── */
+.cn-home-hero {
+  position: relative;
+  width: 100%;
+  padding: clamp(5rem, 12vw, 8.5rem) clamp(1.5rem, 5vw, 3rem) clamp(4rem, 9vw, 6.5rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cn-home-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -15%, rgba(30, 45, 68, 0.55) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 85% 105%, rgba(20, 32, 52, 0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at 8% 90%, rgba(18, 28, 44, 0.35) 0%, transparent 50%),
+    linear-gradient(180deg, var(--cn-home-matte) 0%, var(--cn-home-slate) 100%);
+  pointer-events: none;
+}
+
+.cn-home-hero__backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.cn-home-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: min(920px, 100%);
+  margin: 0 auto;
+}
+
+.cn-home-hero__eyebrow {
+  margin: 0 0 1.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cn-text-tertiary);
+}
+
+.cn-home-hero__title {
+  margin: 0 0 1.75rem;
+  font-family: var(--cn-home-display);
+  font-size: clamp(2.35rem, 6.2vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0.015em;
+  color: var(--cn-text-primary);
+}
+
+.cn-home-hero__desc {
+  margin: 0 auto 2.75rem;
+  max-width: 36rem;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  color: var(--cn-text-secondary);
+}
+
+.cn-home-hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.25rem;
+}
+
+/* ── Glass CTA buttons ── */
+.cn-btn-glass-primary,
+.cn-btn-glass-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  font-family: var(--cn-home-display);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.cn-btn-glass-primary {
+  padding: 1.05rem 2.6rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: #f0f6ff;
+  background:
+    linear-gradient(135deg, rgba(91, 140, 255, 0.22) 0%, rgba(91, 140, 255, 0.08) 100%),
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(91, 140, 255, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(91, 140, 255, 0.12),
+    0 0 28px rgba(91, 140, 255, 0.18),
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.cn-btn-glass-primary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(122, 163, 255, 0.65);
+  box-shadow:
+    0 0 0 1px rgba(91, 140, 255, 0.22),
+    0 0 40px rgba(91, 140, 255, 0.28),
+    0 18px 48px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.cn-btn-glass-primary:focus-visible {
+  outline: 2px solid var(--cn-border-focus);
+  outline-offset: 3px;
+}
+
+.cn-btn-glass-secondary {
+  padding: 0.85rem 1.65rem;
+  font-size: 0.92rem;
+  color: var(--cn-text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--cn-home-glass-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.cn-btn-glass-secondary:hover {
+  color: var(--cn-text-primary);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.cn-btn-glass-secondary--sm {
+  padding: 0.6rem 1.15rem;
+  font-size: 0.85rem;
+}
+
+/* ── Value proposition — horizontal glass cards ── */
+.cn-home-values {
+  width: 100%;
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem) clamp(5rem, 10vw, 7rem);
+  margin-top: clamp(1rem, 3vw, 2rem);
+}
+
+.cn-home-values__grid {
+  display: grid;
+  gap: 1.25rem;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .cn-home-values__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.cn-glass-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 1.65rem 1.5rem;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 55%, transparent 100%),
+    var(--cn-home-glass-bg);
+  border: 1px solid var(--cn-home-glass-border);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cn-glass-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .cn-glass-card--truth:hover {
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      0 0 32px rgba(62, 224, 143, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(62, 224, 143, 0.28);
+  }
+
+  .cn-glass-card--depth:hover {
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      0 0 32px rgba(91, 140, 255, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(91, 140, 255, 0.3);
+  }
+
+  .cn-glass-card--friction:hover {
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      0 0 32px rgba(245, 184, 74, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(245, 184, 74, 0.28);
+  }
+}
+
+.cn-glass-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cn-glass-card--truth .cn-glass-card__icon {
+  color: #3ee08f;
+  background: rgba(62, 224, 143, 0.12);
+  border-color: rgba(62, 224, 143, 0.2);
+}
+
+.cn-glass-card--depth .cn-glass-card__icon {
+  color: #7aa3ff;
+  background: rgba(91, 140, 255, 0.12);
+  border-color: rgba(91, 140, 255, 0.22);
+}
+
+.cn-glass-card--friction .cn-glass-card__icon {
+  color: #f5b84a;
+  background: rgba(245, 184, 74, 0.12);
+  border-color: rgba(245, 184, 74, 0.2);
+}
+
+.cn-glass-card__label {
+  margin: 0;
+  font-family: var(--cn-home-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cn-text-tertiary);
+}
+
+.cn-glass-card__value {
+  margin: 0;
+  font-family: var(--cn-home-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--cn-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Content area spacing ── */
+.cn-home-content {
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+  padding-bottom: 3rem;
+}
+
+.cn-home-content .cn-tools-dashboard {
+  margin-top: 0;
+  border-top: 1px solid var(--cn-border-subtle);
+  padding-top: 2.5rem;
+}
+
+/* ── Portable results — minimal glass panel ── */
+.cn-home-portable {
+  margin-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+.cn-glass-panel {
+  border-radius: 16px;
+  background: var(--cn-home-glass-bg);
+  border: 1px solid var(--cn-home-glass-border);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.cn-home-portable__panel {
+  padding: 1.5rem 1.65rem;
+}
+
+.cn-home-portable__title {
+  margin: 0 0 0.35rem;
+  font-family: var(--cn-home-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cn-text-primary);
+}
+
+.cn-home-portable__desc {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  color: var(--cn-text-tertiary);
+}
+
+.cn-home-portable__input {
+  width: 100%;
+  margin-bottom: 0.85rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--cn-border-subtle);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--cn-text-secondary);
+  font-size: 0.85rem;
+}
+
+.cn-home-portable__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+/* ── Light theme adjustments ── */
+html[data-theme="light"] .cn-home-page {
+  --cn-home-matte: #e8edf4;
+  --cn-home-slate: #f1f5f9;
+  --cn-home-glass-bg: rgba(255, 255, 255, 0.72);
+  --cn-home-glass-border: rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] .cn-home-hero__backdrop {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -15%, rgba(148, 163, 184, 0.35) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 85% 105%, rgba(100, 116, 139, 0.2) 0%, transparent 55%),
+    linear-gradient(180deg, #eef2f7 0%, #f8fafc 100%);
+}
+
+html[data-theme="light"] .cn-btn-glass-primary {
+  color: #1e3a8a;
+  background:
+    linear-gradient(135deg, rgba(91, 140, 255, 0.18) 0%, rgba(255, 255, 255, 0.85) 100%);
+  border-color: rgba(59, 130, 246, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.1),
+    0 8px 28px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme="light"] .cn-glass-card {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.88) 100%);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+html[data-theme="light"] .cn-home-portable__input {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-btn-glass-primary:hover,
+  .cn-btn-glass-secondary:hover,
+  .cn-glass-card:hover {
+    transform: none;
+  }
+}
