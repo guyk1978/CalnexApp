@@ -6,6 +6,10 @@ body.cn-about-page {
   --cn-about-matte: #0a0e14;
   --cn-about-display: "Fraunces", "Plus Jakarta Sans", Georgia, serif;
   --cn-about-body: var(--cn-font-sans);
+  background-color: var(--cn-about-matte);
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(30, 45, 68, 0.42) 0%, transparent 62%),
+    radial-gradient(ellipse 40% 30% at 8% 92%, rgba(18, 28, 44, 0.28) 0%, transparent 52%);
 }
 
 .cn-about-main {

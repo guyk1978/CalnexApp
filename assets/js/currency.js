@@ -72,7 +72,12 @@ const CurrencyLayer = (() => {
     return safe < 0 ? `-${symbol}${formatted}` : `${symbol}${formatted}`;
   };
 
-  const setCurrency = (currency) => {
+  const setCurrency = (currency, options = {}) => {
+    const opts = options && typeof options === "object" ? options : {};
+    if (window.CalnexGeoCurrency?.isSyncing?.() && !opts.skipCountry) {
+      return normalizeCurrency(currency);
+    }
+
     const nextCurrency = normalizeCurrency(currency);
     window.localStorage.setItem(STORAGE_KEY, nextCurrency);
     if (typeof SharedState !== "undefined") {
@@ -89,13 +94,19 @@ const CurrencyLayer = (() => {
       JPY: "JP"
     };
     const linkedCountry = CURRENCY_TO_COUNTRY[nextCurrency];
-    if (linkedCountry && typeof window.GeoFinance !== "undefined") {
+    if (!opts.skipCountry && linkedCountry && typeof window.GeoFinance !== "undefined") {
       const currentCountry = window.GeoFinance.getSelectedCountry();
       if (linkedCountry !== currentCountry) {
-        window.GeoFinance.setCountry(linkedCountry);
-        document.querySelectorAll(".country-selector").forEach((node) => {
-          node.value = linkedCountry;
-        });
+        const guard = window.CalnexGeoCurrency;
+        guard?.beginSync?.();
+        try {
+          window.GeoFinance.setCountry(linkedCountry, { skipCurrency: true });
+          document.querySelectorAll(".country-selector").forEach((node) => {
+            node.value = linkedCountry;
+          });
+        } finally {
+          guard?.endSync?.();
+        }
       }
     }
     document.dispatchEvent(new CustomEvent("currency:changed", { detail: { currency: nextCurrency } }));
@@ -192,6 +203,9 @@ const CurrencyLayer = (() => {
     syncSelectors();
     syncCurrencySymbols();
     console.log("[CalnexApp] Selected currency", selected, "sample:", formatCurrency(1234.56, selected));
+
+    if (init._wired) return;
+    init._wired = true;
     document.addEventListener("sharedstate:updated", syncSelectors);
     document.addEventListener("sharedstate:updated", syncCurrencySymbols);
     document.addEventListener("currency:changed", syncCurrencySymbols);

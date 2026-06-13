@@ -725,11 +725,12 @@
       }
       initThemeToggle();
       initSiteSearch();
-      if (window.GeoFinance?.init) {
-        window.GeoFinance.init();
+      if (window.GeoFinance) {
+        window.GeoFinance.bindExistingSelectors?.();
       }
-      if (window.CurrencyLayer?.init) {
-        window.CurrencyLayer.init();
+      if (window.CurrencyLayer) {
+        window.CurrencyLayer.bindExistingSelectors?.();
+        window.CurrencyLayer.syncCurrencySymbols?.();
       }
       window.CalnexHeaderToolbar?.consolidate?.();
       window.CalnexGeoCurrency?.reconcile?.();

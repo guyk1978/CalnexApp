@@ -111,7 +111,12 @@ const GeoFinance = (() => {
     JP: "JPY"
   };
 
-  const setCountry = (country) => {
+  const setCountry = (country, options = {}) => {
+    const opts = options && typeof options === "object" ? options : {};
+    if (window.CalnexGeoCurrency?.isSyncing?.() && !opts.skipCurrency) {
+      return normalizeCountry(country);
+    }
+
     const nextCountry = normalizeCountry(country);
     const defaults = getCountryData(nextCountry);
     window.localStorage.setItem(STORAGE_KEY, nextCountry);
@@ -125,13 +130,19 @@ const GeoFinance = (() => {
       );
     }
     const linkedCurrency = COUNTRY_TO_CURRENCY[nextCountry];
-    if (linkedCurrency && typeof window.CurrencyLayer !== "undefined") {
+    if (!opts.skipCurrency && linkedCurrency && typeof window.CurrencyLayer !== "undefined") {
       const currentCurrency = window.CurrencyLayer.getSelectedCurrency();
       if (linkedCurrency !== currentCurrency) {
-        window.CurrencyLayer.setCurrency(linkedCurrency);
-        document.querySelectorAll(".currency-selector").forEach((node) => {
-          node.value = linkedCurrency;
-        });
+        const guard = window.CalnexGeoCurrency;
+        guard?.beginSync?.();
+        try {
+          window.CurrencyLayer.setCurrency(linkedCurrency, { skipCountry: true });
+          document.querySelectorAll(".currency-selector").forEach((node) => {
+            node.value = linkedCurrency;
+          });
+        } finally {
+          guard?.endSync?.();
+        }
       }
     }
     document.dispatchEvent(new CustomEvent("geo:changed", { detail: { country: nextCountry, defaults } }));
@@ -229,6 +240,9 @@ const GeoFinance = (() => {
         SharedState.setState({ geo_defaults: defaults }, { system: true, syncUrl: true });
       }
     }
+
+    if (init._wired) return;
+    init._wired = true;
     document.addEventListener("sharedstate:updated", renderIndicator);
     document.addEventListener("geo:changed", renderIndicator);
     document.addEventListener("cn-header:updated", bindExistingSelectors);

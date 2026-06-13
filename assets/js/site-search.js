@@ -48,7 +48,6 @@
       return title.includes(q) || description.includes(q) || keywords.includes(q);
     });
 
-    console.log("[CalnexApp] filteredResults", filteredResults);
     return filteredResults.slice(0, limit);
   };
 
@@ -58,7 +57,6 @@
 
     if (searchFuse && searchIndex.length) {
       const fuseResults = searchFuse.search(q, { limit: 8 }).map((r) => r.item);
-      console.log("[CalnexApp] filteredResults", fuseResults);
       if (fuseResults.length) return fuseResults;
     }
 
