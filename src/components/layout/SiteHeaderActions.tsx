@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { HeaderSearch } from "@/components/layout/HeaderSearch";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import {
   COUNTRY_TO_CURRENCY,
@@ -18,52 +19,13 @@ import { normalizeSiteCurrency, readStoredCurrency } from "@/lib/site-currency";
 
 type LegacyGeo = { setCountry?: (code: string) => string; bindExistingSelectors?: () => void };
 type LegacyCurrency = { setCurrency?: (code: string) => string; bindExistingSelectors?: () => void };
-type LegacySearch = { init?: () => void | Promise<void> };
 
 const legacyGeo = () => (window as Window & { GeoFinance?: LegacyGeo }).GeoFinance;
 const legacyCurrency = () => (window as Window & { CurrencyLayer?: LegacyCurrency }).CurrencyLayer;
-const legacySearch = () => (window as Window & { CalnexSiteSearch?: LegacySearch }).CalnexSiteSearch;
 
 function resolveAsset(path: string): string {
   const calnexPath = (window as Window & { CalnexPath?: (p: string) => string }).CalnexPath;
   return calnexPath ? calnexPath(path) : path;
-}
-
-function isSiteSearchScript(node: Element): boolean {
-  if (!(node instanceof HTMLScriptElement)) return false;
-  const src = node.getAttribute("src") || "";
-  return /site-search\.js(?:\?|$)/i.test(src);
-}
-
-async function loadSiteSearchOnce(): Promise<void> {
-  if (document.getElementById("cn-site-search-trigger")) return;
-
-  if (!legacySearch()?.init) {
-    const existing = Array.from(document.querySelectorAll("script")).some(isSiteSearchScript);
-    if (existing) {
-      await new Promise<void>((resolve) => {
-        const wait = window.setInterval(() => {
-          if (legacySearch()?.init) {
-            window.clearInterval(wait);
-            resolve();
-          }
-        }, 50);
-        window.setTimeout(() => window.clearInterval(wait), 8000);
-      });
-    } else {
-      await new Promise<void>((resolve, reject) => {
-        const script = document.createElement("script");
-        script.src = resolveAsset("/assets/js/site-search.js");
-        script.defer = true;
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error("site-search failed"));
-        document.head.append(script);
-      });
-    }
-  }
-
-  if (document.getElementById("cn-site-search-trigger")) return;
-  await legacySearch()?.init?.();
 }
 
 function GlobeIcon() {
@@ -88,7 +50,6 @@ function CurrencyIcon() {
 export function SiteHeaderActions() {
   const [country, setCountry] = useState<SiteCountryCode>("US");
   const [currency, setCurrency] = useState<SiteCurrencyCode>("USD");
-  const searchBooted = useRef(false);
 
   const applyPair = useCallback((nextCountry: SiteCountryCode, nextCurrency: SiteCurrencyCode) => {
     setCountry(nextCountry);
@@ -154,14 +115,6 @@ export function SiteHeaderActions() {
     legacyCurrency()?.bindExistingSelectors?.();
   }, []);
 
-  useEffect(() => {
-    if (searchBooted.current) return;
-    searchBooted.current = true;
-    loadSiteSearchOnce().catch(() => {
-      searchBooted.current = false;
-    });
-  }, []);
-
   const onCountryChange = useCallback(
     (next: SiteCountryCode) => {
       const linked = COUNTRY_TO_CURRENCY[next];
@@ -196,7 +149,7 @@ export function SiteHeaderActions() {
 
   return (
     <div className="cn-header-actions" data-cn-react-header="true">
-      <div id="cn-site-search-mount" className="cn-header-search-mount" aria-hidden="true" />
+      <HeaderSearch />
       <div className="cn-header-pills">
         <div className="country-selector-wrap cn-header-pill cn-header-pill--country">
           <label className="sr-only" htmlFor="headerCountrySelect">

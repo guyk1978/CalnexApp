@@ -12,7 +12,7 @@
     <meta property="og:title" content="How Your Credit Score Moves Your Mortgage Rate (and by How Much) | CalnexApp Blog" />
     <meta property="og:description" content="How FICO score ranges translate to mortgage rate buckets, the dollar impact across a 30-year loan, and the credit moves that actually shift your bucket." />
     <meta property="og:url" content="https://calnexapp.com/blog/credit-score-mortgage-rate-impact/" />
-    <meta property="og:site_name" content="CalnexApp" />                                                                                                                                                                                                                                    <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
+    <meta property="og:site_name" content="CalnexApp" />                                                                                                                                                                                                                                        <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -86,6 +86,8 @@
     
     
     
+    
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -94,7 +96,7 @@
   "name": "Credit score and mortgage pricing: tier cliffs and dollar impact",
   "description": "Why 740/720/700/680 breakpoints matter, $300k loan 50 bps gap math (~$100/mo, ~$36k interest), and 60-day levers that move tiers.",
   "url": "https://calnexapp.com/blog/credit-score-mortgage-rate-impact/",
-  "dateModified": "2026-06-12T12:46:32.365Z",
+  "dateModified": "2026-06-13T10:36:23.593Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -122,171 +124,122 @@
 }
     </script>
     <!-- SEO_ENGINE_SCHEMA_END -->
-                      <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
+                      <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+      <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
     <script src="/assets/js/consent-config.js"></script>
     <script src="/assets/js/cookie-consent.js?v=6" defer></script>
   </head>
-  <body data-cn-static-layout="true">
+  <body data-cn-static-layout="true" class="cn-blog-article-page cn-site-chrome cn-blog-index-page cn-calculator-page">
+    <div class="cn-reading-progress" aria-hidden="true"><div class="cn-reading-progress__bar" id="cnReadingProgressBar"></div></div>
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
         <!-- CN_NAV_MENU_START -->
         <nav class="menu" id="siteMenu">
           <a href="/" data-nav-link>Home</a>
-          <div class="cn-nav-dropdown">
-            <a href="/tools/" class="cn-nav-dropdown__trigger" data-nav-link aria-haspopup="true" aria-expanded="false" id="cnToolsNavTrigger">Tools</a>
-            <div class="cn-nav-dropdown__panel" role="menu" aria-labelledby="cnToolsNavTrigger">
-              <a href="/tools/" class="cn-nav-dropdown__hub" role="menuitem">All calculators</a>
-              <div class="cn-nav-dropdown__scroll">
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Housing</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/mortgage-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span><span>Mortgage Calculator</span></a>
-                  <a href="/tools/rent-vs-buy/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12h4M6 16h4M6 8h4M14 12h4M14 16h4M14 8h4"/></svg></span><span>Rent vs. Buy Calculator</span></a>
-                  <a href="/tools/roi-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span>ROI Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Loans &amp; credit</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/loan-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span><span>Loan Calculator</span></a>
-                  <a href="/tools/debt-payoff/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg></span><span>Debt Snowball &amp; Avalanche Calculator</span></a>
-                  <a href="/tools/loan-comparison/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M3 8h4v13H3zM17 5h4v16h-4z"/></svg></span><span>Loan Offer Comparison Tool</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Auto</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/car-loan-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--auto"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14"/><path d="M7 17l1-5h8l1 5"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M5 12h14l-1.5-4h-11z"/></svg></span><span>Car Loan Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Interest &amp; growth</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/interest-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--growth"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span>Interest Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Retirement &amp; planning</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/retirement-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--planning"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span><span>Retirement Calculator</span></a>
-                  <a href="/tools/take-home-pay/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--planning"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg></span><span>Take-Home Pay Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group cn-nav-dropdown__group--scenarios">
-                <p class="cn-nav-dropdown__label">Loan scenarios (50)</p>
-                <div class="cn-nav-dropdown__grid cn-nav-dropdown__grid--scenarios">
-                  <a href="/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 6% · 30 yr</a>
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
+          <a href="/tools/" data-nav-link>Tools</a>
           <a href="/blog/" data-nav-link>Blog</a>
           <a href="/about/" data-nav-link>About</a>
           <a href="/contact/" data-nav-link>Contact</a>
         </nav>
         <!-- CN_NAV_MENU_END -->
+        <!-- CN_HEADER_SEARCH_START -->
+        <div class="cn-header-actions">
+          <div id="cn-site-search-mount" class="cn-header-search-mount">
+            <div class="cn-header-search-wrap">
+              <button
+                type="button"
+                id="cn-header-search-trigger"
+                class="cn-header-search-trigger"
+                aria-label="Search"
+                aria-expanded="false"
+                aria-controls="cn-header-search"
+              >
+                <svg
+                  class="cn-header-search-trigger__icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- CN_HEADER_SEARCH_END -->
       </div>
     </header>
 
-    <main class="cn-main-layout pt-10 sm:pt-14 px-4 sm:px-6 max-w-7xl mx-auto article-layout">
-      <section class="page-title cn-article-page-title cn-page-hero space-y-4 text-center sm:text-left">
+    <main class="cn-main-layout cn-calc-page-frame">
+      <div class="cn-calc-page-body cn-calc-dashboard__body">
+        <aside class="cn-blog-sidebar cn-calc-global-sidebar" aria-label="Blog navigation">
+          <div class="cn-blog-sidebar__stack">
+            <div class="cn-blog-sidebar__block">
+              <p class="cn-blog-sidebar__label">Search</p>
+              <label class="cn-blog-search" for="blogSearchInput">
+                <svg class="cn-blog-search__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+                <input id="blogSearchInput" type="search" placeholder="Search guides..." aria-label="Search blog articles" />
+              </label>
+            </div>
+            <nav class="cn-blog-sidebar__block" aria-label="Categories">
+              <p class="cn-blog-sidebar__label">Categories</p>
+              <ul id="blogCategoryFilters" class="cn-blog-categories" aria-label="Blog categories"></ul>
+            </nav>
+          </div>
+        </aside>
+        <div class="cn-calc-page-main cn-calc-workspace cn-blog-workspace cn-blog-article-workspace">
+          <a href="/blog/" class="cn-blog-back-link">← Back to Blog</a>
+          <header class="cn-blog-article-header">
         <span class="cn-blog-category-pill cn-blog-category-pill--housing">Mortgage</span>
         <h1>How Your Credit Score Moves Your Mortgage Rate (and by How Much)</h1>
-        <div class="article-meta">
+        <div class="article-meta cn-blog-article-meta">
           <span>By <a href="/authors/daniel-morris/">Daniel Morris</a></span>
           <span>Updated 2026-05-14</span>
           <span>9 min read</span>
         </div>
-      </section>
-
-      <article class="card article-body">
-        <div class="cn-quick-answer cn-quick-answer--housing"><h2>Quick answer</h2><p>
+      </header>
+          <article class="cn-blog-article-body article-body">
+              <div class="cn-quick-answer cn-quick-answer--housing"><h2 id="quick-answer">Quick answer</h2><p>
           <strong>Quick answer:</strong> Mortgage pricing sits in <strong>FICO/LTV buckets</strong>. Crossing one breakpoint (commonly near <strong>740, 720, 700, 680</strong> on conventional grids) can move the quoted rate by tens of basis points—enough for tens of thousands in extra interest on a 30-year. If you are
           <strong>within ~10 points</strong> of the next breakpoint, a 30–60 day utilization and credit-report hygiene plan can beat “shopping harder.” If you are already above the top bucket your program uses, polishing further rarely changes price—shift time to
           <a href="/blog/debt-to-income-ratio-mortgage-qualification/">DTI</a>, reserves, or structure.
         </p></div>
-        <h2>Why the rate sheet has tiers</h2>
+        <h2 id="why-the-rate-sheet-has-tiers">Why the rate sheet has tiers</h2>
         <p>Mortgage rates are not quoted as a single number. Lenders work off a rate sheet organized into credit score tiers, loan-to-value bands, and loan size buckets. Two borrowers walking into the same lender on the same day, asking for the same loan amount on the same property, can be quoted rates 50 to 125 basis points apart based on credit score alone. The pricing engine treats each tier as a separate risk pool, and the cost of being one tier lower compounds across hundreds of monthly payments.</p>
         <p>Understanding the tier structure changes how you prepare. If your score is two points below a key threshold, a focused 60-day plan to clear it can be worth more than a year of casual rate watching. If your score is comfortably mid-tier, additional polishing has minimal value and your time is better spent on closing-cost negotiation or strengthening your <a href="/blog/debt-to-income-ratio-mortgage-qualification/">debt-to-income ratio</a>.</p>
-        <h2>The tiers (and where the cliffs are)</h2>
+        <h2 id="the-tiers-and-where-the-cliffs-are">The tiers (and where the cliffs are)</h2>
         <p>Lender pricing tiers are not identical across the industry, but the GSE loan-level price adjustments (LLPAs) that underpin most conventional pricing follow consistent break points.</p>
         <p>- <strong>740 and above.</strong> Best-tier pricing for most conventional products. Diminishing returns above this — going from 760 to 800 rarely changes rate. - <strong>720 to 739.</strong> Modest pricing penalty, often 12 to 25 basis points worse than 740-plus. - <strong>700 to 719.</strong> Larger step down. Typical penalty: 25 to 50 basis points. - <strong>680 to 699.</strong> Pricing degrades faster. Combined with higher LTV, the penalty can hit 50 to 75 basis points. - <strong>660 to 679.</strong> Many conventional programs still available; pricing 75 to 125 basis points worse than top tier. - <strong>640 to 659.</strong> FHA becomes more competitive than conventional for many borrowers. - <strong>Below 640.</strong> Government-backed programs are typically the only path; conventional pricing is often prohibitive.</p>
         <p>The cliffs at 740, 720, 700, and 680 are the ones worth fighting for. Borrowers within a handful of points of any of those should treat the next tier as a project, not an accident.</p>
-        <h2>What 50 basis points actually costs</h2>
+        <h2 id="what-50-basis-points-actually-costs">What 50 basis points actually costs</h2>
         <p>Numbers make this concrete. Consider a $300,000 loan, 30-year fixed.</p>
         <p>At 6.50 percent: monthly principal and interest is $1,896, total paid over 30 years is $682,633, total interest is $382,633.</p>
         <p>At 7.00 percent (50 basis points worse): monthly principal and interest is $1,996, total paid is $718,527, total interest is $418,527.</p>
         <p>The gap is $100 per month and $35,894 over the life of the loan, all from one tier. On a 15-year loan, the absolute interest delta is smaller, but the monthly gap is bigger; that trade-off is the subject of <a href="/blog/best-loan-term-15-vs-30-years/">our 15 vs 30 year term comparison</a>. If you plan to refinance or sell within seven years, the present value of the difference is smaller but still measured in thousands.</p>
         <p>You can model your exact scenario with the <a href="/tools/mortgage-calculator/">Mortgage Calculator</a> using rate quotes for your tier; the underlying math is the same amortization framework covered in <a href="/blog/how-to-calculate-loan-interest/">how loan interest works</a>.</p>
-        <h2>The two scoring inputs that move the most in 60 days</h2>
+        <h2 id="the-two-scoring-inputs-that-move-the-most-in-60-days">The two scoring inputs that move the most in 60 days</h2>
         <p>Most borrowers obsess about credit length and account age, which are stable inputs you cannot meaningfully change in a short window. Two other inputs move quickly.</p>
         <p><strong>Revolving utilization.</strong> Credit card balances reported as a percentage of limit drive a large share of short-term score movement. A statement balance of 30 percent of limit versus 8 percent of limit can swing a FICO score by 20 to 40 points. Paying down balances before the statement closes — not before the due date — is the lever. Some borrowers gain a tier just by timing a single payment.</p>
         <p><strong>Erroneous derogatories.</strong> Collection accounts, late payments, or duplicate trade lines that do not belong on your report should be disputed in writing. Bureau resolution typically takes 30 to 45 days. The score impact of removing a single 30-day late from the last two years can be 30 to 80 points depending on file thinness.</p>
         <p>The inputs that do not move quickly: account age (slow), credit mix (slow), and new accounts (negative short-term). Avoid opening anything new in the 90 days before application.</p>
-        <h2>Rate locks and the cost of waiting</h2>
+        <h2 id="rate-locks-and-the-cost-of-waiting">Rate locks and the cost of waiting</h2>
         <p>A rate lock guarantees the quoted rate for a fixed window — 30, 45, or 60 days are common — and locks the tier as of the lock date. If you cross into a better tier the day after locking, most lenders will not float you down without a formal re-lock fee.</p>
         <p>The practical implication: if a tier upgrade is realistically within reach in 30 to 45 days, talk to your lender about timing the lock. A 15-day lock on a slightly later closing can be cheaper than locking today at the lower tier. Lenders are not obligated to volunteer this information; you have to ask.</p>
         <p>If you decide the tier upgrade is not realistic in your timeline, lock earlier rather than later. The risk of waiting and watching rates climb often outweighs the marginal benefit of a few extra points, especially in volatile rate environments where the <a href="/blog/fixed-vs-variable-interest-rate/">choice between fixed and variable structure</a> is itself a meaningful decision.</p>
-        <h2>What this looks like end-to-end</h2>
+        <h2 id="what-this-looks-like-end-to-end">What this looks like end-to-end</h2>
         <p>A borrower at 716 FICO, 80 percent LTV, 30-year fixed, $400,000 loan, walks into a lender expecting top-tier pricing because their score is &quot;good.&quot; The rate sheet puts them one tier below the 720 break, costing about 25 basis points. On their loan, that translates to roughly $65 per month and around $23,000 over the life of the loan.</p>
         <p>A 30-day plan focused on revolving utilization — paying down two cards to below 10 percent utilization and disputing one obsolete late mark — pushes the next statement to 724. The lender repulls credit, the file moves to the 720-739 tier, and the savings cascade through the full amortization. The cost of the plan: a few thousand dollars in temporarily reduced credit card balances and an afternoon of paperwork. The return: tens of thousands across the loan, plus the long-tail value of carrying a stronger score into future borrowing. The same compounding logic powers <a href="/blog/how-extra-payments-save-money/">why strategic extra payments save more than they appear to</a> once the loan is in place.</p>
-        <h2>Don't optimize the wrong number</h2>
+        <h2 id="dont-optimize-the-wrong-number">Don't optimize the wrong number</h2>
         <p>A score above the top break does not need to be polished further; lenders do not price into the 760-plus and 800-plus brackets as a separate tier on most conventional products. Time spent moving from 760 to 800 produces no rate change. The same time spent reducing debt-to-income, increasing down payment, or <a href="/blog/loan-vs-mortgage/">comparing loan and mortgage product structures</a> usually delivers more.</p>
         <p>The rule of thumb: if you are within 10 points of a tier cliff, the upgrade is the highest-value 30 to 60 day project you can run before applying. Otherwise, focus on the levers that actually move your tier or your underwriting result.</p>
-      </article>
-      
-      <section class="card faq-list">
+            </article>
+          <section class="cn-blog-article-faq faq-list">
         <h2>Frequently asked questions</h2>
         <details>
           <summary>How much can 20 credit points change my mortgage rate?</summary>
@@ -305,8 +258,7 @@
           <p>Underwriters look at the whole file—pair score work with <a href="/blog/debt-to-income-ratio-mortgage-qualification/">DTI preparation</a> and honest housing payment math.</p>
         </details>
       </section>
-
-            <section class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6">
+          <section class="cn-blog-article-extra">
         <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Recommended calculators</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
           <a href="/tools/loan-calculator/" class="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all group no-underline">
@@ -422,17 +374,21 @@
       
       
       
+      
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6">
         <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Related articles</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
+        <div class="cn-tools-hub-grid">
 
         </div>
       </section>
       <!-- SEO_ENGINE_RELATED_END -->
-</main>
+        </div>
+      </div>
+    </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer cn-site-footer">
       <div class="container footer-content">
         <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
         <nav class="footer-links">
@@ -442,6 +398,8 @@
         </nav>
       </div>
     </footer>
+    <script src="/assets/js/site-search.js" defer></script>
+    <script src="/assets/js/blog-article.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
           </body>
 </html>

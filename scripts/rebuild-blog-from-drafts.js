@@ -33,6 +33,16 @@
 
 const fs = require("fs");
 const path = require("path");
+const {
+  renderEditorialArticleMain,
+  FRAUNCES_LINK,
+  BLOG_ARTICLE_SCRIPT,
+  PROGRESS_BAR_HTML
+} = require("./blog-editorial-core.cjs");
+const {
+  renderBlogCategoryPill,
+  renderDefaultRecommendedCalculators
+} = require("./tool-themes.cjs");
 
 // ---------------------------------------------------------------------------
 // Paths & config
@@ -485,9 +495,26 @@ function buildArticleHtml(item, enrichedMarkdown) {
   const canonical = `${SITE_ORIGIN}/blog/${slug}/`;
   const today = new Date().toISOString().slice(0, 10);
   const readTime = `${readMinutesFromItem(item)} min read`;
+  const category = inferCategory(item);
+  const categoryPill = renderBlogCategoryPill(category);
   const bodyHtml = bodyMarkdownToHtml(enrichedMarkdown);
   const faqHtml = faqSectionHtml(item.faq);
   const faqLd = faqJsonLd(item.faq);
+  const heroHtml = `<section class="page-title cn-article-page-title cn-blog-editorial__hero">
+        ${categoryPill}
+        <h1>${escapeHtml(h1)}</h1>
+        <div class="article-meta cn-blog-editorial__meta">
+          <span>By CalnexApp Editorial Team</span>
+          <span>Updated ${today}</span>
+          <span>${escapeHtml(readTime)}</span>
+        </div>
+      </section>`;
+  const editorialMain = renderEditorialArticleMain({
+    heroHtml,
+    bodyHtml,
+    faqHtml,
+    extraSectionsHtml: renderDefaultRecommendedCalculators(),
+  });
 
   return `<!doctype html>
 <html lang="en">
@@ -502,6 +529,7 @@ function buildArticleHtml(item, enrichedMarkdown) {
     <meta property="og:description" content="${escapeHtml(desc)}" />
     <meta property="og:url" content="${canonical}" />
     <meta property="og:site_name" content="CalnexApp" />
+    ${FRAUNCES_LINK}
     <link rel="stylesheet" href="/assets/css/style.css" />
     <script type="application/ld+json">
 ${JSON.stringify(
@@ -521,7 +549,8 @@ ${JSON.stringify(
     </script>
     ${faqLd}
   </head>
-  <body>
+  <body class="cn-blog-article-page cn-blog-index-page cn-calculator-page cn-site-chrome">
+    ${PROGRESS_BAR_HTML}
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">
@@ -543,31 +572,7 @@ ${JSON.stringify(
       </div>
     </header>
 
-    <main class="container section-space article-layout">
-      <section class="page-title">
-        <p class="eyebrow">${escapeHtml(inferCategory(item))}</p>
-        <h1>${escapeHtml(h1)}</h1>
-        <div class="article-meta">
-          <span>By CalnexApp Editorial Team</span>
-          <span>Updated ${today}</span>
-          <span>${escapeHtml(readTime)}</span>
-        </div>
-      </section>
-
-      <article class="card article-body">
-        ${bodyHtml}
-      </article>
-      ${faqHtml}
-
-      <section class="card">
-        <h2>Recommended calculators</h2>
-        <ul class="toc-list">
-          <li><a href="/tools/loan-calculator/">Loan Calculator</a></li>
-          <li><a href="/tools/mortgage-calculator/">Mortgage Calculator</a></li>
-          <li><a href="/tools/car-loan-calculator/">Car Loan Calculator</a></li>
-        </ul>
-      </section>
-    </main>
+    ${editorialMain}
 
     <footer class="site-footer">
       <div class="container footer-content">
@@ -579,6 +584,7 @@ ${JSON.stringify(
         </nav>
       </div>
     </footer>
+    ${BLOG_ARTICLE_SCRIPT}
     <script src="/assets/js/app.js" defer></script>
   </body>
 </html>

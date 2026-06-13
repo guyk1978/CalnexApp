@@ -15,9 +15,14 @@
   background: transparent !important;
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
-  pointer-events: auto !important;
+  pointer-events: none !important;
   isolation: isolate !important;
   contain: layout style;
+}
+
+#cn-cookie-consent-root .cn-cookie-banner-panel,
+#cn-cookie-consent-root.cn-cookie-banner {
+  pointer-events: auto;
 }
 
 #cn-cookie-consent-root .cn-cookie-banner-panel,

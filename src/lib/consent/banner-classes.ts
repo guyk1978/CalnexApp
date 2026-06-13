@@ -2,9 +2,9 @@ import type { CSSProperties } from "react";
 
 export const COOKIE_BANNER_ROOT_ID = "cn-cookie-consent-root";
 
-/** Full-viewport Light Blur Teaser overlay — blocks page interaction until consent. */
+/** Full-viewport Light Blur Teaser overlay — banner panel stays interactive. */
 export const COOKIE_OVERLAY_CLASSES =
-  "cn-cookie-consent-overlay fixed inset-0 z-[9999] flex items-end justify-center bg-transparent p-4 backdrop-blur-[2px] pointer-events-auto";
+  "cn-cookie-consent-overlay fixed inset-0 z-[9999] flex items-end justify-center bg-transparent p-4 backdrop-blur-[2px] pointer-events-none";
 
 /** Border-less, shadow-only consent card. */
 export const COOKIE_PANEL_CLASSES =
@@ -26,7 +26,7 @@ export const COOKIE_OVERLAY_STYLE: CSSProperties = {
   background: "transparent",
   WebkitBackdropFilter: "blur(2px)",
   backdropFilter: "blur(2px)",
-  pointerEvents: "auto",
+  pointerEvents: "none",
 };
 
 export const COOKIE_PANEL_STYLE: CSSProperties = {

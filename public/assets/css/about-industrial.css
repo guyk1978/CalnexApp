@@ -1,0 +1,134 @@
+/**
+ * CalnexApp About page — editorial manifesto, Industrial Dark Glassmorphism
+ */
+
+body.cn-about-page {
+  --cn-about-matte: #0a0e14;
+  --cn-about-display: "Fraunces", "Plus Jakarta Sans", Georgia, serif;
+  --cn-about-body: var(--cn-font-sans);
+}
+
+.cn-about-main {
+  width: 100%;
+  padding-bottom: clamp(4rem, 10vw, 7rem);
+}
+
+/* ── Hero ── */
+.cn-about-hero {
+  position: relative;
+  padding: clamp(4rem, 10vw, 7rem) 1.5rem clamp(3rem, 7vw, 5rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cn-about-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -18%, rgba(30, 45, 68, 0.48) 0%, transparent 58%),
+    radial-gradient(ellipse 45% 35% at 12% 95%, rgba(18, 28, 44, 0.32) 0%, transparent 50%),
+    linear-gradient(180deg, var(--cn-about-matte) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.cn-about-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: min(42rem, 100%);
+  margin: 0 auto;
+}
+
+.cn-about-hero__eyebrow {
+  margin: 0 0 1.15rem;
+  font-family: var(--cn-about-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cn-text-tertiary);
+}
+
+.cn-about-hero__title {
+  margin: 0 0 1.5rem;
+  font-family: var(--cn-about-display);
+  font-size: clamp(2.35rem, 6vw, 3.75rem);
+  font-weight: 700;
+  font-variation-settings: "SOFT" 50, "WONK" 0;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--cn-text-primary);
+}
+
+.cn-about-hero__lede {
+  margin: 0 auto;
+  max-width: 36rem;
+  font-family: var(--cn-about-body);
+  font-size: clamp(1.02rem, 1.9vw, 1.15rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--cn-text-secondary);
+}
+
+/* ── Manifesto glass panel ── */
+.cn-about-manifesto {
+  padding: 0 1.5rem clamp(2rem, 5vw, 3.5rem);
+}
+
+.cn-about-glass {
+  width: min(42rem, 100%);
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.75rem, 4vw, 2.5rem);
+  border-radius: 20px;
+  background: rgba(23, 23, 23, 0.5);
+  border: 1px solid #262626;
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.cn-about-point {
+  margin: 0;
+  padding: 0;
+}
+
+.cn-about-point + .cn-about-point {
+  margin-top: 2.25rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cn-about-point__headline {
+  margin: 0 0 0.85rem;
+  font-family: var(--cn-about-body);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: var(--cn-text-primary);
+}
+
+.cn-about-point__text {
+  margin: 0;
+  font-family: var(--cn-about-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--cn-text-secondary);
+}
+
+/* ── Light theme ── */
+html[data-theme="light"] body.cn-about-page {
+  --cn-about-matte: #eef2f7;
+}
+
+html[data-theme="light"] .cn-about-glass {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+html[data-theme="light"] .cn-about-point + .cn-about-point {
+  border-top-color: rgba(15, 23, 42, 0.08);
+}

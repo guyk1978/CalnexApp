@@ -194,6 +194,13 @@ const TOOLS_GRID_CLASS =
 const BLOG_GRID_CLASS =
   "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6";
 
+/** Blog index — vertical editorial feed (no grid). */
+const BLOG_FEED_CLASS = "cn-blog-feed";
+
+const BLOG_INDEX_SECTION_CLASS = "cn-blog-section";
+
+const BLOG_INDEX_SECTION_TITLE_CLASS = "cn-blog-section__title";
+
 /** Page-level section wrapper (tools hub, blog grids, homepage listings). */
 const LISTING_SECTION_WRAP_CLASS =
   "py-16 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto space-y-16";
@@ -238,21 +245,60 @@ const LISTING_GRID_CLASS = HUB_GRID_CLASS;
 const LISTING_HEADING_CLASS =
   "text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-10 md:mb-12";
 
-/** Related tools / categories footer (4-col micro-card grid). */
+/** Related tools / categories footer (3-col glass-card grid). */
 const RELATED_SECTION_WRAP_CLASS =
   "py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6";
 
-const RELATED_GRID_CLASS =
-  "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6";
+const BLOG_ARTICLE_RELATED_WRAP_CLASS = "cn-blog-article-extra";
 
-const RELATED_LINK_CLASS =
-  "flex items-center gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all group no-underline";
+const TOOLS_HUB_GRID_CLASS = "cn-tools-hub-grid";
 
-const RELATED_TITLE_CLASS =
-  "text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 transition-colors";
+const RELATED_GRID_CLASS = TOOLS_HUB_GRID_CLASS;
+
+const RELATED_LINK_CLASS = "cn-tool-glass-card";
+
+const RELATED_TITLE_CLASS = "cn-tool-glass-card__title";
 
 const RELATED_HEADING_CLASS =
   "text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white";
+
+const NAV_GROUP_SVG = {
+  housing:
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
+  lending:
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>',
+  auto:
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14"/><path d="M7 17l1-5h8l1 5"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M5 12h14l-1.5-4h-11z"/></svg>',
+  growth:
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
+  planning:
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>'
+};
+
+const CATEGORY_TITLE_SVG = NAV_GROUP_SVG;
+
+const TOOL_SLUG_SVG = {
+  "mortgage-calculator": NAV_GROUP_SVG.housing,
+  "rent-vs-buy":
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12h4M6 16h4M6 8h4M14 12h4M14 16h4M14 8h4"/></svg>',
+  "roi-calculator": NAV_GROUP_SVG.growth,
+  "loan-calculator": NAV_GROUP_SVG.lending,
+  "debt-payoff":
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>',
+  "loan-comparison":
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 8h4v13H3zM17 5h4v16h-4z"/></svg>',
+  "car-loan-calculator": NAV_GROUP_SVG.auto,
+  "interest-calculator": NAV_GROUP_SVG.growth,
+  "retirement-calculator": NAV_GROUP_SVG.planning,
+  "take-home-pay":
+    '<svg class="cn-tool-glass-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg>'
+};
+
+function resolveToolSvg(item, accent) {
+  const url = normalizeToolPath(item);
+  const slug = item.slug || slugFromToolUrl(url);
+  return TOOL_SLUG_SVG[slug] || NAV_GROUP_SVG[accent] || NAV_GROUP_SVG.lending;
+}
 
 const ACCENT_EMOJI = {
   housing: "🏠",
@@ -277,20 +323,15 @@ const DASHBOARD_MINI_ICON_CLASS = {
 const RELATED_MINI_ICON_CLASS = DASHBOARD_MINI_ICON_CLASS;
 
 /** Category-grouped tools catalog (tools hub bottom / homepage). */
-const DASHBOARD_WRAP_CLASS =
-  `cn-tools-dashboard ${RELATED_SECTION_WRAP_CLASS} px-4 sm:px-6 max-w-7xl mx-auto`;
+const DASHBOARD_WRAP_CLASS = "cn-tools-dashboard cn-tools-hub-dashboard";
 
-const DASHBOARD_HEADING_CLASS =
-  "text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8 md:mb-10";
+const DASHBOARD_HEADING_CLASS = "cn-tools-hub-section__title";
 
-const DASHBOARD_CATEGORY_TITLE_CLASS =
-  "text-xl font-extrabold text-slate-900 dark:text-white mb-4 mt-8 flex items-center gap-2";
+const DASHBOARD_CATEGORY_TITLE_CLASS = "cn-tools-hub-category__title";
 
-const DASHBOARD_CATEGORY_GRID_CLASS = RELATED_GRID_CLASS;
+const DASHBOARD_CATEGORY_GRID_CLASS = TOOLS_HUB_GRID_CLASS;
 
-const DASHBOARD_MICRO_CARD_LINK_CLASS = `cn-dashboard-micro-card ${RELATED_LINK_CLASS}`;
-
-const DASHBOARD_MICRO_CARD_TITLE_CLASS = RELATED_TITLE_CLASS;
+const DASHBOARD_MICRO_CARD_LINK_CLASS = "cn-tool-glass-card";
 
 const NAV_GROUP_ORDER = ["housing", "lending", "auto", "growth", "planning"];
 
@@ -381,29 +422,32 @@ function groupToolsByNavGroup(tools) {
   }));
 }
 
-/** Interactive micro-card for category dashboards (icon + title only). */
-function renderDashboardMicroCard(item, accentOverride) {
+/** Interactive glass card for category dashboards (icon + title). */
+function renderToolGlassCard(item, accentOverride) {
   const url = normalizeToolPath(item);
   const slug = item.slug || slugFromToolUrl(url);
   const accent = accentOverride || resolveToolNavGroup(item);
   const title = item.name || item.title || slug;
-  const emoji = ACCENT_EMOJI[accent] || "📊";
-  const iconClass = DASHBOARD_MINI_ICON_CLASS[accent] || DASHBOARD_MINI_ICON_CLASS.lending;
-  return `          <a href="${escapeHtml(url)}" class="${DASHBOARD_MICRO_CARD_LINK_CLASS}">
-            <div class="${iconClass}" aria-hidden="true">${emoji}</div>
-            <span class="${DASHBOARD_MICRO_CARD_TITLE_CLASS}">${escapeHtml(title)}</span>
+  const svg = resolveToolSvg(item, accent);
+  return `          <a href="${escapeHtml(url)}" class="${DASHBOARD_MICRO_CARD_LINK_CLASS} cn-tool-glass-card--${accent}">
+            <span class="cn-tool-glass-card__icon" aria-hidden="true">${svg}</span>
+            <span class="cn-tool-glass-card__title">${escapeHtml(title)}</span>
           </a>`;
+}
+
+function renderDashboardMicroCard(item, accentOverride) {
+  return renderToolGlassCard(item, accentOverride);
 }
 
 function renderDashboardCategoryPanel(groupKey, title, items) {
   const accent = groupKey || "lending";
-  const emoji = ACCENT_EMOJI[accent] || "📊";
-  const cards = (items || []).map((item) => renderDashboardMicroCard(item)).join("\n");
+  const svg = CATEGORY_TITLE_SVG[accent] || CATEGORY_TITLE_SVG.lending;
+  const cards = (items || []).map((item) => renderDashboardMicroCard(item, accent)).join("\n");
   if (!cards.trim()) return "";
   return `        <section class="cn-tools-dashboard__category">
-          <h3 class="${DASHBOARD_CATEGORY_TITLE_CLASS}">
-            <span aria-hidden="true">${emoji}</span>
-            <span>${escapeHtml(title)}</span>
+          <h3 class="${DASHBOARD_CATEGORY_TITLE_CLASS} cn-tools-hub-category__title--${accent}">
+            <span class="cn-tools-hub-category__icon" aria-hidden="true">${svg}</span>
+            <span class="cn-tools-hub-category__label">${escapeHtml(title)}</span>
           </h3>
           <div class="${DASHBOARD_CATEGORY_GRID_CLASS}">
 ${cards}
@@ -413,7 +457,7 @@ ${cards}
 
 /** Full tools catalog grouped by nav category. */
 function renderToolsCatalogDashboard(tools, options = {}) {
-  const { heading = "Explore calculators", includeScenarios = [] } = options;
+  const { heading = "", includeScenarios = [] } = options;
   const groups = groupToolsByNavGroup(tools);
   const categoryPanels = groups
     .map((group) =>
@@ -426,9 +470,12 @@ function renderToolsCatalogDashboard(tools, options = {}) {
       ? renderDashboardCategoryPanel("lending", "Popular loan scenarios", includeScenarios)
       : "";
 
+  const headingBlock = heading
+    ? `        <h2 class="${DASHBOARD_HEADING_CLASS}">${escapeHtml(heading)}</h2>\n`
+    : "";
+
   return `<div id="cn-tools-catalog" class="${DASHBOARD_WRAP_CLASS}" aria-live="polite">
-        <h2 class="${DASHBOARD_HEADING_CLASS}">${escapeHtml(heading)}</h2>
-${categoryPanels}
+${headingBlock}${categoryPanels}
 ${scenarioPanel}
       </div>`;
 }
@@ -452,10 +499,9 @@ function renderRelatedLink(item) {
   const url = normalizeListingUrl(item.url || item.path);
   const title = item.title || item.name || url;
   const accent = resolveRelatedAccent(item);
-  const miniIcon = RELATED_MINI_ICON_CLASS[accent] || RELATED_MINI_ICON_CLASS.lending;
-  const emoji = ACCENT_EMOJI[accent] || "📊";
-  return `          <a href="${escapeHtml(url)}" class="${RELATED_LINK_CLASS}">
-            <div class="${miniIcon}" aria-hidden="true">${emoji}</div>
+  const svg = NAV_GROUP_SVG[accent] || NAV_GROUP_SVG.lending;
+  return `          <a href="${escapeHtml(url)}" class="${RELATED_LINK_CLASS} cn-tool-glass-card--${accent}">
+            <span class="cn-tool-glass-card__icon" aria-hidden="true">${svg}</span>
             <span class="${RELATED_TITLE_CLASS}">${escapeHtml(title)}</span>
           </a>`;
 }
@@ -477,12 +523,12 @@ ${renderRelatedGrid(items)}
 }
 
 /** Static tool links for blog publish templates (no registry lookup). */
-function renderDefaultRecommendedCalculators(title = "Recommended calculators") {
+function renderDefaultRecommendedCalculators(title = "Recommended calculators", options = {}) {
   return renderRelatedSection(title, [
     { url: "/tools/loan-calculator/", title: "Loan Calculator", slug: "loan-calculator" },
     { url: "/tools/mortgage-calculator/", title: "Mortgage Calculator", slug: "mortgage-calculator" },
     { url: "/tools/car-loan-calculator/", title: "Car Loan Calculator", slug: "car-loan-calculator" }
-  ]);
+  ], { wrapClass: BLOG_ARTICLE_RELATED_WRAP_CLASS, ...options });
 }
 
 function renderToolGridTile(item) {
@@ -520,17 +566,44 @@ function renderHubToolCard(tool) {
           </a>`;
 }
 
-/** Centered blog index tile: category badge + title only (no excerpt). */
-function renderHubBlogCard(post) {
+/** Centered blog index tile — editorial card with thumb, title, excerpt. */
+function formatBlogListingDate(iso) {
+  if (!iso) return "";
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return String(iso);
+  return date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+
+function renderBlogIndexThumb(post, accent) {
+  const img = post.image || post.thumbnail || post.heroImage;
+  if (img) {
+    return `              <div class="cn-blog-card__thumb cn-blog-card__thumb--${accent}"><img src="${escapeHtml(img)}" alt="" loading="lazy" decoding="async" /></div>`;
+  }
+  return `              <div class="cn-blog-card__thumb cn-blog-card__thumb--${accent}" aria-hidden="true"></div>`;
+}
+
+function renderBlogIndexCard(post) {
   const slug = post.slug;
   const title = post.title || slug;
   const category = post.category || "Blog";
   const accent = classifyBlogCategory(category);
-  const pill = HUB_BLOG_PILL_CLASS[accent] || HUB_BLOG_PILL_CLASS.lending;
-  return `          <a href="/blog/${escapeHtml(slug)}/" class="${HUB_CARD_LINK_CLASS}">
-            <span class="${pill}">${escapeHtml(category)}</span>
-            <h3 class="${HUB_CARD_TITLE_CLASS}">${escapeHtml(title)}</h3>
-          </a>`;
+  const excerpt = post.excerpt || "";
+  const meta = [formatBlogListingDate(post.updatedDate), post.readTime].filter(Boolean).join(" · ");
+  return `          <article class="cn-blog-card">
+            <a href="/blog/${escapeHtml(slug)}/" class="cn-blog-card__link">
+${renderBlogIndexThumb(post, accent)}
+              <div class="cn-blog-card__body">
+                ${meta ? `<p class="cn-blog-card__meta">${escapeHtml(meta)}</p>` : ""}
+                <h3 class="cn-blog-card__title">${escapeHtml(title)}</h3>
+                ${excerpt ? `<p class="cn-blog-card__excerpt">${escapeHtml(excerpt)}</p>` : ""}
+                <p class="cn-blog-card__category">${escapeHtml(category)}</p>
+              </div>
+            </a>
+          </article>`;
+}
+
+function renderHubBlogCard(post) {
+  return renderBlogIndexCard(post);
 }
 
 function normalizeListingUrl(url = "") {
@@ -578,6 +651,15 @@ function renderListingSectionInner(title, tilesHtml) {
         <h2 class="${LISTING_HEADING_CLASS}">${escapeHtml(title)}</h2>
         <div class="${HUB_GRID_CLASS}">
 ${tilesHtml}
+        </div>
+      </section>`;
+}
+
+function renderBlogIndexSection(title, cardsHtml) {
+  return `<section class="${BLOG_INDEX_SECTION_CLASS}">
+        <h2 class="${BLOG_INDEX_SECTION_TITLE_CLASS}">${escapeHtml(title)}</h2>
+        <div class="${BLOG_FEED_CLASS}">
+${cardsHtml}
         </div>
       </section>`;
 }
@@ -930,6 +1012,9 @@ module.exports = {
   TOOL_THEMES,
   TOOLS_GRID_CLASS,
   BLOG_GRID_CLASS,
+  BLOG_FEED_CLASS,
+  BLOG_INDEX_SECTION_CLASS,
+  BLOG_INDEX_SECTION_TITLE_CLASS,
   CN_MAIN_LAYOUT_CLASS,
   CN_PAGE_HERO_CLASS,
   TOOL_PAGE_TITLE_SECTION_CLASS,
@@ -941,6 +1026,8 @@ module.exports = {
   HUB_CARD_LINK_CLASS,
   HUB_CARD_TITLE_CLASS,
   renderHubToolCard,
+  renderBlogIndexCard,
+  renderBlogIndexSection,
   renderHubBlogCard,
   LISTING_GRID_CLASS,
   LISTING_SECTION_WRAP_CLASS,
@@ -975,11 +1062,14 @@ module.exports = {
   RELATED_GRID_CLASS,
   RELATED_LINK_CLASS,
   RELATED_TITLE_CLASS,
+  TOOLS_HUB_GRID_CLASS,
+  NAV_GROUP_SVG,
   RELATED_HEADING_CLASS,
   DASHBOARD_WRAP_CLASS,
   DASHBOARD_CATEGORY_GRID_CLASS,
   DASHBOARD_MICRO_CARD_LINK_CLASS,
   renderDashboardMicroCard,
+  renderToolGlassCard,
   renderDashboardCategoryPanel,
   renderToolsCatalogDashboard,
   groupToolsByNavGroup,

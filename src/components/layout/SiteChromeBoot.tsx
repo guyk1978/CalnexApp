@@ -14,8 +14,12 @@ export function SiteChromeBoot() {
       document.body.dataset.page = main.dataset.page;
     }
 
+    if (document.querySelector("[data-cn-react-header]") || document.querySelector("[data-cn-react-search]")) {
+      return;
+    }
+
     const win = window as Window & { CalnexSiteSearch?: LegacySearch; CalnexPath?: (p: string) => string };
-    if (document.getElementById("cn-site-search-trigger")) return;
+    if (document.getElementById("cn-header-search-trigger")?.dataset.cnSearchBound === "true") return;
 
     const bootSearch = async () => {
       if (!win.CalnexSiteSearch?.init) {

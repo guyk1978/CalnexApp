@@ -3,7 +3,7 @@
 .cn-header-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -28,24 +28,47 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   padding: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--cn-radius-sm);
-  background: var(--cn-surface-solid);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--cn-text-secondary);
   cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition:
     background-color var(--cn-motion-fast) var(--cn-ease-out),
     border-color var(--cn-motion-fast) var(--cn-ease-out),
-    color var(--cn-motion-fast) var(--cn-ease-out);
+    color var(--cn-motion-fast) var(--cn-ease-out),
+    box-shadow var(--cn-motion-fast) var(--cn-ease-out);
 }
 
 .cn-theme-toggle:hover {
-  border-color: var(--cn-border-strong);
+  border-color: rgba(255, 255, 255, 0.18);
   color: var(--cn-text-primary);
-  background: var(--cn-bg-muted);
+  background: rgba(38, 38, 38, 0.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 20px rgba(91, 140, 255, 0.1),
+    0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme="light"] .cn-theme-toggle {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(15, 23, 42, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .cn-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(15, 23, 42, 0.14);
 }
 
 .cn-theme-toggle:focus-visible {
@@ -207,16 +230,16 @@
 .header-chart-mini {
   display: inline-flex;
   align-items: flex-end;
-  gap: 2.5px;
-  width: 16px;
-  height: 12px;
-  margin-left: 8px;
+  gap: 3px;
+  width: 20px;
+  height: 15px;
+  margin-left: 10px;
   flex-shrink: 0;
   pointer-events: none;
 }
 
 .header-chart-mini__bar {
-  width: 2.5px;
+  width: 3px;
   height: 100%;
   border-radius: 0.5px;
   transform-origin: bottom;
@@ -538,6 +561,12 @@
 @media (min-width: 960px) {
   .calculator-layout.cn-calculator-layout {
     grid-template-columns: minmax(280px, 1fr) minmax(0, 1.1fr);
+  }
+
+  /* Results-only inner layout (inputs moved to page sidebar) */
+  .cn-calculator-page .cn-calc-page-body > :is(.cn-calc-global-sidebar, form.cn-calc-global-sidebar, aside.cn-calc-global-sidebar)
+    ~ .cn-calc-workspace .calculator-layout.cn-calculator-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 

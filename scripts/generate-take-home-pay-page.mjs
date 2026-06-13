@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
+const { applyDashboardLayout } = require("./calculator-sidebar-core.cjs");
 const {
   renderToolBadge,
   renderToolQuickActions,
@@ -76,9 +77,9 @@ function buildFeaturePanel() {
 }
 
 function buildCalculator() {
-  return `<div class="cn-tool-shell" id="thp-calculator">
-        <section class="calculator-layout cn-calculator-layout take-home-pay_layout__y5vCk">
-          <form class="card input-card" id="thp-form" aria-label="Take-home pay calculator form">
+  return `<div class="cn-tool-shell cn-calc-workflow" id="thp-calculator">
+        <section class="calculator-layout cn-calculator-layout cn-calculator-workflow take-home-pay_layout__y5vCk">
+          <form class="card input-card cn-calc-sidebar" id="thp-form" aria-label="Take-home pay calculator form">
             <header class="cn-calc-form__head">
               <h2 class="cn-calc-form__title">Paycheck inputs</h2>
               <p class="cn-calc-form__lede muted">Adjust salary and tax assumptions—the results update as you type.</p>
@@ -116,7 +117,7 @@ function buildCalculator() {
               <span style="font-size:var(--cn-text-xs);color:var(--cn-text-tertiary)">Flat effective rate for planning—not itemized state rules.</span>
             </div>
           </form>
-          <aside class="card output-card cn-tool-rail take-home-pay_rail__s9k8O" aria-live="polite">
+          <aside class="card output-card cn-calc-results cn-tool-rail take-home-pay_rail__s9k8O" aria-live="polite">
             <h2>Results</h2>
             <article class="take-home-pay_resultCard__1ONJV" id="thp-result-card" aria-live="polite">
               <div class="take-home-pay_shimmerOverlay__B7gmZ" aria-hidden="true"></div>
@@ -249,14 +250,14 @@ function buildHead() {
     <link rel="canonical" href="https://calnexapp.com/tools/take-home-pay/" />
 ${siteStylesheetLinks()}
   </head>
-  <body data-page="take-home-pay-calculator">`;
+  <body data-page="take-home-pay-calculator" class="cn-calculator-page cn-site-chrome">`;
 }
 
 function buildFooterScripts() {
   return `
     <div id="cnShareToast" class="share-toast" role="status" aria-live="polite"></div>
     <div id="cnPdfToast" class="share-toast" role="status" aria-live="polite"></div>
-    <footer class="site-footer">
+    <footer class="site-footer cn-site-footer">
       <div class="container footer-content">
         <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
         <nav class="footer-links" aria-label="Footer">
@@ -301,7 +302,9 @@ function generate() {
   }
   const headerHtml = shell.slice(hStart, hEnd + "</header>".length);
 
-  const html = buildHead() + `\n    ${headerHtml}\n` + buildMain() + buildFooterScripts();
+  let html = buildHead() + `\n    ${headerHtml}\n` + buildMain() + buildFooterScripts();
+  const dashboard = applyDashboardLayout(html);
+  html = dashboard.html;
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, html, "utf8");

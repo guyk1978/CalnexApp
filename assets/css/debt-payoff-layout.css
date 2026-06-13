@@ -1,37 +1,50 @@
 /**
- * Debt payoff calculator — 12-column grid (5 inputs / 7 results).
+ * Debt payoff calculator — results-only workspace when inputs are in page sidebar.
  */
 
 body[data-page="debt-payoff"] .cn-debt-payoff-layout {
-  display: grid;
+  display: block;
   gap: var(--cn-space-4);
   align-items: start;
+  width: 100%;
 }
 
 @media (min-width: 960px) {
-  body[data-page="debt-payoff"] .cn-debt-payoff-layout {
+  body[data-page="debt-payoff"] .cn-debt-payoff-layout:has(> .cn-debt-payoff-layout__inputs) {
+    display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 2rem;
   }
 
-  body[data-page="debt-payoff"] .cn-debt-payoff-layout__inputs {
+  body[data-page="debt-payoff"] .cn-debt-payoff-layout:has(> .cn-debt-payoff-layout__inputs) .cn-debt-payoff-layout__inputs {
     grid-column: span 5;
     min-width: 0;
   }
 
-  body[data-page="debt-payoff"] .cn-debt-payoff-layout__results {
+  body[data-page="debt-payoff"] .cn-debt-payoff-layout:has(> .cn-debt-payoff-layout__inputs) .cn-debt-payoff-layout__results {
     grid-column: span 7;
     position: relative;
     min-width: 0;
   }
+}
 
-  body[data-page="debt-payoff"] .cn-debt-payoff-rail {
-    position: sticky;
-    top: calc(4.5rem + env(safe-area-inset-top, 0px));
-    align-self: start;
-    max-height: none;
-    overflow: visible;
-  }
+body[data-page="debt-payoff"] .cn-calc-page-body > .cn-debt-payoff-layout__inputs {
+  grid-column: 1 !important;
+  width: 100%;
+}
+
+body[data-page="debt-payoff"] .cn-debt-payoff-layout__results {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+}
+
+body[data-page="debt-payoff"] .cn-debt-payoff-rail {
+  position: relative;
+  top: auto;
+  align-self: start;
+  max-height: none;
+  overflow: visible;
 }
 
 body[data-page="debt-payoff"] .cn-debt-row.card {

@@ -5,7 +5,7 @@ export const COOKIE_BANNER_SHADOW_CSS = `
   inset: 0;
   z-index: 9999 !important;
   display: block;
-  pointer-events: auto;
+  pointer-events: none;
   box-sizing: border-box;
 }
 .cn-cookie-consent-overlay {
@@ -14,7 +14,7 @@ export const COOKIE_BANNER_SHADOW_CSS = `
   background: transparent;
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
-  pointer-events: auto;
+  pointer-events: none;
   display: flex;
   align-items: flex-end;
   justify-content: center;

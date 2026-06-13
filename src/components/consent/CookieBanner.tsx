@@ -28,7 +28,7 @@ function injectCriticalPositioning() {
   if (document.getElementById("cn-cookie-consent-critical")) return;
   const style = document.createElement("style");
   style.id = "cn-cookie-consent-critical";
-  style.textContent = `#${COOKIE_BANNER_ROOT_ID}{position:fixed!important;inset:0!important;z-index:9999!important;pointer-events:auto!important;background:transparent!important;-webkit-backdrop-filter:blur(2px)!important;backdrop-filter:blur(2px)!important;}`;
+  style.textContent = `#${COOKIE_BANNER_ROOT_ID}{position:fixed!important;inset:0!important;z-index:9999!important;pointer-events:none!important;background:transparent!important;-webkit-backdrop-filter:blur(2px)!important;backdrop-filter:blur(2px)!important;}#${COOKIE_BANNER_ROOT_ID} .cn-cookie-banner-panel{pointer-events:auto!important;}`;
   document.head.appendChild(style);
 }
 

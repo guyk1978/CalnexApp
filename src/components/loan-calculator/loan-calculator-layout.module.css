@@ -1,20 +1,48 @@
-/* Layout-only — natural flow, no inner scroll (matches static mortgage shell) */
+/* Page-level sticky sidebar rail (matches static calculator-workflow.css) */
+
+.pageBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .pageBody {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.globalSidebar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: visible;
+  max-height: none;
+}
+
+@media (min-width: 1024px) {
+  .globalSidebar {
+    flex: 0 0 18.5rem;
+    width: 18.5rem;
+    position: sticky;
+    top: 4.5rem;
+    align-self: flex-start;
+    min-height: calc(100vh - 4.5rem);
+  }
+}
+
+.pageMain {
+  flex: 1;
+  min-width: 0;
+}
 
 .shell {
-  margin-top: var(--cn-space-4);
+  margin-top: 0;
 }
 
-.layout {
-  display: grid;
-  gap: var(--cn-space-4);
-  align-items: start;
-}
-
-@media (min-width: 768px) {
-  .layout {
-    grid-template-columns: minmax(280px, 1fr) minmax(0, 1.1fr);
-    gap: 2rem;
-  }
+.resultsOnly {
+  display: block;
 }
 
 .resultsPanel {

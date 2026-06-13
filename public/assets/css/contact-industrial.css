@@ -1,0 +1,168 @@
+/**
+ * CalnexApp Contact page — Industrial Matte editorial layout
+ */
+
+body.cn-contact-page {
+  --cn-contact-matte: #0a0e14;
+  --cn-contact-slate: #121a24;
+  --cn-contact-ink: #e8edf4;
+  --cn-contact-muted: #94a3b8;
+  --cn-contact-accent: #60a5fa;
+  --cn-contact-display: "Fraunces", "Plus Jakarta Sans", Georgia, serif;
+  --cn-contact-body: var(--cn-font-sans);
+  --cn-contact-max: 42rem;
+}
+
+[data-theme="light"] body.cn-contact-page {
+  --cn-contact-matte: #f4f6f9;
+  --cn-contact-slate: #e9edf3;
+  --cn-contact-ink: #0f172a;
+  --cn-contact-muted: #64748b;
+  --cn-contact-accent: #3b82f6;
+}
+
+body.cn-contact-page {
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -8%, rgba(30, 45, 68, 0.4) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 40% at 92% 100%, rgba(20, 32, 52, 0.26) 0%, transparent 52%),
+    linear-gradient(180deg, var(--cn-contact-matte) 0%, var(--cn-contact-slate) 100%);
+  color: var(--cn-contact-ink);
+}
+
+[data-theme="light"] body.cn-contact-page {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(91, 140, 255, 0.07) 0%, transparent 55%),
+    linear-gradient(180deg, var(--cn-contact-matte) 0%, var(--cn-contact-slate) 100%);
+}
+
+.cn-contact-main {
+  width: 100%;
+  padding: 5rem 1.5rem;
+  min-height: calc(100vh - var(--cn-header-height, 4.5rem) - 8rem);
+}
+
+.cn-contact-inner {
+  width: min(var(--cn-contact-max), 100%);
+  margin: 0 auto;
+}
+
+/* ── Header hierarchy ── */
+.cn-contact-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.cn-contact-header__title {
+  margin: 0 0 0.85rem;
+  font-family: var(--cn-contact-display);
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--cn-contact-ink);
+}
+
+.cn-contact-header__subtitle {
+  margin: 0;
+  font-family: var(--cn-contact-body);
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--cn-contact-muted);
+}
+
+/* ── Email action block ── */
+.cn-contact-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 2.75rem 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .cn-contact-action {
+  border-top-color: rgba(15, 23, 42, 0.08);
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+.cn-contact-action__label {
+  margin: 0 0 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cn-contact-muted);
+}
+
+.cn-contact-email {
+  display: inline-block;
+  margin: 0 0 2rem;
+  font-family: var(--cn-contact-body);
+  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--cn-contact-ink);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.cn-contact-email:hover {
+  color: var(--cn-contact-accent);
+}
+
+.cn-contact-action__lede {
+  margin: 0 0 1.25rem;
+  max-width: 32rem;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--cn-contact-muted);
+}
+
+/* ── Feature request bullets ── */
+.cn-contact-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-width: 28rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.cn-contact-list li {
+  position: relative;
+  padding-left: 1.35rem;
+  font-size: 0.975rem;
+  line-height: 1.7;
+  color: var(--cn-contact-muted);
+}
+
+.cn-contact-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--cn-contact-accent);
+  opacity: 0.75;
+}
+
+@media (max-width: 640px) {
+  .cn-contact-main {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .cn-contact-action {
+    padding: 2rem 0.5rem;
+  }
+
+  .cn-contact-header__title {
+    font-size: 2rem;
+  }
+}

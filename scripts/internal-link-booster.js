@@ -51,10 +51,10 @@ const replaceBlogGrid = (html, divId, postsHtml) => {
   const kind = divId === "featuredBlogList" ? "FEATURED" : "ALL";
   const start = `<!-- BLOG_INDEX_${kind}_START -->`;
   const end = `<!-- BLOG_INDEX_${kind}_END -->`;
-  const { HUB_GRID_CLASS } = require("./tool-themes.cjs");
+  const { HUB_GRID_CLASS, BLOG_FEED_CLASS } = require("./tool-themes.cjs");
 
   const block = `${start}
-        <div id="${divId}" class="${HUB_GRID_CLASS}" aria-live="polite">
+        <div id="${divId}" class="${BLOG_FEED_CLASS}" aria-live="polite">
 ${postsHtml}
         </div>
 ${end}`;
@@ -79,7 +79,7 @@ const {
   renderHubToolCard,
   renderListingGridTile,
   renderBlogListingTile,
-  renderListingSection,
+  renderBlogIndexSection,
   renderListingSectionInner,
   HUB_GRID_CLASS,
   LISTING_GRID_CLASS,
@@ -299,7 +299,7 @@ ${renderToolsCatalogDashboard(homeTools, { heading: "Financial calculators" })}
 
   const blogLatestBlock = `
       <!-- ILB_BLOG_LATEST_START -->
-      ${renderListingSection("Recently updated", renderHubBlogGrid(latestBlogs))}
+      ${renderBlogIndexSection("Recently updated", renderHubBlogGrid(latestBlogs))}
       <!-- ILB_BLOG_LATEST_END -->`;
   blogHtml = injectByMarkers(blogHtml, "<!-- ILB_BLOG_LATEST_START -->", "<!-- ILB_BLOG_LATEST_END -->", blogLatestBlock);
   fs.writeFileSync(blogPath, blogHtml, "utf8");

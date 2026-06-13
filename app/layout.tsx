@@ -11,6 +11,7 @@ import "./globals.css";
 /** Static export: real <script defer> tags so nested routes get app.js without relying on Next Script hydration. */
 const DEFERRED_SITE_SCRIPTS = [
   siteScripts.headerToolbar,
+  siteScripts.siteSearch,
   "/assets/js/geo-finance.js",
   "/assets/js/currency.js",
   "/assets/js/geo-currency-sync.js",

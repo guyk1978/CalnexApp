@@ -1,0 +1,204 @@
+const InterestCalculator = (() => {
+  const selectors = {
+    principal: document.getElementById("interestPrincipal"),
+    rate: document.getElementById("interestRate"),
+    years: document.getElementById("interestYears"),
+    compounding: document.getElementById("interestCompounding"),
+    monthlyContribution: document.getElementById("interestMonthlyContribution"),
+    finalAmount: document.getElementById("interestFinalAmount"),
+    totalInterest: document.getElementById("interestTotalInterest"),
+    simpleAmount: document.getElementById("interestSimpleAmount"),
+    compoundAmount: document.getElementById("interestCompoundAmount"),
+    yearlyBody: document.getElementById("interestYearlyBody"),
+    growthChart: document.getElementById("interestGrowthChart"),
+    compareChart: document.getElementById("interestCompareChart")
+  };
+
+  let growthChartInstance;
+  let compareChartInstance;
+  let isApplyingSharedState = false;
+  let lastInterestRows = [];
+  let lastInterestPrincipal = 0;
+
+  const num = (key, el, fb = 0) =>
+    typeof CalnexParse !== "undefined" ? CalnexParse.resolveNumeric(key, el, fb) : Number(el?.value) || fb;
+  const setCurrency = (value) =>
+    (typeof CurrencyLayer !== "undefined"
+      ? CurrencyLayer.formatCurrency(value)
+      : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(
+          Number(value) || 0
+        ));
+
+  const getInputs = () => {
+    const principal = Math.max(0, num("interest_principal", selectors.principal, 0));
+    const annualRate = Math.max(0, num("interest_rate", selectors.rate, 0));
+    const years = Math.max(1, num("interest_years", selectors.years, 1));
+    const monthlyContribution = Math.max(0, num("interest_monthly_contribution", selectors.monthlyContribution, 0));
+    const compounding = selectors.compounding.value || "monthly";
+    return { principal, annualRate, years, monthlyContribution, compounding };
+  };
+
+  const renderYearlyTable = (rows) => {
+    selectors.yearlyBody.innerHTML = rows
+      .map(
+        (row) => `
+        <tr>
+          <td>${row.year}</td>
+          <td>${setCurrency(row.simpleAmount)}</td>
+          <td>${setCurrency(row.compoundAmount)}</td>
+          <td>${setCurrency(row.contributions)}</td>
+          <td>${setCurrency(row.interestEarned)}</td>
+        </tr>
+      `
+      )
+      .join("");
+  };
+
+  const renderCharts = (rows) => {
+    if (!window.Chart) return;
+    const labels = rows.map((row) => `Year ${row.year}`);
+    const compoundSeries = rows.map((row) => row.compoundAmount);
+    const principalPlusContribSeries = rows.map((row) => row.contributions + lastInterestPrincipal);
+    const simpleSeries = rows.map((row) => row.simpleAmount);
+
+    if (growthChartInstance) growthChartInstance.destroy();
+    growthChartInstance = new window.Chart(selectors.growthChart, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Compound growth",
+            data: compoundSeries,
+            borderColor: "#1b63f0",
+            tension: 0.25
+          },
+          {
+            label: "Principal + contributions",
+            data: principalPlusContribSeries,
+            borderColor: "#5f6b7a",
+            borderDash: [5, 5],
+            tension: 0.25
+          }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
+
+    if (compareChartInstance) compareChartInstance.destroy();
+    compareChartInstance = new window.Chart(selectors.compareChart, {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Simple interest",
+            data: simpleSeries,
+            backgroundColor: "#7a5af8"
+          },
+          {
+            label: "Compound interest",
+            data: compoundSeries,
+            backgroundColor: "#16a34a"
+          }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
+  };
+
+  const applySharedState = () => {
+    if (typeof SharedState === "undefined") return;
+    const state = SharedState.getState();
+    if (state.interest_principal !== undefined) selectors.principal.value = String(state.interest_principal);
+    else if (state.loan_amount !== undefined) selectors.principal.value = String(state.loan_amount);
+    if (state.interest_rate !== undefined) selectors.rate.value = String(state.interest_rate);
+    if (state.interest_years !== undefined) selectors.years.value = String(state.interest_years);
+    else if (state.loan_term !== undefined) selectors.years.value = String(Math.max(1, Math.round(state.loan_term / 12)));
+    if (state.interest_monthly_contribution !== undefined) {
+      selectors.monthlyContribution.value = String(state.interest_monthly_contribution);
+    } else if (state.extra_payment !== undefined) {
+      selectors.monthlyContribution.value = String(state.extra_payment);
+    }
+    if (state.interest_compounding) selectors.compounding.value = String(state.interest_compounding);
+  };
+
+  const buildInterestPatch = ({ principal, annualRate, years, monthlyContribution, compounding }, toolkit) => ({
+    loan_amount: principal,
+    interest_rate: annualRate,
+    loan_term: years * 12,
+    extra_payment: monthlyContribution,
+    interest_principal: principal,
+    interest_years: years,
+    interest_monthly_contribution: monthlyContribution,
+    interest_compounding: compounding,
+    interest_simple_total: toolkit.simpleTotal,
+    interest_compound_total: toolkit.compoundAmount,
+    interest_total_interest: toolkit.totalInterest,
+    interest_final_amount: toolkit.compoundAmount
+  });
+
+  const runInterestPipeline = () => {
+    if (isApplyingSharedState) return {};
+    if (typeof FinancialCore === "undefined" || typeof FinancialCore.computeInterestToolkit !== "function") return {};
+    const inputs = getInputs();
+    const toolkit = FinancialCore.computeInterestToolkit({
+      principal: inputs.principal,
+      annualRate: inputs.annualRate,
+      years: inputs.years,
+      monthlyContribution: inputs.monthlyContribution,
+      compounding: inputs.compounding
+    });
+    lastInterestPrincipal = inputs.principal;
+    lastInterestRows = toolkit.yearlyRows;
+    if (typeof SharedState !== "undefined") SharedState.refreshToolLinks();
+    return buildInterestPatch(inputs, toolkit);
+  };
+
+  const paintInterestCharts = () => {
+    renderYearlyTable(lastInterestRows);
+    if (lastInterestRows.length) renderCharts(lastInterestRows);
+  };
+
+  const init = () => {
+    if (document.body.dataset.page !== "interest-calculator") return;
+    if (window.AppEngine) AppEngine.registerToolPipeline("interest-calculator", runInterestPipeline);
+    if (window.CalnexAppRender?.registerCharts) {
+      CalnexAppRender.registerCharts("interest-calculator", paintInterestCharts);
+    }
+    isApplyingSharedState = true;
+    applySharedState();
+    isApplyingSharedState = false;
+    if (window.AppEngine) {
+      AppEngine.runImmediate();
+    } else if (typeof SharedState !== "undefined") {
+      SharedState.setState(runInterestPipeline(), { engineCommit: true });
+      window.CalnexAppRender?.appRenderAll?.("init");
+    } else {
+      runInterestPipeline();
+      window.CalnexAppRender?.appRenderAll?.("init");
+    }
+    document.addEventListener("sharedstate:updated", (event) => {
+      if (event.detail?.__engineSource === "commit") return;
+      isApplyingSharedState = true;
+      applySharedState();
+      isApplyingSharedState = false;
+      if (window.AppEngine) AppEngine.runImmediate();
+    });
+    document.addEventListener("currency:changed", () => {
+      if (window.AppEngine) AppEngine.runImmediate();
+    });
+
+    if (window.CalnexCsvExport) {
+      CalnexCsvExport.register("interest-calculator", () => {
+        const table = document.querySelector(".amortization-card .schedule-table");
+        const csv = CalnexCsvExport.tableToCsv(table);
+        return csv.trim() ? { csv, filename: "interest-growth.csv" } : null;
+      });
+    }
+  };
+
+  return { init };
+})();
+
+window.addEventListener("DOMContentLoaded", InterestCalculator.init);

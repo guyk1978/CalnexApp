@@ -1,38 +1,52 @@
 /**
- * Loan offer comparison — 12-column grid (5 inputs / 7 results).
- * Natural document flow only; sticky rail without inner scrollbars.
+ * Loan offer comparison — results-only workspace when inputs are in page sidebar.
  */
 
 body[data-page="loan-comparison"] .cn-loan-compare-layout {
-  display: grid;
+  display: block;
   gap: var(--cn-space-4);
   align-items: start;
+  width: 100%;
 }
 
+/* Legacy split grid only when inputs remain inside the layout wrapper */
 @media (min-width: 960px) {
-  body[data-page="loan-comparison"] .cn-loan-compare-layout {
+  body[data-page="loan-comparison"] .cn-loan-compare-layout:has(> .cn-loan-compare-layout__inputs) {
+    display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 2rem;
   }
 
-  body[data-page="loan-comparison"] .cn-loan-compare-layout__inputs {
+  body[data-page="loan-comparison"] .cn-loan-compare-layout:has(> .cn-loan-compare-layout__inputs) .cn-loan-compare-layout__inputs {
     grid-column: span 5;
     min-width: 0;
   }
 
-  body[data-page="loan-comparison"] .cn-loan-compare-layout__results {
+  body[data-page="loan-comparison"] .cn-loan-compare-layout:has(> .cn-loan-compare-layout__inputs) .cn-loan-compare-layout__results {
     grid-column: span 7;
     position: relative;
     min-width: 0;
   }
+}
 
-  body[data-page="loan-comparison"] .cn-loan-compare-rail {
-    position: sticky;
-    top: calc(4.5rem + env(safe-area-inset-top, 0px));
-    align-self: start;
-    max-height: none;
-    overflow: visible;
-  }
+/* Page-level sidebar must not inherit column spans */
+body[data-page="loan-comparison"] .cn-calc-page-body > .cn-loan-compare-layout__inputs {
+  grid-column: 1 !important;
+  width: 100%;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-layout__results {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+}
+
+body[data-page="loan-comparison"] .cn-loan-compare-rail {
+  position: relative;
+  top: auto;
+  align-self: start;
+  max-height: none;
+  overflow: visible;
 }
 
 body[data-page="loan-comparison"] .cn-offer-panel {
@@ -141,13 +155,6 @@ body[data-page="loan-comparison"] .cn-loan-compare-chart-wrap canvas {
   position: relative !important;
   width: 100% !important;
   max-height: 320px;
-}
-
-@media (max-width: 959px) {
-  body[data-page="loan-comparison"] .cn-loan-compare-rail {
-    position: relative;
-    top: auto;
-  }
 }
 
 /* Recommended blog guides — matches Related Tools card rhythm */

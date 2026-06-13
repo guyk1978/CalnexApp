@@ -18,303 +18,310 @@
     />
     <meta property="og:url" content="https://calnexapp.com/dashboard/" />
     <meta property="og:site_name" content="CalnexApp" />
-    <link rel="canonical" href="https://calnexapp.com/dashboard/" />                                                                                                                                                                                                                                    <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
-                    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
+    <link rel="canonical" href="https://calnexapp.com/dashboard/" />
+        <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
+    <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
     <script src="/assets/js/consent-config.js"></script>
     <script src="/assets/js/cookie-consent.js?v=6" defer></script>
   </head>
-  <body data-page="dashboard" data-cn-static-layout="true">
+  <body data-page="dashboard" data-cn-static-layout="true" class="cn-dashboard-page cn-calculator-page cn-site-chrome">
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
         <!-- CN_NAV_MENU_START -->
         <nav class="menu" id="siteMenu">
           <a href="/" data-nav-link>Home</a>
-          <div class="cn-nav-dropdown">
-            <a href="/tools/" class="cn-nav-dropdown__trigger" data-nav-link aria-haspopup="true" aria-expanded="false" id="cnToolsNavTrigger">Tools</a>
-            <div class="cn-nav-dropdown__panel" role="menu" aria-labelledby="cnToolsNavTrigger">
-              <a href="/tools/" class="cn-nav-dropdown__hub" role="menuitem">All calculators</a>
-              <div class="cn-nav-dropdown__scroll">
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Housing</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/mortgage-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span><span>Mortgage Calculator</span></a>
-                  <a href="/tools/rent-vs-buy/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12h4M6 16h4M6 8h4M14 12h4M14 16h4M14 8h4"/></svg></span><span>Rent vs. Buy Calculator</span></a>
-                  <a href="/tools/roi-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span>ROI Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Loans &amp; credit</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/loan-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span><span>Loan Calculator</span></a>
-                  <a href="/tools/debt-payoff/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg></span><span>Debt Snowball &amp; Avalanche Calculator</span></a>
-                  <a href="/tools/loan-comparison/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M3 8h4v13H3zM17 5h4v16h-4z"/></svg></span><span>Loan Offer Comparison Tool</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Auto</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/car-loan-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--auto"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14"/><path d="M7 17l1-5h8l1 5"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M5 12h14l-1.5-4h-11z"/></svg></span><span>Car Loan Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Interest &amp; growth</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/interest-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--growth"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span>Interest Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Retirement &amp; planning</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/retirement-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--planning"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span><span>Retirement Calculator</span></a>
-                  <a href="/tools/take-home-pay/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--planning"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg></span><span>Take-Home Pay Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group cn-nav-dropdown__group--scenarios">
-                <p class="cn-nav-dropdown__label">Loan scenarios (50)</p>
-                <div class="cn-nav-dropdown__grid cn-nav-dropdown__grid--scenarios">
-                  <a href="/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 6% · 30 yr</a>
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
+          <a href="/tools/" data-nav-link>Tools</a>
           <a href="/blog/" data-nav-link>Blog</a>
           <a href="/about/" data-nav-link>About</a>
           <a href="/contact/" data-nav-link>Contact</a>
         </nav>
         <!-- CN_NAV_MENU_END -->
+        <!-- CN_HEADER_SEARCH_START -->
+        <div class="cn-header-actions">
+          <div id="cn-site-search-mount" class="cn-header-search-mount">
+            <div class="cn-header-search-wrap">
+              <button
+                type="button"
+                id="cn-header-search-trigger"
+                class="cn-header-search-trigger"
+                aria-label="Search"
+                aria-expanded="false"
+                aria-controls="cn-header-search"
+              >
+                <svg
+                  class="cn-header-search-trigger__icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- CN_HEADER_SEARCH_END -->
       </div>
     </header>
 
-    <main class="cn-main-layout pt-10 sm:pt-14 px-4 sm:px-6 max-w-7xl mx-auto">
-      <section class="page-title">
-        <p class="eyebrow">Control Center</p>
-        <h1>Unified Financial Dashboard</h1>
-        <p>Aggregate all calculator outputs into one connected snapshot for smarter decisions.</p>
-      </section>
+    <main class="cn-main-layout cn-calc-page-frame">
+      <div class="cn-calc-page-body cn-calc-dashboard__body">
+        <aside class="cn-dash-sidebar cn-calc-global-sidebar" aria-label="Control Center">
+          <div class="cn-dash-sidebar__stack">
+            <div class="cn-dash-sidebar__block">
+              <p class="cn-dash-label">Scenario Mode</p>
+              <h2 class="cn-dash-heading">What-If Simulation</h2>
+              <button class="btn btn-primary cn-dash-control" id="createScenarioBtn" type="button">Create Scenario</button>
+              <button class="btn btn-primary cn-dash-control" id="saveScenarioBtn" type="button">Save Scenario</button>
+              <label class="cn-dash-field" for="scenarioCompareA">
+                <span class="cn-dash-field__label">Compare A</span>
+                <select id="scenarioCompareA"></select>
+              </label>
+              <label class="cn-dash-field" for="scenarioCompareB">
+                <span class="cn-dash-field__label">Compare B</span>
+                <select id="scenarioCompareB"></select>
+              </label>
+            </div>
 
-      <section class="card">
-        <h2>Geo Financial Context</h2>
-        <p class="muted">Selected country: <strong id="dashCountryCode" data-bind="dashboard_country_code" data-format="text">US</strong> (<span id="dashCountryLabel" data-bind="dashboard_country_label" data-format="text">United States</span>)</p>
-        <p class="muted" id="dashGeoSummary" data-bind="dashboard_geo_summary" data-format="text">Local financial context will appear here.</p>
-        <p class="muted" id="dashGeoComparison" data-bind="dashboard_geo_comparison" data-format="text">Comparison to global averages will appear here.</p>
-      </section>
+            <div class="cn-dash-sidebar__block">
+              <label class="cn-dash-toggle" for="scenarioModeToggle">
+                <input type="checkbox" id="scenarioModeToggle" />
+                <span>Enable Scenario Mode</span>
+              </label>
+              <button class="btn btn-ghost cn-dash-control" id="resetScenarioBtn" type="button">Reset Baseline</button>
+              <button class="btn btn-ghost cn-dash-control" id="presetExtra10Btn" type="button">Pay extra 10%</button>
+              <button class="btn btn-ghost cn-dash-control" id="presetReduceTermBtn" type="button">Reduce loan term</button>
+              <button class="btn btn-ghost cn-dash-control" id="presetRefinanceBtn" type="button">Refinance lower rate</button>
+            </div>
 
-      <section class="card">
-        <h2>Navigate with Prefilled State</h2>
-        <div class="share-actions">
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Open Loan Calculator</a>
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Open Mortgage Calculator</a>
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/car-loan-calculator/" href="/tools/car-loan-calculator/">Open Car Loan Calculator</a>
-          <a class="btn btn-ghost" data-shared-link data-target-path="/tools/retirement-calculator/" href="/tools/retirement-calculator/">Open Retirement Calculator</a>
-        </div>
-      </section>
+            <div class="cn-dash-sidebar__block">
+              <p class="cn-dash-label">Currency</p>
+              <div id="dashCurrencyMount" class="cn-dash-mount"></div>
+            </div>
 
-      <section class="card">
-        <div class="page-title">
-          <p class="eyebrow">Scenario Mode</p>
-          <h2>What-If Simulation</h2>
-          <p>Create, apply, and compare scenarios across all calculators and this dashboard.</p>
-        </div>
-        <div class="share-actions">
-          <label class="muted" for="scenarioModeToggle">
-            <input type="checkbox" id="scenarioModeToggle" />
-            Enable Scenario Mode
-          </label>
-          <button class="btn btn-primary" id="createScenarioBtn" type="button">Create Scenario</button>
-          <button class="btn btn-primary" id="saveScenarioBtn" type="button">Save Scenario</button>
-          <button class="btn btn-ghost" id="resetScenarioBtn" type="button">Reset Baseline</button>
-        </div>
-        <div class="share-actions">
-          <button class="btn btn-ghost" id="presetExtra10Btn" type="button">Pay extra 10%</button>
-          <button class="btn btn-ghost" id="presetReduceTermBtn" type="button">Reduce loan term</button>
-          <button class="btn btn-ghost" id="presetRefinanceBtn" type="button">Refinance lower rate</button>
-        </div>
-        <div class="tool-grid">
-          <label class="muted" for="scenarioCompareA">Compare A
-            <select id="scenarioCompareA"></select>
-          </label>
-          <label class="muted" for="scenarioCompareB">Compare B
-            <select id="scenarioCompareB"></select>
-          </label>
-        </div>
-        <p class="muted" id="scenarioActiveLabel" data-bind="dashboard_active_scenario_label" data-format="text">Active scenario: Baseline</p>
-        <p class="muted"><strong id="scenarioIndicatorName" data-bind="dashboard_scenario_indicator_name" data-format="text">Baseline</strong></p>
-        <p class="muted" id="scenarioShareLink" data-bind="dashboard_scenario_share_text" data-format="text">Share URL updates automatically when a scenario is active.</p>
-      </section>
+            <div class="cn-dash-sidebar__block">
+              <p class="cn-dash-label">Geo Financial Context</p>
+              <div id="dashCountryMount" class="cn-dash-mount"></div>
+              <p class="cn-dash-text">
+                Selected
+                <strong id="dashCountryCode" data-bind="dashboard_country_code" data-format="text">US</strong>
+                (<span id="dashCountryLabel" data-bind="dashboard_country_label" data-format="text">United States</span>)
+              </p>
+              <p class="cn-dash-text muted" id="dashGeoSummary" data-bind="dashboard_geo_summary" data-format="text">Local financial context will appear here.</p>
+              <p class="cn-dash-text muted" id="dashGeoComparison" data-bind="dashboard_geo_comparison" data-format="text">Comparison to global averages will appear here.</p>
+            </div>
 
-      <section class="card scenario-saved-panel">
-        <div class="page-title">
-          <p class="eyebrow">Saved Scenarios</p>
-          <h2>Manage and Reuse</h2>
-        </div>
-        <div id="savedScenariosList" class="scenario-list"></div>
-      </section>
+            <div class="cn-dash-sidebar__block">
+              <p class="cn-dash-label">Saved Scenarios</p>
+              <ul id="savedScenariosList" class="cn-dash-saved-list scenario-list"></ul>
+            </div>
 
-      <section class="tool-grid">
-        <article class="card">
-          <h2>Loan Summary</h2>
-          <p class="muted">Total loans tracked: <strong id="dashLoanCount" data-bind="dashboard_loan_count" data-format="number">0</strong></p>
-          <p class="muted">Monthly payments: <strong id="dashLoanMonthly" data-bind="loan_monthly_payment" data-format="currency">0.00</strong></p>
-          <p class="muted">Total interest: <strong id="dashLoanInterest" data-bind="loan_total_interest" data-format="currency">0.00</strong></p>
-        </article>
-        <article class="card">
-          <h2>Mortgage Summary</h2>
-          <p class="muted">Monthly payment: <strong id="dashMortgageMonthly" data-bind="mortgage_monthly_payment" data-format="currency">0.00</strong></p>
-          <p class="muted">Total cost: <strong id="dashMortgageCost" data-bind="mortgage_total_cost" data-format="currency">0.00</strong></p>
-          <p class="muted">Affordability vs income: <strong id="dashMortgageAffordability" data-bind="dashboard_mortgage_affordability" data-format="text">N/A</strong></p>
-        </article>
-        <article class="card">
-          <h2>Car Loan Summary</h2>
-          <p class="muted">Monthly payment: <strong id="dashCarMonthly" data-bind="car_monthly_payment" data-format="currency">0.00</strong></p>
-          <p class="muted">Total ownership cost: <strong id="dashCarCost" data-bind="car_total_cost" data-format="currency">0.00</strong></p>
-        </article>
-        <article class="card">
-          <h2>Interest Growth</h2>
-          <p class="muted">Projected savings growth: <strong id="dashGrowthProjection" data-bind="dashboard_growth_projection" data-format="currency">0.00</strong></p>
-          <p class="muted" id="dashGrowthSummary" data-bind="dashboard_growth_summary" data-format="text">Waiting for state input from calculators.</p>
-        </article>
-        <article class="card">
-          <h2>Retirement Readiness</h2>
-          <p class="muted">Projected balance: <strong data-bind="referenceFinancialResult.projectedBalance" data-format="currency">0.00</strong></p>
-          <p class="muted">Funding gap: <strong data-bind="referenceFinancialResult.fundingGap" data-format="currency">0.00</strong></p>
-          <p class="muted">Readiness: <strong data-bind="referenceFinancialResult.readiness" data-format="percent">0%</strong></p>
-        </article>
-      </section>
+            <nav class="cn-dash-sidebar__block" aria-label="Navigate with prefilled state">
+              <p class="cn-dash-label">Cross-Tool Navigation</p>
+              <a class="cn-dash-nav-link" data-shared-link data-target-path="/tools/loan-calculator/" href="/tools/loan-calculator/">Loan Calculator</a>
+              <a class="cn-dash-nav-link" data-shared-link data-target-path="/tools/mortgage-calculator/" href="/tools/mortgage-calculator/">Mortgage Calculator</a>
+              <a class="cn-dash-nav-link" data-shared-link data-target-path="/tools/car-loan-calculator/" href="/tools/car-loan-calculator/">Car Loan Calculator</a>
+              <a class="cn-dash-nav-link" data-shared-link data-target-path="/tools/retirement-calculator/" href="/tools/retirement-calculator/">Retirement Calculator</a>
+            </nav>
+          </div>
+        </aside>
 
-      <section class="card">
-        <h2>Affordability Engine</h2>
-        <p class="muted">Obligation ratio: <strong id="dashAffordabilityScore" data-bind="dashboard_affordability_score" data-format="text">N/A</strong></p>
-        <p class="muted">Status: <strong id="dashAffordabilityBadge" class="status-green" data-bind="dashboard_affordability_badge" data-format="text">Safe</strong></p>
-      </section>
+        <div class="cn-calc-page-main cn-calc-workspace cn-dash-workspace">
+          <header class="cn-dash-hero page-title">
+            <p class="eyebrow">Unified Financial Dashboard</p>
+            <h1>Aggregate Snapshot</h1>
+            <p>All calculator outputs in one connected view for smarter decisions.</p>
+          </header>
 
-      <section class="card charts-section">
-        <div class="page-title">
-          <p class="eyebrow">Visualization</p>
-          <h2>Financial Snapshot Charts</h2>
-        </div>
-        <div class="chart-grid">
-          <article class="card chart-card">
-            <h3>Total Debt vs Income</h3>
-            <div class="chart-wrap"><canvas id="dashDebtIncomeChart"></canvas></div>
-          </article>
-          <article class="card chart-card">
-            <h3>Monthly Obligations Breakdown</h3>
-            <div class="chart-wrap"><canvas id="dashObligationsChart"></canvas></div>
-          </article>
-          <article class="card chart-card">
-            <h3>Interest Burden Visualization</h3>
-            <div class="chart-wrap"><canvas id="dashInterestBurdenChart"></canvas></div>
-          </article>
-        </div>
-      </section>
+          <section class="cn-dash-kpis" aria-label="Scenario key metrics">
+            <div class="cn-dash-kpi">
+              <p class="cn-dash-kpi__label" id="scenarioActiveLabel" data-bind="dashboard_active_scenario_label" data-format="text">Active Scenario</p>
+              <p class="cn-dash-kpi__value" id="scenarioIndicatorName" data-bind="dashboard_scenario_indicator_name" data-format="text">Baseline</p>
+            </div>
+            <div class="cn-dash-kpi">
+              <p class="cn-dash-kpi__label">Baseline</p>
+              <p class="cn-dash-kpi__value">Reference State</p>
+              <p class="cn-dash-kpi__hint muted">Default calculator inputs before scenario overrides</p>
+            </div>
+          </section>
 
-      <section class="card charts-section">
-        <div class="page-title">
-          <p class="eyebrow">Scenario Comparison</p>
-          <h2>Delta and Timeline View</h2>
-        </div>
-        <div class="tool-grid">
-          <article class="card">
-            <h3>Monthly Payment Difference</h3>
-            <p class="muted"><strong id="scenarioDeltaMonthly" data-bind="scenario_delta_monthly" data-format="text">0.00</strong></p>
-          </article>
-          <article class="card">
-            <h3>Total Interest Difference</h3>
-            <p class="muted"><strong id="scenarioDeltaInterest" data-bind="scenario_delta_interest" data-format="text">0.00</strong></p>
-          </article>
-          <article class="card">
-            <h3>Payoff Time Difference</h3>
-            <p class="muted"><strong id="scenarioDeltaPayoff" data-bind="scenario_delta_payoff" data-format="text">0 mo</strong></p>
-          </article>
-          <article class="card">
-            <h3>Affordability Score Change</h3>
-            <p class="muted"><strong id="scenarioDeltaAffordability" data-bind="scenario_delta_affordability" data-format="text">0%</strong></p>
-          </article>
-        </div>
-        <div class="chart-grid">
-          <article class="card chart-card">
-            <h3>Side-by-Side Comparison</h3>
-            <div class="chart-wrap"><canvas id="scenarioComparisonChart"></canvas></div>
-          </article>
-          <article class="card chart-card">
-            <h3>Timeline Impact</h3>
-            <div class="chart-wrap"><canvas id="scenarioTimelineChart"></canvas></div>
-          </article>
-        </div>
-      </section>
+          <p class="cn-dash-share muted" id="scenarioShareLink" data-bind="dashboard_scenario_share_text" data-format="text">Share URL updates automatically when a scenario is active.</p>
 
-      <section class="card email-capture-card" id="emailCaptureCard">
-        <h3>Save your financial results</h3>
-        <p class="muted">Get your calculation summary and scenario updates via email.</p>
-        <div class="tool-grid">
-          <label class="muted" for="emailCaptureName">Name (optional)
-            <input id="emailCaptureName" type="text" placeholder="Your name" />
-          </label>
-          <label class="muted" for="emailCaptureEmail">Email
-            <input id="emailCaptureEmail" type="email" placeholder="you@example.com" />
-          </label>
+          <section class="cn-dash-summaries" aria-label="Financial summaries">
+            <article class="cn-dash-summary">
+              <h2 class="cn-dash-summary__title">Loan Summary</h2>
+              <dl class="cn-dash-metrics">
+                <div class="cn-dash-metric">
+                  <dt>Total loans tracked</dt>
+                  <dd class="cn-dash-metric__value" id="dashLoanCount" data-bind="dashboard_loan_count" data-format="number">0</dd>
+                </div>
+                <div class="cn-dash-metric">
+                  <dt>Monthly payments</dt>
+                  <dd class="cn-dash-metric__value" id="dashLoanMonthly" data-bind="loan_monthly_payment" data-format="currency">0.00</dd>
+                </div>
+                <div class="cn-dash-metric">
+                  <dt>Total interest</dt>
+                  <dd class="cn-dash-metric__value" id="dashLoanInterest" data-bind="loan_total_interest" data-format="currency">0.00</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="cn-dash-summary">
+              <h2 class="cn-dash-summary__title">Mortgage Summary</h2>
+              <dl class="cn-dash-metrics">
+                <div class="cn-dash-metric">
+                  <dt>Monthly payment</dt>
+                  <dd class="cn-dash-metric__value" id="dashMortgageMonthly" data-bind="mortgage_monthly_payment" data-format="currency">0.00</dd>
+                </div>
+                <div class="cn-dash-metric">
+                  <dt>Total cost</dt>
+                  <dd class="cn-dash-metric__value" id="dashMortgageCost" data-bind="mortgage_total_cost" data-format="currency">0.00</dd>
+                </div>
+                <div class="cn-dash-metric">
+                  <dt>Affordability vs income</dt>
+                  <dd class="cn-dash-metric__value" id="dashMortgageAffordability" data-bind="dashboard_mortgage_affordability" data-format="text">N/A</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="cn-dash-summary">
+              <h2 class="cn-dash-summary__title">Car Loan Summary</h2>
+              <dl class="cn-dash-metrics">
+                <div class="cn-dash-metric">
+                  <dt>Monthly payment</dt>
+                  <dd class="cn-dash-metric__value" id="dashCarMonthly" data-bind="car_monthly_payment" data-format="currency">0.00</dd>
+                </div>
+                <div class="cn-dash-metric">
+                  <dt>Total ownership cost</dt>
+                  <dd class="cn-dash-metric__value" id="dashCarCost" data-bind="car_total_cost" data-format="currency">0.00</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="cn-dash-summary">
+              <h2 class="cn-dash-summary__title">Interest Growth</h2>
+              <dl class="cn-dash-metrics">
+                <div class="cn-dash-metric">
+                  <dt>Projected savings growth</dt>
+                  <dd class="cn-dash-metric__value" id="dashGrowthProjection" data-bind="dashboard_growth_projection" data-format="currency">0.00</dd>
+                </div>
+                <div class="cn-dash-metric cn-dash-metric--wide">
+                  <dt>Summary</dt>
+                  <dd class="cn-dash-metric__text" id="dashGrowthSummary" data-bind="dashboard_growth_summary" data-format="text">Waiting for state input from calculators.</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="cn-dash-summary">
+              <h2 class="cn-dash-summary__title">Retirement Readiness</h2>
+              <dl class="cn-dash-metrics">
+                <div class="cn-dash-metric">
+                  <dt>Projected balance</dt>
+                  <dd class="cn-dash-metric__value" data-bind="referenceFinancialResult.projectedBalance" data-format="currency">0.00</dd>
+                </div>
+                <div class="cn-dash-metric">
+                  <dt>Funding gap</dt>
+                  <dd class="cn-dash-metric__value" data-bind="referenceFinancialResult.fundingGap" data-format="currency">0.00</dd>
+                </div>
+                <div class="cn-dash-metric">
+                  <dt>Readiness</dt>
+                  <dd class="cn-dash-metric__value" data-bind="referenceFinancialResult.readiness" data-format="percent">0%</dd>
+                </div>
+              </dl>
+            </article>
+          </section>
+
+          <section class="cn-dash-section cn-dash-affordability">
+            <h2 class="cn-dash-section__title">Affordability Engine</h2>
+            <dl class="cn-dash-metrics">
+              <div class="cn-dash-metric">
+                <dt>Obligation ratio</dt>
+                <dd class="cn-dash-metric__value" id="dashAffordabilityScore" data-bind="dashboard_affordability_score" data-format="text">N/A</dd>
+              </div>
+              <div class="cn-dash-metric">
+                <dt>Status</dt>
+                <dd class="cn-dash-metric__value" id="dashAffordabilityBadge" data-bind="dashboard_affordability_badge" data-format="text">Safe</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="cn-dash-section charts-section">
+            <p class="eyebrow">Visualization</p>
+            <h2 class="cn-dash-section__title">Financial Snapshot Charts</h2>
+            <article class="cn-dash-chart">
+              <h3>Total Debt vs Income</h3>
+              <div class="chart-wrap"><canvas id="dashDebtIncomeChart"></canvas></div>
+            </article>
+            <article class="cn-dash-chart">
+              <h3>Monthly Obligations Breakdown</h3>
+              <div class="chart-wrap"><canvas id="dashObligationsChart"></canvas></div>
+            </article>
+            <article class="cn-dash-chart">
+              <h3>Interest Burden Visualization</h3>
+              <div class="chart-wrap"><canvas id="dashInterestBurdenChart"></canvas></div>
+            </article>
+          </section>
+
+          <section class="cn-dash-section charts-section">
+            <p class="eyebrow">Scenario Comparison</p>
+            <h2 class="cn-dash-section__title">Delta and Timeline View</h2>
+            <dl class="cn-dash-metrics cn-dash-deltas">
+              <div class="cn-dash-metric">
+                <dt>Monthly payment difference</dt>
+                <dd class="cn-dash-metric__value" id="scenarioDeltaMonthly" data-bind="scenario_delta_monthly" data-format="text">0.00</dd>
+              </div>
+              <div class="cn-dash-metric">
+                <dt>Total interest difference</dt>
+                <dd class="cn-dash-metric__value" id="scenarioDeltaInterest" data-bind="scenario_delta_interest" data-format="text">0.00</dd>
+              </div>
+              <div class="cn-dash-metric">
+                <dt>Payoff time difference</dt>
+                <dd class="cn-dash-metric__value" id="scenarioDeltaPayoff" data-bind="scenario_delta_payoff" data-format="text">0 mo</dd>
+              </div>
+              <div class="cn-dash-metric">
+                <dt>Affordability score change</dt>
+                <dd class="cn-dash-metric__value" id="scenarioDeltaAffordability" data-bind="scenario_delta_affordability" data-format="text">0%</dd>
+              </div>
+            </dl>
+            <article class="cn-dash-chart">
+              <h3>Side-by-Side Comparison</h3>
+              <div class="chart-wrap"><canvas id="scenarioComparisonChart"></canvas></div>
+            </article>
+            <article class="cn-dash-chart">
+              <h3>Timeline Impact</h3>
+              <div class="chart-wrap"><canvas id="scenarioTimelineChart"></canvas></div>
+            </article>
+          </section>
+
+          <section class="cn-dash-section email-capture-card" id="emailCaptureCard">
+            <h3 class="cn-dash-section__title">Save your financial results</h3>
+            <p class="cn-dash-text muted">Get your calculation summary and scenario updates via email.</p>
+            <label class="cn-dash-field" for="emailCaptureName">
+              <span class="cn-dash-field__label">Name (optional)</span>
+              <input id="emailCaptureName" type="text" placeholder="Your name" />
+            </label>
+            <label class="cn-dash-field" for="emailCaptureEmail">
+              <span class="cn-dash-field__label">Email</span>
+              <input id="emailCaptureEmail" type="email" placeholder="you@example.com" />
+            </label>
+            <div class="email-capture-actions">
+              <button class="btn btn-primary" id="emailCaptureSendBtn" type="button">Send me my results</button>
+              <button class="btn btn-ghost" id="emailCaptureSaveResultsBtn" type="button">Save Results</button>
+              <a class="btn btn-ghost" id="emailCaptureSummaryLink" href="#" target="_blank" rel="noopener">Open summary link</a>
+            </div>
+            <p class="email-capture-status" id="emailCaptureStatus">No email submitted yet.</p>
+          </section>
         </div>
-        <div class="email-capture-actions">
-          <button class="btn btn-primary" id="emailCaptureSendBtn" type="button">Send me my results</button>
-          <button class="btn btn-ghost" id="emailCaptureSaveResultsBtn" type="button">Save Results</button>
-          <a class="btn btn-ghost" id="emailCaptureSummaryLink" href="#" target="_blank" rel="noopener">Open summary link</a>
-        </div>
-        <p class="email-capture-status" id="emailCaptureStatus">No email submitted yet.</p>
-      </section>
+      </div>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer cn-site-footer">
       <div class="container footer-content">
         <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
         <nav class="footer-links">
@@ -326,6 +333,7 @@
     </footer>
 
     <script src="/assets/js/header-toolbar.js" defer></script>
+    <script src="/assets/js/site-search.js" defer></script>
     <script src="/assets/js/geo-finance.js" defer></script>
     <script src="/assets/js/currency.js" defer></script>
     <script src="/assets/js/parse-utils.js" defer></script>
@@ -342,5 +350,5 @@
     <script src="/assets/js/email-capture.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
     <script src="/assets/js/dashboard.js" defer></script>
-          </body>
+  </body>
 </html>

@@ -1,0 +1,339 @@
+/**
+ * CalnexApp Tools Hub — Industrial Dark Glassmorphism
+ */
+
+/* ── Page shell ── */
+body[data-app="tools-hub"] {
+  --cn-hub-matte: #0a0e14;
+  --cn-hub-display: "Plus Jakarta Sans", var(--cn-font-sans);
+}
+
+/* ── Hero ── */
+.cn-tools-hub-hero {
+  position: relative;
+  padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(2.5rem, 6vw, 4rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cn-tools-hub-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 85% 65% at 50% -20%, rgba(30, 45, 68, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(20, 32, 52, 0.35) 0%, transparent 55%),
+    linear-gradient(180deg, var(--cn-hub-matte) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+body[data-app="tools-hub"] .cn-tools-hub-hero__backdrop {
+  --cn-hub-matte: #0a0e14;
+}
+
+.cn-tools-hub-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.cn-tools-hub-hero__eyebrow {
+  margin: 0 0 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cn-text-tertiary);
+}
+
+.cn-tools-hub-hero__title {
+  margin: 0 0 1.35rem;
+  font-family: var(--cn-hub-display);
+  font-size: clamp(2.1rem, 5.5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.015em;
+  color: var(--cn-text-primary);
+}
+
+.cn-tools-hub-hero__desc {
+  margin: 0 auto;
+  max-width: 34rem;
+  font-size: clamp(1rem, 1.8vw, 1.12rem);
+  line-height: 1.65;
+  color: var(--cn-text-secondary);
+}
+
+/* ── Dashboard wrapper ── */
+.cn-tools-hub-dashboard {
+  padding-top: 0;
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+  border-top: none;
+  margin-top: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+body[data-app="tools-hub"] .cn-tools-hub-dashboard {
+  margin-top: 0;
+}
+
+/* ── Category sections ── */
+.cn-tools-dashboard__category {
+  margin-bottom: 0;
+}
+
+.cn-tools-hub-dashboard .cn-tools-dashboard__category + .cn-tools-dashboard__category {
+  margin-top: clamp(2.5rem, 5vw, 3.75rem);
+  padding-top: clamp(2.5rem, 5vw, 3.75rem);
+  border-top: 1px solid #262626;
+}
+
+.cn-tools-hub-category__title {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0 0 1.75rem;
+  font-family: var(--cn-hub-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--cn-accent);
+}
+
+.cn-tools-hub-category__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  background: rgba(91, 140, 255, 0.12);
+  border: 1px solid rgba(91, 140, 255, 0.22);
+  color: var(--cn-accent-hover);
+  flex-shrink: 0;
+}
+
+.cn-tools-hub-category__title--housing .cn-tools-hub-category__icon {
+  background: rgba(62, 224, 143, 0.12);
+  border-color: rgba(62, 224, 143, 0.22);
+  color: #3ee08f;
+}
+
+.cn-tools-hub-category__title--housing {
+  color: #3ee08f;
+}
+
+.cn-tools-hub-category__title--lending .cn-tools-hub-category__icon {
+  background: rgba(91, 140, 255, 0.12);
+  border-color: rgba(91, 140, 255, 0.22);
+  color: #7aa3ff;
+}
+
+.cn-tools-hub-category__title--auto .cn-tools-hub-category__icon {
+  background: rgba(245, 184, 74, 0.12);
+  border-color: rgba(245, 184, 74, 0.22);
+  color: #f5b84a;
+}
+
+.cn-tools-hub-category__title--auto {
+  color: #f5b84a;
+}
+
+.cn-tools-hub-category__title--growth .cn-tools-hub-category__icon {
+  background: rgba(91, 140, 255, 0.12);
+  border-color: rgba(91, 140, 255, 0.22);
+  color: #7aa3ff;
+}
+
+.cn-tools-hub-category__title--planning .cn-tools-hub-category__icon {
+  background: rgba(62, 224, 143, 0.1);
+  border-color: rgba(62, 224, 143, 0.2);
+  color: #5bd6ff;
+}
+
+.cn-tools-hub-category__title--planning {
+  color: #5bd6ff;
+}
+
+/* ── Card grid ── */
+.cn-tools-hub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .cn-tools-hub-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cn-tools-hub-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── Glass tool cards ── */
+.cn-tool-glass-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.15rem;
+  min-height: 148px;
+  padding: 1.65rem 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 18px;
+  background: rgba(23, 23, 23, 0.5);
+  border: 1px solid #262626;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cn-tool-glass-card:hover {
+    transform: scale(1.02);
+    border-color: #525252;
+    background: rgba(23, 23, 23, 0.62);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .cn-tool-glass-card--housing:hover {
+    border-color: rgba(62, 224, 143, 0.35);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      0 0 32px rgba(62, 224, 143, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .cn-tool-glass-card--lending:hover {
+    border-color: rgba(91, 140, 255, 0.35);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      0 0 32px rgba(91, 140, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .cn-tool-glass-card--auto:hover {
+    border-color: rgba(245, 184, 74, 0.32);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.38),
+      0 0 32px rgba(245, 184, 74, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .cn-tool-glass-card--growth:hover {
+    border-color: rgba(91, 140, 255, 0.32);
+  }
+
+  .cn-tool-glass-card--planning:hover {
+    border-color: rgba(91, 214, 255, 0.3);
+  }
+}
+
+.cn-tool-glass-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
+}
+
+.cn-tool-glass-card__icon-svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+.cn-tool-glass-card--housing .cn-tool-glass-card__icon {
+  color: #3ee08f;
+  background: rgba(62, 224, 143, 0.12);
+  border-color: rgba(62, 224, 143, 0.2);
+}
+
+.cn-tool-glass-card--lending .cn-tool-glass-card__icon {
+  color: #7aa3ff;
+  background: rgba(91, 140, 255, 0.12);
+  border-color: rgba(91, 140, 255, 0.22);
+}
+
+.cn-tool-glass-card--auto .cn-tool-glass-card__icon {
+  color: #f5b84a;
+  background: rgba(245, 184, 74, 0.12);
+  border-color: rgba(245, 184, 74, 0.2);
+}
+
+.cn-tool-glass-card--growth .cn-tool-glass-card__icon {
+  color: #7aa3ff;
+  background: rgba(91, 140, 255, 0.12);
+  border-color: rgba(91, 140, 255, 0.22);
+}
+
+.cn-tool-glass-card--planning .cn-tool-glass-card__icon {
+  color: #5bd6ff;
+  background: rgba(91, 214, 255, 0.1);
+  border-color: rgba(91, 214, 255, 0.2);
+}
+
+.cn-tool-glass-card__title {
+  font-family: var(--cn-hub-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--cn-text-primary);
+  transition: color 0.2s ease;
+}
+
+.cn-tool-glass-card:hover .cn-tool-glass-card__title {
+  color: var(--cn-accent-hover);
+}
+
+/* Legacy micro-card alias — inherit glass styles when combined */
+a.cn-dashboard-micro-card.cn-tool-glass-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ── Light theme ── */
+html[data-theme="light"] body[data-app="tools-hub"] {
+  --cn-hub-matte: #eef2f7;
+}
+
+html[data-theme="light"] .cn-tools-hub-dashboard .cn-tools-dashboard__category + .cn-tools-dashboard__category {
+  border-top-color: rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] .cn-tool-glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+html[data-theme="light"] .cn-tool-glass-card:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(15, 23, 42, 0.16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-tool-glass-card:hover {
+    transform: none;
+  }
+}

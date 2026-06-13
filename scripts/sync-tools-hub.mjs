@@ -40,7 +40,7 @@ function loadScenarioItems(limit = 12) {
 const scenarios = loadScenarioItems(12);
 
 const hubBlock = `${HUB_START}
-${renderToolsCatalogDashboard(tools, { heading: "All calculators", includeScenarios: scenarios })}
+${renderToolsCatalogDashboard(tools, { includeScenarios: scenarios })}
 ${HUB_END}`;
 
 let html = fs.readFileSync(TOOLS_INDEX, "utf8");

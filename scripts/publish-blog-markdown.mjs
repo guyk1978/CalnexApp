@@ -10,6 +10,12 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const { renderBlogCategoryPill, classifyBlogCategory, renderDefaultRecommendedCalculators } =
   require("./tool-themes.cjs");
+const {
+  renderEditorialArticleMain,
+  FRAUNCES_LINK,
+  BLOG_ARTICLE_SCRIPT,
+  PROGRESS_BAR_HTML
+} = require("./blog-editorial-core.cjs");
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const BLOG_JSON_PATH = path.join(ROOT, "data", "blog.json");
@@ -192,11 +198,26 @@ function buildArticleHtml(meta, bodyMd) {
   );
 
   const faqHtml = faqSectionHtml(meta.faq);
+  const heroHtml = `<section class="page-title cn-article-page-title cn-page-hero cn-blog-editorial__hero space-y-4 text-center sm:text-left">
+        ${categoryPill}
+        <h1>${escapeHtml(h1)}</h1>
+        <div class="article-meta cn-blog-editorial__meta">
+          <span>By <a href="/authors/daniel-morris/">Daniel Morris</a></span>
+          <span>Updated ${escapeHtml(today)}</span>
+          <span>${escapeHtml(readTime)}</span>
+        </div>
+      </section>`;
   const recommended = renderDefaultRecommendedCalculators()
     .replace(/href="\/tools\/loan-calculator\/"/g, 'href="/tools/roi-calculator/"')
     .replace(/>Loan Calculator</g, ">ROI Calculator<")
     .replace(/href="\/tools\/mortgage-calculator\/"/g, 'href="/tools/rent-vs-buy/"')
     .replace(/>Mortgage Calculator</g, ">Rent vs. Buy Calculator<");
+  const editorialMain = renderEditorialArticleMain({
+    heroHtml,
+    bodyHtml,
+    faqHtml,
+    extraSectionsHtml: recommended,
+  });
 
   return `<!doctype html>
 <html lang="en">
@@ -213,6 +234,7 @@ function buildArticleHtml(meta, bodyMd) {
     <meta property="og:description" content="${escapeHtml(desc)}" />
     <meta property="og:url" content="${escapeHtml(canonical)}" />
     <meta property="og:site_name" content="CalnexApp" />
+    ${FRAUNCES_LINK}
     <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
     <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
     <script src="/assets/js/consent-config.js"></script>
@@ -234,7 +256,8 @@ ${JSON.stringify(
       )}
     </script>
   </head>
-  <body>
+  <body class="cn-blog-article-page cn-blog-index-page cn-calculator-page cn-site-chrome">
+    ${PROGRESS_BAR_HTML}
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
@@ -250,23 +273,7 @@ ${JSON.stringify(
       </div>
     </header>
 
-    <main class="cn-main-layout pt-10 sm:pt-14 px-4 sm:px-6 max-w-7xl mx-auto article-layout">
-      <section class="page-title cn-article-page-title cn-page-hero space-y-4 text-center sm:text-left">
-        ${categoryPill}
-        <h1>${escapeHtml(h1)}</h1>
-        <div class="article-meta">
-          <span>By <a href="/authors/daniel-morris/">Daniel Morris</a></span>
-          <span>Updated ${escapeHtml(today)}</span>
-          <span>${escapeHtml(readTime)}</span>
-        </div>
-      </section>
-
-      <article class="card article-body">
-        ${bodyHtml}
-      </article>
-      ${faqHtml}
-      ${recommended}
-    </main>
+    ${editorialMain}
 
     <footer class="site-footer">
       <div class="container footer-content">
@@ -279,6 +286,7 @@ ${JSON.stringify(
       </div>
     </footer>
     <script src="/assets/js/header-toolbar.js" defer></script>
+    ${BLOG_ARTICLE_SCRIPT}
     <script src="/assets/js/app.js" defer></script>
     <script src="/assets/js/cookie-consent.js?v=6" defer></script>
   </body>

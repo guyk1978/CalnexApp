@@ -13,8 +13,8 @@
     <meta property="og:description" content="Learn the difference between rental cash flow and ROI, the manual math behind both, and how CalnexApp's ROI Calculator turns a spreadsheet into a two-minute check." />
     <meta property="og:url" content="https://calnexapp.com/blog/how-to-calculate-real-estate-roi/" />
     <meta property="og:site_name" content="CalnexApp" />
-    <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
-    <script type="application/ld+json">
+        <link rel="stylesheet" href="/assets/css/style.css?v=1.4" />
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -46,6 +46,8 @@
     
     
     
+    
+    
     <!-- SEO_ENGINE_SCHEMA_START -->
     <script type="application/ld+json">
 {
@@ -54,7 +56,7 @@
   "name": "How to Calculate Real Estate ROI for Rental Investments",
   "description": "Cash flow vs ROI for rental properties: manual formulas, a worked example, and how CalnexApp's ROI Calculator replaces spreadsheet drift in four inputs.",
   "url": "https://calnexapp.com/blog/how-to-calculate-real-estate-roi/",
-  "dateModified": "2026-06-12T12:46:32.356Z",
+  "dateModified": "2026-06-13T10:36:23.602Z",
   "breadcrumb": {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -82,142 +84,94 @@
 }
     </script>
     <!-- SEO_ENGINE_SCHEMA_END -->
-                      <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
+                      <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+      <link rel="stylesheet" href="/assets/css/cookie-consent.css?v=6" />
     <script src="/assets/js/consent-config.js"></script>
     <script src="/assets/js/cookie-consent.js?v=6" defer></script>
   </head>
-  <body data-cn-static-layout="true">
+  <body data-cn-static-layout="true" class="cn-blog-article-page cn-site-chrome cn-blog-index-page cn-calculator-page">
+    <div class="cn-reading-progress" aria-hidden="true"><div class="cn-reading-progress__bar" id="cnReadingProgressBar"></div></div>
     <header class="site-header">
       <div class="container nav">
         <a href="/" class="brand">CalnexApp</a>
         <!-- CN_NAV_MENU_START -->
         <nav class="menu" id="siteMenu">
           <a href="/" data-nav-link>Home</a>
-          <div class="cn-nav-dropdown">
-            <a href="/tools/" class="cn-nav-dropdown__trigger" data-nav-link aria-haspopup="true" aria-expanded="false" id="cnToolsNavTrigger">Tools</a>
-            <div class="cn-nav-dropdown__panel" role="menu" aria-labelledby="cnToolsNavTrigger">
-              <a href="/tools/" class="cn-nav-dropdown__hub" role="menuitem">All calculators</a>
-              <div class="cn-nav-dropdown__scroll">
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Housing</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/mortgage-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span><span>Mortgage Calculator</span></a>
-                  <a href="/tools/rent-vs-buy/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12h4M6 16h4M6 8h4M14 12h4M14 16h4M14 8h4"/></svg></span><span>Rent vs. Buy Calculator</span></a>
-                  <a href="/tools/roi-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--housing"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span>ROI Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Loans &amp; credit</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/loan-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span><span>Loan Calculator</span></a>
-                  <a href="/tools/debt-payoff/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg></span><span>Debt Snowball &amp; Avalanche Calculator</span></a>
-                  <a href="/tools/loan-comparison/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--lending"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M3 8h4v13H3zM17 5h4v16h-4z"/></svg></span><span>Loan Offer Comparison Tool</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Auto</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/car-loan-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--auto"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14"/><path d="M7 17l1-5h8l1 5"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/><path d="M5 12h14l-1.5-4h-11z"/></svg></span><span>Car Loan Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Interest &amp; growth</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/interest-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--growth"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span>Interest Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group">
-                <p class="cn-nav-dropdown__label">Retirement &amp; planning</p>
-                <div class="cn-nav-dropdown__grid">
-                  <a href="/tools/retirement-calculator/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--planning"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span><span>Retirement Calculator</span></a>
-                  <a href="/tools/take-home-pay/" class="cn-nav-dropdown__link cn-nav-dropdown__link--icon" role="menuitem"><span class="cn-nav-tool-icon cn-nav-tool-icon--planning"><svg class="cn-theme-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg></span><span>Take-Home Pay Calculator</span></a>
-                </div>
-              </div>
-              <div class="cn-nav-dropdown__group cn-nav-dropdown__group--scenarios">
-                <p class="cn-nav-dropdown__label">Loan scenarios (50)</p>
-                <div class="cn-nav-dropdown__grid cn-nav-dropdown__grid--scenarios">
-                  <a href="/tools/loan-calculator/100000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/100000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$100k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/150000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$150k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/200000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$200k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/250000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$250k · 6% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 3.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-3-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 3.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4.5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-4-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 4.5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-5-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 5% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-5-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 5% · 30 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-6-percent-for-15-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 6% · 15 yr</a>
-                  <a href="/tools/loan-calculator/300000-loan-at-6-percent-for-30-years/" class="cn-nav-dropdown__link cn-nav-dropdown__link--scenario" role="menuitem">$300k · 6% · 30 yr</a>
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
+          <a href="/tools/" data-nav-link>Tools</a>
           <a href="/blog/" data-nav-link>Blog</a>
           <a href="/about/" data-nav-link>About</a>
           <a href="/contact/" data-nav-link>Contact</a>
         </nav>
         <!-- CN_NAV_MENU_END -->
+        <!-- CN_HEADER_SEARCH_START -->
+        <div class="cn-header-actions">
+          <div id="cn-site-search-mount" class="cn-header-search-mount">
+            <div class="cn-header-search-wrap">
+              <button
+                type="button"
+                id="cn-header-search-trigger"
+                class="cn-header-search-trigger"
+                aria-label="Search"
+                aria-expanded="false"
+                aria-controls="cn-header-search"
+              >
+                <svg
+                  class="cn-header-search-trigger__icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- CN_HEADER_SEARCH_END -->
       </div>
     </header>
 
-    <main class="cn-main-layout pt-10 sm:pt-14 px-4 sm:px-6 max-w-7xl mx-auto article-layout">
-      <section class="page-title cn-article-page-title cn-page-hero space-y-4 text-center sm:text-left">
+    <main class="cn-main-layout cn-calc-page-frame">
+      <div class="cn-calc-page-body cn-calc-dashboard__body">
+        <aside class="cn-blog-sidebar cn-calc-global-sidebar" aria-label="Blog navigation">
+          <div class="cn-blog-sidebar__stack">
+            <div class="cn-blog-sidebar__block">
+              <p class="cn-blog-sidebar__label">Search</p>
+              <label class="cn-blog-search" for="blogSearchInput">
+                <svg class="cn-blog-search__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+                <input id="blogSearchInput" type="search" placeholder="Search guides..." aria-label="Search blog articles" />
+              </label>
+            </div>
+            <nav class="cn-blog-sidebar__block" aria-label="Categories">
+              <p class="cn-blog-sidebar__label">Categories</p>
+              <ul id="blogCategoryFilters" class="cn-blog-categories" aria-label="Blog categories"></ul>
+            </nav>
+          </div>
+        </aside>
+        <div class="cn-calc-page-main cn-calc-workspace cn-blog-workspace cn-blog-article-workspace">
+          <a href="/blog/" class="cn-blog-back-link">← Back to Blog</a>
+          <header class="cn-blog-article-header">
         <span class="mb-3 inline-flex rounded-md bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-800 dark:bg-indigo-900/60 dark:text-indigo-200">Business Operations</span>
         <h1>How to Calculate Real Estate ROI for Rental Investments</h1>
-        <div class="article-meta">
+        <div class="article-meta cn-blog-article-meta">
           <span>By <a href="/authors/daniel-morris/">Daniel Morris</a></span>
           <span>Updated 2026-06-01</span>
           <span>10 min read</span>
         </div>
-      </section>
-
-      <article class="card article-body">
-        <div class="cn-quick-answer cn-quick-answer--lending"><h2>Quick answer</h2><p><strong>Cash flow</strong> is what you keep after rent and operating costs in a given year. <strong>ROI</strong> (return on investment) compares that economic result—and often appreciation—to the money you put into the property. For small investors, the fastest path is: annual net income ÷ purchase price for cash-on-cash, then add appreciation for a total-return view. The <a href="/tools/roi-calculator/">ROI Calculator</a> on CalnexApp does those steps automatically from four inputs.</p></div>
-        <h2>Why ROI matters more than a “good rent number”</h2>
+      </header>
+          <article class="cn-blog-article-body article-body">
+              <div class="cn-quick-answer cn-quick-answer--lending"><h2 id="quick-answer">Quick answer</h2><p><strong>Cash flow</strong> is what you keep after rent and operating costs in a given year. <strong>ROI</strong> (return on investment) compares that economic result—and often appreciation—to the money you put into the property. For small investors, the fastest path is: annual net income ÷ purchase price for cash-on-cash, then add appreciation for a total-return view. The <a href="/tools/roi-calculator/">ROI Calculator</a> on CalnexApp does those steps automatically from four inputs.</p></div>
+        <h2 id="why-roi-matters-more-than-a-good-rent-number">Why ROI matters more than a “good rent number”</h2>
         <p>Listings and agent pitches love gross rent: “$2,200 a month in a growing neighborhood.” Gross rent is a starting point, not a verdict. Two identical rent figures can produce wildly different returns depending on taxes, insurance, maintenance, vacancy, financing, and what you paid for the asset.</p>
         <p>ROI forces the question investors actually care about: <strong>relative to the dollars I committed, what did this property earn?</strong> That framing scales from a single-family rental to a small multifamily portfolio. It also keeps you honest when comparing a $180,000 Midwest duplex to a $450,000 Sun Belt condo—the rent-to-price ratio alone is not enough.</p>
-        <h2>Cash flow vs ROI: the gap beginners miss</h2>
+        <h2 id="cash-flow-vs-roi-the-gap-beginners-miss">Cash flow vs ROI: the gap beginners miss</h2>
         <p>These terms get used interchangeably online. They measure different things.</p>
-        <h3>What cash flow measures</h3>
+        <h3 id="what-cash-flow-measures">What cash flow measures</h3>
         <p>Cash flow is the <strong>period</strong> result—usually monthly or annual:</p>
         <ul class="toc-list">
           <li>Start with <strong>gross rent</strong> (what tenants pay before you spend anything).</li>
@@ -225,7 +179,7 @@
           <li>Optionally subtract <strong>debt service</strong> if you want “wallet” cash flow after the mortgage.</li>
         </ul>
         <p>If annual rent is $24,000 and annual operating expenses are $6,000, your <strong>pre-mortgage cash flow</strong> is $18,000. That is $1,500 per month before the bank gets paid.</p>
-        <h3>What ROI measures</h3>
+        <h3 id="what-roi-measures">What ROI measures</h3>
         <p>ROI is a <strong>return ratio</strong> against capital deployed:</p>
         <ul class="toc-list">
           <li><strong>Cash-on-cash return</strong> ≈ annual net income ÷ purchase price (or equity invested, if you model that way).</li>
@@ -237,11 +191,11 @@
           <li>If the home appreciates 3%, that is $7,500 → total economic return ≈ ($18,000 + $7,500) ÷ $250,000 = <strong>10.2%</strong></li>
         </ul>
         <p>Cash flow answers: “Can I cover the bills?” ROI answers: “Was this capital well deployed?” A property can cash-flow modestly but still beat stocks on total return—or the opposite.</p>
-        <h2>The manual ROI workflow (and where spreadsheets break)</h2>
+        <h2 id="the-manual-roi-workflow-and-where-spreadsheets-break">The manual ROI workflow (and where spreadsheets break)</h2>
         <p>Here is the pencil-and-paper version serious buyers still run before making an offer:</p>
         <p>1. <strong>Purchase price</strong> — all-in cost if you are precise; contract price for a first screen. 2. <strong>Gross annual rent</strong> — market rent × 12, not the seller’s optimistic pro forma unless you verify leases. 3. <strong>Annual expenses</strong> — line-item budget: taxes, insurance, repairs, capex reserve, management, vacancy (often 5–10% of rent). 4. <strong>Annual net income</strong> — rent minus expenses. 5. <strong>Cash-on-cash %</strong> — annual net ÷ purchase price × 100. 6. <strong>Appreciation assumption</strong> — conservative local long-run rate (many investors use 2–4% for planning). 7. <strong>Total return %</strong> — (annual net + estimated appreciation dollar gain) ÷ purchase price × 100.</p>
         <p>The failure mode is not the math—it is <strong>version drift</strong>. You tweak vacancy in row 14, forget to update the summary tab, or compare Deal A with a 5% vacancy assumption and Deal B with zero. A single-purpose calculator keeps inputs and outputs tied together.</p>
-        <h2>How CalnexApp’s ROI Calculator shortens the process</h2>
+        <h2 id="how-calnexapps-roi-calculator-shortens-the-process">How CalnexApp’s ROI Calculator shortens the process</h2>
         <p>The <a href="/tools/roi-calculator/">ROI Calculator</a> mirrors the manual steps without a spreadsheet:</p>
         <ul class="toc-list">
           <li><strong>Purchase price</strong> — your acquisition basis.</li>
@@ -257,7 +211,7 @@
           <li><strong>Total return</strong> — combined income and appreciation as a percentage of purchase price.</li>
         </ul>
         <p>That is the same hierarchy as above, with no hidden cells. Use it to sanity-check a listing in minutes, then stress-test expenses upward before you waive contingencies.</p>
-        <h2>A worked example you can replicate in the tool</h2>
+        <h2 id="a-worked-example-you-can-replicate-in-the-tool">A worked example you can replicate in the tool</h2>
         <p>Assume:</p>
         <ul class="toc-list">
           <li>Purchase price: <strong>$250,000</strong></li>
@@ -273,7 +227,7 @@
           <li>Total return: ≈ 10.2%</li>
         </ul>
         <p>Enter those four values in the calculator; you should see the same structure instantly. Then raise expenses to $9,000 to model a heavy repair year—watch cash-on-cash fall to 6% and total return compress. That sensitivity drill is what separates hobby buying from investing.</p>
-        <h2>When to go deeper than this calculator</h2>
+        <h2 id="when-to-go-deeper-than-this-calculator">When to go deeper than this calculator</h2>
         <p>Property-level ROI is a screening tool, not a full underwriting model. Add separate analysis for:</p>
         <ul class="toc-list">
           <li><strong>Financing</strong> — amortization changes cash in your pocket but not necessarily unlevered property performance.</li>
@@ -288,17 +242,16 @@
   </div>
   <a class="btn btn-primary cn-tool-context-cta__btn flex-shrink-0 w-full sm:w-auto" href="/tools/roi-calculator/">Open ROI Calculator</a>
 </section>
-        <h2>Bottom line</h2>
+        <h2 id="bottom-line">Bottom line</h2>
         <p>Treat <strong>cash flow</strong> as your operating pulse and <strong>ROI</strong> as your capital allocation score. Learn the manual formulas once, then let a focused tool keep assumptions consistent deal to deal. <strong>Check your return percentages now with CalnexApp's ROI Calculator</strong>—it is the fastest way to turn a rent headline into a number you can compare across markets and asset types.</p>
-      </article>
-      
-      <section class="card">
-        <h2>FAQ</h2>
+            </article>
+          
+          <section class="cn-blog-article-faq"><h2>FAQ</h2>
         <div class="faq-item"><h3 class="h4">Is positive cash flow the same as a good ROI?</h3><p>Not always. A property can show strong monthly cash flow but weak total return if appreciation is low, expenses are understated, or you paid a high purchase price relative to income.</p></div>
         <div class="faq-item"><h3 class="h4">What purchase price should I use in an ROI calculation?</h3><p>Use your all-in acquisition cost: purchase price plus closing costs and immediate capex you would not repeat every year. For a quick screen, purchase price alone is fine if you keep the same assumption across deals.</p></div>
         <div class="faq-item"><h3 class="h4">Does the CalnexApp ROI Calculator include mortgage interest?</h3><p>Enter annual expenses net of rent—if you want debt service included, add principal and interest to annual expenses. The calculator focuses on property-level return on the capital tied up in the deal.</p></div>
       </section>
-            <section class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6">
+            <section class="cn-blog-article-extra">
         <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Recommended calculators</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
           <a href="/tools/roi-calculator/" class="flex items-center gap-3 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all group no-underline">
@@ -325,17 +278,21 @@
       
       
       
+      
+      
       <!-- SEO_ENGINE_RELATED_START -->
       <section class="py-12 border-t border-slate-100 dark:border-slate-800/60 mt-16 space-y-6">
         <h2 class="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Related articles</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
+        <div class="cn-tools-hub-grid">
 
         </div>
       </section>
       <!-- SEO_ENGINE_RELATED_END -->
-</main>
+        </div>
+      </div>
+    </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer cn-site-footer">
       <div class="container footer-content">
         <p>&copy; <span id="year"></span> CalnexApp. All rights reserved.</p>
         <nav class="footer-links" aria-label="Footer">
@@ -346,6 +303,8 @@
       </div>
     </footer>
     <script src="/assets/js/header-toolbar.js" defer></script>
+    <script src="/assets/js/site-search.js" defer></script>
+    <script src="/assets/js/blog-article.js" defer></script>
     <script src="/assets/js/app.js" defer></script>
           </body>
 </html>

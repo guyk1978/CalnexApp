@@ -11,6 +11,7 @@ import {
   renderDefaultRecommendedCalculators,
   renderRelatedSection
 } from "./tool-themes.cjs";
+import { transformArticlePage } from "./blog-editorial-core.cjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const BLOG_DIR = path.join(ROOT, "blog");
@@ -70,6 +71,12 @@ function patchArticle(filePath) {
       { url: "/tools/car-loan-calculator/", title: "Car loan calculator", slug: "car-loan-calculator" },
       { url: "/tools/loan-calculator/", title: "Loan calculator", slug: "loan-calculator" }
     ]));
+    changed = true;
+  }
+
+  const editorial = transformArticlePage(html);
+  if (editorial.changed) {
+    html = editorial.html;
     changed = true;
   }
 
