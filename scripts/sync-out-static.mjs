@@ -12,7 +12,7 @@ const OUT = path.join(ROOT, "out");
 const DATA_SRC = path.join(ROOT, "data");
 const DATA_ONLY = process.argv.includes("--data-only");
 
-/** Static route roots merged into out/ when Next has no index.txt yet. */
+/** Static route roots always replaced with static HTML in out/ (overrides Next export). */
 const STATIC_INDEX_ROUTES = ["about/index.html", "contact/index.html"];
 
 const HOME_INDEX = "index.html";
@@ -53,13 +53,12 @@ function isNextRoute(routeDir) {
   );
 }
 
-function mergeStaticIndex(relPath) {
+function forceMergeStaticIndex(relPath) {
   const src = path.join(ROOT, relPath);
   const dest = path.join(OUT, relPath);
   const routeDir = path.dirname(relPath).replace(/\\/g, "/");
 
   if (isNextRoute(`${routeDir}/`)) return false;
-  if (fs.existsSync(path.join(OUT, routeDir, "index.txt"))) return false;
   return copyFile(src, dest);
 }
 
@@ -88,7 +87,7 @@ if (!DATA_ONLY) {
   }
   outCount = copyDir(DATA_SRC, path.join(OUT, "data"));
   for (const rel of STATIC_INDEX_ROUTES) {
-    if (mergeStaticIndex(rel)) staticMerged += 1;
+    if (forceMergeStaticIndex(rel)) staticMerged += 1;
   }
 
   execSync("node scripts/sync-static-site.mjs --to-out", { cwd: ROOT, stdio: "inherit" });

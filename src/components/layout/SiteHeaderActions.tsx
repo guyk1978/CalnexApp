@@ -16,6 +16,7 @@ import {
   type SiteCurrencyCode,
 } from "@/lib/geo-currency-map";
 import { normalizeSiteCurrency, readStoredCurrency } from "@/lib/site-currency";
+import { versionedScript } from "@/lib/public-asset";
 
 type LegacyGeo = { setCountry?: (code: string) => string; bindExistingSelectors?: () => void };
 type LegacyCurrency = { setCurrency?: (code: string) => string; bindExistingSelectors?: () => void };
@@ -98,7 +99,7 @@ export function SiteHeaderActions() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const bootScripts = ["/assets/js/geo-finance.js", "/assets/js/currency.js"];
+    const bootScripts = [versionedScript("/assets/js/geo-finance.js"), versionedScript("/assets/js/currency.js")];
     for (const src of bootScripts) {
       if (document.querySelector(`script[data-cn-boot="${src}"]`)) continue;
       const script = document.createElement("script");
@@ -151,7 +152,7 @@ export function SiteHeaderActions() {
     <div className="cn-header-actions" data-cn-react-header="true">
       <HeaderSearch />
       <div className="cn-header-pills">
-        <div className="country-selector-wrap cn-header-pill cn-header-pill--country">
+        <div className="country-selector-wrap cn-header-pill cn-header-pill--country cn-header-pill--glass">
           <label className="sr-only" htmlFor="headerCountrySelect">
             Country
           </label>
@@ -172,7 +173,7 @@ export function SiteHeaderActions() {
             ))}
           </select>
         </div>
-        <div className="currency-selector-wrap cn-header-pill cn-header-pill--currency">
+        <div className="currency-selector-wrap cn-header-pill cn-header-pill--currency cn-header-pill--glass">
           <label className="sr-only" htmlFor="headerCurrencySelect">
             Currency
           </label>

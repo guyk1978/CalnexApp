@@ -1,8 +1,8 @@
 /** Stylesheet entry for static HTML (style.css imports the full stack). */
-const STYLESHEET_VERSION = "1.9";
+const STYLESHEET_VERSION = "2.0";
 
 /** Bust CDN/browser cache for shared site scripts (app.js, header-toolbar.js, etc.). */
-const SITE_SCRIPT_VERSION = "2.1";
+const SITE_SCRIPT_VERSION = "2.2";
 
 const SITE_STYLESHEETS = [`/assets/css/style.css?v=${STYLESHEET_VERSION}`];
 
