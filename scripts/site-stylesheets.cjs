@@ -1,5 +1,5 @@
 /** Stylesheet entry for static HTML (style.css imports the full stack). */
-const STYLESHEET_VERSION = "1.5";
+const STYLESHEET_VERSION = "1.6";
 
 const SITE_STYLESHEETS = [`/assets/css/style.css?v=${STYLESHEET_VERSION}`];
 

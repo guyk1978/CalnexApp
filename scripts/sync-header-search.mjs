@@ -44,6 +44,7 @@ const SEARCH_BLOCK = `${BLOCK_START}
         </div>
         ${BLOCK_END}`;
 
+const TOOLBAR_SCRIPT = '<script src="/assets/js/header-toolbar.js" defer></script>';
 const SEARCH_SCRIPT = '<script src="/assets/js/site-search.js" defer></script>';
 
 function walkHtml(dir, out = []) {
@@ -78,20 +79,57 @@ function injectSearchBlock(html) {
   return null;
 }
 
-function injectSearchScript(html) {
-  if (html.includes("site-search.js")) return html;
-  if (html.includes("header-toolbar.js")) {
+function normalizeChromeScriptOrder(html) {
+  if (!html.includes("header-toolbar.js") || !html.includes("site-search.js")) {
+    return html;
+  }
+
+  const toolbarIdx = html.indexOf(TOOLBAR_SCRIPT);
+  const searchIdx = html.indexOf(SEARCH_SCRIPT);
+  if (toolbarIdx === -1 || searchIdx === -1 || toolbarIdx < searchIdx) {
+    return html;
+  }
+
+  let next = html.replace(`    ${SEARCH_SCRIPT}\n`, "");
+  next = next.replace(SEARCH_SCRIPT, "");
+  return next.replace(
+    TOOLBAR_SCRIPT,
+    `${TOOLBAR_SCRIPT}\n    ${SEARCH_SCRIPT}`
+  );
+}
+
+function injectChromeScripts(html) {
+  if (!html.includes('class="site-header"') && !html.includes("class='site-header'")) {
+    return null;
+  }
+
+  const needsToolbar = !html.includes("header-toolbar.js");
+  const needsSearch = !html.includes("site-search.js");
+  if (!needsToolbar && !needsSearch) return null;
+
+  const scripts = [];
+  if (needsToolbar) scripts.push(TOOLBAR_SCRIPT);
+  if (needsSearch) scripts.push(SEARCH_SCRIPT);
+  const block = scripts.join("\n    ");
+
+  if (html.includes("header-toolbar.js") && needsSearch) {
     return html.replace(
       '<script src="/assets/js/header-toolbar.js" defer></script>',
       `<script src="/assets/js/header-toolbar.js" defer></script>\n    ${SEARCH_SCRIPT}`
     );
   }
+
   if (html.includes('src="/assets/js/app.js"')) {
     return html.replace(
       '<script src="/assets/js/app.js" defer></script>',
-      `${SEARCH_SCRIPT}\n    <script src="/assets/js/app.js" defer></script>`
+      `${block}\n    <script src="/assets/js/app.js" defer></script>`
     );
   }
+
+  if (html.includes("</body>")) {
+    return html.replace("</body>", `    ${block}\n  </body>`);
+  }
+
   return null;
 }
 
@@ -104,14 +142,14 @@ for (const file of walkHtml(ROOT)) {
 
   let html = fs.readFileSync(file, "utf8");
   const withBlock = injectSearchBlock(html);
-  const withScript = withBlock ? injectSearchScript(withBlock) : injectSearchScript(html);
+  const withScript = withBlock ? injectChromeScripts(withBlock) : injectChromeScripts(html);
 
   if (!withBlock && !withScript) {
     skipped += 1;
     continue;
   }
 
-  const next = withScript || withBlock;
+  const next = normalizeChromeScriptOrder(withScript || withBlock);
   if (next && next !== html) {
     fs.writeFileSync(file, next, "utf8");
     updated += 1;

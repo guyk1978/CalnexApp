@@ -3,9 +3,16 @@
  */
 
 /* ── Page shell ── */
-body[data-app="tools-hub"] {
+body[data-app="tools-hub"],
+.cn-tools-hub-page {
   --cn-hub-matte: #0a0e14;
+  --cn-hub-slate: #121a24;
   --cn-hub-display: "Plus Jakarta Sans", var(--cn-font-sans);
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -18%, rgba(30, 45, 68, 0.42) 0%, transparent 58%),
+    linear-gradient(180deg, var(--cn-hub-matte) 0%, var(--cn-hub-slate) 100%);
+  color: var(--cn-text-primary);
+  min-height: 100vh;
 }
 
 /* ── Hero ── */

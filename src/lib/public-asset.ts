@@ -7,7 +7,7 @@
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX ?? "";
 
 /** Cache-bust version aligned with static HTML (`scripts/site-stylesheets.cjs`). */
-export const STYLESHEET_VERSION = "1.5";
+export const STYLESHEET_VERSION = "1.6";
 
 export function publicAsset(path: string): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;
