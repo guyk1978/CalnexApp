@@ -1,5 +1,8 @@
 /** Stylesheet entry for static HTML (style.css imports the full stack). */
-const STYLESHEET_VERSION = "1.7";
+const STYLESHEET_VERSION = "1.8";
+
+/** Bust CDN/browser cache for shared site scripts (app.js, header-toolbar.js, etc.). */
+const SITE_SCRIPT_VERSION = "2.0";
 
 const SITE_STYLESHEETS = [`/assets/css/style.css?v=${STYLESHEET_VERSION}`];
 
@@ -26,10 +29,20 @@ function siteStylesheetLinks(indent = "    ") {
   return SITE_STYLESHEETS.map((href) => `${indent}<link rel="stylesheet" href="${href}" />`).join("\n");
 }
 
+/** Add ?v= to local /assets/js/*.js (skip vendor/ and URLs that already carry ?v=). */
+function versionSiteScripts(html, version = SITE_SCRIPT_VERSION) {
+  return html.replace(
+    /(<script\b[^>]*\bsrc=["'])\/assets\/js\/((?!vendor\/)[^"'?]+\.js)(?:\?v=[^"']*)?(["'])/gi,
+    `$1/assets/js/$2?v=${version}$3`
+  );
+}
+
 module.exports = {
   STYLESHEET_VERSION,
+  SITE_SCRIPT_VERSION,
   SITE_STYLESHEETS,
   SITE_STYLESHEETS_EXPLICIT,
   siteStylesheetLinks,
   versionStyleCssImports,
+  versionSiteScripts,
 };

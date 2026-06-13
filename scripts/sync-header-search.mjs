@@ -5,7 +5,11 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createRequire } from "module";
 import { injectMarkerBlock } from "./html-inject-utils.cjs";
+
+const require = createRequire(import.meta.url);
+const { SITE_SCRIPT_VERSION } = require("./site-stylesheets.cjs");
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SKIP_DIRS = new Set(["node_modules", ".next", "out", ".git"]);
@@ -44,8 +48,8 @@ const SEARCH_BLOCK = `${BLOCK_START}
         </div>
         ${BLOCK_END}`;
 
-const TOOLBAR_SCRIPT = '<script src="/assets/js/header-toolbar.js" defer></script>';
-const SEARCH_SCRIPT = '<script src="/assets/js/site-search.js" defer></script>';
+const TOOLBAR_SCRIPT = `<script src="/assets/js/header-toolbar.js?v=${SITE_SCRIPT_VERSION}" defer></script>`;
+const SEARCH_SCRIPT = `<script src="/assets/js/site-search.js?v=${SITE_SCRIPT_VERSION}" defer></script>`;
 
 function walkHtml(dir, out = []) {
   for (const name of fs.readdirSync(dir, { withFileTypes: true })) {

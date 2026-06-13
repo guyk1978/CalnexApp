@@ -8,10 +8,10 @@ import { fileURLToPath } from "url";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
-const { siteStylesheetLinks } = require("./site-stylesheets.cjs");
+const { siteStylesheetLinks, versionSiteScripts, SITE_SCRIPT_VERSION } = require("./site-stylesheets.cjs");
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const THEME_LINE = '    <script src="/assets/js/theme-init.js"></script>';
+const THEME_LINE = `    <script src="/assets/js/theme-init.js?v=${SITE_SCRIPT_VERSION}"></script>`;
 const FAVICON_LINE = '    <link rel="icon" href="data:;base64,=">';
 const STYLESHEET_BLOCK = siteStylesheetLinks();
 const AUX_CSS_RE =
@@ -81,6 +81,7 @@ for (const file of walk(ROOT)) {
   );
 
   next = patchStylesheets(next);
+  next = versionSiteScripts(next);
 
   if (next !== raw) {
     fs.writeFileSync(file, next, "utf8");
