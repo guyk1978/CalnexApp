@@ -2,6 +2,15 @@
  * Single-row header utilities — country/currency pills + theme toggle at far right.
  */
 (function () {
+  /** Remove retired command-palette search (CtrlK trigger) if cached old JS left it in the DOM. */
+  const removeLegacyCommandPalette = () => {
+    document
+      .querySelectorAll(
+        ".cn-search-trigger, #cn-search-overlay, .cn-search-overlay, #cn-search-modal, .cn-search-modal"
+      )
+      .forEach((node) => node.remove());
+  };
+
   /** Shared pill + native select styling (industrial glass). */
   const PILL_WRAP_CLASS = "cn-header-pill--glass";
 
@@ -83,6 +92,7 @@
   };
 
   const boot = () => {
+    removeLegacyCommandPalette();
     ensure();
     consolidate();
   };
@@ -93,5 +103,8 @@
     boot();
   }
 
-  document.addEventListener("cn-header:updated", consolidate);
+  document.addEventListener("cn-header:updated", () => {
+    removeLegacyCommandPalette();
+    consolidate();
+  });
 })();

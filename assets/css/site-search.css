@@ -1,5 +1,18 @@
 /* CalnexApp — header search trigger + minimal dropdown input */
 
+/* Retired command-palette (CtrlK) — hide if cached old JS injected it before cleanup runs */
+.site-header .cn-search-trigger,
+.site-header .cn-search-trigger__kbd,
+.site-header .cn-kbd,
+#cn-search-overlay,
+.cn-search-overlay,
+#cn-search-modal,
+.cn-search-modal {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .cn-header-search-mount {
   flex: 0 0 auto;
   min-width: 0;

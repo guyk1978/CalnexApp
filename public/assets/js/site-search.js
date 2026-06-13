@@ -4,6 +4,17 @@
 (function () {
   const asset = (path) => (typeof CalnexPath === "function" ? CalnexPath(path) : path);
 
+  /** Remove retired command-palette search (CtrlK trigger) if cached old JS left it in the DOM. */
+  const removeLegacyCommandPalette = () => {
+    document
+      .querySelectorAll(
+        ".cn-search-trigger, #cn-search-overlay, .cn-search-overlay, #cn-search-modal, .cn-search-modal"
+      )
+      .forEach((node) => node.remove());
+  };
+
+  removeLegacyCommandPalette();
+
   const TRIGGER_ICON =
     '<svg class="cn-header-search-trigger__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
 
@@ -178,6 +189,7 @@
   };
 
   const initSiteSearch = async () => {
+    removeLegacyCommandPalette();
     if (document.querySelector("[data-cn-react-header]") || document.querySelector("[data-cn-react-search]")) {
       return;
     }
